@@ -18,7 +18,7 @@ type metaEntry = struct {
 var Meta meta
 
 func init() {
-	Meta = LoadFromJSONFile[meta]("prereq/ver.json")
+	Meta = LoadFromJSONFile[meta]("prereq/meta.json")
 }
 
 func ReadFile(filePath string) []byte {
