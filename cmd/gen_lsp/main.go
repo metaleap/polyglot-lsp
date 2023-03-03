@@ -2,21 +2,17 @@ package main
 
 import (
 	"fmt"
+
 	glot "polyglot-vsx-and-lsp/pkg"
 )
 
-type MetaModel struct {
-	Enumerations []struct {
-		Name string `json:"name"`
-	} `json:"enumerations"`
+func main() {
+	for _, version := range glot.Versions("lsp_", ".schema.json") {
+		generate(version)
+	}
 }
 
-var metaModel MetaModel
-
-func main() {
-	meta := glot.Meta.LSP
-	metaModel := glot.LoadFromJSONFile[MetaModel](meta.File)
-	for _, enum := range metaModel.Enumerations {
-		println(fmt.Sprintf("%+v", enum))
-	}
+func generate(version string) {
+	meta_model := glot.LoadFromJSONFile[MetaModel](glot.SchemasDirName + "/lsp_" + version + ".json")
+	println(fmt.Sprintf("%+v", meta_model))
 }

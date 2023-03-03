@@ -1,24 +1,31 @@
 package glot
 
 import (
-	"encoding/json"
 	"os"
+	"strings"
 )
 
-type meta = struct {
-	VSX metaEntry
-	LSP metaEntry
-}
-
-type metaEntry = struct {
-	Version string
-	File    string
-}
-
-var Meta meta
+const SchemasDirName = "prereq"
 
 func init() {
-	Meta = LoadFromJSONFile[meta]("prereq/meta.json")
+}
+
+type Tup[T1 any, T2 any] struct {
+	F1 T1
+	F2 T2
+}
+
+func Versions(fileNamePrefix string, fileNameSuffix string) (ret []string) {
+	entries, err := os.ReadDir(SchemasDirName)
+	if err != nil {
+		panic(err)
+	}
+	for _, entry := range entries {
+		if name := entry.Name(); (!entry.IsDir()) && strings.HasPrefix(name, fileNamePrefix) && strings.HasSuffix(name, fileNameSuffix) {
+			ret = append(ret, strings.TrimPrefix(strings.TrimSuffix(name, fileNameSuffix), fileNamePrefix))
+		}
+	}
+	return
 }
 
 func ReadFile(filePath string) []byte {
@@ -27,17 +34,4 @@ func ReadFile(filePath string) []byte {
 		panic(err)
 	}
 	return ret
-}
-
-func LoadFromJSON[T any](src []byte) T {
-	new := new(T)
-	if err := json.Unmarshal(src, new); err != nil {
-		panic(err)
-	}
-	return *new
-}
-
-func LoadFromJSONFile[T any](filePath string) T {
-	src := ReadFile(filePath)
-	return LoadFromJSON[T](src)
 }
