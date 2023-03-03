@@ -7,14 +7,6 @@ import (
 
 const SchemasDirName = "prereq"
 
-func init() {
-}
-
-type Tup[T1 any, T2 any] struct {
-	F1 T1
-	F2 T2
-}
-
 func Versions(fileNamePrefix string, fileNameSuffix string) (ret []string) {
 	entries, err := os.ReadDir(SchemasDirName)
 	if err != nil {
@@ -28,10 +20,16 @@ func Versions(fileNamePrefix string, fileNameSuffix string) (ret []string) {
 	return
 }
 
-func ReadFile(filePath string) []byte {
-	ret, err := os.ReadFile(filePath)
+func Langs() (ret []string) {
+	entries, err := os.ReadDir(".")
 	if err != nil {
 		panic(err)
 	}
-	return ret
+	for _, entry := range entries {
+		if name := entry.Name(); entry.IsDir() && strings.HasPrefix(name, "lang_") &&
+			FileExists(name+"/"+name+".json") && DirExists(name+"/gen") {
+			ret = append(ret, name[len("lang_"):])
+		}
+	}
+	return
 }

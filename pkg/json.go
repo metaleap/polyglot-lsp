@@ -43,6 +43,6 @@ func LoadFromJSON[T any](src []byte) T {
 }
 
 func LoadFromJSONFile[T any](filePath string) T {
-	src := ReadFile(filePath)
+	src := FileRead(filePath)
 	return LoadFromJSON[T](src)
 }
