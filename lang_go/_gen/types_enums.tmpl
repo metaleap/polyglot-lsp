@@ -1,7 +1,3 @@
-import (
-	"strconv"
-)
-
 {{ with $root := . }}
 {{ range .Items }}
 {{ with $enum := . }}
@@ -14,7 +10,7 @@ type {{ $enum.Name }} {{ $enum.Type }}
 const {{ $enum.Name }}{{ .NameCap }} {{ $enum.Name }} = {{ .Value }}
 {{ end }}
 
-// String implements `fmt.Stringer`.
+// String returns ""{{range $i,$e := .Enumerants}} or "{{$e.NameCap}}"{{end}}"".
 func (it {{ $enum.Name }}) String() string {
 	switch it {
 {{ range .Enumerants }}
@@ -22,11 +18,7 @@ func (it {{ $enum.Name }}) String() string {
 			return "{{ .NameCap }}"
 {{ end }}
 	}
-{{ if eq $enum.Type "string" }}
-	return "{{ $enum.Name }}(" + strconv.Quote(string(it)) + ")"
-{{ else }}
-	return "{{ $enum.Name }}(" + strconv.Itoa(int(it)) + ")"
-{{ end }}
+	return ""
 }
 
 {{ end }}

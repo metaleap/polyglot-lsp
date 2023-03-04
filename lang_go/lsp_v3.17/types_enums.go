@@ -1,10 +1,6 @@
 // Language Server Protocol (LSP) v3.17 SDK for Go: auto-generated via github.com/metaleap/polyglot-vsx-and-lsp/gen/cmd/gen_lsp
 package lsp
 
-import (
-	"strconv"
-)
-
 // A set of predefined token types. This set is not fixed
 // an clients can specify additional token types via the
 // corresponding client capabilities.
@@ -61,7 +57,7 @@ const SemanticTokenTypesOperator SemanticTokenTypes = "operator"
 // @since 3.17.0
 const SemanticTokenTypesDecorator SemanticTokenTypes = "decorator"
 
-// String implements `fmt.Stringer`.
+// String returns "" or "Namespace" or "Type" or "Class" or "Enum" or "Interface" or "Struct" or "TypeParameter" or "Parameter" or "Variable" or "Property" or "EnumMember" or "Event" or "Function" or "Method" or "Macro" or "Keyword" or "Modifier" or "Comment" or "String" or "Number" or "Regexp" or "Operator" or "Decorator""".
 func (it SemanticTokenTypes) String() string {
 	switch it {
 
@@ -135,9 +131,7 @@ func (it SemanticTokenTypes) String() string {
 		return "Decorator"
 
 	}
-
-	return "SemanticTokenTypes(" + strconv.Quote(string(it)) + ")"
-
+	return ""
 }
 
 // A set of predefined token modifiers. This set is not fixed
@@ -167,7 +161,7 @@ const SemanticTokenModifiersDocumentation SemanticTokenModifiers = "documentatio
 
 const SemanticTokenModifiersDefaultLibrary SemanticTokenModifiers = "defaultLibrary"
 
-// String implements `fmt.Stringer`.
+// String returns "" or "Declaration" or "Definition" or "Readonly" or "Static" or "Deprecated" or "Abstract" or "Async" or "Modification" or "Documentation" or "DefaultLibrary""".
 func (it SemanticTokenModifiers) String() string {
 	switch it {
 
@@ -202,9 +196,7 @@ func (it SemanticTokenModifiers) String() string {
 		return "DefaultLibrary"
 
 	}
-
-	return "SemanticTokenModifiers(" + strconv.Quote(string(it)) + ")"
-
+	return ""
 }
 
 // The document diagnostic report kinds.
@@ -220,7 +212,7 @@ const DocumentDiagnosticReportKindFull DocumentDiagnosticReportKind = "full"
 // returned report is still accurate.
 const DocumentDiagnosticReportKindUnchanged DocumentDiagnosticReportKind = "unchanged"
 
-// String implements `fmt.Stringer`.
+// String returns "" or "Full" or "Unchanged""".
 func (it DocumentDiagnosticReportKind) String() string {
 	switch it {
 
@@ -231,9 +223,7 @@ func (it DocumentDiagnosticReportKind) String() string {
 		return "Unchanged"
 
 	}
-
-	return "DocumentDiagnosticReportKind(" + strconv.Quote(string(it)) + ")"
-
+	return ""
 }
 
 // Predefined error codes.
@@ -255,7 +245,7 @@ const ErrorCodesServerNotInitialized ErrorCodes = -32002
 
 const ErrorCodesUnknownErrorCode ErrorCodes = -32001
 
-// String implements `fmt.Stringer`.
+// String returns "" or "ParseError" or "InvalidRequest" or "MethodNotFound" or "InvalidParams" or "InternalError" or "ServerNotInitialized" or "UnknownErrorCode""".
 func (it ErrorCodes) String() string {
 	switch it {
 
@@ -281,9 +271,7 @@ func (it ErrorCodes) String() string {
 		return "UnknownErrorCode"
 
 	}
-
-	return "ErrorCodes(" + strconv.Itoa(int(it)) + ")"
-
+	return ""
 }
 
 type LSPErrorCodes Integer
@@ -317,7 +305,7 @@ const LSPErrorCodesContentModified LSPErrorCodes = -32801
 // the cancel.
 const LSPErrorCodesRequestCancelled LSPErrorCodes = -32800
 
-// String implements `fmt.Stringer`.
+// String returns "" or "RequestFailed" or "ServerCancelled" or "ContentModified" or "RequestCancelled""".
 func (it LSPErrorCodes) String() string {
 	switch it {
 
@@ -334,9 +322,7 @@ func (it LSPErrorCodes) String() string {
 		return "RequestCancelled"
 
 	}
-
-	return "LSPErrorCodes(" + strconv.Itoa(int(it)) + ")"
-
+	return ""
 }
 
 // A set of predefined range kinds.
@@ -351,7 +337,7 @@ const FoldingRangeKindImports FoldingRangeKind = "imports"
 // Folding range for a region (e.g. `#region`)
 const FoldingRangeKindRegion FoldingRangeKind = "region"
 
-// String implements `fmt.Stringer`.
+// String returns "" or "Comment" or "Imports" or "Region""".
 func (it FoldingRangeKind) String() string {
 	switch it {
 
@@ -365,9 +351,7 @@ func (it FoldingRangeKind) String() string {
 		return "Region"
 
 	}
-
-	return "FoldingRangeKind(" + strconv.Quote(string(it)) + ")"
-
+	return ""
 }
 
 // A symbol kind.
@@ -425,7 +409,7 @@ const SymbolKindOperator SymbolKind = 25
 
 const SymbolKindTypeParameter SymbolKind = 26
 
-// String implements `fmt.Stringer`.
+// String returns "" or "File" or "Module" or "Namespace" or "Package" or "Class" or "Method" or "Property" or "Field" or "Constructor" or "Enum" or "Interface" or "Function" or "Variable" or "Constant" or "String" or "Number" or "Boolean" or "Array" or "Object" or "Key" or "Null" or "EnumMember" or "Struct" or "Event" or "Operator" or "TypeParameter""".
 func (it SymbolKind) String() string {
 	switch it {
 
@@ -508,9 +492,7 @@ func (it SymbolKind) String() string {
 		return "TypeParameter"
 
 	}
-
-	return "SymbolKind(" + strconv.Itoa(int(it)) + ")"
-
+	return ""
 }
 
 // Symbol tags are extra annotations that tweak the rendering of a symbol.
@@ -521,7 +503,7 @@ type SymbolTag Uinteger
 // Render a symbol as obsolete, usually using a strike-out.
 const SymbolTagDeprecated SymbolTag = 1
 
-// String implements `fmt.Stringer`.
+// String returns "" or "Deprecated""".
 func (it SymbolTag) String() string {
 	switch it {
 
@@ -529,9 +511,7 @@ func (it SymbolTag) String() string {
 		return "Deprecated"
 
 	}
-
-	return "SymbolTag(" + strconv.Itoa(int(it)) + ")"
-
+	return ""
 }
 
 // Moniker uniqueness level to define scope of the moniker.
@@ -554,7 +534,7 @@ const UniquenessLevelScheme UniquenessLevel = "scheme"
 // The moniker is globally unique
 const UniquenessLevelGlobal UniquenessLevel = "global"
 
-// String implements `fmt.Stringer`.
+// String returns "" or "Document" or "Project" or "Group" or "Scheme" or "Global""".
 func (it UniquenessLevel) String() string {
 	switch it {
 
@@ -574,9 +554,7 @@ func (it UniquenessLevel) String() string {
 		return "Global"
 
 	}
-
-	return "UniquenessLevel(" + strconv.Quote(string(it)) + ")"
-
+	return ""
 }
 
 // The moniker kind.
@@ -594,7 +572,7 @@ const MonikerKindExport MonikerKind = "export"
 // variable of a function, a class not visible outside the project, ...)
 const MonikerKindLocal MonikerKind = "local"
 
-// String implements `fmt.Stringer`.
+// String returns "" or "Import" or "Export" or "Local""".
 func (it MonikerKind) String() string {
 	switch it {
 
@@ -608,9 +586,7 @@ func (it MonikerKind) String() string {
 		return "Local"
 
 	}
-
-	return "MonikerKind(" + strconv.Quote(string(it)) + ")"
-
+	return ""
 }
 
 // Inlay hint kinds.
@@ -624,7 +600,7 @@ const InlayHintKindType InlayHintKind = 1
 // An inlay hint that is for a parameter.
 const InlayHintKindParameter InlayHintKind = 2
 
-// String implements `fmt.Stringer`.
+// String returns "" or "Type" or "Parameter""".
 func (it InlayHintKind) String() string {
 	switch it {
 
@@ -635,9 +611,7 @@ func (it InlayHintKind) String() string {
 		return "Parameter"
 
 	}
-
-	return "InlayHintKind(" + strconv.Itoa(int(it)) + ")"
-
+	return ""
 }
 
 // The message type
@@ -655,7 +629,7 @@ const MessageTypeInfo MessageType = 3
 // A log message.
 const MessageTypeLog MessageType = 4
 
-// String implements `fmt.Stringer`.
+// String returns "" or "Error" or "Warning" or "Info" or "Log""".
 func (it MessageType) String() string {
 	switch it {
 
@@ -672,9 +646,7 @@ func (it MessageType) String() string {
 		return "Log"
 
 	}
-
-	return "MessageType(" + strconv.Itoa(int(it)) + ")"
-
+	return ""
 }
 
 // Defines how the host (editor) should sync
@@ -693,7 +665,7 @@ const TextDocumentSyncKindFull TextDocumentSyncKind = 1
 // send.
 const TextDocumentSyncKindIncremental TextDocumentSyncKind = 2
 
-// String implements `fmt.Stringer`.
+// String returns "" or "None" or "Full" or "Incremental""".
 func (it TextDocumentSyncKind) String() string {
 	switch it {
 
@@ -707,9 +679,7 @@ func (it TextDocumentSyncKind) String() string {
 		return "Incremental"
 
 	}
-
-	return "TextDocumentSyncKind(" + strconv.Itoa(int(it)) + ")"
-
+	return ""
 }
 
 // Represents reasons why a text document is saved.
@@ -725,7 +695,7 @@ const TextDocumentSaveReasonAfterDelay TextDocumentSaveReason = 2
 // When the editor lost focus.
 const TextDocumentSaveReasonFocusOut TextDocumentSaveReason = 3
 
-// String implements `fmt.Stringer`.
+// String returns "" or "Manual" or "AfterDelay" or "FocusOut""".
 func (it TextDocumentSaveReason) String() string {
 	switch it {
 
@@ -739,9 +709,7 @@ func (it TextDocumentSaveReason) String() string {
 		return "FocusOut"
 
 	}
-
-	return "TextDocumentSaveReason(" + strconv.Itoa(int(it)) + ")"
-
+	return ""
 }
 
 // The kind of a completion entry.
@@ -797,7 +765,7 @@ const CompletionItemKindOperator CompletionItemKind = 24
 
 const CompletionItemKindTypeParameter CompletionItemKind = 25
 
-// String implements `fmt.Stringer`.
+// String returns "" or "Text" or "Method" or "Function" or "Constructor" or "Field" or "Variable" or "Class" or "Interface" or "Module" or "Property" or "Unit" or "Value" or "Enum" or "Keyword" or "Snippet" or "Color" or "File" or "Reference" or "Folder" or "EnumMember" or "Constant" or "Struct" or "Event" or "Operator" or "TypeParameter""".
 func (it CompletionItemKind) String() string {
 	switch it {
 
@@ -877,9 +845,7 @@ func (it CompletionItemKind) String() string {
 		return "TypeParameter"
 
 	}
-
-	return "CompletionItemKind(" + strconv.Itoa(int(it)) + ")"
-
+	return ""
 }
 
 // Completion item tags are extra annotations that tweak the rendering of a completion
@@ -891,7 +857,7 @@ type CompletionItemTag Uinteger
 // Render a completion as obsolete, usually using a strike-out.
 const CompletionItemTagDeprecated CompletionItemTag = 1
 
-// String implements `fmt.Stringer`.
+// String returns "" or "Deprecated""".
 func (it CompletionItemTag) String() string {
 	switch it {
 
@@ -899,9 +865,7 @@ func (it CompletionItemTag) String() string {
 		return "Deprecated"
 
 	}
-
-	return "CompletionItemTag(" + strconv.Itoa(int(it)) + ")"
-
+	return ""
 }
 
 // Defines whether the insert text in a completion item should be interpreted as
@@ -921,7 +885,7 @@ const InsertTextFormatPlainText InsertTextFormat = 1
 // See also: https://microsoft.github.io/language-server-protocol/specifications/specification-current/#snippet_syntax
 const InsertTextFormatSnippet InsertTextFormat = 2
 
-// String implements `fmt.Stringer`.
+// String returns "" or "PlainText" or "Snippet""".
 func (it InsertTextFormat) String() string {
 	switch it {
 
@@ -932,9 +896,7 @@ func (it InsertTextFormat) String() string {
 		return "Snippet"
 
 	}
-
-	return "InsertTextFormat(" + strconv.Itoa(int(it)) + ")"
-
+	return ""
 }
 
 // How whitespace and indentation is handled during completion
@@ -959,7 +921,7 @@ const InsertTextModeAsIs InsertTextMode = 1
 // following lines inserted will be indented using 2 tabs as well.
 const InsertTextModeAdjustIndentation InsertTextMode = 2
 
-// String implements `fmt.Stringer`.
+// String returns "" or "AsIs" or "AdjustIndentation""".
 func (it InsertTextMode) String() string {
 	switch it {
 
@@ -970,9 +932,7 @@ func (it InsertTextMode) String() string {
 		return "AdjustIndentation"
 
 	}
-
-	return "InsertTextMode(" + strconv.Itoa(int(it)) + ")"
-
+	return ""
 }
 
 // A document highlight kind.
@@ -987,7 +947,7 @@ const DocumentHighlightKindRead DocumentHighlightKind = 2
 // Write-access of a symbol, like writing to a variable.
 const DocumentHighlightKindWrite DocumentHighlightKind = 3
 
-// String implements `fmt.Stringer`.
+// String returns "" or "Text" or "Read" or "Write""".
 func (it DocumentHighlightKind) String() string {
 	switch it {
 
@@ -1001,9 +961,7 @@ func (it DocumentHighlightKind) String() string {
 		return "Write"
 
 	}
-
-	return "DocumentHighlightKind(" + strconv.Itoa(int(it)) + ")"
-
+	return ""
 }
 
 // A set of predefined code action kinds
@@ -1067,7 +1025,7 @@ const CodeActionKindSourceOrganizeImports CodeActionKind = "source.organizeImpor
 // @since 3.15.0
 const CodeActionKindSourceFixAll CodeActionKind = "source.fixAll"
 
-// String implements `fmt.Stringer`.
+// String returns "" or "Empty" or "QuickFix" or "Refactor" or "RefactorExtract" or "RefactorInline" or "RefactorRewrite" or "Source" or "SourceOrganizeImports" or "SourceFixAll""".
 func (it CodeActionKind) String() string {
 	switch it {
 
@@ -1099,9 +1057,7 @@ func (it CodeActionKind) String() string {
 		return "SourceFixAll"
 
 	}
-
-	return "CodeActionKind(" + strconv.Quote(string(it)) + ")"
-
+	return ""
 }
 
 type TraceValues String
@@ -1115,7 +1071,7 @@ const TraceValuesMessages TraceValues = "messages"
 // Verbose message tracing.
 const TraceValuesVerbose TraceValues = "verbose"
 
-// String implements `fmt.Stringer`.
+// String returns "" or "Off" or "Messages" or "Verbose""".
 func (it TraceValues) String() string {
 	switch it {
 
@@ -1129,9 +1085,7 @@ func (it TraceValues) String() string {
 		return "Verbose"
 
 	}
-
-	return "TraceValues(" + strconv.Quote(string(it)) + ")"
-
+	return ""
 }
 
 // Describes the content type that a client supports in various
@@ -1147,7 +1101,7 @@ const MarkupKindPlainText MarkupKind = "plaintext"
 // Markdown is supported as a content format
 const MarkupKindMarkdown MarkupKind = "markdown"
 
-// String implements `fmt.Stringer`.
+// String returns "" or "PlainText" or "Markdown""".
 func (it MarkupKind) String() string {
 	switch it {
 
@@ -1158,9 +1112,7 @@ func (it MarkupKind) String() string {
 		return "Markdown"
 
 	}
-
-	return "MarkupKind(" + strconv.Quote(string(it)) + ")"
-
+	return ""
 }
 
 // A set of predefined position encoding kinds.
@@ -1184,7 +1136,7 @@ const PositionEncodingKindUTF16 PositionEncodingKind = "utf-16"
 // encoding-agnostic representation of character offsets.
 const PositionEncodingKindUTF32 PositionEncodingKind = "utf-32"
 
-// String implements `fmt.Stringer`.
+// String returns "" or "UTF8" or "UTF16" or "UTF32""".
 func (it PositionEncodingKind) String() string {
 	switch it {
 
@@ -1198,9 +1150,7 @@ func (it PositionEncodingKind) String() string {
 		return "UTF32"
 
 	}
-
-	return "PositionEncodingKind(" + strconv.Quote(string(it)) + ")"
-
+	return ""
 }
 
 // The file event type
@@ -1215,7 +1165,7 @@ const FileChangeTypeChanged FileChangeType = 2
 // The file got deleted.
 const FileChangeTypeDeleted FileChangeType = 3
 
-// String implements `fmt.Stringer`.
+// String returns "" or "Created" or "Changed" or "Deleted""".
 func (it FileChangeType) String() string {
 	switch it {
 
@@ -1229,9 +1179,7 @@ func (it FileChangeType) String() string {
 		return "Deleted"
 
 	}
-
-	return "FileChangeType(" + strconv.Itoa(int(it)) + ")"
-
+	return ""
 }
 
 type WatchKind Uinteger
@@ -1245,7 +1193,7 @@ const WatchKindChange WatchKind = 2
 // Interested in delete events
 const WatchKindDelete WatchKind = 4
 
-// String implements `fmt.Stringer`.
+// String returns "" or "Create" or "Change" or "Delete""".
 func (it WatchKind) String() string {
 	switch it {
 
@@ -1259,9 +1207,7 @@ func (it WatchKind) String() string {
 		return "Delete"
 
 	}
-
-	return "WatchKind(" + strconv.Itoa(int(it)) + ")"
-
+	return ""
 }
 
 // The diagnostic's severity.
@@ -1279,7 +1225,7 @@ const DiagnosticSeverityInformation DiagnosticSeverity = 3
 // Reports a hint.
 const DiagnosticSeverityHint DiagnosticSeverity = 4
 
-// String implements `fmt.Stringer`.
+// String returns "" or "Error" or "Warning" or "Information" or "Hint""".
 func (it DiagnosticSeverity) String() string {
 	switch it {
 
@@ -1296,9 +1242,7 @@ func (it DiagnosticSeverity) String() string {
 		return "Hint"
 
 	}
-
-	return "DiagnosticSeverity(" + strconv.Itoa(int(it)) + ")"
-
+	return ""
 }
 
 // The diagnostic tags.
@@ -1317,7 +1261,7 @@ const DiagnosticTagUnnecessary DiagnosticTag = 1
 // Clients are allowed to rendered diagnostics with this tag strike through.
 const DiagnosticTagDeprecated DiagnosticTag = 2
 
-// String implements `fmt.Stringer`.
+// String returns "" or "Unnecessary" or "Deprecated""".
 func (it DiagnosticTag) String() string {
 	switch it {
 
@@ -1328,9 +1272,7 @@ func (it DiagnosticTag) String() string {
 		return "Deprecated"
 
 	}
-
-	return "DiagnosticTag(" + strconv.Itoa(int(it)) + ")"
-
+	return ""
 }
 
 // How a completion was triggered
@@ -1347,7 +1289,7 @@ const CompletionTriggerKindTriggerCharacter CompletionTriggerKind = 2
 // Completion was re-triggered as current completion list is incomplete
 const CompletionTriggerKindTriggerForIncompleteCompletions CompletionTriggerKind = 3
 
-// String implements `fmt.Stringer`.
+// String returns "" or "Invoked" or "TriggerCharacter" or "TriggerForIncompleteCompletions""".
 func (it CompletionTriggerKind) String() string {
 	switch it {
 
@@ -1361,9 +1303,7 @@ func (it CompletionTriggerKind) String() string {
 		return "TriggerForIncompleteCompletions"
 
 	}
-
-	return "CompletionTriggerKind(" + strconv.Itoa(int(it)) + ")"
-
+	return ""
 }
 
 // How a signature help was triggered.
@@ -1380,7 +1320,7 @@ const SignatureHelpTriggerKindTriggerCharacter SignatureHelpTriggerKind = 2
 // Signature help was triggered by the cursor moving or by the document content changing.
 const SignatureHelpTriggerKindContentChange SignatureHelpTriggerKind = 3
 
-// String implements `fmt.Stringer`.
+// String returns "" or "Invoked" or "TriggerCharacter" or "ContentChange""".
 func (it SignatureHelpTriggerKind) String() string {
 	switch it {
 
@@ -1394,9 +1334,7 @@ func (it SignatureHelpTriggerKind) String() string {
 		return "ContentChange"
 
 	}
-
-	return "SignatureHelpTriggerKind(" + strconv.Itoa(int(it)) + ")"
-
+	return ""
 }
 
 // The reason why code actions were requested.
@@ -1413,7 +1351,7 @@ const CodeActionTriggerKindInvoked CodeActionTriggerKind = 1
 // also be triggered when file content changes.
 const CodeActionTriggerKindAutomatic CodeActionTriggerKind = 2
 
-// String implements `fmt.Stringer`.
+// String returns "" or "Invoked" or "Automatic""".
 func (it CodeActionTriggerKind) String() string {
 	switch it {
 
@@ -1424,9 +1362,7 @@ func (it CodeActionTriggerKind) String() string {
 		return "Automatic"
 
 	}
-
-	return "CodeActionTriggerKind(" + strconv.Itoa(int(it)) + ")"
-
+	return ""
 }
 
 // A pattern kind describing if a glob pattern matches a file a folder or
@@ -1441,7 +1377,7 @@ const FileOperationPatternKindFile FileOperationPatternKind = "file"
 // The pattern matches a folder only.
 const FileOperationPatternKindFolder FileOperationPatternKind = "folder"
 
-// String implements `fmt.Stringer`.
+// String returns "" or "File" or "Folder""".
 func (it FileOperationPatternKind) String() string {
 	switch it {
 
@@ -1452,9 +1388,7 @@ func (it FileOperationPatternKind) String() string {
 		return "Folder"
 
 	}
-
-	return "FileOperationPatternKind(" + strconv.Quote(string(it)) + ")"
-
+	return ""
 }
 
 // A notebook cell kind.
@@ -1468,7 +1402,7 @@ const NotebookCellKindMarkup NotebookCellKind = 1
 // A code-cell is source code.
 const NotebookCellKindCode NotebookCellKind = 2
 
-// String implements `fmt.Stringer`.
+// String returns "" or "Markup" or "Code""".
 func (it NotebookCellKind) String() string {
 	switch it {
 
@@ -1479,9 +1413,7 @@ func (it NotebookCellKind) String() string {
 		return "Code"
 
 	}
-
-	return "NotebookCellKind(" + strconv.Itoa(int(it)) + ")"
-
+	return ""
 }
 
 type ResourceOperationKind String
@@ -1495,7 +1427,7 @@ const ResourceOperationKindRename ResourceOperationKind = "rename"
 // Supports deleting existing files and folders.
 const ResourceOperationKindDelete ResourceOperationKind = "delete"
 
-// String implements `fmt.Stringer`.
+// String returns "" or "Create" or "Rename" or "Delete""".
 func (it ResourceOperationKind) String() string {
 	switch it {
 
@@ -1509,9 +1441,7 @@ func (it ResourceOperationKind) String() string {
 		return "Delete"
 
 	}
-
-	return "ResourceOperationKind(" + strconv.Quote(string(it)) + ")"
-
+	return ""
 }
 
 type FailureHandlingKind String
@@ -1533,7 +1463,7 @@ const FailureHandlingKindTextOnlyTransactional FailureHandlingKind = "textOnlyTr
 // guarantee that this is succeeding.
 const FailureHandlingKindUndo FailureHandlingKind = "undo"
 
-// String implements `fmt.Stringer`.
+// String returns "" or "Abort" or "Transactional" or "TextOnlyTransactional" or "Undo""".
 func (it FailureHandlingKind) String() string {
 	switch it {
 
@@ -1550,9 +1480,7 @@ func (it FailureHandlingKind) String() string {
 		return "Undo"
 
 	}
-
-	return "FailureHandlingKind(" + strconv.Quote(string(it)) + ")"
-
+	return ""
 }
 
 type PrepareSupportDefaultBehavior Uinteger
@@ -1561,7 +1489,7 @@ type PrepareSupportDefaultBehavior Uinteger
 // according the to language's syntax rule.
 const PrepareSupportDefaultBehaviorIdentifier PrepareSupportDefaultBehavior = 1
 
-// String implements `fmt.Stringer`.
+// String returns "" or "Identifier""".
 func (it PrepareSupportDefaultBehavior) String() string {
 	switch it {
 
@@ -1569,16 +1497,14 @@ func (it PrepareSupportDefaultBehavior) String() string {
 		return "Identifier"
 
 	}
-
-	return "PrepareSupportDefaultBehavior(" + strconv.Itoa(int(it)) + ")"
-
+	return ""
 }
 
 type TokenFormat String
 
 const TokenFormatRelative TokenFormat = "relative"
 
-// String implements `fmt.Stringer`.
+// String returns "" or "Relative""".
 func (it TokenFormat) String() string {
 	switch it {
 
@@ -1586,7 +1512,5 @@ func (it TokenFormat) String() string {
 		return "Relative"
 
 	}
-
-	return "TokenFormat(" + strconv.Quote(string(it)) + ")"
-
+	return ""
 }
