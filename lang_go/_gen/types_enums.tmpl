@@ -2,10 +2,10 @@
 {{ range .Items }}
 {{ with $enum := . }}
 
-{{ range .DocLines }}{{ $root.CommentLinePrefix }}{{ . }}{{ "\n" }}{{ end }}type {{ $enum.Name }} {{ $enum.Type }}
+{{ range .DocLines }}{{ $root.Lang.CommentLinePrefix }}{{ . }}{{ "\n" }}{{ end }}type {{ $enum.Name }} {{ $enum.Type }}
 
 const ({{ range .Enumerants }}
-	{{ range .DocLines }}{{ $root.CommentLinePrefix }}{{ . }}{{ "\n" }}{{ end }}
+	{{ range .DocLines }}{{ $root.Lang.CommentLinePrefix }}{{ . }}{{ "\n" }}{{ end }}
 	{{ $enum.Name }}{{ .NameCap }} {{ $enum.Name }} = {{ .Value }}
 {{ end }})
 

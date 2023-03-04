@@ -10,28 +10,34 @@ import (
 
 var tmpls = map[string]*template.Template{}
 
-type GenConfig struct {
+type Gen struct {
+	LangIdent string // eg. "go" or "cs"
+	Dot       GenDot
+
+	types       map[string]GenType
+	dirPathLang string // lang_foo
+	dirPathSrc  string // lang_foo/_gen
+	dirPathDst  string // lang_foo/{{.GenIdent}}_v{{.GenVersion}}
+}
+
+type GenDot struct {
+	Lang         GenLang // the contents of your lang_foo/lang_foo.json
+	GenRepo      string
+	GenTitle     string
+	GenVersion   string
+	GenIdent     string // aka "lsp" or "vsx"
+	PkgName      string // defaults to `GenIdent`
+	Items        []any
+	FileContents string
+}
+
+type GenLang struct {
+	DisplayName       string // eg. "Go" or "C#"
 	PkgFile           string // eg "go.mod", "package.json" etc
 	SrcFileExt        string // eg ".go", ".cs" etc
 	CommentLinePrefix string // eg "// ", "# " etc
 	FormatCmd         string // eg "go fmt %s" etc
 	Named             map[string]string
-}
-
-type Gen struct {
-	Lang    string
-	Version string
-	Dot     struct {
-		GenConfig
-		GenType      string // aka "lsp" or "vsx"
-		Items        []any
-		FileContents string
-	}
-
-	types       map[string]GenType
-	dirPathLang string // lang_foo
-	dirPathSrc  string // lang_foo/_gen
-	dirPathDst  string // lang_foo/GenType_Version
 }
 
 type GenDots interface {
@@ -185,51 +191,58 @@ func (it *Gen) Type(t GenType) GenType {
 
 func (it *Gen) Generate(dots GenDots) {
 	it.types = map[string]GenType{}
-	it.dirPathLang = "../lang_" + it.Lang
-	it.Dot.GenConfig = LoadFromJSONFile[GenConfig](it.dirPathLang + "/lang_" + it.Lang + ".json")
-	it.dirPathSrc = "../lang_" + it.Lang + "/_gen"
-	it.dirPathDst = it.dirPathLang + "/" + it.Dot.GenType + "_" + it.Version
+	it.dirPathLang = "../lang_" + it.LangIdent
+	it.dirPathSrc = it.dirPathLang + "/_gen"
+	it.dirPathDst = it.dirPathLang + "/" + it.Dot.GenIdent + "_v" + it.Dot.GenVersion
 	println(it.dirPathDst + "...")
 	DirCreate(it.dirPathDst)
 
+	it.Dot.Lang = LoadFromJSONFile[GenLang](it.dirPathLang + "/lang_" + it.LangIdent + ".json")
+	it.Dot.PkgName = If(it.Dot.PkgName == "", it.Dot.GenIdent, it.Dot.PkgName)
+
 	var buf bytes.Buffer
-	for file_name, dots := range map[string]func() []any{
+	it.genPkgFile(&buf)
+	it.genDots(&buf, map[string]func() []any{
 		"types_enums": toAnys(it, dots.PerEnum),
-	} {
+	})
+	it.genSideTypes(&buf)
+}
+
+func (it *Gen) genDots(buf *bytes.Buffer, dots_by_file_name map[string]func() []any) {
+	for file_name, dots := range dots_by_file_name {
 		tmpl := it.tmpl(it.dirPathSrc + "/" + file_name + ".tmpl")
 		it.Dot.Items = dots()
-		it.tmplExec(&buf, tmpl)
+		it.tmplExec(buf, tmpl)
 
-		it.toCodeFile(&buf, file_name)
+		it.toCodeFile(buf, file_name)
 	}
-	{
-		types := make([]any, 0, len(it.types))
-		for _, ty := range it.types {
-			tmpl := it.tmpl(it.dirPathSrc + "/type_" + ty.kind() + ".tmpl")
-			it.Dot.Items = []any{ty}
-			it.tmplExec(&buf, tmpl)
-			types = append(types, it.Dot.FileContents)
-		}
-		tmpl := it.tmpl(it.dirPathSrc + "/types.tmpl")
-		it.Dot.Items = types
-		it.tmplExec(&buf, tmpl)
-		it.toCodeFile(&buf, "types")
+}
+
+func (it *Gen) genSideTypes(buf *bytes.Buffer) {
+	types := make([]any, 0, len(it.types))
+	for _, ty := range it.types {
+		tmpl := it.tmpl(it.dirPathSrc + "/type_" + ty.kind() + ".tmpl")
+		it.Dot.Items = []any{ty}
+		it.tmplExec(buf, tmpl)
+		types = append(types, it.Dot.FileContents)
 	}
+	tmpl := it.tmpl(it.dirPathSrc + "/types.tmpl")
+	it.Dot.Items = types
+	it.tmplExec(buf, tmpl)
+	it.toCodeFile(buf, "types")
+}
+
+func (it *Gen) genPkgFile(buf *bytes.Buffer) {
+	tmpl := it.tmpl(it.dirPathSrc + "/file_pkg.tmpl")
+	it.tmplExec(buf, tmpl)
+	it.toOutputFile(buf, "file_pkg", it.Dot.Lang.PkgFile)
 }
 
 func (it *Gen) format(filePath string) {
-	if it.Dot.FormatCmd != "" {
-		parts := Replace(Without(strings.Split(it.Dot.FormatCmd, " "), ""), "%s", filePath)
+	if it.Dot.Lang.FormatCmd != "" {
+		parts := Replace(Without(strings.Split(it.Dot.Lang.FormatCmd, " "), ""), "%in", filePath)
 		_ = exec.Command(parts[0], parts[1:]...).Run()
 	}
-}
-
-func (it *Gen) toCodeFile(buf *bytes.Buffer, fileName string) {
-	tmpl := it.tmpl(it.dirPathSrc + "/" + "file_code.tmpl")
-	it.tmplExec(buf, tmpl)
-	file_path := it.dirPathDst + "/" + fileName + it.Dot.SrcFileExt
-	FileWrite(file_path, []byte(it.Dot.FileContents))
-	it.format(file_path)
 }
 
 func (it *Gen) tmplExec(buf *bytes.Buffer, tmpl *template.Template) {
@@ -238,6 +251,18 @@ func (it *Gen) tmplExec(buf *bytes.Buffer, tmpl *template.Template) {
 		panic(err)
 	}
 	it.Dot.FileContents = buf.String()
+}
+
+func (it *Gen) toCodeFile(buf *bytes.Buffer, fileName string) {
+	it.toOutputFile(buf, "file_code", fileName+it.Dot.Lang.SrcFileExt)
+}
+
+func (it *Gen) toOutputFile(buf *bytes.Buffer, tmplName string, fileName string) {
+	tmpl := it.tmpl(it.dirPathSrc + "/" + tmplName + ".tmpl")
+	it.tmplExec(buf, tmpl)
+	file_path := it.dirPathDst + "/" + fileName
+	FileWrite(file_path, []byte(it.Dot.FileContents))
+	it.format(file_path)
 }
 
 func toAnys[T any](gen *Gen, each func(*Gen, func(*T))) func() []any {

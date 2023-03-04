@@ -7,8 +7,12 @@ import (
 )
 
 func generate(metaModel *MetaModel, version string, lang string) {
-	gen := glot.Gen{Lang: lang, Version: version}
-	gen.Dot.GenType = "lsp"
+	gen := glot.Gen{LangIdent: lang, Dot: glot.GenDot{
+		GenTitle:   "Language Server Protocol (LSP)",
+		GenIdent:   "lsp",
+		GenVersion: version,
+		GenRepo:    "github.com/metaleap/polyglot-vsx-and-lsp/gen/cmd/gen_lsp",
+	}}
 	gen.Generate(metaModel)
 }
 

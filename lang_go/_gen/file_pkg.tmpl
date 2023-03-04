@@ -1,3 +1,4 @@
-module {{.GenType}}
+{{ .Lang.CommentLinePrefix }} {{ .GenTitle }} {{.GenVersion}} SDK for {{ .Lang.DisplayName }}: auto-generated via {{ .GenRepo }}
+module {{.PkgName}}
 
-go {{index .Named "GoMod_GoVersion"}}
+go {{index .Lang.Named "GoMod_GoVersion"}}

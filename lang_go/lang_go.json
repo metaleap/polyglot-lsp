@@ -1,7 +1,9 @@
 {
+    "DisplayName": "Go",
     "PkgFile": "go.mod",
     "SrcFileExt": ".go",
-    "FormatCmd": "go fmt %s",
+    "FormatCmd": "go fmt %in",
+    "CheckCmd":"GO111MODULE=off go build -o %out %in",
     "CommentLinePrefix": "// ",
     "Named": {
         "GoMod_GoVersion": "1.20"
