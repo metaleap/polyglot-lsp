@@ -11,19 +11,57 @@ func generate(metaModel *MetaModel, version string, lang string) {
 	gen.Generate(metaModel)
 }
 
-func (it *MetaModel) PerEnum(do func(*glot.GenEnumeration)) {
+func (*MetaModel) toGenBase(it *MMBase) glot.GenBase {
+	return glot.GenBase{Deprecated: it.Deprecated, Since: it.Since, DocLines: strings.Split(it.Documentation, "\n")}
+}
+
+func (it *MetaModel) PerEnum(gen *glot.Gen, do func(*glot.GenEnumeration)) {
 	for _, enum := range it.Enumerations {
+		if enum.Proposed {
+			continue
+		}
 		do(&glot.GenEnumeration{
-			TypeName: enum.Name,
-			BaseType: enum.Type.String(),
-			Enumerants: glot.Map(enum.Values, func(e MMEnumerant) glot.GenEnumerant {
+			GenBase: it.toGenBase(&enum.MMBase),
+			Name:    enum.Name,
+			Type:    gen.Type(enum.Type.toGenType()),
+			Enumerants: glot.Map(glot.Filter(enum.Values, func(e MMEnumerant) bool { return !e.Proposed }), func(e MMEnumerant) glot.GenEnumerant {
 				return glot.GenEnumerant{
-					Name:  strings.ToUpper(e.Name[:1]) + e.Name[1:],
-					Value: e.Value.String(),
+					GenBase: it.toGenBase(&e.MMBase),
+					Name:    e.Name,
+					NameCap: glot.Cap(e.Name),
+					Value:   e.Value.String(),
 				}
 			}),
 		})
 	}
+}
 
-	return
+func (it *MMType) toGenType() glot.GenType {
+	switch it.Kind {
+	case MMTypeKindBase:
+		return glot.GenTypeBase(it.Name)
+	case MMTypeKindReference:
+		return glot.GenTypeReference(it.Name)
+	case MMTypeKindArray:
+		return glot.GenTypeArr{it.Element.toGenType()}
+	case MMTypeKindMap:
+		return glot.GenTypeMap{KeyType: it.Key.toGenType(), ValueType: it.Value.t.toGenType()}
+	case MMTypeKindAnd:
+		return glot.GenTypeAnd(glot.Map(it.Items, func(t MMType) glot.GenType { return t.toGenType() }))
+	case MMTypeKindOr:
+		return glot.GenTypeOr(glot.Map(it.Items, func(t MMType) glot.GenType { return t.toGenType() }))
+	case MMTypeKindTuple:
+		return glot.GenTypeTup(glot.Map(it.Items, func(t MMType) glot.GenType { return t.toGenType() }))
+	case MMTypeKindStringLiteral:
+		return glot.GenTypeLitString(it.Value.s)
+	case MMTypeKindIntegerLiteral:
+		return glot.GenTypeLitInt(it.Value.i)
+	case MMTypeKindBooleanLiteral:
+		return glot.GenTypeLitBool(it.Value.b)
+	case MMTypeKindLiteral:
+		return glot.GenTypeLitStruct(glot.Map(it.Value.l.Properties, func(p MMProperty) glot.GenTypeLitStructProperty {
+			return glot.GenTypeLitStructProperty{Name: p.Name, Optional: p.Optional, Type: p.Type.toGenType()}
+		}))
+	}
+	panic(it.Kind)
 }

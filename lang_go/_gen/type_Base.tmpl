@@ -1,0 +1,13 @@
+{{- range .Items -}}
+{{- with $ty := printf "%s" . -}}
+
+{{- if eq $ty "String" -}}
+type {{ $ty }} = string
+{{- else if eq $ty "Uinteger" -}}
+type {{ $ty }} = uint
+{{- else if eq $ty "Integer" -}}
+type {{ $ty }} = int
+{{- end -}}
+
+{{- end -}}
+{{- end -}}

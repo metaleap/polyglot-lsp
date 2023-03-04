@@ -1,11 +1,14 @@
-{{range .Items}}
-{{with $it := .}}
+{{ with $root := . }}
+{{ range .Items }}
+{{ with $enum := . }}
 
-type {{$it.TypeName}} {{$it.BaseType}}
+{{ range .DocLines }}{{ $root.CommentLinePrefix }}{{ . }}{{ "\n" }}{{ end }}type {{ $enum.Name }} {{ $enum.Type }}
 
-const ({{range .Enumerants}}
-	{{$it.TypeName}}{{.Name}} {{$it.TypeName}} = {{.Value}}
-{{end}})
+const ({{ range .Enumerants }}
+	{{ range .DocLines }}{{ $root.CommentLinePrefix }}{{ . }}{{ "\n" }}{{ end }}
+	{{ $enum.Name }}{{ .NameCap }} {{ $enum.Name }} = {{ .Value }}
+{{ end }})
 
-{{end}}
-{{end}}
+{{ end }}
+{{ end }}
+{{ end }}

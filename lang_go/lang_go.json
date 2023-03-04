@@ -1,6 +1,8 @@
 {
     "PkgFile": "go.mod",
-    "CommentLinePrefix":"// ",
+    "SrcFileExt": ".go",
+    "FormatCmd": "go fmt %s",
+    "CommentLinePrefix": "// ",
     "Named": {
         "GoMod_GoVersion": "1.20"
     }
