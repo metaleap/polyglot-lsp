@@ -7,6 +7,8 @@ import (
 func main() {
 	for _, version := range glot.Versions("lsp_", ".schema.json") {
 		meta_model := glot.LoadFromJSONFile[MetaModel](glot.SchemasDirName + "/lsp_" + version + ".json")
-		generate(&meta_model)
+		for _, lang := range glot.Langs() {
+			generate(&meta_model, version, lang)
+		}
 	}
 }

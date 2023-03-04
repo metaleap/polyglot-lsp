@@ -1,0 +1,11 @@
+{{range .Items}}
+{{with $it := .}}
+
+type {{$it.TypeName}} {{$it.BaseType}}
+
+const ({{range .Enumerants}}
+	{{$it.TypeName}}{{.Name}} {{$it.TypeName}} = {{.Value}}
+{{end}})
+
+{{end}}
+{{end}}

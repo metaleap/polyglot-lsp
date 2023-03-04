@@ -22,16 +22,20 @@ func (it *NumberOrString) UnmarshalJSON(src []byte) (err error) {
 }
 
 func (it *NumberOrString) MarshalJSON() ([]byte, error) {
+	return []byte(it.String()), nil
+}
+
+func (it *NumberOrString) String() string {
 	if it == nil {
-		return []byte("null"), nil
+		return "null"
 	}
 	n := json.Number(*it)
 	if i64, ei := n.Int64(); ei == nil {
-		return []byte(strconv.FormatInt(i64, 10)), nil
+		return strconv.FormatInt(i64, 10)
 	} else if f64, ef := n.Float64(); ef == nil {
-		return []byte(strconv.FormatFloat(f64, 'g', -1, 64)), nil
+		return strconv.FormatFloat(f64, 'g', -1, 64)
 	}
-	return []byte(strconv.Quote(string(*it))), nil
+	return strconv.Quote(string(*it))
 }
 
 func LoadFromJSON[T any](src []byte) T {

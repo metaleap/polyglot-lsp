@@ -43,6 +43,10 @@ type MMType struct {
 	Items   []MMType     `json:"items,omitempty"`   // if `Kind` of and|or|tuple
 }
 
+func (it *MMType) String() string {
+	return "?"
+}
+
 type MMTypeKind string
 
 const (

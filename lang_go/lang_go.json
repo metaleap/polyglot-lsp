@@ -1,1 +1,7 @@
-{}
+{
+    "PkgFile": "go.mod",
+    "CommentLinePrefix":"// ",
+    "Named": {
+        "GoMod_GoVersion": "1.20"
+    }
+}
