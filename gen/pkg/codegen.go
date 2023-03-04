@@ -46,7 +46,7 @@ type GenType interface {
 
 type GenTypeBase string
 
-func (it GenTypeBase) String() string { return Cap(string(it)) }
+func (it GenTypeBase) String() string { return Up0(string(it)) }
 func (it GenTypeBase) kind() string   { return "Base" }
 func (it GenTypeBase) key() string    { return "Base(" + string(it) + ")" }
 
@@ -185,9 +185,9 @@ func (it *Gen) Type(t GenType) GenType {
 
 func (it *Gen) Generate(dots GenDots) {
 	it.types = map[string]GenType{}
-	it.dirPathLang = "lang_" + it.Lang
-	it.Dot.GenConfig = LoadFromJSONFile[GenConfig](it.dirPathLang + "/" + it.dirPathLang + ".json")
-	it.dirPathSrc = "lang_" + it.Lang + "/_gen"
+	it.dirPathLang = "../lang_" + it.Lang
+	it.Dot.GenConfig = LoadFromJSONFile[GenConfig](it.dirPathLang + "/lang_" + it.Lang + ".json")
+	it.dirPathSrc = "../lang_" + it.Lang + "/_gen"
 	it.dirPathDst = it.dirPathLang + "/" + it.Dot.GenType + "_" + it.Version
 	println(it.dirPathDst + "...")
 	DirCreate(it.dirPathDst)

@@ -17,7 +17,7 @@ func TestLoadSchema(t *testing.T) {
 		t.Fatal(err)
 	}
 	for _, version := range glot.Versions("lsp_", ".schema.json") {
-		file_path := glot.SchemasDirName + "/lsp_" + version + ".json"
+		file_path := glot.SchemasDir + "/lsp_" + version + ".json"
 		meta_model := glot.LoadFromJSONFile[MetaModel](file_path)
 		map_ours, map_orig := map[string]any{}, glot.LoadFromJSONFile[map[string]any](file_path)
 		src, err := json.Marshal(meta_model)

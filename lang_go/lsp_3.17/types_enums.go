@@ -194,6 +194,7 @@ const (
 
 	// Error code indicating that a server received a notification or
 	// request before the server has received the `initialize` request.
+
 	ErrorCodesServerNotInitialized ErrorCodes = -32002
 
 	//
@@ -210,6 +211,7 @@ const (
 	// the request failed.
 	//
 	// @since 3.17.0
+
 	LSPErrorCodesRequestFailed LSPErrorCodes = -32803
 
 	// The server cancelled the request. This error code should
@@ -250,6 +252,7 @@ const (
 	FoldingRangeKindImports FoldingRangeKind = "imports"
 
 	// Folding range for a region (e.g. `#region`)
+
 	FoldingRangeKindRegion FoldingRangeKind = "region"
 )
 

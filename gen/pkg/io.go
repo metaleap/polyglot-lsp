@@ -3,7 +3,6 @@ package glot
 import (
 	"io/fs"
 	"os"
-	"path/filepath"
 	"strings"
 )
 
@@ -24,7 +23,7 @@ func Dir[T any](dirPath string, maybe func(entry fs.DirEntry, path string) (T, b
 		panic(err)
 	}
 	for _, entry := range entries {
-		if entry, ok := maybe(entry, filepath.Join(dirPath, entry.Name())); ok {
+		if entry, ok := maybe(entry, dirPath+"/"+entry.Name()); ok {
 			ret = append(ret, entry)
 		}
 	}

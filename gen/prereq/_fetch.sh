@@ -3,10 +3,10 @@ vscver=1.75.1
 
 
 curdir=$PWD
-owndir=prereq
+owndir="prereq"
 if [ $0 != "$owndir/_fetch.sh" ]
 then
-    echo "$0: run from repo root, not from $curdir"
+    echo "$0: run from \$repoDir/gen, not from $curdir"
     exit 1
 fi
 

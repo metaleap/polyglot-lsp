@@ -1,7 +1,7 @@
 package lsp
 
+type Uinteger = uint
+
 type String = string
 
 type Integer = int
-
-type Uinteger = uint

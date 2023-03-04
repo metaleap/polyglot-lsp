@@ -5,10 +5,10 @@ import (
 	"strings"
 )
 
-const SchemasDirName = "prereq"
+const SchemasDir = "prereq"
 
 func Versions(fileNamePrefix string, fileNameSuffix string) (ret []string) {
-	return Dir(SchemasDirName, func(entry fs.DirEntry, path string) (string, bool) {
+	return Dir(SchemasDir, func(entry fs.DirEntry, path string) (string, bool) {
 		name := entry.Name()
 		return strings.TrimPrefix(strings.TrimSuffix(name, fileNameSuffix), fileNamePrefix),
 			(!entry.IsDir()) && strings.HasPrefix(name, fileNamePrefix) && strings.HasSuffix(name, fileNameSuffix)
@@ -16,9 +16,9 @@ func Versions(fileNamePrefix string, fileNameSuffix string) (ret []string) {
 }
 
 func Langs() (ret []string) {
-	return Dir(".", func(entry fs.DirEntry, path string) (string, bool) {
+	return Dir("..", func(entry fs.DirEntry, path string) (string, bool) {
 		name := entry.Name()
 		return strings.TrimPrefix(name, "lang_"),
-			entry.IsDir() && strings.HasPrefix(name, "lang_") && FileExists(name+"/"+name+".json") && DirExists(name+"/_gen")
+			entry.IsDir() && strings.HasPrefix(name, "lang_") && FileExists(path+"/"+name+".json") && DirExists(path+"/_gen")
 	})
 }
