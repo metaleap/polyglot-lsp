@@ -6,12 +6,12 @@ import (
 	glot "polyglot-vsx-and-lsp/pkg"
 )
 
-func generate(metaModel *MetaModel, version string, lang string) {
+func generate(metaModel *MetaModel, ver string, lang string) {
 	gen := glot.Gen{LangIdent: lang, Dot: glot.GenDot{
-		GenTitle:   "Language Server Protocol (LSP)",
-		GenIdent:   "lsp",
-		GenVersion: version,
-		GenRepo:    "github.com/metaleap/polyglot-vsx-and-lsp/gen/cmd/gen_lsp",
+		GenTitle: "Language Server Protocol (LSP)",
+		GenIdent: "lsp",
+		GenVer:   ver,
+		GenRepo:  "github.com/metaleap/polyglot-vsx-and-lsp/gen/cmd/gen_lsp",
 	}}
 	gen.Generate(metaModel)
 }

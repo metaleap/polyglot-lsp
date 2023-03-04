@@ -12,12 +12,12 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 )
 
-func TestLoadSchema(t *testing.T) {
+func TestLoadMetaModelAndRoundTripCompareWithOrig(t *testing.T) {
 	if err := os.Chdir("../.."); err != nil {
 		t.Fatal(err)
 	}
-	for _, version := range glot.Versions("lsp_", ".schema.json") {
-		file_path := glot.SchemasDir + "/lsp_" + version + ".json"
+	for _, ver := range glot.Vers("lsp_", ".schema.json") {
+		file_path := glot.SchemasDir + "/lsp_" + ver + ".json"
 		meta_model := glot.LoadFromJSONFile[MetaModel](file_path)
 		map_ours, map_orig := map[string]any{}, glot.LoadFromJSONFile[map[string]any](file_path)
 		src, err := json.Marshal(meta_model)

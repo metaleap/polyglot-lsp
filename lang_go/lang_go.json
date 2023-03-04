@@ -2,8 +2,17 @@
     "DisplayName": "Go",
     "PkgFile": "go.mod",
     "SrcFileExt": ".go",
-    "FormatCmd": "go fmt %in",
-    "CheckCmd":"GO111MODULE=off go build -o %out %in",
+    "Format": {
+        "Cmd": "go fmt $in_file",
+        "PerFile": true
+    },
+    "Check": {
+        "Cmd": "go build -v -trimpath -o /dev/null $in_files",
+        "Env": {
+            "GOCACHE":"$trash_dir",
+            "GO111MODULE": "off"
+        }
+    },
     "CommentLinePrefix": "// ",
     "Named": {
         "GoMod_GoVersion": "1.20"

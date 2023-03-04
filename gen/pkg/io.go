@@ -3,6 +3,7 @@ package glot
 import (
 	"io/fs"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -70,4 +71,12 @@ func FilesIn(dirPath string, prefix string, suffix string) (ret []string) {
 		name := entry.Name()
 		return path, (!entry.IsDir()) && (prefix == "" || strings.HasPrefix(name, prefix)) && (suffix == "" || strings.HasSuffix(name, suffix))
 	})
+}
+
+func PathAbs(path string) string {
+	abs_path, err := filepath.Abs(path)
+	if err != nil {
+		panic(err)
+	}
+	return abs_path
 }
