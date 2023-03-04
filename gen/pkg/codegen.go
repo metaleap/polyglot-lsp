@@ -45,7 +45,7 @@ type GenLang struct {
 		Format *GenLangCmd  // eg "go fmt %in" etc
 		Check  []GenLangCmd // compiler, type-checker, parser or other linter. `%in` for absolute path of generated pkg-dir
 	}
-	Named map[string]string
+	Dict map[string]string
 }
 
 type GenLangCmd struct {

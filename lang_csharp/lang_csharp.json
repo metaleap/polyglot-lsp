@@ -1,5 +1,5 @@
 {
-    "DisplayName": "Go",
+    "DisplayName": "C#",
     "PkgFile": "go.mod",
     "SrcFileExt": ".go",
     "PostGenTools": {
