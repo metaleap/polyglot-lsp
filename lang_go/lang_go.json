@@ -2,16 +2,27 @@
     "DisplayName": "Go",
     "PkgFile": "go.mod",
     "SrcFileExt": ".go",
-    "Format": {
-        "Cmd": "go fmt $in_file",
-        "PerFile": true
-    },
-    "Check": {
-        "Cmd": "go build -v -trimpath -o /dev/null $in_files",
-        "Env": {
-            "GOCACHE":"$trash_dir",
-            "GO111MODULE": "off"
-        }
+    "PostGenTools": {
+        "Format": {
+            "Cmd": "go fmt {file}",
+            "PerFile": true
+        },
+        "Check": [
+            {
+                "Cmd": "go build -trimpath -o /dev/null {files}",
+                "Env": {
+                    "GOCACHE": "{user_home_dir}/.cache/go-build",
+                    "GO111MODULE": "off"
+                }
+            },
+            {
+                "Cmd": "go vet -C {dir}",
+                "Env": {
+                    "GOCACHE": "{user_home_dir}/.cache/go-build",
+                    "GO111MODULE": "off"
+                }
+            }
+        ]
     },
     "CommentLinePrefix": "// ",
     "Named": {

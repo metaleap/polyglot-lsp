@@ -1,6 +1,10 @@
 // Language Server Protocol (LSP) v3.17 SDK for Go: auto-generated via github.com/metaleap/polyglot-vsx-and-lsp/gen/cmd/gen_lsp
 package lsp
 
+import (
+	"fmt"
+)
+
 // A set of predefined token types. This set is not fixed
 // an clients can specify additional token types via the
 // corresponding client capabilities.
@@ -8,100 +12,131 @@ package lsp
 // @since 3.16.0
 type SemanticTokenTypes String
 
-const (
-	//
+const SemanticTokenTypesNamespace SemanticTokenTypes = "namespace"
 
-	SemanticTokenTypesNamespace SemanticTokenTypes = "namespace"
+// Represents a generic type. Acts as a fallback for types which can't be mapped to
+// a specific type like class or enum.
+const SemanticTokenTypesType SemanticTokenTypes = "type"
 
-	// Represents a generic type. Acts as a fallback for types which can't be mapped to
-	// a specific type like class or enum.
+const SemanticTokenTypesClass SemanticTokenTypes = "class"
 
-	SemanticTokenTypesType SemanticTokenTypes = "type"
+const SemanticTokenTypesEnum SemanticTokenTypes = "enum"
 
-	//
+const SemanticTokenTypesInterface SemanticTokenTypes = "interface"
 
-	SemanticTokenTypesClass SemanticTokenTypes = "class"
+const SemanticTokenTypesStruct SemanticTokenTypes = "struct"
 
-	//
+const SemanticTokenTypesTypeParameter SemanticTokenTypes = "typeParameter"
 
-	SemanticTokenTypesEnum SemanticTokenTypes = "enum"
+const SemanticTokenTypesParameter SemanticTokenTypes = "parameter"
 
-	//
+const SemanticTokenTypesVariable SemanticTokenTypes = "variable"
 
-	SemanticTokenTypesInterface SemanticTokenTypes = "interface"
+const SemanticTokenTypesProperty SemanticTokenTypes = "property"
 
-	//
+const SemanticTokenTypesEnumMember SemanticTokenTypes = "enumMember"
 
-	SemanticTokenTypesStruct SemanticTokenTypes = "struct"
+const SemanticTokenTypesEvent SemanticTokenTypes = "event"
 
-	//
+const SemanticTokenTypesFunction SemanticTokenTypes = "function"
 
-	SemanticTokenTypesTypeParameter SemanticTokenTypes = "typeParameter"
+const SemanticTokenTypesMethod SemanticTokenTypes = "method"
 
-	//
+const SemanticTokenTypesMacro SemanticTokenTypes = "macro"
 
-	SemanticTokenTypesParameter SemanticTokenTypes = "parameter"
+const SemanticTokenTypesKeyword SemanticTokenTypes = "keyword"
 
-	//
+const SemanticTokenTypesModifier SemanticTokenTypes = "modifier"
 
-	SemanticTokenTypesVariable SemanticTokenTypes = "variable"
+const SemanticTokenTypesComment SemanticTokenTypes = "comment"
 
-	//
+const SemanticTokenTypesString SemanticTokenTypes = "string"
 
-	SemanticTokenTypesProperty SemanticTokenTypes = "property"
+const SemanticTokenTypesNumber SemanticTokenTypes = "number"
 
-	//
+const SemanticTokenTypesRegexp SemanticTokenTypes = "regexp"
 
-	SemanticTokenTypesEnumMember SemanticTokenTypes = "enumMember"
+const SemanticTokenTypesOperator SemanticTokenTypes = "operator"
 
-	//
+// @since 3.17.0
+const SemanticTokenTypesDecorator SemanticTokenTypes = "decorator"
 
-	SemanticTokenTypesEvent SemanticTokenTypes = "event"
+// String implements `fmt.Stringer`.
+func (it SemanticTokenTypes) String() string {
+	switch it {
 
-	//
+	case SemanticTokenTypesNamespace:
+		return "Namespace"
 
-	SemanticTokenTypesFunction SemanticTokenTypes = "function"
+	case SemanticTokenTypesType:
+		return "Type"
 
-	//
+	case SemanticTokenTypesClass:
+		return "Class"
 
-	SemanticTokenTypesMethod SemanticTokenTypes = "method"
+	case SemanticTokenTypesEnum:
+		return "Enum"
 
-	//
+	case SemanticTokenTypesInterface:
+		return "Interface"
 
-	SemanticTokenTypesMacro SemanticTokenTypes = "macro"
+	case SemanticTokenTypesStruct:
+		return "Struct"
 
-	//
+	case SemanticTokenTypesTypeParameter:
+		return "TypeParameter"
 
-	SemanticTokenTypesKeyword SemanticTokenTypes = "keyword"
+	case SemanticTokenTypesParameter:
+		return "Parameter"
 
-	//
+	case SemanticTokenTypesVariable:
+		return "Variable"
 
-	SemanticTokenTypesModifier SemanticTokenTypes = "modifier"
+	case SemanticTokenTypesProperty:
+		return "Property"
 
-	//
+	case SemanticTokenTypesEnumMember:
+		return "EnumMember"
 
-	SemanticTokenTypesComment SemanticTokenTypes = "comment"
+	case SemanticTokenTypesEvent:
+		return "Event"
 
-	//
+	case SemanticTokenTypesFunction:
+		return "Function"
 
-	SemanticTokenTypesString SemanticTokenTypes = "string"
+	case SemanticTokenTypesMethod:
+		return "Method"
 
-	//
+	case SemanticTokenTypesMacro:
+		return "Macro"
 
-	SemanticTokenTypesNumber SemanticTokenTypes = "number"
+	case SemanticTokenTypesKeyword:
+		return "Keyword"
 
-	//
+	case SemanticTokenTypesModifier:
+		return "Modifier"
 
-	SemanticTokenTypesRegexp SemanticTokenTypes = "regexp"
+	case SemanticTokenTypesComment:
+		return "Comment"
 
-	//
+	case SemanticTokenTypesString:
+		return "String"
 
-	SemanticTokenTypesOperator SemanticTokenTypes = "operator"
+	case SemanticTokenTypesNumber:
+		return "Number"
 
-	// @since 3.17.0
+	case SemanticTokenTypesRegexp:
+		return "Regexp"
 
-	SemanticTokenTypesDecorator SemanticTokenTypes = "decorator"
-)
+	case SemanticTokenTypesOperator:
+		return "Operator"
+
+	case SemanticTokenTypesDecorator:
+		return "Decorator"
+
+	}
+	return fmt.Sprintf("SemanticTokenTypes(%#v)", it)
+}
 
 // A set of predefined token modifiers. This set is not fixed
 // an clients can specify additional token types via the
@@ -110,499 +145,712 @@ const (
 // @since 3.16.0
 type SemanticTokenModifiers String
 
-const (
-	//
+const SemanticTokenModifiersDeclaration SemanticTokenModifiers = "declaration"
 
-	SemanticTokenModifiersDeclaration SemanticTokenModifiers = "declaration"
+const SemanticTokenModifiersDefinition SemanticTokenModifiers = "definition"
 
-	//
+const SemanticTokenModifiersReadonly SemanticTokenModifiers = "readonly"
 
-	SemanticTokenModifiersDefinition SemanticTokenModifiers = "definition"
+const SemanticTokenModifiersStatic SemanticTokenModifiers = "static"
 
-	//
+const SemanticTokenModifiersDeprecated SemanticTokenModifiers = "deprecated"
 
-	SemanticTokenModifiersReadonly SemanticTokenModifiers = "readonly"
+const SemanticTokenModifiersAbstract SemanticTokenModifiers = "abstract"
 
-	//
+const SemanticTokenModifiersAsync SemanticTokenModifiers = "async"
 
-	SemanticTokenModifiersStatic SemanticTokenModifiers = "static"
+const SemanticTokenModifiersModification SemanticTokenModifiers = "modification"
 
-	//
+const SemanticTokenModifiersDocumentation SemanticTokenModifiers = "documentation"
 
-	SemanticTokenModifiersDeprecated SemanticTokenModifiers = "deprecated"
+const SemanticTokenModifiersDefaultLibrary SemanticTokenModifiers = "defaultLibrary"
 
-	//
+// String implements `fmt.Stringer`.
+func (it SemanticTokenModifiers) String() string {
+	switch it {
 
-	SemanticTokenModifiersAbstract SemanticTokenModifiers = "abstract"
+	case SemanticTokenModifiersDeclaration:
+		return "Declaration"
 
-	//
+	case SemanticTokenModifiersDefinition:
+		return "Definition"
 
-	SemanticTokenModifiersAsync SemanticTokenModifiers = "async"
+	case SemanticTokenModifiersReadonly:
+		return "Readonly"
 
-	//
+	case SemanticTokenModifiersStatic:
+		return "Static"
 
-	SemanticTokenModifiersModification SemanticTokenModifiers = "modification"
+	case SemanticTokenModifiersDeprecated:
+		return "Deprecated"
 
-	//
+	case SemanticTokenModifiersAbstract:
+		return "Abstract"
 
-	SemanticTokenModifiersDocumentation SemanticTokenModifiers = "documentation"
+	case SemanticTokenModifiersAsync:
+		return "Async"
 
-	//
+	case SemanticTokenModifiersModification:
+		return "Modification"
 
-	SemanticTokenModifiersDefaultLibrary SemanticTokenModifiers = "defaultLibrary"
-)
+	case SemanticTokenModifiersDocumentation:
+		return "Documentation"
+
+	case SemanticTokenModifiersDefaultLibrary:
+		return "DefaultLibrary"
+
+	}
+	return fmt.Sprintf("SemanticTokenModifiers(%#v)", it)
+}
 
 // The document diagnostic report kinds.
 //
 // @since 3.17.0
 type DocumentDiagnosticReportKind String
 
-const (
-	// A diagnostic report with a full
-	// set of problems.
+// A diagnostic report with a full
+// set of problems.
+const DocumentDiagnosticReportKindFull DocumentDiagnosticReportKind = "full"
 
-	DocumentDiagnosticReportKindFull DocumentDiagnosticReportKind = "full"
+// A report indicating that the last
+// returned report is still accurate.
+const DocumentDiagnosticReportKindUnchanged DocumentDiagnosticReportKind = "unchanged"
 
-	// A report indicating that the last
-	// returned report is still accurate.
+// String implements `fmt.Stringer`.
+func (it DocumentDiagnosticReportKind) String() string {
+	switch it {
 
-	DocumentDiagnosticReportKindUnchanged DocumentDiagnosticReportKind = "unchanged"
-)
+	case DocumentDiagnosticReportKindFull:
+		return "Full"
+
+	case DocumentDiagnosticReportKindUnchanged:
+		return "Unchanged"
+
+	}
+	return fmt.Sprintf("DocumentDiagnosticReportKind(%#v)", it)
+}
 
 // Predefined error codes.
 type ErrorCodes Integer
 
-const (
-	//
+const ErrorCodesParseError ErrorCodes = -32700
 
-	ErrorCodesParseError ErrorCodes = -32700
+const ErrorCodesInvalidRequest ErrorCodes = -32600
 
-	//
+const ErrorCodesMethodNotFound ErrorCodes = -32601
 
-	ErrorCodesInvalidRequest ErrorCodes = -32600
+const ErrorCodesInvalidParams ErrorCodes = -32602
 
-	//
+const ErrorCodesInternalError ErrorCodes = -32603
 
-	ErrorCodesMethodNotFound ErrorCodes = -32601
+// Error code indicating that a server received a notification or
+// request before the server has received the `initialize` request.
+const ErrorCodesServerNotInitialized ErrorCodes = -32002
 
-	//
+const ErrorCodesUnknownErrorCode ErrorCodes = -32001
 
-	ErrorCodesInvalidParams ErrorCodes = -32602
+// String implements `fmt.Stringer`.
+func (it ErrorCodes) String() string {
+	switch it {
 
-	//
+	case ErrorCodesParseError:
+		return "ParseError"
 
-	ErrorCodesInternalError ErrorCodes = -32603
+	case ErrorCodesInvalidRequest:
+		return "InvalidRequest"
 
-	// Error code indicating that a server received a notification or
-	// request before the server has received the `initialize` request.
+	case ErrorCodesMethodNotFound:
+		return "MethodNotFound"
 
-	ErrorCodesServerNotInitialized ErrorCodes = -32002
+	case ErrorCodesInvalidParams:
+		return "InvalidParams"
 
-	//
+	case ErrorCodesInternalError:
+		return "InternalError"
 
-	ErrorCodesUnknownErrorCode ErrorCodes = -32001
-)
+	case ErrorCodesServerNotInitialized:
+		return "ServerNotInitialized"
+
+	case ErrorCodesUnknownErrorCode:
+		return "UnknownErrorCode"
+
+	}
+	return fmt.Sprintf("ErrorCodes(%#v)", it)
+}
 
 type LSPErrorCodes Integer
 
-const (
-	// A request failed but it was syntactically correct, e.g the
-	// method name was known and the parameters were valid. The error
-	// message should contain human readable information about why
-	// the request failed.
-	//
-	// @since 3.17.0
+// A request failed but it was syntactically correct, e.g the
+// method name was known and the parameters were valid. The error
+// message should contain human readable information about why
+// the request failed.
+//
+// @since 3.17.0
+const LSPErrorCodesRequestFailed LSPErrorCodes = -32803
 
-	LSPErrorCodesRequestFailed LSPErrorCodes = -32803
+// The server cancelled the request. This error code should
+// only be used for requests that explicitly support being
+// server cancellable.
+//
+// @since 3.17.0
+const LSPErrorCodesServerCancelled LSPErrorCodes = -32802
 
-	// The server cancelled the request. This error code should
-	// only be used for requests that explicitly support being
-	// server cancellable.
-	//
-	// @since 3.17.0
+// The server detected that the content of a document got
+// modified outside normal conditions. A server should
+// NOT send this error code if it detects a content change
+// in it unprocessed messages. The result even computed
+// on an older state might still be useful for the client.
+//
+// If a client decides that a result is not of any use anymore
+// the client should cancel the request.
+const LSPErrorCodesContentModified LSPErrorCodes = -32801
 
-	LSPErrorCodesServerCancelled LSPErrorCodes = -32802
+// The client has canceled a request and a server as detected
+// the cancel.
+const LSPErrorCodesRequestCancelled LSPErrorCodes = -32800
 
-	// The server detected that the content of a document got
-	// modified outside normal conditions. A server should
-	// NOT send this error code if it detects a content change
-	// in it unprocessed messages. The result even computed
-	// on an older state might still be useful for the client.
-	//
-	// If a client decides that a result is not of any use anymore
-	// the client should cancel the request.
+// String implements `fmt.Stringer`.
+func (it LSPErrorCodes) String() string {
+	switch it {
 
-	LSPErrorCodesContentModified LSPErrorCodes = -32801
+	case LSPErrorCodesRequestFailed:
+		return "RequestFailed"
 
-	// The client has canceled a request and a server as detected
-	// the cancel.
+	case LSPErrorCodesServerCancelled:
+		return "ServerCancelled"
 
-	LSPErrorCodesRequestCancelled LSPErrorCodes = -32800
-)
+	case LSPErrorCodesContentModified:
+		return "ContentModified"
+
+	case LSPErrorCodesRequestCancelled:
+		return "RequestCancelled"
+
+	}
+	return fmt.Sprintf("LSPErrorCodes(%#v)", it)
+}
 
 // A set of predefined range kinds.
 type FoldingRangeKind String
 
-const (
-	// Folding range for a comment
+// Folding range for a comment
+const FoldingRangeKindComment FoldingRangeKind = "comment"
 
-	FoldingRangeKindComment FoldingRangeKind = "comment"
+// Folding range for an import or include
+const FoldingRangeKindImports FoldingRangeKind = "imports"
 
-	// Folding range for an import or include
+// Folding range for a region (e.g. `#region`)
+const FoldingRangeKindRegion FoldingRangeKind = "region"
 
-	FoldingRangeKindImports FoldingRangeKind = "imports"
+// String implements `fmt.Stringer`.
+func (it FoldingRangeKind) String() string {
+	switch it {
 
-	// Folding range for a region (e.g. `#region`)
+	case FoldingRangeKindComment:
+		return "Comment"
 
-	FoldingRangeKindRegion FoldingRangeKind = "region"
-)
+	case FoldingRangeKindImports:
+		return "Imports"
+
+	case FoldingRangeKindRegion:
+		return "Region"
+
+	}
+	return fmt.Sprintf("FoldingRangeKind(%#v)", it)
+}
 
 // A symbol kind.
 type SymbolKind Uinteger
 
-const (
-	//
+const SymbolKindFile SymbolKind = 1
 
-	SymbolKindFile SymbolKind = 1
+const SymbolKindModule SymbolKind = 2
 
-	//
+const SymbolKindNamespace SymbolKind = 3
 
-	SymbolKindModule SymbolKind = 2
+const SymbolKindPackage SymbolKind = 4
 
-	//
+const SymbolKindClass SymbolKind = 5
 
-	SymbolKindNamespace SymbolKind = 3
+const SymbolKindMethod SymbolKind = 6
 
-	//
+const SymbolKindProperty SymbolKind = 7
 
-	SymbolKindPackage SymbolKind = 4
+const SymbolKindField SymbolKind = 8
 
-	//
+const SymbolKindConstructor SymbolKind = 9
 
-	SymbolKindClass SymbolKind = 5
+const SymbolKindEnum SymbolKind = 10
 
-	//
+const SymbolKindInterface SymbolKind = 11
 
-	SymbolKindMethod SymbolKind = 6
+const SymbolKindFunction SymbolKind = 12
 
-	//
+const SymbolKindVariable SymbolKind = 13
 
-	SymbolKindProperty SymbolKind = 7
+const SymbolKindConstant SymbolKind = 14
 
-	//
+const SymbolKindString SymbolKind = 15
 
-	SymbolKindField SymbolKind = 8
+const SymbolKindNumber SymbolKind = 16
 
-	//
+const SymbolKindBoolean SymbolKind = 17
 
-	SymbolKindConstructor SymbolKind = 9
+const SymbolKindArray SymbolKind = 18
 
-	//
+const SymbolKindObject SymbolKind = 19
 
-	SymbolKindEnum SymbolKind = 10
+const SymbolKindKey SymbolKind = 20
 
-	//
+const SymbolKindNull SymbolKind = 21
 
-	SymbolKindInterface SymbolKind = 11
+const SymbolKindEnumMember SymbolKind = 22
 
-	//
+const SymbolKindStruct SymbolKind = 23
 
-	SymbolKindFunction SymbolKind = 12
+const SymbolKindEvent SymbolKind = 24
 
-	//
+const SymbolKindOperator SymbolKind = 25
 
-	SymbolKindVariable SymbolKind = 13
+const SymbolKindTypeParameter SymbolKind = 26
 
-	//
+// String implements `fmt.Stringer`.
+func (it SymbolKind) String() string {
+	switch it {
 
-	SymbolKindConstant SymbolKind = 14
+	case SymbolKindFile:
+		return "File"
 
-	//
+	case SymbolKindModule:
+		return "Module"
 
-	SymbolKindString SymbolKind = 15
+	case SymbolKindNamespace:
+		return "Namespace"
 
-	//
+	case SymbolKindPackage:
+		return "Package"
 
-	SymbolKindNumber SymbolKind = 16
+	case SymbolKindClass:
+		return "Class"
 
-	//
+	case SymbolKindMethod:
+		return "Method"
 
-	SymbolKindBoolean SymbolKind = 17
+	case SymbolKindProperty:
+		return "Property"
 
-	//
+	case SymbolKindField:
+		return "Field"
 
-	SymbolKindArray SymbolKind = 18
+	case SymbolKindConstructor:
+		return "Constructor"
 
-	//
+	case SymbolKindEnum:
+		return "Enum"
 
-	SymbolKindObject SymbolKind = 19
+	case SymbolKindInterface:
+		return "Interface"
 
-	//
+	case SymbolKindFunction:
+		return "Function"
 
-	SymbolKindKey SymbolKind = 20
+	case SymbolKindVariable:
+		return "Variable"
 
-	//
+	case SymbolKindConstant:
+		return "Constant"
 
-	SymbolKindNull SymbolKind = 21
+	case SymbolKindString:
+		return "String"
 
-	//
+	case SymbolKindNumber:
+		return "Number"
 
-	SymbolKindEnumMember SymbolKind = 22
+	case SymbolKindBoolean:
+		return "Boolean"
 
-	//
+	case SymbolKindArray:
+		return "Array"
 
-	SymbolKindStruct SymbolKind = 23
+	case SymbolKindObject:
+		return "Object"
 
-	//
+	case SymbolKindKey:
+		return "Key"
 
-	SymbolKindEvent SymbolKind = 24
+	case SymbolKindNull:
+		return "Null"
 
-	//
+	case SymbolKindEnumMember:
+		return "EnumMember"
 
-	SymbolKindOperator SymbolKind = 25
+	case SymbolKindStruct:
+		return "Struct"
 
-	//
+	case SymbolKindEvent:
+		return "Event"
 
-	SymbolKindTypeParameter SymbolKind = 26
-)
+	case SymbolKindOperator:
+		return "Operator"
+
+	case SymbolKindTypeParameter:
+		return "TypeParameter"
+
+	}
+	return fmt.Sprintf("SymbolKind(%#v)", it)
+}
 
 // Symbol tags are extra annotations that tweak the rendering of a symbol.
 //
 // @since 3.16
 type SymbolTag Uinteger
 
-const (
-	// Render a symbol as obsolete, usually using a strike-out.
+// Render a symbol as obsolete, usually using a strike-out.
+const SymbolTagDeprecated SymbolTag = 1
 
-	SymbolTagDeprecated SymbolTag = 1
-)
+// String implements `fmt.Stringer`.
+func (it SymbolTag) String() string {
+	switch it {
+
+	case SymbolTagDeprecated:
+		return "Deprecated"
+
+	}
+	return fmt.Sprintf("SymbolTag(%#v)", it)
+}
 
 // Moniker uniqueness level to define scope of the moniker.
 //
 // @since 3.16.0
 type UniquenessLevel String
 
-const (
-	// The moniker is only unique inside a document
+// The moniker is only unique inside a document
+const UniquenessLevelDocument UniquenessLevel = "document"
 
-	UniquenessLevelDocument UniquenessLevel = "document"
+// The moniker is unique inside a project for which a dump got created
+const UniquenessLevelProject UniquenessLevel = "project"
 
-	// The moniker is unique inside a project for which a dump got created
+// The moniker is unique inside the group to which a project belongs
+const UniquenessLevelGroup UniquenessLevel = "group"
 
-	UniquenessLevelProject UniquenessLevel = "project"
+// The moniker is unique inside the moniker scheme.
+const UniquenessLevelScheme UniquenessLevel = "scheme"
 
-	// The moniker is unique inside the group to which a project belongs
+// The moniker is globally unique
+const UniquenessLevelGlobal UniquenessLevel = "global"
 
-	UniquenessLevelGroup UniquenessLevel = "group"
+// String implements `fmt.Stringer`.
+func (it UniquenessLevel) String() string {
+	switch it {
 
-	// The moniker is unique inside the moniker scheme.
+	case UniquenessLevelDocument:
+		return "Document"
 
-	UniquenessLevelScheme UniquenessLevel = "scheme"
+	case UniquenessLevelProject:
+		return "Project"
 
-	// The moniker is globally unique
+	case UniquenessLevelGroup:
+		return "Group"
 
-	UniquenessLevelGlobal UniquenessLevel = "global"
-)
+	case UniquenessLevelScheme:
+		return "Scheme"
+
+	case UniquenessLevelGlobal:
+		return "Global"
+
+	}
+	return fmt.Sprintf("UniquenessLevel(%#v)", it)
+}
 
 // The moniker kind.
 //
 // @since 3.16.0
 type MonikerKind String
 
-const (
-	// The moniker represent a symbol that is imported into a project
+// The moniker represent a symbol that is imported into a project
+const MonikerKindImport MonikerKind = "import"
 
-	MonikerKindImport MonikerKind = "import"
+// The moniker represents a symbol that is exported from a project
+const MonikerKindExport MonikerKind = "export"
 
-	// The moniker represents a symbol that is exported from a project
+// The moniker represents a symbol that is local to a project (e.g. a local
+// variable of a function, a class not visible outside the project, ...)
+const MonikerKindLocal MonikerKind = "local"
 
-	MonikerKindExport MonikerKind = "export"
+// String implements `fmt.Stringer`.
+func (it MonikerKind) String() string {
+	switch it {
 
-	// The moniker represents a symbol that is local to a project (e.g. a local
-	// variable of a function, a class not visible outside the project, ...)
+	case MonikerKindImport:
+		return "Import"
 
-	MonikerKindLocal MonikerKind = "local"
-)
+	case MonikerKindExport:
+		return "Export"
+
+	case MonikerKindLocal:
+		return "Local"
+
+	}
+	return fmt.Sprintf("MonikerKind(%#v)", it)
+}
 
 // Inlay hint kinds.
 //
 // @since 3.17.0
 type InlayHintKind Uinteger
 
-const (
-	// An inlay hint that for a type annotation.
+// An inlay hint that for a type annotation.
+const InlayHintKindType InlayHintKind = 1
 
-	InlayHintKindType InlayHintKind = 1
+// An inlay hint that is for a parameter.
+const InlayHintKindParameter InlayHintKind = 2
 
-	// An inlay hint that is for a parameter.
+// String implements `fmt.Stringer`.
+func (it InlayHintKind) String() string {
+	switch it {
 
-	InlayHintKindParameter InlayHintKind = 2
-)
+	case InlayHintKindType:
+		return "Type"
+
+	case InlayHintKindParameter:
+		return "Parameter"
+
+	}
+	return fmt.Sprintf("InlayHintKind(%#v)", it)
+}
 
 // The message type
 type MessageType Uinteger
 
-const (
-	// An error message.
+// An error message.
+const MessageTypeError MessageType = 1
 
-	MessageTypeError MessageType = 1
+// A warning message.
+const MessageTypeWarning MessageType = 2
 
-	// A warning message.
+// An information message.
+const MessageTypeInfo MessageType = 3
 
-	MessageTypeWarning MessageType = 2
+// A log message.
+const MessageTypeLog MessageType = 4
 
-	// An information message.
+// String implements `fmt.Stringer`.
+func (it MessageType) String() string {
+	switch it {
 
-	MessageTypeInfo MessageType = 3
+	case MessageTypeError:
+		return "Error"
 
-	// A log message.
+	case MessageTypeWarning:
+		return "Warning"
 
-	MessageTypeLog MessageType = 4
-)
+	case MessageTypeInfo:
+		return "Info"
+
+	case MessageTypeLog:
+		return "Log"
+
+	}
+	return fmt.Sprintf("MessageType(%#v)", it)
+}
 
 // Defines how the host (editor) should sync
 // document changes to the language server.
 type TextDocumentSyncKind Uinteger
 
-const (
-	// Documents should not be synced at all.
+// Documents should not be synced at all.
+const TextDocumentSyncKindNone TextDocumentSyncKind = 0
 
-	TextDocumentSyncKindNone TextDocumentSyncKind = 0
+// Documents are synced by always sending the full content
+// of the document.
+const TextDocumentSyncKindFull TextDocumentSyncKind = 1
 
-	// Documents are synced by always sending the full content
-	// of the document.
+// Documents are synced by sending the full content on open.
+// After that only incremental updates to the document are
+// send.
+const TextDocumentSyncKindIncremental TextDocumentSyncKind = 2
 
-	TextDocumentSyncKindFull TextDocumentSyncKind = 1
+// String implements `fmt.Stringer`.
+func (it TextDocumentSyncKind) String() string {
+	switch it {
 
-	// Documents are synced by sending the full content on open.
-	// After that only incremental updates to the document are
-	// send.
+	case TextDocumentSyncKindNone:
+		return "None"
 
-	TextDocumentSyncKindIncremental TextDocumentSyncKind = 2
-)
+	case TextDocumentSyncKindFull:
+		return "Full"
+
+	case TextDocumentSyncKindIncremental:
+		return "Incremental"
+
+	}
+	return fmt.Sprintf("TextDocumentSyncKind(%#v)", it)
+}
 
 // Represents reasons why a text document is saved.
 type TextDocumentSaveReason Uinteger
 
-const (
-	// Manually triggered, e.g. by the user pressing save, by starting debugging,
-	// or by an API call.
+// Manually triggered, e.g. by the user pressing save, by starting debugging,
+// or by an API call.
+const TextDocumentSaveReasonManual TextDocumentSaveReason = 1
 
-	TextDocumentSaveReasonManual TextDocumentSaveReason = 1
+// Automatic after a delay.
+const TextDocumentSaveReasonAfterDelay TextDocumentSaveReason = 2
 
-	// Automatic after a delay.
+// When the editor lost focus.
+const TextDocumentSaveReasonFocusOut TextDocumentSaveReason = 3
 
-	TextDocumentSaveReasonAfterDelay TextDocumentSaveReason = 2
+// String implements `fmt.Stringer`.
+func (it TextDocumentSaveReason) String() string {
+	switch it {
 
-	// When the editor lost focus.
+	case TextDocumentSaveReasonManual:
+		return "Manual"
 
-	TextDocumentSaveReasonFocusOut TextDocumentSaveReason = 3
-)
+	case TextDocumentSaveReasonAfterDelay:
+		return "AfterDelay"
+
+	case TextDocumentSaveReasonFocusOut:
+		return "FocusOut"
+
+	}
+	return fmt.Sprintf("TextDocumentSaveReason(%#v)", it)
+}
 
 // The kind of a completion entry.
 type CompletionItemKind Uinteger
 
-const (
-	//
+const CompletionItemKindText CompletionItemKind = 1
 
-	CompletionItemKindText CompletionItemKind = 1
+const CompletionItemKindMethod CompletionItemKind = 2
 
-	//
+const CompletionItemKindFunction CompletionItemKind = 3
 
-	CompletionItemKindMethod CompletionItemKind = 2
+const CompletionItemKindConstructor CompletionItemKind = 4
 
-	//
+const CompletionItemKindField CompletionItemKind = 5
 
-	CompletionItemKindFunction CompletionItemKind = 3
+const CompletionItemKindVariable CompletionItemKind = 6
 
-	//
+const CompletionItemKindClass CompletionItemKind = 7
 
-	CompletionItemKindConstructor CompletionItemKind = 4
+const CompletionItemKindInterface CompletionItemKind = 8
 
-	//
+const CompletionItemKindModule CompletionItemKind = 9
 
-	CompletionItemKindField CompletionItemKind = 5
+const CompletionItemKindProperty CompletionItemKind = 10
 
-	//
+const CompletionItemKindUnit CompletionItemKind = 11
 
-	CompletionItemKindVariable CompletionItemKind = 6
+const CompletionItemKindValue CompletionItemKind = 12
 
-	//
+const CompletionItemKindEnum CompletionItemKind = 13
 
-	CompletionItemKindClass CompletionItemKind = 7
+const CompletionItemKindKeyword CompletionItemKind = 14
 
-	//
+const CompletionItemKindSnippet CompletionItemKind = 15
 
-	CompletionItemKindInterface CompletionItemKind = 8
+const CompletionItemKindColor CompletionItemKind = 16
 
-	//
+const CompletionItemKindFile CompletionItemKind = 17
 
-	CompletionItemKindModule CompletionItemKind = 9
+const CompletionItemKindReference CompletionItemKind = 18
 
-	//
+const CompletionItemKindFolder CompletionItemKind = 19
 
-	CompletionItemKindProperty CompletionItemKind = 10
+const CompletionItemKindEnumMember CompletionItemKind = 20
 
-	//
+const CompletionItemKindConstant CompletionItemKind = 21
 
-	CompletionItemKindUnit CompletionItemKind = 11
+const CompletionItemKindStruct CompletionItemKind = 22
 
-	//
+const CompletionItemKindEvent CompletionItemKind = 23
 
-	CompletionItemKindValue CompletionItemKind = 12
+const CompletionItemKindOperator CompletionItemKind = 24
 
-	//
+const CompletionItemKindTypeParameter CompletionItemKind = 25
 
-	CompletionItemKindEnum CompletionItemKind = 13
+// String implements `fmt.Stringer`.
+func (it CompletionItemKind) String() string {
+	switch it {
 
-	//
+	case CompletionItemKindText:
+		return "Text"
 
-	CompletionItemKindKeyword CompletionItemKind = 14
+	case CompletionItemKindMethod:
+		return "Method"
 
-	//
+	case CompletionItemKindFunction:
+		return "Function"
 
-	CompletionItemKindSnippet CompletionItemKind = 15
+	case CompletionItemKindConstructor:
+		return "Constructor"
 
-	//
+	case CompletionItemKindField:
+		return "Field"
 
-	CompletionItemKindColor CompletionItemKind = 16
+	case CompletionItemKindVariable:
+		return "Variable"
 
-	//
+	case CompletionItemKindClass:
+		return "Class"
 
-	CompletionItemKindFile CompletionItemKind = 17
+	case CompletionItemKindInterface:
+		return "Interface"
 
-	//
+	case CompletionItemKindModule:
+		return "Module"
 
-	CompletionItemKindReference CompletionItemKind = 18
+	case CompletionItemKindProperty:
+		return "Property"
 
-	//
+	case CompletionItemKindUnit:
+		return "Unit"
 
-	CompletionItemKindFolder CompletionItemKind = 19
+	case CompletionItemKindValue:
+		return "Value"
 
-	//
+	case CompletionItemKindEnum:
+		return "Enum"
 
-	CompletionItemKindEnumMember CompletionItemKind = 20
+	case CompletionItemKindKeyword:
+		return "Keyword"
 
-	//
+	case CompletionItemKindSnippet:
+		return "Snippet"
 
-	CompletionItemKindConstant CompletionItemKind = 21
+	case CompletionItemKindColor:
+		return "Color"
 
-	//
+	case CompletionItemKindFile:
+		return "File"
 
-	CompletionItemKindStruct CompletionItemKind = 22
+	case CompletionItemKindReference:
+		return "Reference"
 
-	//
+	case CompletionItemKindFolder:
+		return "Folder"
 
-	CompletionItemKindEvent CompletionItemKind = 23
+	case CompletionItemKindEnumMember:
+		return "EnumMember"
 
-	//
+	case CompletionItemKindConstant:
+		return "Constant"
 
-	CompletionItemKindOperator CompletionItemKind = 24
+	case CompletionItemKindStruct:
+		return "Struct"
 
-	//
+	case CompletionItemKindEvent:
+		return "Event"
 
-	CompletionItemKindTypeParameter CompletionItemKind = 25
-)
+	case CompletionItemKindOperator:
+		return "Operator"
+
+	case CompletionItemKindTypeParameter:
+		return "TypeParameter"
+
+	}
+	return fmt.Sprintf("CompletionItemKind(%#v)", it)
+}
 
 // Completion item tags are extra annotations that tweak the rendering of a completion
 // item.
@@ -610,32 +858,50 @@ const (
 // @since 3.15.0
 type CompletionItemTag Uinteger
 
-const (
-	// Render a completion as obsolete, usually using a strike-out.
+// Render a completion as obsolete, usually using a strike-out.
+const CompletionItemTagDeprecated CompletionItemTag = 1
 
-	CompletionItemTagDeprecated CompletionItemTag = 1
-)
+// String implements `fmt.Stringer`.
+func (it CompletionItemTag) String() string {
+	switch it {
+
+	case CompletionItemTagDeprecated:
+		return "Deprecated"
+
+	}
+	return fmt.Sprintf("CompletionItemTag(%#v)", it)
+}
 
 // Defines whether the insert text in a completion item should be interpreted as
 // plain text or a snippet.
 type InsertTextFormat Uinteger
 
-const (
-	// The primary text to be inserted is treated as a plain string.
+// The primary text to be inserted is treated as a plain string.
+const InsertTextFormatPlainText InsertTextFormat = 1
 
-	InsertTextFormatPlainText InsertTextFormat = 1
+// The primary text to be inserted is treated as a snippet.
+//
+// A snippet can define tab stops and placeholders with `$1`, `$2`
+// and `${3:foo}`. `$0` defines the final tab stop, it defaults to
+// the end of the snippet. Placeholders with equal identifiers are linked,
+// that is typing in one will update others too.
+//
+// See also: https://microsoft.github.io/language-server-protocol/specifications/specification-current/#snippet_syntax
+const InsertTextFormatSnippet InsertTextFormat = 2
 
-	// The primary text to be inserted is treated as a snippet.
-	//
-	// A snippet can define tab stops and placeholders with `$1`, `$2`
-	// and `${3:foo}`. `$0` defines the final tab stop, it defaults to
-	// the end of the snippet. Placeholders with equal identifiers are linked,
-	// that is typing in one will update others too.
-	//
-	// See also: https://microsoft.github.io/language-server-protocol/specifications/specification-current/#snippet_syntax
+// String implements `fmt.Stringer`.
+func (it InsertTextFormat) String() string {
+	switch it {
 
-	InsertTextFormatSnippet InsertTextFormat = 2
-)
+	case InsertTextFormatPlainText:
+		return "PlainText"
+
+	case InsertTextFormatSnippet:
+		return "Snippet"
+
+	}
+	return fmt.Sprintf("InsertTextFormat(%#v)", it)
+}
 
 // How whitespace and indentation is handled during completion
 // item insertion.
@@ -643,130 +909,188 @@ const (
 // @since 3.16.0
 type InsertTextMode Uinteger
 
-const (
-	// The insertion or replace strings is taken as it is. If the
-	// value is multi line the lines below the cursor will be
-	// inserted using the indentation defined in the string value.
-	// The client will not apply any kind of adjustments to the
-	// string.
+// The insertion or replace strings is taken as it is. If the
+// value is multi line the lines below the cursor will be
+// inserted using the indentation defined in the string value.
+// The client will not apply any kind of adjustments to the
+// string.
+const InsertTextModeAsIs InsertTextMode = 1
 
-	InsertTextModeAsIs InsertTextMode = 1
+// The editor adjusts leading whitespace of new lines so that
+// they match the indentation up to the cursor of the line for
+// which the item is accepted.
+//
+// Consider a line like this: <2tabs><cursor><3tabs>foo. Accepting a
+// multi line completion item is indented using 2 tabs and all
+// following lines inserted will be indented using 2 tabs as well.
+const InsertTextModeAdjustIndentation InsertTextMode = 2
 
-	// The editor adjusts leading whitespace of new lines so that
-	// they match the indentation up to the cursor of the line for
-	// which the item is accepted.
-	//
-	// Consider a line like this: <2tabs><cursor><3tabs>foo. Accepting a
-	// multi line completion item is indented using 2 tabs and all
-	// following lines inserted will be indented using 2 tabs as well.
+// String implements `fmt.Stringer`.
+func (it InsertTextMode) String() string {
+	switch it {
 
-	InsertTextModeAdjustIndentation InsertTextMode = 2
-)
+	case InsertTextModeAsIs:
+		return "AsIs"
+
+	case InsertTextModeAdjustIndentation:
+		return "AdjustIndentation"
+
+	}
+	return fmt.Sprintf("InsertTextMode(%#v)", it)
+}
 
 // A document highlight kind.
 type DocumentHighlightKind Uinteger
 
-const (
-	// A textual occurrence.
+// A textual occurrence.
+const DocumentHighlightKindText DocumentHighlightKind = 1
 
-	DocumentHighlightKindText DocumentHighlightKind = 1
+// Read-access of a symbol, like reading a variable.
+const DocumentHighlightKindRead DocumentHighlightKind = 2
 
-	// Read-access of a symbol, like reading a variable.
+// Write-access of a symbol, like writing to a variable.
+const DocumentHighlightKindWrite DocumentHighlightKind = 3
 
-	DocumentHighlightKindRead DocumentHighlightKind = 2
+// String implements `fmt.Stringer`.
+func (it DocumentHighlightKind) String() string {
+	switch it {
 
-	// Write-access of a symbol, like writing to a variable.
+	case DocumentHighlightKindText:
+		return "Text"
 
-	DocumentHighlightKindWrite DocumentHighlightKind = 3
-)
+	case DocumentHighlightKindRead:
+		return "Read"
+
+	case DocumentHighlightKindWrite:
+		return "Write"
+
+	}
+	return fmt.Sprintf("DocumentHighlightKind(%#v)", it)
+}
 
 // A set of predefined code action kinds
 type CodeActionKind String
 
-const (
-	// Empty kind.
+// Empty kind.
+const CodeActionKindEmpty CodeActionKind = ""
 
-	CodeActionKindEmpty CodeActionKind = ""
+// Base kind for quickfix actions: 'quickfix'
+const CodeActionKindQuickFix CodeActionKind = "quickfix"
 
-	// Base kind for quickfix actions: 'quickfix'
+// Base kind for refactoring actions: 'refactor'
+const CodeActionKindRefactor CodeActionKind = "refactor"
 
-	CodeActionKindQuickFix CodeActionKind = "quickfix"
+// Base kind for refactoring extraction actions: 'refactor.extract'
+//
+// Example extract actions:
+//
+// - Extract method
+// - Extract function
+// - Extract variable
+// - Extract interface from class
+// - ...
+const CodeActionKindRefactorExtract CodeActionKind = "refactor.extract"
 
-	// Base kind for refactoring actions: 'refactor'
+// Base kind for refactoring inline actions: 'refactor.inline'
+//
+// Example inline actions:
+//
+// - Inline function
+// - Inline variable
+// - Inline constant
+// - ...
+const CodeActionKindRefactorInline CodeActionKind = "refactor.inline"
 
-	CodeActionKindRefactor CodeActionKind = "refactor"
+// Base kind for refactoring rewrite actions: 'refactor.rewrite'
+//
+// Example rewrite actions:
+//
+// - Convert JavaScript function to class
+// - Add or remove parameter
+// - Encapsulate field
+// - Make method static
+// - Move method to base class
+// - ...
+const CodeActionKindRefactorRewrite CodeActionKind = "refactor.rewrite"
 
-	// Base kind for refactoring extraction actions: 'refactor.extract'
-	//
-	// Example extract actions:
-	//
-	// - Extract method
-	// - Extract function
-	// - Extract variable
-	// - Extract interface from class
-	// - ...
+// Base kind for source actions: `source`
+//
+// Source code actions apply to the entire file.
+const CodeActionKindSource CodeActionKind = "source"
 
-	CodeActionKindRefactorExtract CodeActionKind = "refactor.extract"
+// Base kind for an organize imports source action: `source.organizeImports`
+const CodeActionKindSourceOrganizeImports CodeActionKind = "source.organizeImports"
 
-	// Base kind for refactoring inline actions: 'refactor.inline'
-	//
-	// Example inline actions:
-	//
-	// - Inline function
-	// - Inline variable
-	// - Inline constant
-	// - ...
+// Base kind for auto-fix source actions: `source.fixAll`.
+//
+// Fix all actions automatically fix errors that have a clear fix that do not require user input.
+// They should not suppress errors or perform unsafe fixes such as generating new types or classes.
+//
+// @since 3.15.0
+const CodeActionKindSourceFixAll CodeActionKind = "source.fixAll"
 
-	CodeActionKindRefactorInline CodeActionKind = "refactor.inline"
+// String implements `fmt.Stringer`.
+func (it CodeActionKind) String() string {
+	switch it {
 
-	// Base kind for refactoring rewrite actions: 'refactor.rewrite'
-	//
-	// Example rewrite actions:
-	//
-	// - Convert JavaScript function to class
-	// - Add or remove parameter
-	// - Encapsulate field
-	// - Make method static
-	// - Move method to base class
-	// - ...
+	case CodeActionKindEmpty:
+		return "Empty"
 
-	CodeActionKindRefactorRewrite CodeActionKind = "refactor.rewrite"
+	case CodeActionKindQuickFix:
+		return "QuickFix"
 
-	// Base kind for source actions: `source`
-	//
-	// Source code actions apply to the entire file.
+	case CodeActionKindRefactor:
+		return "Refactor"
 
-	CodeActionKindSource CodeActionKind = "source"
+	case CodeActionKindRefactorExtract:
+		return "RefactorExtract"
 
-	// Base kind for an organize imports source action: `source.organizeImports`
+	case CodeActionKindRefactorInline:
+		return "RefactorInline"
 
-	CodeActionKindSourceOrganizeImports CodeActionKind = "source.organizeImports"
+	case CodeActionKindRefactorRewrite:
+		return "RefactorRewrite"
 
-	// Base kind for auto-fix source actions: `source.fixAll`.
-	//
-	// Fix all actions automatically fix errors that have a clear fix that do not require user input.
-	// They should not suppress errors or perform unsafe fixes such as generating new types or classes.
-	//
-	// @since 3.15.0
+	case CodeActionKindSource:
+		return "Source"
 
-	CodeActionKindSourceFixAll CodeActionKind = "source.fixAll"
-)
+	case CodeActionKindSourceOrganizeImports:
+		return "SourceOrganizeImports"
+
+	case CodeActionKindSourceFixAll:
+		return "SourceFixAll"
+
+	}
+	return fmt.Sprintf("CodeActionKind(%#v)", it)
+}
 
 type TraceValues String
 
-const (
-	// Turn tracing off.
+// Turn tracing off.
+const TraceValuesOff TraceValues = "off"
 
-	TraceValuesOff TraceValues = "off"
+// Trace messages only.
+const TraceValuesMessages TraceValues = "messages"
 
-	// Trace messages only.
+// Verbose message tracing.
+const TraceValuesVerbose TraceValues = "verbose"
 
-	TraceValuesMessages TraceValues = "messages"
+// String implements `fmt.Stringer`.
+func (it TraceValues) String() string {
+	switch it {
 
-	// Verbose message tracing.
+	case TraceValuesOff:
+		return "Off"
 
-	TraceValuesVerbose TraceValues = "verbose"
-)
+	case TraceValuesMessages:
+		return "Messages"
+
+	case TraceValuesVerbose:
+		return "Verbose"
+
+	}
+	return fmt.Sprintf("TraceValues(%#v)", it)
+}
 
 // Describes the content type that a client supports in various
 // result literals like `Hover`, `ParameterInfo` or `CompletionItem`.
@@ -775,171 +1099,275 @@ const (
 // are reserved for internal usage.
 type MarkupKind String
 
-const (
-	// Plain text is supported as a content format
+// Plain text is supported as a content format
+const MarkupKindPlainText MarkupKind = "plaintext"
 
-	MarkupKindPlainText MarkupKind = "plaintext"
+// Markdown is supported as a content format
+const MarkupKindMarkdown MarkupKind = "markdown"
 
-	// Markdown is supported as a content format
+// String implements `fmt.Stringer`.
+func (it MarkupKind) String() string {
+	switch it {
 
-	MarkupKindMarkdown MarkupKind = "markdown"
-)
+	case MarkupKindPlainText:
+		return "PlainText"
+
+	case MarkupKindMarkdown:
+		return "Markdown"
+
+	}
+	return fmt.Sprintf("MarkupKind(%#v)", it)
+}
 
 // A set of predefined position encoding kinds.
 //
 // @since 3.17.0
 type PositionEncodingKind String
 
-const (
-	// Character offsets count UTF-8 code units.
+// Character offsets count UTF-8 code units.
+const PositionEncodingKindUTF8 PositionEncodingKind = "utf-8"
 
-	PositionEncodingKindUTF8 PositionEncodingKind = "utf-8"
+// Character offsets count UTF-16 code units.
+//
+// This is the default and must always be supported
+// by servers
+const PositionEncodingKindUTF16 PositionEncodingKind = "utf-16"
 
-	// Character offsets count UTF-16 code units.
-	//
-	// This is the default and must always be supported
-	// by servers
+// Character offsets count UTF-32 code units.
+//
+// Implementation note: these are the same as Unicode code points,
+// so this `PositionEncodingKind` may also be used for an
+// encoding-agnostic representation of character offsets.
+const PositionEncodingKindUTF32 PositionEncodingKind = "utf-32"
 
-	PositionEncodingKindUTF16 PositionEncodingKind = "utf-16"
+// String implements `fmt.Stringer`.
+func (it PositionEncodingKind) String() string {
+	switch it {
 
-	// Character offsets count UTF-32 code units.
-	//
-	// Implementation note: these are the same as Unicode code points,
-	// so this `PositionEncodingKind` may also be used for an
-	// encoding-agnostic representation of character offsets.
+	case PositionEncodingKindUTF8:
+		return "UTF8"
 
-	PositionEncodingKindUTF32 PositionEncodingKind = "utf-32"
-)
+	case PositionEncodingKindUTF16:
+		return "UTF16"
+
+	case PositionEncodingKindUTF32:
+		return "UTF32"
+
+	}
+	return fmt.Sprintf("PositionEncodingKind(%#v)", it)
+}
 
 // The file event type
 type FileChangeType Uinteger
 
-const (
-	// The file got created.
+// The file got created.
+const FileChangeTypeCreated FileChangeType = 1
 
-	FileChangeTypeCreated FileChangeType = 1
+// The file got changed.
+const FileChangeTypeChanged FileChangeType = 2
 
-	// The file got changed.
+// The file got deleted.
+const FileChangeTypeDeleted FileChangeType = 3
 
-	FileChangeTypeChanged FileChangeType = 2
+// String implements `fmt.Stringer`.
+func (it FileChangeType) String() string {
+	switch it {
 
-	// The file got deleted.
+	case FileChangeTypeCreated:
+		return "Created"
 
-	FileChangeTypeDeleted FileChangeType = 3
-)
+	case FileChangeTypeChanged:
+		return "Changed"
+
+	case FileChangeTypeDeleted:
+		return "Deleted"
+
+	}
+	return fmt.Sprintf("FileChangeType(%#v)", it)
+}
 
 type WatchKind Uinteger
 
-const (
-	// Interested in create events.
+// Interested in create events.
+const WatchKindCreate WatchKind = 1
 
-	WatchKindCreate WatchKind = 1
+// Interested in change events
+const WatchKindChange WatchKind = 2
 
-	// Interested in change events
+// Interested in delete events
+const WatchKindDelete WatchKind = 4
 
-	WatchKindChange WatchKind = 2
+// String implements `fmt.Stringer`.
+func (it WatchKind) String() string {
+	switch it {
 
-	// Interested in delete events
+	case WatchKindCreate:
+		return "Create"
 
-	WatchKindDelete WatchKind = 4
-)
+	case WatchKindChange:
+		return "Change"
+
+	case WatchKindDelete:
+		return "Delete"
+
+	}
+	return fmt.Sprintf("WatchKind(%#v)", it)
+}
 
 // The diagnostic's severity.
 type DiagnosticSeverity Uinteger
 
-const (
-	// Reports an error.
+// Reports an error.
+const DiagnosticSeverityError DiagnosticSeverity = 1
 
-	DiagnosticSeverityError DiagnosticSeverity = 1
+// Reports a warning.
+const DiagnosticSeverityWarning DiagnosticSeverity = 2
 
-	// Reports a warning.
+// Reports an information.
+const DiagnosticSeverityInformation DiagnosticSeverity = 3
 
-	DiagnosticSeverityWarning DiagnosticSeverity = 2
+// Reports a hint.
+const DiagnosticSeverityHint DiagnosticSeverity = 4
 
-	// Reports an information.
+// String implements `fmt.Stringer`.
+func (it DiagnosticSeverity) String() string {
+	switch it {
 
-	DiagnosticSeverityInformation DiagnosticSeverity = 3
+	case DiagnosticSeverityError:
+		return "Error"
 
-	// Reports a hint.
+	case DiagnosticSeverityWarning:
+		return "Warning"
 
-	DiagnosticSeverityHint DiagnosticSeverity = 4
-)
+	case DiagnosticSeverityInformation:
+		return "Information"
+
+	case DiagnosticSeverityHint:
+		return "Hint"
+
+	}
+	return fmt.Sprintf("DiagnosticSeverity(%#v)", it)
+}
 
 // The diagnostic tags.
 //
 // @since 3.15.0
 type DiagnosticTag Uinteger
 
-const (
-	// Unused or unnecessary code.
-	//
-	// Clients are allowed to render diagnostics with this tag faded out instead of having
-	// an error squiggle.
+// Unused or unnecessary code.
+//
+// Clients are allowed to render diagnostics with this tag faded out instead of having
+// an error squiggle.
+const DiagnosticTagUnnecessary DiagnosticTag = 1
 
-	DiagnosticTagUnnecessary DiagnosticTag = 1
+// Deprecated or obsolete code.
+//
+// Clients are allowed to rendered diagnostics with this tag strike through.
+const DiagnosticTagDeprecated DiagnosticTag = 2
 
-	// Deprecated or obsolete code.
-	//
-	// Clients are allowed to rendered diagnostics with this tag strike through.
+// String implements `fmt.Stringer`.
+func (it DiagnosticTag) String() string {
+	switch it {
 
-	DiagnosticTagDeprecated DiagnosticTag = 2
-)
+	case DiagnosticTagUnnecessary:
+		return "Unnecessary"
+
+	case DiagnosticTagDeprecated:
+		return "Deprecated"
+
+	}
+	return fmt.Sprintf("DiagnosticTag(%#v)", it)
+}
 
 // How a completion was triggered
 type CompletionTriggerKind Uinteger
 
-const (
-	// Completion was triggered by typing an identifier (24x7 code
-	// complete), manual invocation (e.g Ctrl+Space) or via API.
+// Completion was triggered by typing an identifier (24x7 code
+// complete), manual invocation (e.g Ctrl+Space) or via API.
+const CompletionTriggerKindInvoked CompletionTriggerKind = 1
 
-	CompletionTriggerKindInvoked CompletionTriggerKind = 1
+// Completion was triggered by a trigger character specified by
+// the `triggerCharacters` properties of the `CompletionRegistrationOptions`.
+const CompletionTriggerKindTriggerCharacter CompletionTriggerKind = 2
 
-	// Completion was triggered by a trigger character specified by
-	// the `triggerCharacters` properties of the `CompletionRegistrationOptions`.
+// Completion was re-triggered as current completion list is incomplete
+const CompletionTriggerKindTriggerForIncompleteCompletions CompletionTriggerKind = 3
 
-	CompletionTriggerKindTriggerCharacter CompletionTriggerKind = 2
+// String implements `fmt.Stringer`.
+func (it CompletionTriggerKind) String() string {
+	switch it {
 
-	// Completion was re-triggered as current completion list is incomplete
+	case CompletionTriggerKindInvoked:
+		return "Invoked"
 
-	CompletionTriggerKindTriggerForIncompleteCompletions CompletionTriggerKind = 3
-)
+	case CompletionTriggerKindTriggerCharacter:
+		return "TriggerCharacter"
+
+	case CompletionTriggerKindTriggerForIncompleteCompletions:
+		return "TriggerForIncompleteCompletions"
+
+	}
+	return fmt.Sprintf("CompletionTriggerKind(%#v)", it)
+}
 
 // How a signature help was triggered.
 //
 // @since 3.15.0
 type SignatureHelpTriggerKind Uinteger
 
-const (
-	// Signature help was invoked manually by the user or by a command.
+// Signature help was invoked manually by the user or by a command.
+const SignatureHelpTriggerKindInvoked SignatureHelpTriggerKind = 1
 
-	SignatureHelpTriggerKindInvoked SignatureHelpTriggerKind = 1
+// Signature help was triggered by a trigger character.
+const SignatureHelpTriggerKindTriggerCharacter SignatureHelpTriggerKind = 2
 
-	// Signature help was triggered by a trigger character.
+// Signature help was triggered by the cursor moving or by the document content changing.
+const SignatureHelpTriggerKindContentChange SignatureHelpTriggerKind = 3
 
-	SignatureHelpTriggerKindTriggerCharacter SignatureHelpTriggerKind = 2
+// String implements `fmt.Stringer`.
+func (it SignatureHelpTriggerKind) String() string {
+	switch it {
 
-	// Signature help was triggered by the cursor moving or by the document content changing.
+	case SignatureHelpTriggerKindInvoked:
+		return "Invoked"
 
-	SignatureHelpTriggerKindContentChange SignatureHelpTriggerKind = 3
-)
+	case SignatureHelpTriggerKindTriggerCharacter:
+		return "TriggerCharacter"
+
+	case SignatureHelpTriggerKindContentChange:
+		return "ContentChange"
+
+	}
+	return fmt.Sprintf("SignatureHelpTriggerKind(%#v)", it)
+}
 
 // The reason why code actions were requested.
 //
 // @since 3.17.0
 type CodeActionTriggerKind Uinteger
 
-const (
-	// Code actions were explicitly requested by the user or by an extension.
+// Code actions were explicitly requested by the user or by an extension.
+const CodeActionTriggerKindInvoked CodeActionTriggerKind = 1
 
-	CodeActionTriggerKindInvoked CodeActionTriggerKind = 1
+// Code actions were requested automatically.
+//
+// This typically happens when current selection in a file changes, but can
+// also be triggered when file content changes.
+const CodeActionTriggerKindAutomatic CodeActionTriggerKind = 2
 
-	// Code actions were requested automatically.
-	//
-	// This typically happens when current selection in a file changes, but can
-	// also be triggered when file content changes.
+// String implements `fmt.Stringer`.
+func (it CodeActionTriggerKind) String() string {
+	switch it {
 
-	CodeActionTriggerKindAutomatic CodeActionTriggerKind = 2
-)
+	case CodeActionTriggerKindInvoked:
+		return "Invoked"
+
+	case CodeActionTriggerKindAutomatic:
+		return "Automatic"
+
+	}
+	return fmt.Sprintf("CodeActionTriggerKind(%#v)", it)
+}
 
 // A pattern kind describing if a glob pattern matches a file a folder or
 // both.
@@ -947,85 +1375,146 @@ const (
 // @since 3.16.0
 type FileOperationPatternKind String
 
-const (
-	// The pattern matches a file only.
+// The pattern matches a file only.
+const FileOperationPatternKindFile FileOperationPatternKind = "file"
 
-	FileOperationPatternKindFile FileOperationPatternKind = "file"
+// The pattern matches a folder only.
+const FileOperationPatternKindFolder FileOperationPatternKind = "folder"
 
-	// The pattern matches a folder only.
+// String implements `fmt.Stringer`.
+func (it FileOperationPatternKind) String() string {
+	switch it {
 
-	FileOperationPatternKindFolder FileOperationPatternKind = "folder"
-)
+	case FileOperationPatternKindFile:
+		return "File"
+
+	case FileOperationPatternKindFolder:
+		return "Folder"
+
+	}
+	return fmt.Sprintf("FileOperationPatternKind(%#v)", it)
+}
 
 // A notebook cell kind.
 //
 // @since 3.17.0
 type NotebookCellKind Uinteger
 
-const (
-	// A markup-cell is formatted source that is used for display.
+// A markup-cell is formatted source that is used for display.
+const NotebookCellKindMarkup NotebookCellKind = 1
 
-	NotebookCellKindMarkup NotebookCellKind = 1
+// A code-cell is source code.
+const NotebookCellKindCode NotebookCellKind = 2
 
-	// A code-cell is source code.
+// String implements `fmt.Stringer`.
+func (it NotebookCellKind) String() string {
+	switch it {
 
-	NotebookCellKindCode NotebookCellKind = 2
-)
+	case NotebookCellKindMarkup:
+		return "Markup"
+
+	case NotebookCellKindCode:
+		return "Code"
+
+	}
+	return fmt.Sprintf("NotebookCellKind(%#v)", it)
+}
 
 type ResourceOperationKind String
 
-const (
-	// Supports creating new files and folders.
+// Supports creating new files and folders.
+const ResourceOperationKindCreate ResourceOperationKind = "create"
 
-	ResourceOperationKindCreate ResourceOperationKind = "create"
+// Supports renaming existing files and folders.
+const ResourceOperationKindRename ResourceOperationKind = "rename"
 
-	// Supports renaming existing files and folders.
+// Supports deleting existing files and folders.
+const ResourceOperationKindDelete ResourceOperationKind = "delete"
 
-	ResourceOperationKindRename ResourceOperationKind = "rename"
+// String implements `fmt.Stringer`.
+func (it ResourceOperationKind) String() string {
+	switch it {
 
-	// Supports deleting existing files and folders.
+	case ResourceOperationKindCreate:
+		return "Create"
 
-	ResourceOperationKindDelete ResourceOperationKind = "delete"
-)
+	case ResourceOperationKindRename:
+		return "Rename"
+
+	case ResourceOperationKindDelete:
+		return "Delete"
+
+	}
+	return fmt.Sprintf("ResourceOperationKind(%#v)", it)
+}
 
 type FailureHandlingKind String
 
-const (
-	// Applying the workspace change is simply aborted if one of the changes provided
-	// fails. All operations executed before the failing operation stay executed.
+// Applying the workspace change is simply aborted if one of the changes provided
+// fails. All operations executed before the failing operation stay executed.
+const FailureHandlingKindAbort FailureHandlingKind = "abort"
 
-	FailureHandlingKindAbort FailureHandlingKind = "abort"
+// All operations are executed transactional. That means they either all
+// succeed or no changes at all are applied to the workspace.
+const FailureHandlingKindTransactional FailureHandlingKind = "transactional"
 
-	// All operations are executed transactional. That means they either all
-	// succeed or no changes at all are applied to the workspace.
+// If the workspace edit contains only textual file changes they are executed transactional.
+// If resource changes (create, rename or delete file) are part of the change the failure
+// handling strategy is abort.
+const FailureHandlingKindTextOnlyTransactional FailureHandlingKind = "textOnlyTransactional"
 
-	FailureHandlingKindTransactional FailureHandlingKind = "transactional"
+// The client tries to undo the operations already executed. But there is no
+// guarantee that this is succeeding.
+const FailureHandlingKindUndo FailureHandlingKind = "undo"
 
-	// If the workspace edit contains only textual file changes they are executed transactional.
-	// If resource changes (create, rename or delete file) are part of the change the failure
-	// handling strategy is abort.
+// String implements `fmt.Stringer`.
+func (it FailureHandlingKind) String() string {
+	switch it {
 
-	FailureHandlingKindTextOnlyTransactional FailureHandlingKind = "textOnlyTransactional"
+	case FailureHandlingKindAbort:
+		return "Abort"
 
-	// The client tries to undo the operations already executed. But there is no
-	// guarantee that this is succeeding.
+	case FailureHandlingKindTransactional:
+		return "Transactional"
 
-	FailureHandlingKindUndo FailureHandlingKind = "undo"
-)
+	case FailureHandlingKindTextOnlyTransactional:
+		return "TextOnlyTransactional"
+
+	case FailureHandlingKindUndo:
+		return "Undo"
+
+	}
+	return fmt.Sprintf("FailureHandlingKind(%#v)", it)
+}
 
 type PrepareSupportDefaultBehavior Uinteger
 
-const (
-	// The client's default behavior is to select the identifier
-	// according the to language's syntax rule.
+// The client's default behavior is to select the identifier
+// according the to language's syntax rule.
+const PrepareSupportDefaultBehaviorIdentifier PrepareSupportDefaultBehavior = 1
 
-	PrepareSupportDefaultBehaviorIdentifier PrepareSupportDefaultBehavior = 1
-)
+// String implements `fmt.Stringer`.
+func (it PrepareSupportDefaultBehavior) String() string {
+	switch it {
+
+	case PrepareSupportDefaultBehaviorIdentifier:
+		return "Identifier"
+
+	}
+	return fmt.Sprintf("PrepareSupportDefaultBehavior(%#v)", it)
+}
 
 type TokenFormat String
 
-const (
-	//
+const TokenFormatRelative TokenFormat = "relative"
 
-	TokenFormatRelative TokenFormat = "relative"
-)
+// String implements `fmt.Stringer`.
+func (it TokenFormat) String() string {
+	switch it {
+
+	case TokenFormatRelative:
+		return "Relative"
+
+	}
+	return fmt.Sprintf("TokenFormat(%#v)", it)
+}

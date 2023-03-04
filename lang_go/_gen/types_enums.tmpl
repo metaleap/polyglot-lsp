@@ -1,13 +1,29 @@
+import (
+	"fmt"
+)
+
 {{ with $root := . }}
 {{ range .Items }}
 {{ with $enum := . }}
 
-{{ range .DocLines }}{{ $root.Lang.CommentLinePrefix }}{{ . }}{{ "\n" }}{{ end }}type {{ $enum.Name }} {{ $enum.Type }}
+{{ .DocComments $root }}
+type {{ $enum.Name }} {{ $enum.Type }}
 
-const ({{ range .Enumerants }}
-	{{ range .DocLines }}{{ $root.Lang.CommentLinePrefix }}{{ . }}{{ "\n" }}{{ end }}
-	{{ $enum.Name }}{{ .NameCap }} {{ $enum.Name }} = {{ .Value }}
-{{ end }})
+{{ range .Enumerants }}
+{{ .DocComments $root }}
+const {{ $enum.Name }}{{ .NameCap }} {{ $enum.Name }} = {{ .Value }}
+{{ end }}
+
+// String implements `fmt.Stringer`.
+func (it {{ $enum.Name }}) String() string {
+	switch it {
+{{ range .Enumerants }}
+		case {{ $enum.Name }}{{ .NameCap }}:
+			return "{{ .NameCap }}"
+{{ end }}
+	}
+	return fmt.Sprintf("{{ $enum.Name }}(%#v)", it)
+}
 
 {{ end }}
 {{ end }}
