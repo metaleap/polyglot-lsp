@@ -2,7 +2,7 @@
 package lsp
 
 import (
-	"fmt"
+	"strconv"
 )
 
 // A set of predefined token types. This set is not fixed
@@ -135,7 +135,9 @@ func (it SemanticTokenTypes) String() string {
 		return "Decorator"
 
 	}
-	return fmt.Sprintf("SemanticTokenTypes(%#v)", it)
+
+	return "SemanticTokenTypes(" + strconv.Quote(string(it)) + ")"
+
 }
 
 // A set of predefined token modifiers. This set is not fixed
@@ -200,7 +202,9 @@ func (it SemanticTokenModifiers) String() string {
 		return "DefaultLibrary"
 
 	}
-	return fmt.Sprintf("SemanticTokenModifiers(%#v)", it)
+
+	return "SemanticTokenModifiers(" + strconv.Quote(string(it)) + ")"
+
 }
 
 // The document diagnostic report kinds.
@@ -227,7 +231,9 @@ func (it DocumentDiagnosticReportKind) String() string {
 		return "Unchanged"
 
 	}
-	return fmt.Sprintf("DocumentDiagnosticReportKind(%#v)", it)
+
+	return "DocumentDiagnosticReportKind(" + strconv.Quote(string(it)) + ")"
+
 }
 
 // Predefined error codes.
@@ -275,7 +281,9 @@ func (it ErrorCodes) String() string {
 		return "UnknownErrorCode"
 
 	}
-	return fmt.Sprintf("ErrorCodes(%#v)", it)
+
+	return "ErrorCodes(" + strconv.Itoa(int(it)) + ")"
+
 }
 
 type LSPErrorCodes Integer
@@ -326,7 +334,9 @@ func (it LSPErrorCodes) String() string {
 		return "RequestCancelled"
 
 	}
-	return fmt.Sprintf("LSPErrorCodes(%#v)", it)
+
+	return "LSPErrorCodes(" + strconv.Itoa(int(it)) + ")"
+
 }
 
 // A set of predefined range kinds.
@@ -355,7 +365,9 @@ func (it FoldingRangeKind) String() string {
 		return "Region"
 
 	}
-	return fmt.Sprintf("FoldingRangeKind(%#v)", it)
+
+	return "FoldingRangeKind(" + strconv.Quote(string(it)) + ")"
+
 }
 
 // A symbol kind.
@@ -496,7 +508,9 @@ func (it SymbolKind) String() string {
 		return "TypeParameter"
 
 	}
-	return fmt.Sprintf("SymbolKind(%#v)", it)
+
+	return "SymbolKind(" + strconv.Itoa(int(it)) + ")"
+
 }
 
 // Symbol tags are extra annotations that tweak the rendering of a symbol.
@@ -515,7 +529,9 @@ func (it SymbolTag) String() string {
 		return "Deprecated"
 
 	}
-	return fmt.Sprintf("SymbolTag(%#v)", it)
+
+	return "SymbolTag(" + strconv.Itoa(int(it)) + ")"
+
 }
 
 // Moniker uniqueness level to define scope of the moniker.
@@ -558,7 +574,9 @@ func (it UniquenessLevel) String() string {
 		return "Global"
 
 	}
-	return fmt.Sprintf("UniquenessLevel(%#v)", it)
+
+	return "UniquenessLevel(" + strconv.Quote(string(it)) + ")"
+
 }
 
 // The moniker kind.
@@ -590,7 +608,9 @@ func (it MonikerKind) String() string {
 		return "Local"
 
 	}
-	return fmt.Sprintf("MonikerKind(%#v)", it)
+
+	return "MonikerKind(" + strconv.Quote(string(it)) + ")"
+
 }
 
 // Inlay hint kinds.
@@ -615,7 +635,9 @@ func (it InlayHintKind) String() string {
 		return "Parameter"
 
 	}
-	return fmt.Sprintf("InlayHintKind(%#v)", it)
+
+	return "InlayHintKind(" + strconv.Itoa(int(it)) + ")"
+
 }
 
 // The message type
@@ -650,7 +672,9 @@ func (it MessageType) String() string {
 		return "Log"
 
 	}
-	return fmt.Sprintf("MessageType(%#v)", it)
+
+	return "MessageType(" + strconv.Itoa(int(it)) + ")"
+
 }
 
 // Defines how the host (editor) should sync
@@ -683,7 +707,9 @@ func (it TextDocumentSyncKind) String() string {
 		return "Incremental"
 
 	}
-	return fmt.Sprintf("TextDocumentSyncKind(%#v)", it)
+
+	return "TextDocumentSyncKind(" + strconv.Itoa(int(it)) + ")"
+
 }
 
 // Represents reasons why a text document is saved.
@@ -713,7 +739,9 @@ func (it TextDocumentSaveReason) String() string {
 		return "FocusOut"
 
 	}
-	return fmt.Sprintf("TextDocumentSaveReason(%#v)", it)
+
+	return "TextDocumentSaveReason(" + strconv.Itoa(int(it)) + ")"
+
 }
 
 // The kind of a completion entry.
@@ -849,7 +877,9 @@ func (it CompletionItemKind) String() string {
 		return "TypeParameter"
 
 	}
-	return fmt.Sprintf("CompletionItemKind(%#v)", it)
+
+	return "CompletionItemKind(" + strconv.Itoa(int(it)) + ")"
+
 }
 
 // Completion item tags are extra annotations that tweak the rendering of a completion
@@ -869,7 +899,9 @@ func (it CompletionItemTag) String() string {
 		return "Deprecated"
 
 	}
-	return fmt.Sprintf("CompletionItemTag(%#v)", it)
+
+	return "CompletionItemTag(" + strconv.Itoa(int(it)) + ")"
+
 }
 
 // Defines whether the insert text in a completion item should be interpreted as
@@ -900,7 +932,9 @@ func (it InsertTextFormat) String() string {
 		return "Snippet"
 
 	}
-	return fmt.Sprintf("InsertTextFormat(%#v)", it)
+
+	return "InsertTextFormat(" + strconv.Itoa(int(it)) + ")"
+
 }
 
 // How whitespace and indentation is handled during completion
@@ -936,7 +970,9 @@ func (it InsertTextMode) String() string {
 		return "AdjustIndentation"
 
 	}
-	return fmt.Sprintf("InsertTextMode(%#v)", it)
+
+	return "InsertTextMode(" + strconv.Itoa(int(it)) + ")"
+
 }
 
 // A document highlight kind.
@@ -965,7 +1001,9 @@ func (it DocumentHighlightKind) String() string {
 		return "Write"
 
 	}
-	return fmt.Sprintf("DocumentHighlightKind(%#v)", it)
+
+	return "DocumentHighlightKind(" + strconv.Itoa(int(it)) + ")"
+
 }
 
 // A set of predefined code action kinds
@@ -1061,7 +1099,9 @@ func (it CodeActionKind) String() string {
 		return "SourceFixAll"
 
 	}
-	return fmt.Sprintf("CodeActionKind(%#v)", it)
+
+	return "CodeActionKind(" + strconv.Quote(string(it)) + ")"
+
 }
 
 type TraceValues String
@@ -1089,7 +1129,9 @@ func (it TraceValues) String() string {
 		return "Verbose"
 
 	}
-	return fmt.Sprintf("TraceValues(%#v)", it)
+
+	return "TraceValues(" + strconv.Quote(string(it)) + ")"
+
 }
 
 // Describes the content type that a client supports in various
@@ -1116,7 +1158,9 @@ func (it MarkupKind) String() string {
 		return "Markdown"
 
 	}
-	return fmt.Sprintf("MarkupKind(%#v)", it)
+
+	return "MarkupKind(" + strconv.Quote(string(it)) + ")"
+
 }
 
 // A set of predefined position encoding kinds.
@@ -1154,7 +1198,9 @@ func (it PositionEncodingKind) String() string {
 		return "UTF32"
 
 	}
-	return fmt.Sprintf("PositionEncodingKind(%#v)", it)
+
+	return "PositionEncodingKind(" + strconv.Quote(string(it)) + ")"
+
 }
 
 // The file event type
@@ -1183,7 +1229,9 @@ func (it FileChangeType) String() string {
 		return "Deleted"
 
 	}
-	return fmt.Sprintf("FileChangeType(%#v)", it)
+
+	return "FileChangeType(" + strconv.Itoa(int(it)) + ")"
+
 }
 
 type WatchKind Uinteger
@@ -1211,7 +1259,9 @@ func (it WatchKind) String() string {
 		return "Delete"
 
 	}
-	return fmt.Sprintf("WatchKind(%#v)", it)
+
+	return "WatchKind(" + strconv.Itoa(int(it)) + ")"
+
 }
 
 // The diagnostic's severity.
@@ -1246,7 +1296,9 @@ func (it DiagnosticSeverity) String() string {
 		return "Hint"
 
 	}
-	return fmt.Sprintf("DiagnosticSeverity(%#v)", it)
+
+	return "DiagnosticSeverity(" + strconv.Itoa(int(it)) + ")"
+
 }
 
 // The diagnostic tags.
@@ -1276,7 +1328,9 @@ func (it DiagnosticTag) String() string {
 		return "Deprecated"
 
 	}
-	return fmt.Sprintf("DiagnosticTag(%#v)", it)
+
+	return "DiagnosticTag(" + strconv.Itoa(int(it)) + ")"
+
 }
 
 // How a completion was triggered
@@ -1307,7 +1361,9 @@ func (it CompletionTriggerKind) String() string {
 		return "TriggerForIncompleteCompletions"
 
 	}
-	return fmt.Sprintf("CompletionTriggerKind(%#v)", it)
+
+	return "CompletionTriggerKind(" + strconv.Itoa(int(it)) + ")"
+
 }
 
 // How a signature help was triggered.
@@ -1338,7 +1394,9 @@ func (it SignatureHelpTriggerKind) String() string {
 		return "ContentChange"
 
 	}
-	return fmt.Sprintf("SignatureHelpTriggerKind(%#v)", it)
+
+	return "SignatureHelpTriggerKind(" + strconv.Itoa(int(it)) + ")"
+
 }
 
 // The reason why code actions were requested.
@@ -1366,7 +1424,9 @@ func (it CodeActionTriggerKind) String() string {
 		return "Automatic"
 
 	}
-	return fmt.Sprintf("CodeActionTriggerKind(%#v)", it)
+
+	return "CodeActionTriggerKind(" + strconv.Itoa(int(it)) + ")"
+
 }
 
 // A pattern kind describing if a glob pattern matches a file a folder or
@@ -1392,7 +1452,9 @@ func (it FileOperationPatternKind) String() string {
 		return "Folder"
 
 	}
-	return fmt.Sprintf("FileOperationPatternKind(%#v)", it)
+
+	return "FileOperationPatternKind(" + strconv.Quote(string(it)) + ")"
+
 }
 
 // A notebook cell kind.
@@ -1417,7 +1479,9 @@ func (it NotebookCellKind) String() string {
 		return "Code"
 
 	}
-	return fmt.Sprintf("NotebookCellKind(%#v)", it)
+
+	return "NotebookCellKind(" + strconv.Itoa(int(it)) + ")"
+
 }
 
 type ResourceOperationKind String
@@ -1445,7 +1509,9 @@ func (it ResourceOperationKind) String() string {
 		return "Delete"
 
 	}
-	return fmt.Sprintf("ResourceOperationKind(%#v)", it)
+
+	return "ResourceOperationKind(" + strconv.Quote(string(it)) + ")"
+
 }
 
 type FailureHandlingKind String
@@ -1484,7 +1550,9 @@ func (it FailureHandlingKind) String() string {
 		return "Undo"
 
 	}
-	return fmt.Sprintf("FailureHandlingKind(%#v)", it)
+
+	return "FailureHandlingKind(" + strconv.Quote(string(it)) + ")"
+
 }
 
 type PrepareSupportDefaultBehavior Uinteger
@@ -1501,7 +1569,9 @@ func (it PrepareSupportDefaultBehavior) String() string {
 		return "Identifier"
 
 	}
-	return fmt.Sprintf("PrepareSupportDefaultBehavior(%#v)", it)
+
+	return "PrepareSupportDefaultBehavior(" + strconv.Itoa(int(it)) + ")"
+
 }
 
 type TokenFormat String
@@ -1516,5 +1586,7 @@ func (it TokenFormat) String() string {
 		return "Relative"
 
 	}
-	return fmt.Sprintf("TokenFormat(%#v)", it)
+
+	return "TokenFormat(" + strconv.Quote(string(it)) + ")"
+
 }

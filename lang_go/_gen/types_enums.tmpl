@@ -1,5 +1,5 @@
 import (
-	"fmt"
+	"strconv"
 )
 
 {{ with $root := . }}
@@ -22,7 +22,11 @@ func (it {{ $enum.Name }}) String() string {
 			return "{{ .NameCap }}"
 {{ end }}
 	}
-	return fmt.Sprintf("{{ $enum.Name }}(%#v)", it)
+{{ if eq $enum.Type "string" }}
+	return "{{ $enum.Name }}(" + strconv.Quote(string(it)) + ")"
+{{ else }}
+	return "{{ $enum.Name }}(" + strconv.Itoa(int(it)) + ")"
+{{ end }}
 }
 
 {{ end }}
