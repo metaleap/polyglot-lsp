@@ -6,51 +6,51 @@ package lsp
 type SemanticTokenTypes ?
 
 const (
-	SemanticTokenTypesnamespace SemanticTokenTypes = "namespace"
+	SemanticTokenTypesNamespace SemanticTokenTypes = "namespace"
 
-	SemanticTokenTypestype SemanticTokenTypes = "type"
+	SemanticTokenTypesType SemanticTokenTypes = "type"
 
-	SemanticTokenTypesclass SemanticTokenTypes = "class"
+	SemanticTokenTypesClass SemanticTokenTypes = "class"
 
-	SemanticTokenTypesenum SemanticTokenTypes = "enum"
+	SemanticTokenTypesEnum SemanticTokenTypes = "enum"
 
-	SemanticTokenTypesinterface SemanticTokenTypes = "interface"
+	SemanticTokenTypesInterface SemanticTokenTypes = "interface"
 
-	SemanticTokenTypesstruct SemanticTokenTypes = "struct"
+	SemanticTokenTypesStruct SemanticTokenTypes = "struct"
 
-	SemanticTokenTypestypeParameter SemanticTokenTypes = "typeParameter"
+	SemanticTokenTypesTypeParameter SemanticTokenTypes = "typeParameter"
 
-	SemanticTokenTypesparameter SemanticTokenTypes = "parameter"
+	SemanticTokenTypesParameter SemanticTokenTypes = "parameter"
 
-	SemanticTokenTypesvariable SemanticTokenTypes = "variable"
+	SemanticTokenTypesVariable SemanticTokenTypes = "variable"
 
-	SemanticTokenTypesproperty SemanticTokenTypes = "property"
+	SemanticTokenTypesProperty SemanticTokenTypes = "property"
 
-	SemanticTokenTypesenumMember SemanticTokenTypes = "enumMember"
+	SemanticTokenTypesEnumMember SemanticTokenTypes = "enumMember"
 
-	SemanticTokenTypesevent SemanticTokenTypes = "event"
+	SemanticTokenTypesEvent SemanticTokenTypes = "event"
 
-	SemanticTokenTypesfunction SemanticTokenTypes = "function"
+	SemanticTokenTypesFunction SemanticTokenTypes = "function"
 
-	SemanticTokenTypesmethod SemanticTokenTypes = "method"
+	SemanticTokenTypesMethod SemanticTokenTypes = "method"
 
-	SemanticTokenTypesmacro SemanticTokenTypes = "macro"
+	SemanticTokenTypesMacro SemanticTokenTypes = "macro"
 
-	SemanticTokenTypeskeyword SemanticTokenTypes = "keyword"
+	SemanticTokenTypesKeyword SemanticTokenTypes = "keyword"
 
-	SemanticTokenTypesmodifier SemanticTokenTypes = "modifier"
+	SemanticTokenTypesModifier SemanticTokenTypes = "modifier"
 
-	SemanticTokenTypescomment SemanticTokenTypes = "comment"
+	SemanticTokenTypesComment SemanticTokenTypes = "comment"
 
-	SemanticTokenTypesstring SemanticTokenTypes = "string"
+	SemanticTokenTypesString SemanticTokenTypes = "string"
 
-	SemanticTokenTypesnumber SemanticTokenTypes = "number"
+	SemanticTokenTypesNumber SemanticTokenTypes = "number"
 
-	SemanticTokenTypesregexp SemanticTokenTypes = "regexp"
+	SemanticTokenTypesRegexp SemanticTokenTypes = "regexp"
 
-	SemanticTokenTypesoperator SemanticTokenTypes = "operator"
+	SemanticTokenTypesOperator SemanticTokenTypes = "operator"
 
-	SemanticTokenTypesdecorator SemanticTokenTypes = "decorator"
+	SemanticTokenTypesDecorator SemanticTokenTypes = "decorator"
 )
 
 
@@ -60,25 +60,25 @@ const (
 type SemanticTokenModifiers ?
 
 const (
-	SemanticTokenModifiersdeclaration SemanticTokenModifiers = "declaration"
+	SemanticTokenModifiersDeclaration SemanticTokenModifiers = "declaration"
 
-	SemanticTokenModifiersdefinition SemanticTokenModifiers = "definition"
+	SemanticTokenModifiersDefinition SemanticTokenModifiers = "definition"
 
-	SemanticTokenModifiersreadonly SemanticTokenModifiers = "readonly"
+	SemanticTokenModifiersReadonly SemanticTokenModifiers = "readonly"
 
-	SemanticTokenModifiersstatic SemanticTokenModifiers = "static"
+	SemanticTokenModifiersStatic SemanticTokenModifiers = "static"
 
-	SemanticTokenModifiersdeprecated SemanticTokenModifiers = "deprecated"
+	SemanticTokenModifiersDeprecated SemanticTokenModifiers = "deprecated"
 
-	SemanticTokenModifiersabstract SemanticTokenModifiers = "abstract"
+	SemanticTokenModifiersAbstract SemanticTokenModifiers = "abstract"
 
-	SemanticTokenModifiersasync SemanticTokenModifiers = "async"
+	SemanticTokenModifiersAsync SemanticTokenModifiers = "async"
 
-	SemanticTokenModifiersmodification SemanticTokenModifiers = "modification"
+	SemanticTokenModifiersModification SemanticTokenModifiers = "modification"
 
-	SemanticTokenModifiersdocumentation SemanticTokenModifiers = "documentation"
+	SemanticTokenModifiersDocumentation SemanticTokenModifiers = "documentation"
 
-	SemanticTokenModifiersdefaultLibrary SemanticTokenModifiers = "defaultLibrary"
+	SemanticTokenModifiersDefaultLibrary SemanticTokenModifiers = "defaultLibrary"
 )
 
 
@@ -222,15 +222,15 @@ const (
 type UniquenessLevel ?
 
 const (
-	UniquenessLeveldocument UniquenessLevel = "document"
+	UniquenessLevelDocument UniquenessLevel = "document"
 
-	UniquenessLevelproject UniquenessLevel = "project"
+	UniquenessLevelProject UniquenessLevel = "project"
 
-	UniquenessLevelgroup UniquenessLevel = "group"
+	UniquenessLevelGroup UniquenessLevel = "group"
 
-	UniquenessLevelscheme UniquenessLevel = "scheme"
+	UniquenessLevelScheme UniquenessLevel = "scheme"
 
-	UniquenessLevelglobal UniquenessLevel = "global"
+	UniquenessLevelGlobal UniquenessLevel = "global"
 )
 
 
@@ -240,11 +240,11 @@ const (
 type MonikerKind ?
 
 const (
-	MonikerKindimport MonikerKind = "import"
+	MonikerKindImport MonikerKind = "import"
 
-	MonikerKindexport MonikerKind = "export"
+	MonikerKindExport MonikerKind = "export"
 
-	MonikerKindlocal MonikerKind = "local"
+	MonikerKindLocal MonikerKind = "local"
 )
 
 
@@ -390,9 +390,9 @@ const (
 type InsertTextMode ?
 
 const (
-	InsertTextModeasIs InsertTextMode = 1
+	InsertTextModeAsIs InsertTextMode = 1
 
-	InsertTextModeadjustIndentation InsertTextMode = 2
+	InsertTextModeAdjustIndentation InsertTextMode = 2
 )
 
 
@@ -578,9 +578,9 @@ const (
 type FileOperationPatternKind ?
 
 const (
-	FileOperationPatternKindfile FileOperationPatternKind = "file"
+	FileOperationPatternKindFile FileOperationPatternKind = "file"
 
-	FileOperationPatternKindfolder FileOperationPatternKind = "folder"
+	FileOperationPatternKindFolder FileOperationPatternKind = "folder"
 )
 
 

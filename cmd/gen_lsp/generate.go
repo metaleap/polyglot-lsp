@@ -2,6 +2,7 @@ package main
 
 import (
 	glot "polyglot-vsx-and-lsp/pkg"
+	"strings"
 )
 
 func generate(metaModel *MetaModel, version string, lang string) {
@@ -17,7 +18,7 @@ func (it *MetaModel) PerEnum(do func(*glot.GenEnumeration)) {
 			BaseType: enum.Type.String(),
 			Enumerants: glot.Map(enum.Values, func(e MMEnumerant) glot.GenEnumerant {
 				return glot.GenEnumerant{
-					Name:  e.Name,
+					Name:  strings.ToUpper(e.Name[:1]) + e.Name[1:],
 					Value: e.Value.String(),
 				}
 			}),
