@@ -7,7 +7,7 @@
 public static class {{ $enum.Name }} {
     {{- range .Enumerants }}
     {{ .DocComments $this -}}
-    public static readonly string {{ .NameCap }} = {{ .Value }};
+    public static readonly string {{ .NameUp }} = {{ .Value }};
     {{- end -}}
 }
 {{ else }}
@@ -15,7 +15,7 @@ public static class {{ $enum.Name }} {
 public enum {{ $enum.Name }} {
     {{- range .Enumerants }}
     {{ .DocComments $this -}}
-    {{ .NameCap }} = {{ .Value }},
+    {{ .NameUp }} = {{ .Value }},
     {{ end -}}
 }
 {{ end }}

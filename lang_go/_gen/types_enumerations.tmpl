@@ -7,15 +7,15 @@ type {{ $enum.Name }} {{ $enum.Type }}
 
 {{ range .Enumerants }}
 {{ .DocComments $this }}
-const {{ $enum.Name }}{{ .NameCap }} {{ $enum.Name }} = {{ .Value }}
+const {{ $enum.Name }}{{ .NameUp }} {{ $enum.Name }} = {{ .Value }}
 {{ end }}
 
-// String returns ""{{range .Enumerants}} or "{{.NameCap}}"{{end}}, depending on the value of `it`.
+// String returns ""{{range .Enumerants}} or "{{.NameUp}}"{{end}}, depending on the value of `it`.
 func (it {{ $enum.Name }}) String() string {
 	switch it {
 {{- range .Enumerants }}
-		case {{ $enum.Name }}{{ .NameCap }}:
-			return "{{ .NameCap }}"
+		case {{ $enum.Name }}{{ .NameUp }}:
+			return "{{ .NameUp }}"
 {{- end }}
 	}
 	return ""

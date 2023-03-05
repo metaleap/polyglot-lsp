@@ -64,11 +64,11 @@ func (it *MetaModel) PerStructure(gen *glot.Gen, do func(*glot.GenStructure)) {
 func (it *MMType) toGenType() glot.GenType {
 	switch it.Kind {
 	case MMTypeKindBase:
-		return glot.GenTypeBase(it.Name)
+		return glot.GenTypeBaseType(it.Name)
 	case MMTypeKindReference:
 		return glot.GenTypeReference(it.Name)
 	case MMTypeKindArray:
-		return glot.GenTypeArr{it.Element.toGenType()}
+		return glot.GenTypeArray{it.Element.toGenType()}
 	case MMTypeKindMap:
 		return glot.GenTypeMap{KeyType: it.Key.toGenType(), ValueType: it.Value.t.toGenType()}
 	case MMTypeKindAnd:
@@ -76,7 +76,7 @@ func (it *MMType) toGenType() glot.GenType {
 	case MMTypeKindOr:
 		return glot.GenTypeOr(glot.Map(it.Items, func(t MMType) glot.GenType { return t.toGenType() }))
 	case MMTypeKindTuple:
-		return glot.GenTypeTup(glot.Map(it.Items, func(t MMType) glot.GenType { return t.toGenType() }))
+		return glot.GenTypeTuple(glot.Map(it.Items, func(t MMType) glot.GenType { return t.toGenType() }))
 	case MMTypeKindStringLiteral:
 		return glot.GenTypeLitString(it.Value.s)
 	case MMTypeKindIntegerLiteral:
@@ -84,8 +84,8 @@ func (it *MMType) toGenType() glot.GenType {
 	case MMTypeKindBooleanLiteral:
 		return glot.GenTypeLitBool(it.Value.b)
 	case MMTypeKindLiteral:
-		return glot.GenTypeLitStruct(glot.Map(it.Value.l.Properties, func(p MMProperty) glot.GenTypeLitStructProperty {
-			return glot.GenTypeLitStructProperty{Name: p.Name, Optional: p.Optional, Type: p.Type.toGenType()}
+		return glot.GenTypeLitStructure(glot.Map(it.Value.l.Properties, func(p MMProperty) glot.GenTypeLitStructureProperty {
+			return glot.GenTypeLitStructureProperty{Name: p.Name, Optional: p.Optional, Type: p.Type.toGenType()}
 		}))
 	}
 	panic(it.Kind)
