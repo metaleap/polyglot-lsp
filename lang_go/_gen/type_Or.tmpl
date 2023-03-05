@@ -1,5 +1,11 @@
-struct {
-{{- range .Type }}
+{{- with $it := . -}}
+{{- with $member_types := $it.Type.NonNull -}}
 
+struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+{{- range $member_types }}
+    {{.NameSuggestion true}} {{ $it.Dot.DoTypeOptional . true }}
 {{- end }}
 }
+
+{{- end -}}
+{{- end -}}

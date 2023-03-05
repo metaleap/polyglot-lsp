@@ -1,0 +1,11 @@
+{{- with $it := . -}}
+{{- with $member_types := $it.Type -}}
+
+struct {
+{{- range $member_types }}
+    {{.NameSuggestion true}} {{ $it.Dot.DoType . }}
+{{- end }}
+}
+
+{{- end -}}
+{{- end -}}

@@ -10,6 +10,8 @@ type Tup[T1 any, T2 any] struct {
 	F2 T2
 }
 
+func self[T any](it T) T { return it }
+
 func If[T any](b bool, ifTrue T, ifFalse T) T {
 	if b {
 		return ifTrue

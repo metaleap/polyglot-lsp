@@ -20,7 +20,7 @@
 {{- else if eq $tyStr "boolean"  -}}
     *Boolean
 {{- else -}}
-    *{{- $it.Dot.DoType $it.Type -}}/*{{- $it.Type -}}*/
+    *{{- $it.Dot.DoType $it.Type -}}/*OPT:{{- $it.Type -}}*/
 {{- end -}}
 
 {{- end -}}

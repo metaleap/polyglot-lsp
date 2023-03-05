@@ -21,7 +21,7 @@ type Gen struct {
 		decls struct {
 			enumerations map[string]*GenEnumeration
 			structures   map[string]*GenStructure
-			typeAliass   map[string]*GenTypeAlias
+			typeAliases  map[string]*GenTypeAlias
 		}
 		filesGenerated struct {
 			code  []string
@@ -65,7 +65,7 @@ type GenDots interface {
 
 func (it *Gen) Generate(dots GenDots) {
 	it.Dot.gen = it
-	it.tracked.types, it.tracked.decls.enumerations, it.tracked.decls.structures, it.tracked.decls.typeAliass = map[string]GenType{}, map[string]*GenEnumeration{}, map[string]*GenStructure{}, map[string]*GenTypeAlias{}
+	it.tracked.types, it.tracked.decls.enumerations, it.tracked.decls.structures, it.tracked.decls.typeAliases = map[string]GenType{}, map[string]*GenEnumeration{}, map[string]*GenStructure{}, map[string]*GenTypeAlias{}
 	it.dirPathLang = "../lang_" + it.LangIdent
 	it.dirPathSrc = it.dirPathLang + "/_gen"
 	it.dirPathDst = it.dirPathLang + "/" + it.Dot.GenIdent + "_v" + it.Dot.GenVer
@@ -112,8 +112,8 @@ func (it *Gen) genDots(buf *bytes.Buffer, dots_by_file_name []Tup[string, func()
 				it.tracked.decls.structures[decl.Name] = decl
 				it.tracked.decls.structures[decl.NameUp] = decl
 			case *GenTypeAlias:
-				it.tracked.decls.typeAliass[decl.Name] = decl
-				it.tracked.decls.typeAliass[decl.NameUp] = decl
+				it.tracked.decls.typeAliases[decl.Name] = decl
+				it.tracked.decls.typeAliases[decl.NameUp] = decl
 			}
 		}
 		it.tmplExec(buf, tmpl, nil)

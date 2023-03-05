@@ -66,31 +66,41 @@ func (it *GenDot) doType(t GenType, optional *bool) string {
 	}
 }
 
+func (it *GenDot) Up0(s string) string { return Up0(s) }
+
 func (it *GenDot) IsEnumTypeName(name string) bool {
-	return it.gen.tracked.decls.enumerations[name] != nil || it.gen.tracked.decls.enumerations[Up0(name)] != nil
+	return it.gen.tracked.decls.enumerations[name] != nil
 }
 
 func (it *GenDot) IsAliasTypeName(name string) bool {
-	return it.gen.tracked.decls.typeAliass[name] != nil || it.gen.tracked.decls.typeAliass[Up0(name)] != nil
+	return it.gen.tracked.decls.typeAliases[name] != nil
 }
 
 func (it *GenDot) IsStructTypeName(name string) bool {
-	return it.gen.tracked.decls.structures[name] != nil || it.gen.tracked.decls.structures[Up0(name)] != nil
+	return it.gen.tracked.decls.structures[name] != nil
 }
 
-func (it *GenDot) IsTypeKindArray(t GenType) (is bool) {
-	_, is = t.(GenTypeArray)
+func isTypeKind[T GenType](it *Gen, t GenType) (is bool) {
+	if _, is = t.(T); !is {
+		if tref, isref := t.(GenTypeReference); isref {
+			if alias := it.tracked.decls.typeAliases[string(tref)]; alias != nil {
+				return isTypeKind[T](it, alias.Type)
+			}
+		}
+	}
 	return
 }
 
-func (it *GenDot) IsTypeKindOr(t GenType) (is bool) {
-	_, is = t.(GenTypeOr)
-	return
+func (it *GenDot) IsTypeKindArray(t GenType) bool {
+	return isTypeKind[GenTypeArray](it.gen, t)
 }
 
-func (it *GenDot) IsTypeKindMap(t GenType) (is bool) {
-	_, is = t.(GenTypeMap)
-	return
+func (it *GenDot) IsTypeKindOr(t GenType) bool {
+	return isTypeKind[GenTypeOr](it.gen, t)
+}
+
+func (it *GenDot) IsTypeKindMap(t GenType) bool {
+	return isTypeKind[GenTypeMap](it.gen, t)
 }
 
 func (it *Gen) tmpl(tmplName string, defaultFallback string) (ret *template.Template) {
