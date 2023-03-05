@@ -8,10 +8,16 @@ import (
 func (it *Gen) tmpl(tmplName string, defaultFallback string) (ret *template.Template) {
 	file_path := it.dirPathSrc + "/" + tmplName + ".tmpl"
 	if ret = tmpls[file_path]; ret == nil {
-		if defaultFallback != "" && !FileExists(file_path) {
+		file_exists := FileExists(file_path)
+		if defaultFallback == "" && !file_exists {
+			defaultFallback = it.Dot.Lang.Tmpls[tmplName]
+		}
+		if defaultFallback != "" && !file_exists {
 			ret = template.Must(template.New(tmplName).Parse(defaultFallback))
-		} else {
+		} else if file_exists {
 			ret = template.Must(template.ParseFiles(file_path))
+		} else {
+			panic("template '" + tmplName + "' missing: add file '" + it.dirPathSrc + "/" + tmplName + ".tmpl' or add entry Tmpls/" + tmplName + " to " + it.filePathLang)
 		}
 		tmpls[file_path] = ret
 	}

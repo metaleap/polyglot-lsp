@@ -20,9 +20,9 @@ type GenStructure struct {
 	GenBase
 	Extends    []GenType
 	Mixins     []GenType
-	Properties []GenProperty
+	Properties []GenStructureProperty
 }
-type GenProperty struct {
+type GenStructureProperty struct {
 	GenBase
 	Type     GenType
 	Optional bool
@@ -80,7 +80,7 @@ func genTypeString(it GenType) string {
 
 type GenTypeBaseType string
 
-func (it GenTypeBaseType) String() string { return Up0(string(it)) }
+func (it GenTypeBaseType) String() string { return string(it) }
 func (it GenTypeBaseType) kind() string   { return "Base" }
 func (it GenTypeBaseType) key() string    { return "b#" + string(it) }
 
@@ -116,7 +116,7 @@ type GenTypeArray struct {
 }
 
 func (it GenTypeArray) String() string { return genTypeString(it) }
-func (it GenTypeArray) kind() string   { return "Arr" }
+func (it GenTypeArray) kind() string   { return "Array" }
 func (it GenTypeArray) key() string    { return "[" + it.ElemType.key() + "]" }
 
 type GenTypeAnd []GenType
@@ -138,7 +138,7 @@ func (it GenTypeOr) key() string {
 type GenTypeTuple []GenType
 
 func (it GenTypeTuple) String() string { return genTypeString(it) }
-func (it GenTypeTuple) kind() string   { return "Tup" }
+func (it GenTypeTuple) kind() string   { return "Tuple" }
 func (it GenTypeTuple) key() string {
 	return "{" + strings.Join(Map(it, func(gt GenType) string { return gt.key() }), ",") + "}"
 }
@@ -146,53 +146,54 @@ func (it GenTypeTuple) key() string {
 type GenTypeLitBool bool
 
 func (it GenTypeLitBool) String() string { return genTypeString(it) }
-func (it GenTypeLitBool) kind() string   { return "LitBool" }
+func (it GenTypeLitBool) kind() string   { return "BooleanLiteral" }
 func (it GenTypeLitBool) key() string    { return strconv.FormatBool(bool(it)) }
 
 type GenTypeLitString string
 
 func (it GenTypeLitString) String() string { return genTypeString(it) }
-func (it GenTypeLitString) kind() string   { return "LitString" }
+func (it GenTypeLitString) kind() string   { return "StringLiteral" }
 func (it GenTypeLitString) key() string    { return strconv.Quote(string(it)) }
 
 type GenTypeLitInt int
 
 func (it GenTypeLitInt) String() string { return genTypeString(it) }
-func (it GenTypeLitInt) kind() string   { return "LitInt" }
+func (it GenTypeLitInt) kind() string   { return "IntegerLiteral" }
 func (it GenTypeLitInt) key() string    { return strconv.FormatInt(int64(it), 36) }
 
-type GenTypeLitStructure []GenTypeLitStructureProperty
-type GenTypeLitStructureProperty struct {
-	Name     string
-	Type     GenType
-	Optional bool
+type GenTypeStructure struct {
+	GenBase
+	Properties []GenStructureProperty
 }
 
-func (it GenTypeLitStructure) String() string { return genTypeString(it) }
-func (it GenTypeLitStructure) kind() string   { return "LitStruct" }
-func (it GenTypeLitStructure) key() string {
-	return "{" + strings.Join(Map(it, func(p GenTypeLitStructureProperty) string {
+func (it GenTypeStructure) String() string { return genTypeString(it) }
+func (it GenTypeStructure) kind() string   { return "Structure" }
+func (it GenTypeStructure) key() string {
+	return "{" + strings.Join(Map(it.Properties, func(p GenStructureProperty) string {
 		return p.Name + If(p.Optional, "?", "") + " " + p.Type.key()
 	}), ";") + "}"
 }
 
 func (it *Gen) Type(t GenType) GenType {
-	// switch t := t.(type) {
-	// case GenTypeBaseType:
-	// 	if key := t.key(); it.types[key] == nil {
-	// 		it.types[key] = t
-	// 	}
-	// }
 	return t
 }
 
-func (it *GenDot) Type(t GenType) (ret string) {
-	ret = t.String()
+type GenDotType struct {
+	Dot  *GenDot
+	Type GenType
+}
+
+func (it *GenDot) Type(t GenType) string {
+
 	switch t := t.(type) {
 	case GenTypeBaseType:
-		if ret = it.Lang.BaseTypeMapping[t.String()]; ret == "" {
-			panic("(missing in " + it.gen.filePathLang + ": \"BaseTypeMapping\"{\"" + t.String() + "\":...})")
+		if s := it.Lang.BaseTypeMapping[string(t)]; s != "" {
+			return s
 		}
+		panic("(missing in " + it.gen.filePathLang + ": \"BaseTypeMapping\"{\"" + t.String() + "\":...})")
+	case GenTypeReference:
+		return t.String()
+	default:
+		return it.gen.tmplExec(nil, it.gen.tmpl("type_"+t.kind(), ""), GenDotType{Dot: it, Type: t})
 	}
-	return
 }

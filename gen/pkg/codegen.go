@@ -47,6 +47,7 @@ type GenLang struct { // the contents of your lang_foo/lang_foo.json
 	PostGenCleanUp  []string // eg ["obj"]
 	Dict            map[string]string
 	BaseTypeMapping map[string]string
+	Tmpls           map[string]string
 }
 
 type GenDots interface {

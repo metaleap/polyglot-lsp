@@ -1,0 +1,8 @@
+{{- with $it := . -}}
+struct {
+    {{ range $it.Type.Properties }}
+    {{ .DocComments $it.Dot }}
+    {{ .NameUp }} {{if .Optional}}*{{end}}{{ $it.Dot.Type .Type }}
+    {{ end }}
+}
+{{- end }}

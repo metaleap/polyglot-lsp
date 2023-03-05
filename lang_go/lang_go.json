@@ -3,13 +3,17 @@
     "PkgFile": "go.mod",
     "SrcFileExt": ".go",
     "BaseTypeMapping": {
-        "String": "string",
-        "Uinteger": "uint",
-        "Integer": "int",
-        "Boolean": "bool",
-        "Decimal": "float64",
+        "string": "string",
+        "uinteger": "uint",
+        "integer": "int",
+        "boolean": "bool",
+        "decimal": "float64",
         "DocumentUri": "DocumentURI",
         "URI": "URI"
+    },
+    "Tmpls": {
+        "type_Array":"[]{{.Dot.Type .Type.ElemType}}",
+        "type_Map":"map[{{.Dot.Type .Type.KeyType}}]{{.Dot.Type .Type.ValueType}}"
     },
     "Dict": {},
     "PostGenTools": {

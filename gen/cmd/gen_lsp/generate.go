@@ -30,7 +30,7 @@ func (it *MetaModel) PerEnumeration(gen *glot.Gen, do func(*glot.GenEnumeration)
 		}
 		do(&glot.GenEnumeration{
 			GenBase: it.toGenBase(&enumeration.MMBase),
-			Type:    gen.Type(enumeration.Type.toGenType()),
+			Type:    gen.Type(enumeration.Type.toGenType(it, gen)),
 			Enumerants: glot.Map(glot.Filter(enumeration.Values, func(e MMEnumerant) bool { return !e.Proposed }), func(e MMEnumerant) glot.GenEnumerant {
 				return glot.GenEnumerant{
 					GenBase: it.toGenBase(&e.MMBase),
@@ -48,12 +48,12 @@ func (it *MetaModel) PerStructure(gen *glot.Gen, do func(*glot.GenStructure)) {
 		}
 		do(&glot.GenStructure{
 			GenBase: it.toGenBase(&structure.MMBase),
-			Mixins:  glot.Map(structure.Mixins, func(t MMType) glot.GenType { return gen.Type(t.toGenType()) }),
-			Extends: glot.Map(structure.Extends, func(t MMType) glot.GenType { return gen.Type(t.toGenType()) }),
-			Properties: glot.Map(glot.Filter(structure.Properties, func(p MMProperty) bool { return !p.Proposed }), func(p MMProperty) glot.GenProperty {
-				return glot.GenProperty{
+			Mixins:  glot.Map(structure.Mixins, func(t MMType) glot.GenType { return gen.Type(t.toGenType(it, gen)) }),
+			Extends: glot.Map(structure.Extends, func(t MMType) glot.GenType { return gen.Type(t.toGenType(it, gen)) }),
+			Properties: glot.Map(glot.Filter(structure.Properties, func(p MMProperty) bool { return !p.Proposed }), func(p MMProperty) glot.GenStructureProperty {
+				return glot.GenStructureProperty{
 					GenBase:  it.toGenBase(&p.MMBase),
-					Type:     gen.Type(p.Type.toGenType()),
+					Type:     gen.Type(p.Type.toGenType(it, gen)),
 					Optional: p.Optional,
 				}
 			}),
@@ -61,22 +61,22 @@ func (it *MetaModel) PerStructure(gen *glot.Gen, do func(*glot.GenStructure)) {
 	}
 }
 
-func (it *MMType) toGenType() glot.GenType {
+func (it *MMType) toGenType(mm *MetaModel, gen *glot.Gen) glot.GenType {
 	switch it.Kind {
 	case MMTypeKindBase:
 		return glot.GenTypeBaseType(it.Name)
 	case MMTypeKindReference:
 		return glot.GenTypeReference(it.Name)
 	case MMTypeKindArray:
-		return glot.GenTypeArray{it.Element.toGenType()}
+		return glot.GenTypeArray{it.Element.toGenType(mm, gen)}
 	case MMTypeKindMap:
-		return glot.GenTypeMap{KeyType: it.Key.toGenType(), ValueType: it.Value.t.toGenType()}
+		return glot.GenTypeMap{KeyType: it.Key.toGenType(mm, gen), ValueType: it.Value.t.toGenType(mm, gen)}
 	case MMTypeKindAnd:
-		return glot.GenTypeAnd(glot.Map(it.Items, func(t MMType) glot.GenType { return t.toGenType() }))
+		return glot.GenTypeAnd(glot.Map(it.Items, func(t MMType) glot.GenType { return t.toGenType(mm, gen) }))
 	case MMTypeKindOr:
-		return glot.GenTypeOr(glot.Map(it.Items, func(t MMType) glot.GenType { return t.toGenType() }))
+		return glot.GenTypeOr(glot.Map(it.Items, func(t MMType) glot.GenType { return t.toGenType(mm, gen) }))
 	case MMTypeKindTuple:
-		return glot.GenTypeTuple(glot.Map(it.Items, func(t MMType) glot.GenType { return t.toGenType() }))
+		return glot.GenTypeTuple(glot.Map(it.Items, func(t MMType) glot.GenType { return t.toGenType(mm, gen) }))
 	case MMTypeKindStringLiteral:
 		return glot.GenTypeLitString(it.Value.s)
 	case MMTypeKindIntegerLiteral:
@@ -84,9 +84,15 @@ func (it *MMType) toGenType() glot.GenType {
 	case MMTypeKindBooleanLiteral:
 		return glot.GenTypeLitBool(it.Value.b)
 	case MMTypeKindLiteral:
-		return glot.GenTypeLitStructure(glot.Map(it.Value.l.Properties, func(p MMProperty) glot.GenTypeLitStructureProperty {
-			return glot.GenTypeLitStructureProperty{Name: p.Name, Optional: p.Optional, Type: p.Type.toGenType()}
-		}))
+		return glot.GenTypeStructure{
+			GenBase: mm.toGenBase(&it.Value.l.MMBase),
+			Properties: glot.Map(glot.Filter(it.Value.l.Properties, func(p MMProperty) bool { return !p.Proposed }), func(p MMProperty) glot.GenStructureProperty {
+				return glot.GenStructureProperty{
+					GenBase:  mm.toGenBase(&p.MMBase),
+					Type:     gen.Type(p.Type.toGenType(mm, gen)),
+					Optional: p.Optional,
+				}
+			})}
 	}
 	panic(it.Kind)
 }
