@@ -11,13 +11,16 @@
         },
         "Check": [
             {
-                "Cmd": "dotnet build {pkg_file_path} --nologo -o {trash_dir}{pkg_file_name}",
+                "Cmd": "dotnet build {pkg_file_path} --nologo -o {trash_dir}/{pkg_file_name}",
                 "Env": {
                     "DOTNET_CLI_TELEMETRY_OPTOUT": "1"
                 }
             }
         ]
     },
-    "PostGenCleanUp":["obj"],
+    "PostGenCleanUp": [
+        "obj",
+        "bin"
+    ],
     "Dict": {}
 }
