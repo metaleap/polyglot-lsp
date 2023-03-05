@@ -1,9 +1,13 @@
-{{- with $this := . -}}
+{{- with $it := . -}}
 {{- range .Items -}}
 {{- with $struct := . -}}
 
-{{ .DocComments $this }}
+{{ .DocComments $it }}
 type {{ $struct.Name }} struct {
+    {{ range .Properties }}
+    {{ .DocComments $it }}
+    {{ .NameUp }} {{if .Optional}}*{{end}}{{ $it.Type .Type }}
+    {{ end }}
 }
 
 {{- end -}}

@@ -1,8 +1,10 @@
 // Language Server Protocol (LSP) v3.17 SDK for Go: auto-generated via github.com/metaleap/polyglot-vsx-and-lsp/gen/cmd/gen_lsp
 package lsp
 
-type String = string
+import "net/url"
 
-type Uinteger = uint
+type DocumentURI string
+type URI string
 
-type Integer = int
+func (it DocumentURI) URL() (*url.URL, error) { return url.Parse(string(it)) }
+func (it URI) URL() (*url.URL, error)         { return url.Parse(string(it)) }

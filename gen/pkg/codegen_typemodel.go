@@ -1,6 +1,7 @@
 package glot
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 )
@@ -68,12 +69,13 @@ func (it *GenBase) DocComments(root *GenDot) string {
 }
 
 type GenType interface {
+	fmt.Stringer
 	key() string
 	kind() string
 }
 
 func genTypeString(it GenType) string {
-	return "<" + it.kind() + ">" + it.kind()
+	return "<" + it.kind() + ">" + it.key()
 }
 
 type GenTypeBaseType string
@@ -96,7 +98,7 @@ func (it GenTypeMapKey) key() string    { return ":" + string(it) }
 
 type GenTypeReference string
 
-func (it GenTypeReference) String() string { return genTypeString(it) }
+func (it GenTypeReference) String() string { return Up0(string(it)) }
 func (it GenTypeReference) kind() string   { return "Reference" }
 func (it GenTypeReference) key() string    { return "@" + string(it) }
 
@@ -175,8 +177,22 @@ func (it GenTypeLitStructure) key() string {
 }
 
 func (it *Gen) Type(t GenType) GenType {
-	if key := t.key(); it.types[key] == nil {
-		it.types[key] = t
-	}
+	// switch t := t.(type) {
+	// case GenTypeBaseType:
+	// 	if key := t.key(); it.types[key] == nil {
+	// 		it.types[key] = t
+	// 	}
+	// }
 	return t
+}
+
+func (it *GenDot) Type(t GenType) (ret string) {
+	ret = t.String()
+	switch t := t.(type) {
+	case GenTypeBaseType:
+		if ret = it.Lang.BaseTypeMapping[t.String()]; ret == "" {
+			panic("(missing in " + it.gen.filePathLang + ": \"BaseTypeMapping\"{\"" + t.String() + "\":...})")
+		}
+	}
+	return
 }

@@ -17,9 +17,10 @@ type Gen struct {
 		code  []string
 		other []string
 	}
-	dirPathLang string // lang_foo
-	dirPathSrc  string // lang_foo/_gen
-	dirPathDst  string // lang_foo/{{.GenIdent}}_v{{.GenVer}}
+	dirPathLang  string // lang_foo
+	dirPathSrc   string // lang_foo/_gen
+	dirPathDst   string // lang_foo/{{.GenIdent}}_v{{.GenVer}}
+	filePathLang string // lang_foo/lang_foo.json
 }
 
 type GenDot struct {
@@ -43,8 +44,9 @@ type GenLang struct { // the contents of your lang_foo/lang_foo.json
 		Format *GenLangCmd  // eg "go fmt %in" etc
 		Check  []GenLangCmd // compiler, type-checker, parser or other linter. `%in` for absolute path of generated pkg-dir
 	}
-	PostGenCleanUp []string // eg ["obj"]
-	Dict           map[string]string
+	PostGenCleanUp  []string // eg ["obj"]
+	Dict            map[string]string
+	BaseTypeMapping map[string]string
 }
 
 type GenDots interface {
@@ -58,10 +60,11 @@ func (it *Gen) Generate(dots GenDots) {
 	it.dirPathLang = "../lang_" + it.LangIdent
 	it.dirPathSrc = it.dirPathLang + "/_gen"
 	it.dirPathDst = it.dirPathLang + "/" + it.Dot.GenIdent + "_v" + it.Dot.GenVer
+	it.filePathLang = it.dirPathLang + "/lang_" + it.LangIdent + ".json"
 	defer it.postGenCleanUp()
 	DirCreate(it.dirPathDst)
 
-	it.Dot.Lang = LoadFromJSONFile[GenLang](it.dirPathLang + "/lang_" + it.LangIdent + ".json")
+	it.Dot.Lang = LoadFromJSONFile[GenLang](it.filePathLang)
 	it.Dot.PkgName = If(it.Dot.PkgName == "", it.Dot.GenIdent, it.Dot.PkgName)
 	if strings.HasPrefix(it.Dot.Lang.PkgFile, "*") {
 		it.Dot.Lang.PkgFile = it.Dot.GenIdent + "_v" + it.Dot.GenVer + it.Dot.Lang.PkgFile[1:]
@@ -99,6 +102,9 @@ func (it *Gen) genDots(buf *bytes.Buffer, dots_by_file_name map[string]func() []
 func (it *Gen) genSideTypes(buf *bytes.Buffer) {
 	types := make([]any, 0, len(it.types))
 	for _, ty := range it.types {
+		if _, is_ref := ty.(GenTypeReference); is_ref {
+			continue
+		}
 		tmpl := it.tmpl("type_"+ty.kind(), "")
 		it.Dot.Items = []any{ty}
 		it.tmplExec(buf, tmpl, nil)

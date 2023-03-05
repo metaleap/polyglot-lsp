@@ -2,8 +2,19 @@
     "DisplayName": "Go",
     "PkgFile": "go.mod",
     "SrcFileExt": ".go",
+    "BaseTypeMapping": {
+        "String": "string",
+        "Uinteger": "uint",
+        "Integer": "int",
+        "Boolean": "bool",
+        "Decimal": "float64",
+        "DocumentUri": "DocumentURI",
+        "URI": "URI"
+    },
+    "Dict": {},
     "PostGenTools": {
         "Format": {
+            "Disabled": true,
             "Cmd": "gofmt -l -w -s -e {file}",
             "PerFile": true
         },
@@ -23,7 +34,5 @@
                 }
             }
         ]
-    },
-    "Dict": {
     }
 }
