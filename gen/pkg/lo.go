@@ -9,6 +9,15 @@ func Contains[T comparable](list []T, needle T) bool {
 	return false
 }
 
+func Exists[T any](list []T, ok func(T) bool) bool {
+	for _, item := range list {
+		if ok(item) {
+			return true
+		}
+	}
+	return false
+}
+
 func Copy[T any](list []T) (ret []T) {
 	ret = make([]T, len(list))
 	copy(ret, list)

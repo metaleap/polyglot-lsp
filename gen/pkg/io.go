@@ -60,6 +60,12 @@ func FileRead(filePath string) []byte {
 	return ret
 }
 
+func FileRemove(filePath string) {
+	if err := os.Remove(filePath); err != nil && !os.IsNotExist(err) {
+		panic(err)
+	}
+}
+
 func FileWrite(filePath string, data []byte) {
 	if err := os.WriteFile(filePath, data, os.ModePerm); err != nil {
 		panic(err)

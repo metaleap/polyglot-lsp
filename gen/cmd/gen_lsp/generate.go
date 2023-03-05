@@ -17,7 +17,9 @@ func generate(metaModel *MetaModel, ver string, lang string) {
 }
 
 func (*MetaModel) toGenBase(it *MMBase) glot.GenBase {
-	return glot.GenBase{Deprecated: it.Deprecated, Since: it.Since, DocLines: strings.Split(it.Documentation, "\n")}
+	it.Documentation = strings.TrimSpace(it.Documentation)
+	return glot.GenBase{Deprecated: it.Deprecated, Since: it.Since,
+		DocLines: glot.If[[]string](it.Documentation == "", nil, strings.Split(it.Documentation, "\n"))}
 }
 
 func (it *MetaModel) PerEnum(gen *glot.Gen, do func(*glot.GenEnumeration)) {

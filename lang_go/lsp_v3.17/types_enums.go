@@ -57,79 +57,55 @@ const SemanticTokenTypesOperator SemanticTokenTypes = "operator"
 // @since 3.17.0
 const SemanticTokenTypesDecorator SemanticTokenTypes = "decorator"
 
-// String returns "" or "Namespace" or "Type" or "Class" or "Enum" or "Interface" or "Struct" or "TypeParameter" or "Parameter" or "Variable" or "Property" or "EnumMember" or "Event" or "Function" or "Method" or "Macro" or "Keyword" or "Modifier" or "Comment" or "String" or "Number" or "Regexp" or "Operator" or "Decorator""".
+// String returns "" or "Namespace" or "Type" or "Class" or "Enum" or "Interface" or "Struct" or "TypeParameter" or "Parameter" or "Variable" or "Property" or "EnumMember" or "Event" or "Function" or "Method" or "Macro" or "Keyword" or "Modifier" or "Comment" or "String" or "Number" or "Regexp" or "Operator" or "Decorator", depending on the value of `it`.
 func (it SemanticTokenTypes) String() string {
 	switch it {
-
 	case SemanticTokenTypesNamespace:
 		return "Namespace"
-
 	case SemanticTokenTypesType:
 		return "Type"
-
 	case SemanticTokenTypesClass:
 		return "Class"
-
 	case SemanticTokenTypesEnum:
 		return "Enum"
-
 	case SemanticTokenTypesInterface:
 		return "Interface"
-
 	case SemanticTokenTypesStruct:
 		return "Struct"
-
 	case SemanticTokenTypesTypeParameter:
 		return "TypeParameter"
-
 	case SemanticTokenTypesParameter:
 		return "Parameter"
-
 	case SemanticTokenTypesVariable:
 		return "Variable"
-
 	case SemanticTokenTypesProperty:
 		return "Property"
-
 	case SemanticTokenTypesEnumMember:
 		return "EnumMember"
-
 	case SemanticTokenTypesEvent:
 		return "Event"
-
 	case SemanticTokenTypesFunction:
 		return "Function"
-
 	case SemanticTokenTypesMethod:
 		return "Method"
-
 	case SemanticTokenTypesMacro:
 		return "Macro"
-
 	case SemanticTokenTypesKeyword:
 		return "Keyword"
-
 	case SemanticTokenTypesModifier:
 		return "Modifier"
-
 	case SemanticTokenTypesComment:
 		return "Comment"
-
 	case SemanticTokenTypesString:
 		return "String"
-
 	case SemanticTokenTypesNumber:
 		return "Number"
-
 	case SemanticTokenTypesRegexp:
 		return "Regexp"
-
 	case SemanticTokenTypesOperator:
 		return "Operator"
-
 	case SemanticTokenTypesDecorator:
 		return "Decorator"
-
 	}
 	return ""
 }
@@ -161,40 +137,29 @@ const SemanticTokenModifiersDocumentation SemanticTokenModifiers = "documentatio
 
 const SemanticTokenModifiersDefaultLibrary SemanticTokenModifiers = "defaultLibrary"
 
-// String returns "" or "Declaration" or "Definition" or "Readonly" or "Static" or "Deprecated" or "Abstract" or "Async" or "Modification" or "Documentation" or "DefaultLibrary""".
+// String returns "" or "Declaration" or "Definition" or "Readonly" or "Static" or "Deprecated" or "Abstract" or "Async" or "Modification" or "Documentation" or "DefaultLibrary", depending on the value of `it`.
 func (it SemanticTokenModifiers) String() string {
 	switch it {
-
 	case SemanticTokenModifiersDeclaration:
 		return "Declaration"
-
 	case SemanticTokenModifiersDefinition:
 		return "Definition"
-
 	case SemanticTokenModifiersReadonly:
 		return "Readonly"
-
 	case SemanticTokenModifiersStatic:
 		return "Static"
-
 	case SemanticTokenModifiersDeprecated:
 		return "Deprecated"
-
 	case SemanticTokenModifiersAbstract:
 		return "Abstract"
-
 	case SemanticTokenModifiersAsync:
 		return "Async"
-
 	case SemanticTokenModifiersModification:
 		return "Modification"
-
 	case SemanticTokenModifiersDocumentation:
 		return "Documentation"
-
 	case SemanticTokenModifiersDefaultLibrary:
 		return "DefaultLibrary"
-
 	}
 	return ""
 }
@@ -212,16 +177,13 @@ const DocumentDiagnosticReportKindFull DocumentDiagnosticReportKind = "full"
 // returned report is still accurate.
 const DocumentDiagnosticReportKindUnchanged DocumentDiagnosticReportKind = "unchanged"
 
-// String returns "" or "Full" or "Unchanged""".
+// String returns "" or "Full" or "Unchanged", depending on the value of `it`.
 func (it DocumentDiagnosticReportKind) String() string {
 	switch it {
-
 	case DocumentDiagnosticReportKindFull:
 		return "Full"
-
 	case DocumentDiagnosticReportKindUnchanged:
 		return "Unchanged"
-
 	}
 	return ""
 }
@@ -245,31 +207,23 @@ const ErrorCodesServerNotInitialized ErrorCodes = -32002
 
 const ErrorCodesUnknownErrorCode ErrorCodes = -32001
 
-// String returns "" or "ParseError" or "InvalidRequest" or "MethodNotFound" or "InvalidParams" or "InternalError" or "ServerNotInitialized" or "UnknownErrorCode""".
+// String returns "" or "ParseError" or "InvalidRequest" or "MethodNotFound" or "InvalidParams" or "InternalError" or "ServerNotInitialized" or "UnknownErrorCode", depending on the value of `it`.
 func (it ErrorCodes) String() string {
 	switch it {
-
 	case ErrorCodesParseError:
 		return "ParseError"
-
 	case ErrorCodesInvalidRequest:
 		return "InvalidRequest"
-
 	case ErrorCodesMethodNotFound:
 		return "MethodNotFound"
-
 	case ErrorCodesInvalidParams:
 		return "InvalidParams"
-
 	case ErrorCodesInternalError:
 		return "InternalError"
-
 	case ErrorCodesServerNotInitialized:
 		return "ServerNotInitialized"
-
 	case ErrorCodesUnknownErrorCode:
 		return "UnknownErrorCode"
-
 	}
 	return ""
 }
@@ -305,22 +259,17 @@ const LSPErrorCodesContentModified LSPErrorCodes = -32801
 // the cancel.
 const LSPErrorCodesRequestCancelled LSPErrorCodes = -32800
 
-// String returns "" or "RequestFailed" or "ServerCancelled" or "ContentModified" or "RequestCancelled""".
+// String returns "" or "RequestFailed" or "ServerCancelled" or "ContentModified" or "RequestCancelled", depending on the value of `it`.
 func (it LSPErrorCodes) String() string {
 	switch it {
-
 	case LSPErrorCodesRequestFailed:
 		return "RequestFailed"
-
 	case LSPErrorCodesServerCancelled:
 		return "ServerCancelled"
-
 	case LSPErrorCodesContentModified:
 		return "ContentModified"
-
 	case LSPErrorCodesRequestCancelled:
 		return "RequestCancelled"
-
 	}
 	return ""
 }
@@ -337,19 +286,15 @@ const FoldingRangeKindImports FoldingRangeKind = "imports"
 // Folding range for a region (e.g. `#region`)
 const FoldingRangeKindRegion FoldingRangeKind = "region"
 
-// String returns "" or "Comment" or "Imports" or "Region""".
+// String returns "" or "Comment" or "Imports" or "Region", depending on the value of `it`.
 func (it FoldingRangeKind) String() string {
 	switch it {
-
 	case FoldingRangeKindComment:
 		return "Comment"
-
 	case FoldingRangeKindImports:
 		return "Imports"
-
 	case FoldingRangeKindRegion:
 		return "Region"
-
 	}
 	return ""
 }
@@ -409,88 +354,61 @@ const SymbolKindOperator SymbolKind = 25
 
 const SymbolKindTypeParameter SymbolKind = 26
 
-// String returns "" or "File" or "Module" or "Namespace" or "Package" or "Class" or "Method" or "Property" or "Field" or "Constructor" or "Enum" or "Interface" or "Function" or "Variable" or "Constant" or "String" or "Number" or "Boolean" or "Array" or "Object" or "Key" or "Null" or "EnumMember" or "Struct" or "Event" or "Operator" or "TypeParameter""".
+// String returns "" or "File" or "Module" or "Namespace" or "Package" or "Class" or "Method" or "Property" or "Field" or "Constructor" or "Enum" or "Interface" or "Function" or "Variable" or "Constant" or "String" or "Number" or "Boolean" or "Array" or "Object" or "Key" or "Null" or "EnumMember" or "Struct" or "Event" or "Operator" or "TypeParameter", depending on the value of `it`.
 func (it SymbolKind) String() string {
 	switch it {
-
 	case SymbolKindFile:
 		return "File"
-
 	case SymbolKindModule:
 		return "Module"
-
 	case SymbolKindNamespace:
 		return "Namespace"
-
 	case SymbolKindPackage:
 		return "Package"
-
 	case SymbolKindClass:
 		return "Class"
-
 	case SymbolKindMethod:
 		return "Method"
-
 	case SymbolKindProperty:
 		return "Property"
-
 	case SymbolKindField:
 		return "Field"
-
 	case SymbolKindConstructor:
 		return "Constructor"
-
 	case SymbolKindEnum:
 		return "Enum"
-
 	case SymbolKindInterface:
 		return "Interface"
-
 	case SymbolKindFunction:
 		return "Function"
-
 	case SymbolKindVariable:
 		return "Variable"
-
 	case SymbolKindConstant:
 		return "Constant"
-
 	case SymbolKindString:
 		return "String"
-
 	case SymbolKindNumber:
 		return "Number"
-
 	case SymbolKindBoolean:
 		return "Boolean"
-
 	case SymbolKindArray:
 		return "Array"
-
 	case SymbolKindObject:
 		return "Object"
-
 	case SymbolKindKey:
 		return "Key"
-
 	case SymbolKindNull:
 		return "Null"
-
 	case SymbolKindEnumMember:
 		return "EnumMember"
-
 	case SymbolKindStruct:
 		return "Struct"
-
 	case SymbolKindEvent:
 		return "Event"
-
 	case SymbolKindOperator:
 		return "Operator"
-
 	case SymbolKindTypeParameter:
 		return "TypeParameter"
-
 	}
 	return ""
 }
@@ -503,13 +421,11 @@ type SymbolTag Uinteger
 // Render a symbol as obsolete, usually using a strike-out.
 const SymbolTagDeprecated SymbolTag = 1
 
-// String returns "" or "Deprecated""".
+// String returns "" or "Deprecated", depending on the value of `it`.
 func (it SymbolTag) String() string {
 	switch it {
-
 	case SymbolTagDeprecated:
 		return "Deprecated"
-
 	}
 	return ""
 }
@@ -534,25 +450,19 @@ const UniquenessLevelScheme UniquenessLevel = "scheme"
 // The moniker is globally unique
 const UniquenessLevelGlobal UniquenessLevel = "global"
 
-// String returns "" or "Document" or "Project" or "Group" or "Scheme" or "Global""".
+// String returns "" or "Document" or "Project" or "Group" or "Scheme" or "Global", depending on the value of `it`.
 func (it UniquenessLevel) String() string {
 	switch it {
-
 	case UniquenessLevelDocument:
 		return "Document"
-
 	case UniquenessLevelProject:
 		return "Project"
-
 	case UniquenessLevelGroup:
 		return "Group"
-
 	case UniquenessLevelScheme:
 		return "Scheme"
-
 	case UniquenessLevelGlobal:
 		return "Global"
-
 	}
 	return ""
 }
@@ -572,19 +482,15 @@ const MonikerKindExport MonikerKind = "export"
 // variable of a function, a class not visible outside the project, ...)
 const MonikerKindLocal MonikerKind = "local"
 
-// String returns "" or "Import" or "Export" or "Local""".
+// String returns "" or "Import" or "Export" or "Local", depending on the value of `it`.
 func (it MonikerKind) String() string {
 	switch it {
-
 	case MonikerKindImport:
 		return "Import"
-
 	case MonikerKindExport:
 		return "Export"
-
 	case MonikerKindLocal:
 		return "Local"
-
 	}
 	return ""
 }
@@ -600,16 +506,13 @@ const InlayHintKindType InlayHintKind = 1
 // An inlay hint that is for a parameter.
 const InlayHintKindParameter InlayHintKind = 2
 
-// String returns "" or "Type" or "Parameter""".
+// String returns "" or "Type" or "Parameter", depending on the value of `it`.
 func (it InlayHintKind) String() string {
 	switch it {
-
 	case InlayHintKindType:
 		return "Type"
-
 	case InlayHintKindParameter:
 		return "Parameter"
-
 	}
 	return ""
 }
@@ -629,22 +532,17 @@ const MessageTypeInfo MessageType = 3
 // A log message.
 const MessageTypeLog MessageType = 4
 
-// String returns "" or "Error" or "Warning" or "Info" or "Log""".
+// String returns "" or "Error" or "Warning" or "Info" or "Log", depending on the value of `it`.
 func (it MessageType) String() string {
 	switch it {
-
 	case MessageTypeError:
 		return "Error"
-
 	case MessageTypeWarning:
 		return "Warning"
-
 	case MessageTypeInfo:
 		return "Info"
-
 	case MessageTypeLog:
 		return "Log"
-
 	}
 	return ""
 }
@@ -665,19 +563,15 @@ const TextDocumentSyncKindFull TextDocumentSyncKind = 1
 // send.
 const TextDocumentSyncKindIncremental TextDocumentSyncKind = 2
 
-// String returns "" or "None" or "Full" or "Incremental""".
+// String returns "" or "None" or "Full" or "Incremental", depending on the value of `it`.
 func (it TextDocumentSyncKind) String() string {
 	switch it {
-
 	case TextDocumentSyncKindNone:
 		return "None"
-
 	case TextDocumentSyncKindFull:
 		return "Full"
-
 	case TextDocumentSyncKindIncremental:
 		return "Incremental"
-
 	}
 	return ""
 }
@@ -695,19 +589,15 @@ const TextDocumentSaveReasonAfterDelay TextDocumentSaveReason = 2
 // When the editor lost focus.
 const TextDocumentSaveReasonFocusOut TextDocumentSaveReason = 3
 
-// String returns "" or "Manual" or "AfterDelay" or "FocusOut""".
+// String returns "" or "Manual" or "AfterDelay" or "FocusOut", depending on the value of `it`.
 func (it TextDocumentSaveReason) String() string {
 	switch it {
-
 	case TextDocumentSaveReasonManual:
 		return "Manual"
-
 	case TextDocumentSaveReasonAfterDelay:
 		return "AfterDelay"
-
 	case TextDocumentSaveReasonFocusOut:
 		return "FocusOut"
-
 	}
 	return ""
 }
@@ -765,85 +655,59 @@ const CompletionItemKindOperator CompletionItemKind = 24
 
 const CompletionItemKindTypeParameter CompletionItemKind = 25
 
-// String returns "" or "Text" or "Method" or "Function" or "Constructor" or "Field" or "Variable" or "Class" or "Interface" or "Module" or "Property" or "Unit" or "Value" or "Enum" or "Keyword" or "Snippet" or "Color" or "File" or "Reference" or "Folder" or "EnumMember" or "Constant" or "Struct" or "Event" or "Operator" or "TypeParameter""".
+// String returns "" or "Text" or "Method" or "Function" or "Constructor" or "Field" or "Variable" or "Class" or "Interface" or "Module" or "Property" or "Unit" or "Value" or "Enum" or "Keyword" or "Snippet" or "Color" or "File" or "Reference" or "Folder" or "EnumMember" or "Constant" or "Struct" or "Event" or "Operator" or "TypeParameter", depending on the value of `it`.
 func (it CompletionItemKind) String() string {
 	switch it {
-
 	case CompletionItemKindText:
 		return "Text"
-
 	case CompletionItemKindMethod:
 		return "Method"
-
 	case CompletionItemKindFunction:
 		return "Function"
-
 	case CompletionItemKindConstructor:
 		return "Constructor"
-
 	case CompletionItemKindField:
 		return "Field"
-
 	case CompletionItemKindVariable:
 		return "Variable"
-
 	case CompletionItemKindClass:
 		return "Class"
-
 	case CompletionItemKindInterface:
 		return "Interface"
-
 	case CompletionItemKindModule:
 		return "Module"
-
 	case CompletionItemKindProperty:
 		return "Property"
-
 	case CompletionItemKindUnit:
 		return "Unit"
-
 	case CompletionItemKindValue:
 		return "Value"
-
 	case CompletionItemKindEnum:
 		return "Enum"
-
 	case CompletionItemKindKeyword:
 		return "Keyword"
-
 	case CompletionItemKindSnippet:
 		return "Snippet"
-
 	case CompletionItemKindColor:
 		return "Color"
-
 	case CompletionItemKindFile:
 		return "File"
-
 	case CompletionItemKindReference:
 		return "Reference"
-
 	case CompletionItemKindFolder:
 		return "Folder"
-
 	case CompletionItemKindEnumMember:
 		return "EnumMember"
-
 	case CompletionItemKindConstant:
 		return "Constant"
-
 	case CompletionItemKindStruct:
 		return "Struct"
-
 	case CompletionItemKindEvent:
 		return "Event"
-
 	case CompletionItemKindOperator:
 		return "Operator"
-
 	case CompletionItemKindTypeParameter:
 		return "TypeParameter"
-
 	}
 	return ""
 }
@@ -857,13 +721,11 @@ type CompletionItemTag Uinteger
 // Render a completion as obsolete, usually using a strike-out.
 const CompletionItemTagDeprecated CompletionItemTag = 1
 
-// String returns "" or "Deprecated""".
+// String returns "" or "Deprecated", depending on the value of `it`.
 func (it CompletionItemTag) String() string {
 	switch it {
-
 	case CompletionItemTagDeprecated:
 		return "Deprecated"
-
 	}
 	return ""
 }
@@ -885,16 +747,13 @@ const InsertTextFormatPlainText InsertTextFormat = 1
 // See also: https://microsoft.github.io/language-server-protocol/specifications/specification-current/#snippet_syntax
 const InsertTextFormatSnippet InsertTextFormat = 2
 
-// String returns "" or "PlainText" or "Snippet""".
+// String returns "" or "PlainText" or "Snippet", depending on the value of `it`.
 func (it InsertTextFormat) String() string {
 	switch it {
-
 	case InsertTextFormatPlainText:
 		return "PlainText"
-
 	case InsertTextFormatSnippet:
 		return "Snippet"
-
 	}
 	return ""
 }
@@ -921,16 +780,13 @@ const InsertTextModeAsIs InsertTextMode = 1
 // following lines inserted will be indented using 2 tabs as well.
 const InsertTextModeAdjustIndentation InsertTextMode = 2
 
-// String returns "" or "AsIs" or "AdjustIndentation""".
+// String returns "" or "AsIs" or "AdjustIndentation", depending on the value of `it`.
 func (it InsertTextMode) String() string {
 	switch it {
-
 	case InsertTextModeAsIs:
 		return "AsIs"
-
 	case InsertTextModeAdjustIndentation:
 		return "AdjustIndentation"
-
 	}
 	return ""
 }
@@ -947,19 +803,15 @@ const DocumentHighlightKindRead DocumentHighlightKind = 2
 // Write-access of a symbol, like writing to a variable.
 const DocumentHighlightKindWrite DocumentHighlightKind = 3
 
-// String returns "" or "Text" or "Read" or "Write""".
+// String returns "" or "Text" or "Read" or "Write", depending on the value of `it`.
 func (it DocumentHighlightKind) String() string {
 	switch it {
-
 	case DocumentHighlightKindText:
 		return "Text"
-
 	case DocumentHighlightKindRead:
 		return "Read"
-
 	case DocumentHighlightKindWrite:
 		return "Write"
-
 	}
 	return ""
 }
@@ -1025,37 +877,27 @@ const CodeActionKindSourceOrganizeImports CodeActionKind = "source.organizeImpor
 // @since 3.15.0
 const CodeActionKindSourceFixAll CodeActionKind = "source.fixAll"
 
-// String returns "" or "Empty" or "QuickFix" or "Refactor" or "RefactorExtract" or "RefactorInline" or "RefactorRewrite" or "Source" or "SourceOrganizeImports" or "SourceFixAll""".
+// String returns "" or "Empty" or "QuickFix" or "Refactor" or "RefactorExtract" or "RefactorInline" or "RefactorRewrite" or "Source" or "SourceOrganizeImports" or "SourceFixAll", depending on the value of `it`.
 func (it CodeActionKind) String() string {
 	switch it {
-
 	case CodeActionKindEmpty:
 		return "Empty"
-
 	case CodeActionKindQuickFix:
 		return "QuickFix"
-
 	case CodeActionKindRefactor:
 		return "Refactor"
-
 	case CodeActionKindRefactorExtract:
 		return "RefactorExtract"
-
 	case CodeActionKindRefactorInline:
 		return "RefactorInline"
-
 	case CodeActionKindRefactorRewrite:
 		return "RefactorRewrite"
-
 	case CodeActionKindSource:
 		return "Source"
-
 	case CodeActionKindSourceOrganizeImports:
 		return "SourceOrganizeImports"
-
 	case CodeActionKindSourceFixAll:
 		return "SourceFixAll"
-
 	}
 	return ""
 }
@@ -1071,19 +913,15 @@ const TraceValuesMessages TraceValues = "messages"
 // Verbose message tracing.
 const TraceValuesVerbose TraceValues = "verbose"
 
-// String returns "" or "Off" or "Messages" or "Verbose""".
+// String returns "" or "Off" or "Messages" or "Verbose", depending on the value of `it`.
 func (it TraceValues) String() string {
 	switch it {
-
 	case TraceValuesOff:
 		return "Off"
-
 	case TraceValuesMessages:
 		return "Messages"
-
 	case TraceValuesVerbose:
 		return "Verbose"
-
 	}
 	return ""
 }
@@ -1101,16 +939,13 @@ const MarkupKindPlainText MarkupKind = "plaintext"
 // Markdown is supported as a content format
 const MarkupKindMarkdown MarkupKind = "markdown"
 
-// String returns "" or "PlainText" or "Markdown""".
+// String returns "" or "PlainText" or "Markdown", depending on the value of `it`.
 func (it MarkupKind) String() string {
 	switch it {
-
 	case MarkupKindPlainText:
 		return "PlainText"
-
 	case MarkupKindMarkdown:
 		return "Markdown"
-
 	}
 	return ""
 }
@@ -1136,19 +971,15 @@ const PositionEncodingKindUTF16 PositionEncodingKind = "utf-16"
 // encoding-agnostic representation of character offsets.
 const PositionEncodingKindUTF32 PositionEncodingKind = "utf-32"
 
-// String returns "" or "UTF8" or "UTF16" or "UTF32""".
+// String returns "" or "UTF8" or "UTF16" or "UTF32", depending on the value of `it`.
 func (it PositionEncodingKind) String() string {
 	switch it {
-
 	case PositionEncodingKindUTF8:
 		return "UTF8"
-
 	case PositionEncodingKindUTF16:
 		return "UTF16"
-
 	case PositionEncodingKindUTF32:
 		return "UTF32"
-
 	}
 	return ""
 }
@@ -1165,19 +996,15 @@ const FileChangeTypeChanged FileChangeType = 2
 // The file got deleted.
 const FileChangeTypeDeleted FileChangeType = 3
 
-// String returns "" or "Created" or "Changed" or "Deleted""".
+// String returns "" or "Created" or "Changed" or "Deleted", depending on the value of `it`.
 func (it FileChangeType) String() string {
 	switch it {
-
 	case FileChangeTypeCreated:
 		return "Created"
-
 	case FileChangeTypeChanged:
 		return "Changed"
-
 	case FileChangeTypeDeleted:
 		return "Deleted"
-
 	}
 	return ""
 }
@@ -1193,19 +1020,15 @@ const WatchKindChange WatchKind = 2
 // Interested in delete events
 const WatchKindDelete WatchKind = 4
 
-// String returns "" or "Create" or "Change" or "Delete""".
+// String returns "" or "Create" or "Change" or "Delete", depending on the value of `it`.
 func (it WatchKind) String() string {
 	switch it {
-
 	case WatchKindCreate:
 		return "Create"
-
 	case WatchKindChange:
 		return "Change"
-
 	case WatchKindDelete:
 		return "Delete"
-
 	}
 	return ""
 }
@@ -1225,22 +1048,17 @@ const DiagnosticSeverityInformation DiagnosticSeverity = 3
 // Reports a hint.
 const DiagnosticSeverityHint DiagnosticSeverity = 4
 
-// String returns "" or "Error" or "Warning" or "Information" or "Hint""".
+// String returns "" or "Error" or "Warning" or "Information" or "Hint", depending on the value of `it`.
 func (it DiagnosticSeverity) String() string {
 	switch it {
-
 	case DiagnosticSeverityError:
 		return "Error"
-
 	case DiagnosticSeverityWarning:
 		return "Warning"
-
 	case DiagnosticSeverityInformation:
 		return "Information"
-
 	case DiagnosticSeverityHint:
 		return "Hint"
-
 	}
 	return ""
 }
@@ -1261,16 +1079,13 @@ const DiagnosticTagUnnecessary DiagnosticTag = 1
 // Clients are allowed to rendered diagnostics with this tag strike through.
 const DiagnosticTagDeprecated DiagnosticTag = 2
 
-// String returns "" or "Unnecessary" or "Deprecated""".
+// String returns "" or "Unnecessary" or "Deprecated", depending on the value of `it`.
 func (it DiagnosticTag) String() string {
 	switch it {
-
 	case DiagnosticTagUnnecessary:
 		return "Unnecessary"
-
 	case DiagnosticTagDeprecated:
 		return "Deprecated"
-
 	}
 	return ""
 }
@@ -1289,19 +1104,15 @@ const CompletionTriggerKindTriggerCharacter CompletionTriggerKind = 2
 // Completion was re-triggered as current completion list is incomplete
 const CompletionTriggerKindTriggerForIncompleteCompletions CompletionTriggerKind = 3
 
-// String returns "" or "Invoked" or "TriggerCharacter" or "TriggerForIncompleteCompletions""".
+// String returns "" or "Invoked" or "TriggerCharacter" or "TriggerForIncompleteCompletions", depending on the value of `it`.
 func (it CompletionTriggerKind) String() string {
 	switch it {
-
 	case CompletionTriggerKindInvoked:
 		return "Invoked"
-
 	case CompletionTriggerKindTriggerCharacter:
 		return "TriggerCharacter"
-
 	case CompletionTriggerKindTriggerForIncompleteCompletions:
 		return "TriggerForIncompleteCompletions"
-
 	}
 	return ""
 }
@@ -1320,19 +1131,15 @@ const SignatureHelpTriggerKindTriggerCharacter SignatureHelpTriggerKind = 2
 // Signature help was triggered by the cursor moving or by the document content changing.
 const SignatureHelpTriggerKindContentChange SignatureHelpTriggerKind = 3
 
-// String returns "" or "Invoked" or "TriggerCharacter" or "ContentChange""".
+// String returns "" or "Invoked" or "TriggerCharacter" or "ContentChange", depending on the value of `it`.
 func (it SignatureHelpTriggerKind) String() string {
 	switch it {
-
 	case SignatureHelpTriggerKindInvoked:
 		return "Invoked"
-
 	case SignatureHelpTriggerKindTriggerCharacter:
 		return "TriggerCharacter"
-
 	case SignatureHelpTriggerKindContentChange:
 		return "ContentChange"
-
 	}
 	return ""
 }
@@ -1351,16 +1158,13 @@ const CodeActionTriggerKindInvoked CodeActionTriggerKind = 1
 // also be triggered when file content changes.
 const CodeActionTriggerKindAutomatic CodeActionTriggerKind = 2
 
-// String returns "" or "Invoked" or "Automatic""".
+// String returns "" or "Invoked" or "Automatic", depending on the value of `it`.
 func (it CodeActionTriggerKind) String() string {
 	switch it {
-
 	case CodeActionTriggerKindInvoked:
 		return "Invoked"
-
 	case CodeActionTriggerKindAutomatic:
 		return "Automatic"
-
 	}
 	return ""
 }
@@ -1377,16 +1181,13 @@ const FileOperationPatternKindFile FileOperationPatternKind = "file"
 // The pattern matches a folder only.
 const FileOperationPatternKindFolder FileOperationPatternKind = "folder"
 
-// String returns "" or "File" or "Folder""".
+// String returns "" or "File" or "Folder", depending on the value of `it`.
 func (it FileOperationPatternKind) String() string {
 	switch it {
-
 	case FileOperationPatternKindFile:
 		return "File"
-
 	case FileOperationPatternKindFolder:
 		return "Folder"
-
 	}
 	return ""
 }
@@ -1402,16 +1203,13 @@ const NotebookCellKindMarkup NotebookCellKind = 1
 // A code-cell is source code.
 const NotebookCellKindCode NotebookCellKind = 2
 
-// String returns "" or "Markup" or "Code""".
+// String returns "" or "Markup" or "Code", depending on the value of `it`.
 func (it NotebookCellKind) String() string {
 	switch it {
-
 	case NotebookCellKindMarkup:
 		return "Markup"
-
 	case NotebookCellKindCode:
 		return "Code"
-
 	}
 	return ""
 }
@@ -1427,19 +1225,15 @@ const ResourceOperationKindRename ResourceOperationKind = "rename"
 // Supports deleting existing files and folders.
 const ResourceOperationKindDelete ResourceOperationKind = "delete"
 
-// String returns "" or "Create" or "Rename" or "Delete""".
+// String returns "" or "Create" or "Rename" or "Delete", depending on the value of `it`.
 func (it ResourceOperationKind) String() string {
 	switch it {
-
 	case ResourceOperationKindCreate:
 		return "Create"
-
 	case ResourceOperationKindRename:
 		return "Rename"
-
 	case ResourceOperationKindDelete:
 		return "Delete"
-
 	}
 	return ""
 }
@@ -1463,22 +1257,17 @@ const FailureHandlingKindTextOnlyTransactional FailureHandlingKind = "textOnlyTr
 // guarantee that this is succeeding.
 const FailureHandlingKindUndo FailureHandlingKind = "undo"
 
-// String returns "" or "Abort" or "Transactional" or "TextOnlyTransactional" or "Undo""".
+// String returns "" or "Abort" or "Transactional" or "TextOnlyTransactional" or "Undo", depending on the value of `it`.
 func (it FailureHandlingKind) String() string {
 	switch it {
-
 	case FailureHandlingKindAbort:
 		return "Abort"
-
 	case FailureHandlingKindTransactional:
 		return "Transactional"
-
 	case FailureHandlingKindTextOnlyTransactional:
 		return "TextOnlyTransactional"
-
 	case FailureHandlingKindUndo:
 		return "Undo"
-
 	}
 	return ""
 }
@@ -1489,13 +1278,11 @@ type PrepareSupportDefaultBehavior Uinteger
 // according the to language's syntax rule.
 const PrepareSupportDefaultBehaviorIdentifier PrepareSupportDefaultBehavior = 1
 
-// String returns "" or "Identifier""".
+// String returns "" or "Identifier", depending on the value of `it`.
 func (it PrepareSupportDefaultBehavior) String() string {
 	switch it {
-
 	case PrepareSupportDefaultBehaviorIdentifier:
 		return "Identifier"
-
 	}
 	return ""
 }
@@ -1504,13 +1291,11 @@ type TokenFormat String
 
 const TokenFormatRelative TokenFormat = "relative"
 
-// String returns "" or "Relative""".
+// String returns "" or "Relative", depending on the value of `it`.
 func (it TokenFormat) String() string {
 	switch it {
-
 	case TokenFormatRelative:
 		return "Relative"
-
 	}
 	return ""
 }

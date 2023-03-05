@@ -34,18 +34,20 @@ type GenDot struct {
 	PkgName      string // defaults to `GenIdent`
 	Items        []any
 	FileContents string
+
+	gen *Gen
 }
 
 type GenLang struct {
-	DisplayName       string // eg. "Go" or "C#"
-	PkgFile           string // eg "go.mod", "package.json" etc
-	SrcFileExt        string // eg ".go", ".cs" etc
-	CommentLinePrefix string // eg "// ", "# " etc
-	PostGenTools      struct {
+	DisplayName  string // eg. "Go" or "C#"
+	PkgFile      string // eg "go.mod", "package.json" etc
+	SrcFileExt   string // eg ".go", ".cs" etc
+	PostGenTools struct {
 		Format *GenLangCmd  // eg "go fmt %in" etc
 		Check  []GenLangCmd // compiler, type-checker, parser or other linter. `%in` for absolute path of generated pkg-dir
 	}
-	Dict map[string]string
+	PostGenCleanUp []string // eg ["obj"]
+	Dict           map[string]string
 }
 
 type GenLangCmd struct {
@@ -176,26 +178,27 @@ type GenBase struct {
 
 func (it *GenBase) base() *GenBase { return it }
 
-func (it *GenBase) DocComments(root *GenDot) (ret string) {
-	if len(it.DocLines) > 0 {
-		ret = strings.Join(Map(it.DocLines, func(s string) string {
-			if idx := strings.Index(s, "{@link"); idx >= 0 {
-				if idx2 := strings.Index(s[idx:], "}"); idx2 > 0 {
-					idx2 += idx
-					doc_str := s[idx+1 : idx2]
-					panic(doc_str)
-				}
+func (it *GenBase) DocComments(root *GenDot) string {
+	if len(it.DocLines) == 0 {
+		return ""
+	}
+	doc_lines := Copy(it.DocLines)
+	for _, s := range doc_lines {
+		if idx := strings.Index(s, "{@link"); idx >= 0 {
+			if idx2 := strings.Index(s[idx:], "}"); idx2 > 0 {
+				idx2 += idx
+				doc_str := s[idx+1 : idx2]
+				panic(doc_str)
 			}
-			return root.Lang.CommentLinePrefix + s
-		}), "\n")
-		if it.Since != "" && !strings.Contains(ret, "@since") {
-			ret += "\n\n" + root.Lang.CommentLinePrefix + "@since " + it.Since
-		}
-		if it.Deprecated != "" && !strings.Contains(ret, "@deprecated") {
-			ret += "\n\n" + root.Lang.CommentLinePrefix + "@deprecated " + it.Deprecated
 		}
 	}
-	return
+	if it.Since != "" && !Exists(doc_lines, func(s string) bool { return strings.Contains(s, "@since") }) {
+		doc_lines = append(doc_lines, "@since "+it.Since)
+	}
+	if it.Deprecated != "" && !Exists(doc_lines, func(s string) bool { return strings.Contains(s, "@deprecated") }) {
+		doc_lines = append(doc_lines, "@deprecated "+it.Deprecated)
+	}
+	return root.gen.tmplExec(nil, root.gen.tmpl("doc_comments"), doc_lines)
 }
 
 type GenEnumeration struct {
@@ -211,10 +214,11 @@ type GenEnumerant struct {
 	Value   string
 }
 
-func (it *Gen) tmpl(filePath string) (ret *template.Template) {
-	if ret = tmpls[filePath]; ret == nil {
-		ret = template.Must(template.ParseFiles(filePath))
-		tmpls[filePath] = ret
+func (it *Gen) tmpl(tmplName string) (ret *template.Template) {
+	file_path := it.dirPathSrc + "/" + tmplName + ".tmpl"
+	if ret = tmpls[file_path]; ret == nil {
+		ret = template.Must(template.ParseFiles(file_path))
+		tmpls[file_path] = ret
 	}
 	return
 }
@@ -227,15 +231,20 @@ func (it *Gen) Type(t GenType) GenType {
 }
 
 func (it *Gen) Generate(dots GenDots) {
+	it.Dot.gen = it
 	it.types = map[string]GenType{}
 	it.dirPathLang = "../lang_" + it.LangIdent
 	it.dirPathSrc = it.dirPathLang + "/_gen"
 	it.dirPathDst = it.dirPathLang + "/" + it.Dot.GenIdent + "_v" + it.Dot.GenVer
-	println(it.dirPathDst + "...")
+	defer it.postGenCleanUp()
 	DirCreate(it.dirPathDst)
 
 	it.Dot.Lang = LoadFromJSONFile[GenLang](it.dirPathLang + "/lang_" + it.LangIdent + ".json")
 	it.Dot.PkgName = If(it.Dot.PkgName == "", it.Dot.GenIdent, it.Dot.PkgName)
+	if strings.HasPrefix(it.Dot.Lang.PkgFile, "*") {
+		it.Dot.Lang.PkgFile = it.Dot.GenIdent + "_v" + it.Dot.GenVer + it.Dot.Lang.PkgFile[1:]
+	}
+	println("\n", it.dirPathDst+"...")
 
 	var buf bytes.Buffer
 	it.genPkgFile(&buf)
@@ -244,22 +253,21 @@ func (it *Gen) Generate(dots GenDots) {
 	})
 	it.genSideTypes(&buf)
 
-	cmd_repl := map[string]string{"{dir}": PathAbs(it.dirPathDst)}
 	if it.Dot.Lang.PostGenTools.Format.ok() && !it.Dot.Lang.PostGenTools.Format.PerFile {
-		it.Dot.Lang.PostGenTools.Format.exec(it, cmd_repl)
+		it.Dot.Lang.PostGenTools.Format.exec(it, nil)
 	}
 	for _, check := range it.Dot.Lang.PostGenTools.Check {
 		if check.ok() && !check.PerFile {
-			check.exec(it, cmd_repl)
+			check.exec(it, nil)
 		}
 	}
 }
 
 func (it *Gen) genDots(buf *bytes.Buffer, dots_by_file_name map[string]func() []any) {
 	for file_name, dots := range dots_by_file_name {
-		tmpl := it.tmpl(it.dirPathSrc + "/" + file_name + ".tmpl")
+		tmpl := it.tmpl(file_name)
 		it.Dot.Items = dots()
-		it.tmplExec(buf, tmpl)
+		it.tmplExec(buf, tmpl, nil)
 
 		it.toCodeFile(buf, file_name)
 	}
@@ -268,37 +276,48 @@ func (it *Gen) genDots(buf *bytes.Buffer, dots_by_file_name map[string]func() []
 func (it *Gen) genSideTypes(buf *bytes.Buffer) {
 	types := make([]any, 0, len(it.types))
 	for _, ty := range it.types {
-		tmpl := it.tmpl(it.dirPathSrc + "/type_" + ty.kind() + ".tmpl")
+		tmpl := it.tmpl("type_" + ty.kind())
 		it.Dot.Items = []any{ty}
-		it.tmplExec(buf, tmpl)
+		it.tmplExec(buf, tmpl, nil)
 		types = append(types, it.Dot.FileContents)
 	}
-	tmpl := it.tmpl(it.dirPathSrc + "/types.tmpl")
+	tmpl := it.tmpl("types")
 	it.Dot.Items = types
-	it.tmplExec(buf, tmpl)
+	it.tmplExec(buf, tmpl, nil)
 	it.toCodeFile(buf, "types")
 }
 
 func (it *Gen) genPkgFile(buf *bytes.Buffer) {
-	tmpl := it.tmpl(it.dirPathSrc + "/file_pkg.tmpl")
-	it.tmplExec(buf, tmpl)
+	tmpl := it.tmpl("file_pkg")
+	it.tmplExec(buf, tmpl, nil)
 	file_path := it.toOutputFile(buf, "file_pkg", it.Dot.Lang.PkgFile)
 	it.filesGenerated.other = append(it.filesGenerated.other, file_path)
 }
 
-func (it *Gen) tmplExec(buf *bytes.Buffer, tmpl *template.Template) {
-	buf.Reset()
-	if err := tmpl.Execute(buf, &it.Dot); err != nil {
+func (it *Gen) tmplExec(buf *bytes.Buffer, tmpl *template.Template, dot any) (ret string) {
+	on_the_fly := (buf == nil)
+	if on_the_fly {
+		buf = new(bytes.Buffer)
+	} else {
+		buf.Reset()
+	}
+	if dot == nil {
+		dot = &it.Dot
+	}
+	if err := tmpl.Execute(buf, dot); err != nil {
 		panic(err)
 	}
-	it.Dot.FileContents = buf.String()
+	if ret = buf.String(); !on_the_fly {
+		it.Dot.FileContents = ret
+	}
+	return
 }
 
 func (it *Gen) toCodeFile(buf *bytes.Buffer, fileName string) {
 	file_path := it.toOutputFile(buf, "file_code", fileName+it.Dot.Lang.SrcFileExt)
 	it.filesGenerated.code = append(it.filesGenerated.code, file_path)
 
-	cmd_repl := map[string]string{"{file}": PathAbs(file_path), "{dir}": PathAbs(it.dirPathDst)}
+	cmd_repl := map[string]string{"{file}": PathAbs(file_path)}
 	if it.Dot.Lang.PostGenTools.Format.ok() && it.Dot.Lang.PostGenTools.Format.PerFile {
 		it.Dot.Lang.PostGenTools.Format.exec(it, cmd_repl)
 	}
@@ -310,11 +329,18 @@ func (it *Gen) toCodeFile(buf *bytes.Buffer, fileName string) {
 }
 
 func (it *Gen) toOutputFile(buf *bytes.Buffer, tmplName string, fileName string) (filePath string) {
-	tmpl := it.tmpl(it.dirPathSrc + "/" + tmplName + ".tmpl")
-	it.tmplExec(buf, tmpl)
+	tmpl := it.tmpl(tmplName)
+	it.tmplExec(buf, tmpl, nil)
 	filePath = it.dirPathDst + "/" + fileName
 	FileWrite(filePath, []byte(it.Dot.FileContents))
 	return
+}
+
+func (it *Gen) postGenCleanUp() {
+	for _, name := range it.Dot.Lang.PostGenCleanUp {
+		DirRemove(it.dirPathDst + "/" + name)
+		FileRemove(it.dirPathDst + "/" + name)
+	}
 }
 
 func (it *GenLangCmd) ok() bool {
@@ -322,21 +348,33 @@ func (it *GenLangCmd) ok() bool {
 }
 
 func (it *GenLangCmd) exec(gen *Gen, repl map[string]string) {
+	if repl == nil {
+		repl = map[string]string{}
+	}
 	for old, new := range map[string]string{
+		"{dir}":           PathAbs(gen.dirPathDst),
 		"{trash_dir}":     trashDir,
+		"{pkg_file_name}": gen.Dot.Lang.PkgFile,
+		"{pkg_file_path}": PathAbs(gen.dirPathDst + "/" + gen.Dot.Lang.PkgFile),
 		"{user_home_dir}": os.Getenv("HOME"),
 	} {
 		if repl[old] == "" {
 			repl[old] = new
 		}
 	}
-	parts := Replace(Without(strings.Split(it.Cmd, " "), ""), repl)
+
+	parts := Without(strings.Split(it.Cmd, " "), "")
 	for i := 0; i < len(parts); i++ {
 		if parts[i] == "{files}" {
 			parts = append(parts[:i], append(gen.filesGenerated.code, parts[i+1:]...)...)
 			i--
+		} else {
+			for old, new := range repl {
+				parts[i] = strings.ReplaceAll(parts[i], old, new)
+			}
 		}
 	}
+
 	cmd := exec.Command(parts[0], parts[1:]...)
 	for name, value := range it.Env {
 		for old, new := range repl {
@@ -345,6 +383,7 @@ func (it *GenLangCmd) exec(gen *Gen, repl map[string]string) {
 		it.Env[name] = value // just for the `full_command` print-out further below
 		cmd.Env = append(cmd.Env, name+"="+value)
 	}
+	cmd.Env = append(os.Environ(), cmd.Env...)
 	{
 		full_command := strings.Join(parts, " ")
 		for name, value := range it.Env {

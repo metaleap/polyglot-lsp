@@ -10,13 +10,13 @@ type {{ $enum.Name }} {{ $enum.Type }}
 const {{ $enum.Name }}{{ .NameCap }} {{ $enum.Name }} = {{ .Value }}
 {{ end }}
 
-// String returns ""{{range $i,$e := .Enumerants}} or "{{$e.NameCap}}"{{end}}"".
+// String returns ""{{range $i,$e := .Enumerants}} or "{{$e.NameCap}}"{{end}}, depending on the value of `it`.
 func (it {{ $enum.Name }}) String() string {
 	switch it {
-{{ range .Enumerants }}
+{{- range .Enumerants }}
 		case {{ $enum.Name }}{{ .NameCap }}:
 			return "{{ .NameCap }}"
-{{ end }}
+{{- end }}
 	}
 	return ""
 }

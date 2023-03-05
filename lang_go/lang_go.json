@@ -4,7 +4,7 @@
     "SrcFileExt": ".go",
     "PostGenTools": {
         "Format": {
-            "Cmd": "go fmt {file}",
+            "Cmd": "gofmt -l -w -s -e {file}",
             "PerFile": true
         },
         "Check": [
@@ -24,7 +24,6 @@
             }
         ]
     },
-    "CommentLinePrefix": "// ",
     "Dict": {
         "GoMod_GoVersion": "1.20"
     }

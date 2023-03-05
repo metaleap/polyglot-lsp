@@ -1,31 +1,23 @@
 {
     "DisplayName": "C#",
-    "PkgFile": "go.mod",
-    "SrcFileExt": ".go",
+    "PkgFile": "*.csproj",
+    "SrcFileExt": ".cs",
     "PostGenTools": {
         "Format": {
-            "Cmd": "go fmt {file}",
-            "PerFile": true
+            "Cmd": "dotnet format whitespace {dir} --folder",
+            "Env": {
+                "DOTNET_CLI_TELEMETRY_OPTOUT": "1"
+            }
         },
         "Check": [
             {
-                "Cmd": "go build -trimpath -o /dev/null {files}",
+                "Cmd": "dotnet build {pkg_file_path} --nologo -o {trash_dir}{pkg_file_name}",
                 "Env": {
-                    "GOCACHE": "{user_home_dir}/.cache/go-build",
-                    "GO111MODULE": "off"
-                }
-            },
-            {
-                "Cmd": "go vet -C {dir}",
-                "Env": {
-                    "GOCACHE": "{user_home_dir}/.cache/go-build",
-                    "GO111MODULE": "off"
+                    "DOTNET_CLI_TELEMETRY_OPTOUT": "1"
                 }
             }
         ]
     },
-    "CommentLinePrefix": "// ",
-    "Dict": {
-        "GoMod_GoVersion": "1.20"
-    }
+    "PostGenCleanUp":["obj"],
+    "Dict": {}
 }

@@ -1,0 +1,13 @@
+{{- range .Items -}}
+{{- with $ty := printf "%s" . -}}
+
+{{- if eq $ty "String" -}}
+using {{ $ty }} = System.String;
+{{- else if eq $ty "Uinteger" -}}
+using {{ $ty }} = System.UInt32;
+{{- else if eq $ty "Integer" -}}
+using {{ $ty }} = System.Int32;
+{{- end -}}
+
+{{- end -}}
+{{- end -}}
