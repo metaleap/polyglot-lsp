@@ -1,16 +1,16 @@
-{{ with $root := . }}
+{{ with $this := . }}
 {{ range .Items }}
 {{ with $enum := . }}
 
-{{ .DocComments $root }}
+{{ .DocComments $this }}
 type {{ $enum.Name }} {{ $enum.Type }}
 
 {{ range .Enumerants }}
-{{ .DocComments $root }}
+{{ .DocComments $this }}
 const {{ $enum.Name }}{{ .NameCap }} {{ $enum.Name }} = {{ .Value }}
 {{ end }}
 
-// String returns ""{{range $i,$e := .Enumerants}} or "{{$e.NameCap}}"{{end}}, depending on the value of `it`.
+// String returns ""{{range .Enumerants}} or "{{.NameCap}}"{{end}}, depending on the value of `it`.
 func (it {{ $enum.Name }}) String() string {
 	switch it {
 {{- range .Enumerants }}
