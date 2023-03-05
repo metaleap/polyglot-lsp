@@ -66,17 +66,19 @@ func (it *MetaModel) PerStructure(gen *glot.Gen, do func(*glot.GenStructure)) {
 			continue
 		}
 		do(&glot.GenStructure{
-			GenBase: it.toGenBase(&structure.MMBase),
+			GenTypeStructure: glot.GenTypeStructure{
+				GenBase: it.toGenBase(&structure.MMBase),
+				Properties: glot.Map(glot.Filter(structure.Properties, func(p MMProperty) bool { return !p.Proposed }), func(p MMProperty) glot.GenStructureProperty {
+					return glot.GenStructureProperty{
+						GenBase:  it.toGenBase(&p.MMBase),
+						Type:     p.Type.toGenType(it, gen),
+						Optional: p.Optional,
+						ConstVal: p.Type.constVal(),
+					}
+				}),
+			},
 			Mixins:  glot.Map(structure.Mixins, func(t MMType) glot.GenType { return t.toGenType(it, gen) }),
 			Extends: glot.Map(structure.Extends, func(t MMType) glot.GenType { return t.toGenType(it, gen) }),
-			Properties: glot.Map(glot.Filter(structure.Properties, func(p MMProperty) bool { return !p.Proposed }), func(p MMProperty) glot.GenStructureProperty {
-				return glot.GenStructureProperty{
-					GenBase:  it.toGenBase(&p.MMBase),
-					Type:     p.Type.toGenType(it, gen),
-					Optional: p.Optional,
-					ConstVal: p.Type.constVal(),
-				}
-			}),
 		})
 	}
 }
@@ -104,18 +106,26 @@ func (it *MMType) toGenType(mm *MetaModel, gen *glot.Gen) (ret glot.GenType) {
 	case MMTypeKindBooleanLiteral:
 		ret = (&MMType{Kind: MMTypeKindBase, Name: MMTypeNameBoolean}).toGenType(mm, gen)
 	case MMTypeKindLiteral:
-		ret = glot.GenTypeStructure{
-			GenBase: mm.toGenBase(&it.Value.l.MMBase),
-			Properties: glot.Map(glot.Filter(it.Value.l.Properties, func(p MMProperty) bool { return !p.Proposed }), func(p MMProperty) glot.GenStructureProperty {
-				return glot.GenStructureProperty{
-					GenBase:  mm.toGenBase(&p.MMBase),
-					Type:     p.Type.toGenType(mm, gen),
-					Optional: p.Optional,
-					ConstVal: p.Type.constVal(),
-				}
-			})}
+		props := glot.Filter(it.Value.l.Properties, func(p MMProperty) bool { return !p.Proposed })
+		if len(props) == 0 {
+			ret = glot.GenTypeMap{
+				KeyType:   glot.GenTypeBaseType(MMTypeNameString),
+				ValueType: glot.GenTypeBaseType("any"),
+			}
+		} else {
+			ret = &glot.GenTypeStructure{
+				GenBase: mm.toGenBase(&it.Value.l.MMBase),
+				Properties: glot.Map(props, func(p MMProperty) glot.GenStructureProperty {
+					return glot.GenStructureProperty{
+						GenBase:  mm.toGenBase(&p.MMBase),
+						Type:     p.Type.toGenType(mm, gen),
+						Optional: p.Optional,
+						ConstVal: p.Type.constVal(),
+					}
+				})}
+		}
 	default:
 		panic(it.Kind)
 	}
-	return gen.Type(ret)
+	return gen.EnsureTypeTracked(ret)
 }

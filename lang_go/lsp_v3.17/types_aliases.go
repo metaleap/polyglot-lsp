@@ -10,7 +10,8 @@ package lsp
 // 
 // Servers should prefer returning `DefinitionLink` over `Definition` if supported
 // by the client.
-type Definition struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+type Definition struct {
     Location *Location/*OPT:Location*/
     Locations []Location
 }
@@ -34,7 +35,8 @@ type LSPArray []LSPAny
 // convenience it is allowed and assumed that all these properties are
 // optional as well.
 // @since 3.17.0
-type LSPAny struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+type LSPAny struct {
     LSPObject LSPObject
     LSPArray LSPArray
     String *String
@@ -46,7 +48,8 @@ type LSPAny struct { // "OneOf" / union-type semantics: only at-most one field i
 
 
 // The declaration of a symbol representation as one or many `Location`.
-type Declaration struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+type Declaration struct {
     Location *Location/*OPT:Location*/
     Locations []Location
 }
@@ -69,7 +72,8 @@ type DeclarationLink LocationLink
 // The InlineValue types combines all inline value types into one type.
 // 
 // @since 3.17.0
-type InlineValue struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+type InlineValue struct {
     InlineValueText *InlineValueText/*OPT:InlineValueText*/
     InlineValueVariableLookup *InlineValueVariableLookup/*OPT:InlineValueVariableLookup*/
     InlineValueEvaluatableExpression *InlineValueEvaluatableExpression/*OPT:InlineValueEvaluatableExpression*/
@@ -83,13 +87,15 @@ type InlineValue struct { // "OneOf" / union-type semantics: only at-most one fi
 // pull request.
 // 
 // @since 3.17.0
-type DocumentDiagnosticReport struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+type DocumentDiagnosticReport struct {
     RelatedFullDocumentDiagnosticReport *RelatedFullDocumentDiagnosticReport/*OPT:RelatedFullDocumentDiagnosticReport*/
     RelatedUnchangedDocumentDiagnosticReport *RelatedUnchangedDocumentDiagnosticReport/*OPT:RelatedUnchangedDocumentDiagnosticReport*/
 }
 
 
-type PrepareRenameResult struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+type PrepareRenameResult struct {
     Range *Range/*OPT:Range*/
     RangePlaceholder *struct {
     
@@ -119,7 +125,8 @@ type PrepareRenameResult struct { // "OneOf" / union-type semantics: only at-mos
 type DocumentSelector []DocumentFilter
 
 
-type ProgressToken struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+type ProgressToken struct {
     Integer *Integer
     String *String
 }
@@ -132,7 +139,8 @@ type ChangeAnnotationIdentifier string
 // A workspace diagnostic document report.
 // 
 // @since 3.17.0
-type WorkspaceDocumentDiagnosticReport struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+type WorkspaceDocumentDiagnosticReport struct {
     WorkspaceFullDocumentDiagnosticReport *WorkspaceFullDocumentDiagnosticReport/*OPT:WorkspaceFullDocumentDiagnosticReport*/
     WorkspaceUnchangedDocumentDiagnosticReport *WorkspaceUnchangedDocumentDiagnosticReport/*OPT:WorkspaceUnchangedDocumentDiagnosticReport*/
 }
@@ -140,7 +148,8 @@ type WorkspaceDocumentDiagnosticReport struct { // "OneOf" / union-type semantic
 
 // An event describing a change to a text document. If only a text is provided
 // it is considered to be the full content of the document.
-type TextDocumentContentChangeEvent struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+type TextDocumentContentChangeEvent struct {
     RangeRangeLengthText *struct {
     
     
@@ -182,7 +191,8 @@ type TextDocumentContentChangeEvent struct { // "OneOf" / union-type semantics: 
 // 
 // Note that markdown strings will be sanitized - that means html will be escaped.
 // @deprecated use MarkupContent instead.
-type MarkedString struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+type MarkedString struct {
     String *String
     LanguageValue *struct {
     
@@ -201,7 +211,8 @@ type MarkedString struct { // "OneOf" / union-type semantics: only at-most one f
 // a notebook cell document.
 // 
 // @since 3.17.0 - proposed support for NotebookCellTextDocumentFilter.
-type DocumentFilter struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+type DocumentFilter struct {
     TextDocumentFilter TextDocumentFilter
     NotebookCellTextDocumentFilter *NotebookCellTextDocumentFilter/*OPT:NotebookCellTextDocumentFilter*/
 }
@@ -215,7 +226,8 @@ type LSPObject map[string]LSPAny
 // The glob pattern. Either a string pattern or a relative pattern.
 // 
 // @since 3.17.0
-type GlobPattern struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+type GlobPattern struct {
     Pattern *Pattern/*OPT:Pattern*/
     RelativePattern *RelativePattern/*OPT:RelativePattern*/
 }
@@ -237,7 +249,8 @@ type GlobPattern struct { // "OneOf" / union-type semantics: only at-most one fi
 // @sample A language filter that applies to all package.json paths: `{ language: 'json', pattern: '**package.json' }`
 // 
 // @since 3.17.0
-type TextDocumentFilter struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+type TextDocumentFilter struct {
     LanguageSchemePattern *struct {
     
     
@@ -294,7 +307,8 @@ type TextDocumentFilter struct { // "OneOf" / union-type semantics: only at-most
 // against the notebook's URI (same as with documents)
 // 
 // @since 3.17.0
-type NotebookDocumentFilter struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+type NotebookDocumentFilter struct {
     NotebookTypeSchemePattern *struct {
     
     

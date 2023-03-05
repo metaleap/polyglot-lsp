@@ -21,10 +21,9 @@ type GenAlias struct {
 }
 
 type GenStructure struct {
-	GenBase
-	Extends    []GenType
-	Mixins     []GenType
-	Properties []GenStructureProperty
+	GenTypeStructure
+	Extends []GenType
+	Mixins  []GenType
 }
 type GenStructureProperty struct {
 	GenBase
@@ -39,6 +38,8 @@ type GenBase struct {
 	Name     string
 	NameUp   string
 	DocLines []string
+
+	docHintUnionsEnsured bool
 }
 
 func (it *GenBase) base() *GenBase { return it }
@@ -86,7 +87,7 @@ type GenTypeReference string
 func (it GenTypeReference) NameSuggestion(up bool) string {
 	return If(up, Up0, self[string])(string(it))
 }
-func (it GenTypeReference) String() string { return Up0(string(it)) }
+func (it GenTypeReference) String() string { return string(it) }
 func (it GenTypeReference) kind() string   { return "Reference" }
 func (it GenTypeReference) key() string    { return "@" + string(it) }
 
@@ -155,24 +156,36 @@ type GenTypeStructure struct {
 	Properties []GenStructureProperty
 }
 
-func (it GenTypeStructure) NameSuggestion(up bool) string {
+func (it *GenTypeStructure) base() *GenBase { return &it.GenBase }
+func (it *GenTypeStructure) ensureDocHintUnionType() {
+	for i := range it.Properties {
+		ensureDocHintUnionType(&it.Properties[i].GenBase, it.Properties[i].Type)
+	}
+}
+func (it *GenTypeStructure) NameSuggestion(up bool) string {
+	if len(it.Properties) == 0 {
+		return "Empty"
+	}
 	return strings.Join(Map(it.Properties, func(p GenStructureProperty) string {
 		return If(up, Up0, self[string])(p.Name)
 	}), "")
 }
-func (it GenTypeStructure) String() string { return genTypeString(it) }
-func (it GenTypeStructure) kind() string   { return "Structure" }
-func (it GenTypeStructure) key() string {
+func (it *GenTypeStructure) String() string { return genTypeString(it) }
+func (it *GenTypeStructure) kind() string   { return "Structure" }
+func (it *GenTypeStructure) key() string {
 	return "{" + strings.Join(Map(it.Properties, func(p GenStructureProperty) string {
 		return p.Name + If(p.Optional, "?", "") + " " + p.Type.key()
 	}), ";") + "}"
 }
 
-func (it *Gen) Type(t GenType) GenType {
+func (it *Gen) EnsureTypeTracked(t GenType) GenType {
 	if key := t.key(); it.tracked.types[key] == nil {
 		it.tracked.types[key] = t
-		if struc, is := t.(GenTypeStructure); is {
-			ensureConstValDocHints(struc.Properties, func(p GenStructureProperty) any { return p.ConstVal })
+		switch t := t.(type) {
+		case *GenTypeStructure:
+			ensureDocHintConstVal(t.Properties, func(p GenStructureProperty) any { return p.ConstVal })
+		case GenTypeOr:
+			// TODO ditch pattern { {a;?b;?c} | {?a;b;?c} | {?a;?b;c} }
 		}
 	}
 	return t

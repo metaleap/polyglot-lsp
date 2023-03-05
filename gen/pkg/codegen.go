@@ -109,14 +109,16 @@ func (it *Gen) genDots(buf *bytes.Buffer, dots_by_file_name []Tup[string, func()
 			case *GenEnumeration:
 				it.tracked.decls.enumerations[decl.Name] = decl
 				it.tracked.decls.enumerations[decl.NameUp] = decl
-				ensureConstValDocHints(decl.Enumerants, func(p GenEnumerant) any { return p.Value })
+				ensureDocHintConstVal(decl.Enumerants, func(p GenEnumerant) any { return p.Value })
 			case *GenStructure:
 				it.tracked.decls.structures[decl.Name] = decl
 				it.tracked.decls.structures[decl.NameUp] = decl
-				ensureConstValDocHints(decl.Properties, func(p GenStructureProperty) any { return p.ConstVal })
+				ensureDocHintConstVal(decl.Properties, func(p GenStructureProperty) any { return p.ConstVal })
+				decl.ensureDocHintUnionType()
 			case *GenAlias:
 				it.tracked.decls.typeAliases[decl.Name] = decl
 				it.tracked.decls.typeAliases[decl.NameUp] = decl
+				ensureDocHintUnionType(&decl.GenBase, decl.Type)
 			}
 		}
 		it.tmplExec(buf, tmpl, nil)
@@ -156,13 +158,30 @@ func (it *Gen) postGenCleanUp() {
 	}
 }
 
-func ensureConstValDocHints[T any](items []T, constVal func(T) any) {
+func ensureDocHintConstVal[T any](items []T, constVal func(T) any) {
 	for i, item := range items {
 		if base, const_val := any(&items[i]).(interface{ base() *GenBase }).base(), constVal(item); const_val != nil {
 			base.DocLines = append(base.DocLines, "The value is always "+ValueString(const_val))
 		}
 	}
 }
+
+func ensureDocHintUnionType(base *GenBase, t GenType) {
+	switch t := t.(type) {
+	case GenTypeOr:
+		if len(t.NonNull()) > 1 && base != nil && !base.docHintUnionsEnsured {
+			base.docHintUnionsEnsured = true
+			base.DocLines = append(base.DocLines, "\"OneOf\" union-type semantics: only at-most one field is ever non-`nil`.")
+		}
+	case *GenTypeStructure:
+		t.ensureDocHintUnionType()
+	case GenTypeMap:
+		ensureDocHintUnionType(base, t.ValueType)
+	case GenTypeArray:
+		ensureDocHintUnionType(base, t.ElemType)
+	}
+}
+
 func toAnys[T any](gen *Gen, each func(*Gen, func(*T))) func() []any {
 	return func() (ret []any) {
 		each(gen, func(dot *T) {

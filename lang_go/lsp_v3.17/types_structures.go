@@ -124,9 +124,7 @@ type TextDocumentRegistrationOptions struct {
     
 // A document selector to identify the scope of the registration. If set to null
 // the document selector provided on the client side will be used.
-    DocumentSelector struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
-    DocumentSelector *DocumentSelector/*OPT:DocumentSelector*/
-}
+    DocumentSelector *DocumentSelector/*OPT:DocumentSelector*///JUST1
     
 }
 // Parameters for a `FoldingRangeRequest`.
@@ -507,7 +505,8 @@ type WorkspaceEdit struct {
 // 
 // If a client neither supports `documentChanges` nor `workspace.workspaceEdit.resourceOperations` then
 // only plain `TextEdit`s using the `changes` property are supported.
-    DocumentChanges []struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    DocumentChanges []struct {
     TextDocumentEdit *TextDocumentEdit/*OPT:TextDocumentEdit*/
     CreateFile *CreateFile/*OPT:CreateFile*/
     RenameFile *RenameFile/*OPT:RenameFile*/
@@ -711,7 +710,8 @@ type InlayHint struct {
 // InlayHintLabelPart label parts.
 // 
 // *Note* that neither the string nor the label part can be empty.
-    Label struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    Label struct {
     String *String
     InlayHintLabelParts []InlayHintLabelPart
 }
@@ -731,7 +731,8 @@ type InlayHint struct {
     
     
 // The tooltip text when you hover over this item.
-    Tooltip struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    Tooltip struct {
     String *String
     MarkupContent *MarkupContent/*OPT:MarkupContent*/
 }
@@ -788,7 +789,8 @@ type DocumentDiagnosticParams struct {
 type DocumentDiagnosticReportPartialResult struct {
     
     
-    RelatedDocuments map[DocumentURI]struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    RelatedDocuments map[DocumentURI]struct {
     FullDocumentDiagnosticReport *FullDocumentDiagnosticReport/*OPT:FullDocumentDiagnosticReport*/
     UnchangedDocumentDiagnosticReport *UnchangedDocumentDiagnosticReport/*OPT:UnchangedDocumentDiagnosticReport*/
 }
@@ -977,7 +979,8 @@ type DidChangeConfigurationParams struct {
 type DidChangeConfigurationRegistrationOptions struct {
     
     
-    Section struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    Section struct {
     String *String
     Strings []string
 }
@@ -1201,7 +1204,8 @@ type CompletionItem struct {
     
     
 // A human-readable string that represents a doc-comment.
-    Documentation struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    Documentation struct {
     String *String
     MarkupContent *MarkupContent/*OPT:MarkupContent*/
 }
@@ -1283,7 +1287,8 @@ type CompletionItem struct {
 // contained and starting at the same position.
 // 
 // @since 3.16.0 additional type `InsertReplaceEdit`
-    TextEdit struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    TextEdit struct {
     TextEdit *TextEdit/*OPT:TextEdit*/
     InsertReplaceEdit *InsertReplaceEdit/*OPT:InsertReplaceEdit*/
 }
@@ -1366,7 +1371,8 @@ type CompletionList struct {
 // A default edit range.
 // 
 // @since 3.17.0
-    EditRange struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    EditRange struct {
     Range *Range/*OPT:Range*/
     InsertReplace *struct {
     
@@ -1419,7 +1425,8 @@ type Hover struct {
     
     
 // The hover's content
-    Contents struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    Contents struct {
     MarkupContent *MarkupContent/*OPT:MarkupContent*/
     MarkedString *MarkedString/*OPT:MarkedString*/
     MarkedStrings []MarkedString
@@ -1742,7 +1749,8 @@ type WorkspaceSymbol struct {
 // capability `workspace.symbol.resolveSupport`.
 // 
 // See SymbolInformation#location for more details.
-    Location struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    Location struct {
     Location *Location/*OPT:Location*/
     Uri *struct {
     
@@ -2078,7 +2086,8 @@ type CancelParams struct {
     
     
 // The request id to cancel.
-    Id struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    Id struct {
     Integer *Integer
     String *String
 }
@@ -2314,17 +2323,16 @@ type SemanticTokensOptions struct {
     
 // Server supports providing semantic tokens for a specific range
 // of a document.
-    Range struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    Range struct {
     Boolean *Boolean
-     *struct {
-    
-}
-/*OPT:<Structure>{}*/
+    AnyByString map[string]any
 }
     
     
 // Server supports providing semantic tokens for a full document.
-    Full struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    Full struct {
     Boolean *Boolean
     Delta *struct {
     
@@ -2381,7 +2389,8 @@ type TextDocumentEdit struct {
 // 
 // @since 3.16.0 - support for AnnotatedTextEdit. This is guarded using a
 // client capability.
-    Edits []struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    Edits []struct {
     TextEdit *TextEdit/*OPT:TextEdit*/
     AnnotatedTextEdit *AnnotatedTextEdit/*OPT:AnnotatedTextEdit*/
 }
@@ -2596,7 +2605,8 @@ type InlayHintLabelPart struct {
 // The tooltip text when you hover over this label part. Depending on
 // the client capability `inlayHint.resolveSupport` clients might resolve
 // this property late using the resolve request.
-    Tooltip struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    Tooltip struct {
     String *String
     MarkupContent *MarkupContent/*OPT:MarkupContent*/
 }
@@ -2680,7 +2690,8 @@ type RelatedFullDocumentDiagnosticReport struct {
 // a.cpp and result in errors in a header file b.hpp.
 // 
 // @since 3.17.0
-    RelatedDocuments map[DocumentURI]struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    RelatedDocuments map[DocumentURI]struct {
     FullDocumentDiagnosticReport *FullDocumentDiagnosticReport/*OPT:FullDocumentDiagnosticReport*/
     UnchangedDocumentDiagnosticReport *UnchangedDocumentDiagnosticReport/*OPT:UnchangedDocumentDiagnosticReport*/
 }
@@ -2699,7 +2710,8 @@ type RelatedUnchangedDocumentDiagnosticReport struct {
 // a.cpp and result in errors in a header file b.hpp.
 // 
 // @since 3.17.0
-    RelatedDocuments map[DocumentURI]struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    RelatedDocuments map[DocumentURI]struct {
     FullDocumentDiagnosticReport *FullDocumentDiagnosticReport/*OPT:FullDocumentDiagnosticReport*/
     UnchangedDocumentDiagnosticReport *UnchangedDocumentDiagnosticReport/*OPT:UnchangedDocumentDiagnosticReport*/
 }
@@ -2955,9 +2967,7 @@ type _InitializeParams struct {
 // 
 // Is `null` if the process has not been started by another process.
 // If the parent process is not alive then the server should exit.
-    ProcessId struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
-    Integer *Integer
-}
+    ProcessId *Integer//JUST1
     
     
 // Information about the client
@@ -2992,9 +3002,7 @@ type _InitializeParams struct {
 // if no folder is open.
 // 
 // @deprecated in favour of rootUri.
-    RootPath struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
-    String *String
-}
+    RootPath *String//JUST1
     
     
 // The rootUri of the workspace. Is null if no
@@ -3002,9 +3010,7 @@ type _InitializeParams struct {
 // `rootUri` wins.
 // 
 // @deprecated in favour of workspaceFolders.
-    RootUri struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
-    DocumentUri DocumentURI
-}
+    RootUri DocumentURI//JUST1
     
     
 // The capabilities provided by the client (editor or tool)
@@ -3029,9 +3035,7 @@ type WorkspaceFoldersInitializeParams struct {
 // configured.
 // 
 // @since 3.6.0
-    WorkspaceFolders struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
-    WorkspaceFolders []WorkspaceFolder
-}
+    WorkspaceFolders []WorkspaceFolder//JUST1
     
 }
 // Defines the capabilities provided by a language
@@ -3054,7 +3058,8 @@ type ServerCapabilities struct {
 // Defines how text documents are synced. Is either a detailed structure
 // defining each notification or for backwards compatibility the
 // TextDocumentSyncKind number.
-    TextDocumentSync struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    TextDocumentSync struct {
     TextDocumentSyncOptions *TextDocumentSyncOptions/*OPT:TextDocumentSyncOptions*/
     TextDocumentSyncKind TextDocumentSyncKind
 }
@@ -3063,7 +3068,8 @@ type ServerCapabilities struct {
 // Defines how notebook documents are synced.
 // 
 // @since 3.17.0
-    NotebookDocumentSync struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    NotebookDocumentSync struct {
     NotebookDocumentSyncOptions *NotebookDocumentSyncOptions/*OPT:NotebookDocumentSyncOptions*/
     NotebookDocumentSyncRegistrationOptions *NotebookDocumentSyncRegistrationOptions/*OPT:NotebookDocumentSyncRegistrationOptions*/
 }
@@ -3074,7 +3080,8 @@ type ServerCapabilities struct {
     
     
 // The server provides hover support.
-    HoverProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    HoverProvider struct {
     Boolean *Boolean
     HoverOptions *HoverOptions/*OPT:HoverOptions*/
 }
@@ -3085,7 +3092,8 @@ type ServerCapabilities struct {
     
     
 // The server provides Goto Declaration support.
-    DeclarationProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    DeclarationProvider struct {
     Boolean *Boolean
     DeclarationOptions *DeclarationOptions/*OPT:DeclarationOptions*/
     DeclarationRegistrationOptions *DeclarationRegistrationOptions/*OPT:DeclarationRegistrationOptions*/
@@ -3093,14 +3101,16 @@ type ServerCapabilities struct {
     
     
 // The server provides goto definition support.
-    DefinitionProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    DefinitionProvider struct {
     Boolean *Boolean
     DefinitionOptions *DefinitionOptions/*OPT:DefinitionOptions*/
 }
     
     
 // The server provides Goto Type Definition support.
-    TypeDefinitionProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    TypeDefinitionProvider struct {
     Boolean *Boolean
     TypeDefinitionOptions *TypeDefinitionOptions/*OPT:TypeDefinitionOptions*/
     TypeDefinitionRegistrationOptions *TypeDefinitionRegistrationOptions/*OPT:TypeDefinitionRegistrationOptions*/
@@ -3108,7 +3118,8 @@ type ServerCapabilities struct {
     
     
 // The server provides Goto Implementation support.
-    ImplementationProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    ImplementationProvider struct {
     Boolean *Boolean
     ImplementationOptions *ImplementationOptions/*OPT:ImplementationOptions*/
     ImplementationRegistrationOptions *ImplementationRegistrationOptions/*OPT:ImplementationRegistrationOptions*/
@@ -3116,21 +3127,24 @@ type ServerCapabilities struct {
     
     
 // The server provides find references support.
-    ReferencesProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    ReferencesProvider struct {
     Boolean *Boolean
     ReferenceOptions *ReferenceOptions/*OPT:ReferenceOptions*/
 }
     
     
 // The server provides document highlight support.
-    DocumentHighlightProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    DocumentHighlightProvider struct {
     Boolean *Boolean
     DocumentHighlightOptions *DocumentHighlightOptions/*OPT:DocumentHighlightOptions*/
 }
     
     
 // The server provides document symbol support.
-    DocumentSymbolProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    DocumentSymbolProvider struct {
     Boolean *Boolean
     DocumentSymbolOptions *DocumentSymbolOptions/*OPT:DocumentSymbolOptions*/
 }
@@ -3139,7 +3153,8 @@ type ServerCapabilities struct {
 // The server provides code actions. CodeActionOptions may only be
 // specified if the client states that it supports
 // `codeActionLiteralSupport` in its initial `initialize` request.
-    CodeActionProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    CodeActionProvider struct {
     Boolean *Boolean
     CodeActionOptions *CodeActionOptions/*OPT:CodeActionOptions*/
 }
@@ -3154,7 +3169,8 @@ type ServerCapabilities struct {
     
     
 // The server provides color provider support.
-    ColorProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    ColorProvider struct {
     Boolean *Boolean
     DocumentColorOptions *DocumentColorOptions/*OPT:DocumentColorOptions*/
     DocumentColorRegistrationOptions *DocumentColorRegistrationOptions/*OPT:DocumentColorRegistrationOptions*/
@@ -3162,21 +3178,24 @@ type ServerCapabilities struct {
     
     
 // The server provides workspace symbol support.
-    WorkspaceSymbolProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    WorkspaceSymbolProvider struct {
     Boolean *Boolean
     WorkspaceSymbolOptions *WorkspaceSymbolOptions/*OPT:WorkspaceSymbolOptions*/
 }
     
     
 // The server provides document formatting.
-    DocumentFormattingProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    DocumentFormattingProvider struct {
     Boolean *Boolean
     DocumentFormattingOptions *DocumentFormattingOptions/*OPT:DocumentFormattingOptions*/
 }
     
     
 // The server provides document range formatting.
-    DocumentRangeFormattingProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    DocumentRangeFormattingProvider struct {
     Boolean *Boolean
     DocumentRangeFormattingOptions *DocumentRangeFormattingOptions/*OPT:DocumentRangeFormattingOptions*/
 }
@@ -3189,14 +3208,16 @@ type ServerCapabilities struct {
 // The server provides rename support. RenameOptions may only be
 // specified if the client states that it supports
 // `prepareSupport` in its initial `initialize` request.
-    RenameProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    RenameProvider struct {
     Boolean *Boolean
     RenameOptions *RenameOptions/*OPT:RenameOptions*/
 }
     
     
 // The server provides folding provider support.
-    FoldingRangeProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    FoldingRangeProvider struct {
     Boolean *Boolean
     FoldingRangeOptions *FoldingRangeOptions/*OPT:FoldingRangeOptions*/
     FoldingRangeRegistrationOptions *FoldingRangeRegistrationOptions/*OPT:FoldingRangeRegistrationOptions*/
@@ -3204,7 +3225,8 @@ type ServerCapabilities struct {
     
     
 // The server provides selection range support.
-    SelectionRangeProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    SelectionRangeProvider struct {
     Boolean *Boolean
     SelectionRangeOptions *SelectionRangeOptions/*OPT:SelectionRangeOptions*/
     SelectionRangeRegistrationOptions *SelectionRangeRegistrationOptions/*OPT:SelectionRangeRegistrationOptions*/
@@ -3218,7 +3240,8 @@ type ServerCapabilities struct {
 // The server provides call hierarchy support.
 // 
 // @since 3.16.0
-    CallHierarchyProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    CallHierarchyProvider struct {
     Boolean *Boolean
     CallHierarchyOptions *CallHierarchyOptions/*OPT:CallHierarchyOptions*/
     CallHierarchyRegistrationOptions *CallHierarchyRegistrationOptions/*OPT:CallHierarchyRegistrationOptions*/
@@ -3228,7 +3251,8 @@ type ServerCapabilities struct {
 // The server provides linked editing range support.
 // 
 // @since 3.16.0
-    LinkedEditingRangeProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    LinkedEditingRangeProvider struct {
     Boolean *Boolean
     LinkedEditingRangeOptions *LinkedEditingRangeOptions/*OPT:LinkedEditingRangeOptions*/
     LinkedEditingRangeRegistrationOptions *LinkedEditingRangeRegistrationOptions/*OPT:LinkedEditingRangeRegistrationOptions*/
@@ -3238,7 +3262,8 @@ type ServerCapabilities struct {
 // The server provides semantic tokens support.
 // 
 // @since 3.16.0
-    SemanticTokensProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    SemanticTokensProvider struct {
     SemanticTokensOptions *SemanticTokensOptions/*OPT:SemanticTokensOptions*/
     SemanticTokensRegistrationOptions *SemanticTokensRegistrationOptions/*OPT:SemanticTokensRegistrationOptions*/
 }
@@ -3247,7 +3272,8 @@ type ServerCapabilities struct {
 // The server provides moniker support.
 // 
 // @since 3.16.0
-    MonikerProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    MonikerProvider struct {
     Boolean *Boolean
     MonikerOptions *MonikerOptions/*OPT:MonikerOptions*/
     MonikerRegistrationOptions *MonikerRegistrationOptions/*OPT:MonikerRegistrationOptions*/
@@ -3257,7 +3283,8 @@ type ServerCapabilities struct {
 // The server provides type hierarchy support.
 // 
 // @since 3.17.0
-    TypeHierarchyProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    TypeHierarchyProvider struct {
     Boolean *Boolean
     TypeHierarchyOptions *TypeHierarchyOptions/*OPT:TypeHierarchyOptions*/
     TypeHierarchyRegistrationOptions *TypeHierarchyRegistrationOptions/*OPT:TypeHierarchyRegistrationOptions*/
@@ -3267,7 +3294,8 @@ type ServerCapabilities struct {
 // The server provides inline values.
 // 
 // @since 3.17.0
-    InlineValueProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    InlineValueProvider struct {
     Boolean *Boolean
     InlineValueOptions *InlineValueOptions/*OPT:InlineValueOptions*/
     InlineValueRegistrationOptions *InlineValueRegistrationOptions/*OPT:InlineValueRegistrationOptions*/
@@ -3277,7 +3305,8 @@ type ServerCapabilities struct {
 // The server provides inlay hints.
 // 
 // @since 3.17.0
-    InlayHintProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    InlayHintProvider struct {
     Boolean *Boolean
     InlayHintOptions *InlayHintOptions/*OPT:InlayHintOptions*/
     InlayHintRegistrationOptions *InlayHintRegistrationOptions/*OPT:InlayHintRegistrationOptions*/
@@ -3287,7 +3316,8 @@ type ServerCapabilities struct {
 // The server has support for pull model diagnostics.
 // 
 // @since 3.17.0
-    DiagnosticProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    DiagnosticProvider struct {
     DiagnosticOptions *DiagnosticOptions/*OPT:DiagnosticOptions*/
     DiagnosticRegistrationOptions *DiagnosticRegistrationOptions/*OPT:DiagnosticRegistrationOptions*/
 }
@@ -3374,7 +3404,8 @@ type Diagnostic struct {
     
     
 // The diagnostic's code, which usually appear in the user interface.
-    Code struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    Code struct {
     Integer *Integer
     String *String
 }
@@ -3558,7 +3589,8 @@ type SignatureInformation struct {
     
 // The human-readable doc-comment of this signature. Will be shown
 // in the UI but can be omitted.
-    Documentation struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    Documentation struct {
     String *String
     MarkupContent *MarkupContent/*OPT:MarkupContent*/
 }
@@ -3810,9 +3842,7 @@ type OptionalVersionedTextDocumentIdentifier struct {
 // (the server has not received an open notification before) the server can send
 // `null` to indicate that the version is unknown and the content on disk is the
 // truth (as specified with document content ownership).
-    Version struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
-    Integer *Integer
-}
+    Version *Integer//JUST1
     
 }
 // A special text edit with an additional change annotation.
@@ -3914,9 +3944,7 @@ type WorkspaceFullDocumentDiagnosticReport struct {
     
 // The version number for which the diagnostics are reported.
 // If the document is not marked as open `null` can be provided.
-    Version struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
-    Integer *Integer
-}
+    Version *Integer//JUST1
     
 }
 // An unchanged document diagnostic report for a workspace diagnostic result.
@@ -3931,9 +3959,7 @@ type WorkspaceUnchangedDocumentDiagnosticReport struct {
     
 // The version number for which the diagnostics are reported.
 // If the document is not marked as open `null` can be provided.
-    Version struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
-    Integer *Integer
-}
+    Version *Integer//JUST1
     
 }
 // A notebook cell.
@@ -4042,7 +4068,8 @@ type TextDocumentSyncOptions struct {
     
 // If present save notifications are sent to the server. If omitted the notification should not be
 // sent.
-    Save struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    Save struct {
     Boolean *Boolean
     SaveOptions *SaveOptions/*OPT:SaveOptions*/
 }
@@ -4065,14 +4092,15 @@ type NotebookDocumentSyncOptions struct {
     
     
 // The notebooks to be synced
-    NotebookSelector []struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    NotebookSelector []struct {
     NotebookCells *struct {
     
     
 // The notebook to be synced If a string
 // value is provided it matches against the
 // notebook type. '*' matches every notebook.
-    Notebook struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+    Notebook struct {
     String *String
     NotebookDocumentFilter *NotebookDocumentFilter/*OPT:NotebookDocumentFilter*/
 }
@@ -4095,7 +4123,7 @@ type NotebookDocumentSyncOptions struct {
 // The notebook to be synced If a string
 // value is provided it matches against the
 // notebook type. '*' matches every notebook.
-    Notebook struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+    Notebook struct {
     String *String
     NotebookDocumentFilter *NotebookDocumentFilter/*OPT:NotebookDocumentFilter*/
 }
@@ -4140,7 +4168,8 @@ type WorkspaceFoldersServerCapabilities struct {
 // under which the notification is registered on the client
 // side. The ID can be used to unregister for these events
 // using the `client/unregisterCapability` request.
-    ChangeNotifications struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    ChangeNotifications struct {
     String *String
     Boolean *Boolean
 }
@@ -4213,7 +4242,8 @@ type ParameterInformation struct {
 // 
 // *Note*: a label of type string should be a substring of its containing signature label.
 // Its intended use case is to highlight the parameter label part in the `SignatureInformation.label`.
-    Label struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    Label struct {
     String *String
     UintegerWithUinteger *struct {
     Uinteger uint
@@ -4224,7 +4254,8 @@ type ParameterInformation struct {
     
 // The human-readable doc-comment of this parameter. Will be shown
 // in the UI but can be omitted.
-    Documentation struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    Documentation struct {
     String *String
     MarkupContent *MarkupContent/*OPT:MarkupContent*/
 }
@@ -4241,7 +4272,8 @@ type NotebookCellTextDocumentFilter struct {
 // containing the notebook cell. If a string
 // value is provided it matches against the
 // notebook type. '*' matches every notebook.
-    Notebook struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    Notebook struct {
     String *String
     NotebookDocumentFilter *NotebookDocumentFilter/*OPT:NotebookDocumentFilter*/
 }
@@ -4624,7 +4656,8 @@ type RelativePattern struct {
     
 // A workspace folder or a base URI to which this pattern will be matched
 // against relatively.
-    BaseUri struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    BaseUri struct {
     WorkspaceFolder *WorkspaceFolder/*OPT:WorkspaceFolder*/
     URI URI
 }
@@ -5551,18 +5584,17 @@ type SemanticTokensClientCapabilities struct {
     
 // The client will send the `textDocument/semanticTokens/range` request if
 // the server provides a corresponding handler.
-    Range struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    Range struct {
     Boolean *Boolean
-     *struct {
-    
-}
-/*OPT:<Structure>{}*/
+    AnyByString map[string]any
 }
     
     
 // The client will send the `textDocument/semanticTokens/full` request if
 // the server provides a corresponding handler.
-    Full struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+// "OneOf" union-type semantics: only at-most one field is ever non-`nil`.
+    Full struct {
     Boolean *Boolean
     Delta *struct {
     

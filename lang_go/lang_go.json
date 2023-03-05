@@ -3,6 +3,7 @@
     "PkgFile": "go.mod",
     "SrcFileExt": ".go",
     "BaseTypeMapping": {
+        "any": "any",
         "string": "string",
         "uinteger": "uint",
         "integer": "int",

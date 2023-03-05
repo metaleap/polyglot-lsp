@@ -1,11 +1,15 @@
 {{- with $it := . -}}
 {{- with $member_types := $it.Type.NonNull -}}
 
-struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
+{{- if eq (len $member_types) 1 -}}
+{{ $it.Dot.DoTypeOptional (index $member_types 0) true }}//JUST1
+{{- else -}}
+struct {
 {{- range $member_types }}
     {{.NameSuggestion true}} {{ $it.Dot.DoTypeOptional . true }}
 {{- end }}
 }
+{{- end }}
 
 {{- end -}}
 {{- end -}}
