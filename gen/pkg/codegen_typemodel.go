@@ -12,10 +12,10 @@ type GenEnumeration struct {
 }
 type GenEnumerant struct {
 	GenBase
-	Value string
+	Value NumberOrString
 }
 
-type GenTypeAlias struct {
+type GenAlias struct {
 	GenBase
 	Type GenType
 }
@@ -29,15 +29,16 @@ type GenStructure struct {
 type GenStructureProperty struct {
 	GenBase
 	Type     GenType
+	ConstVal any
 	Optional bool
 }
 
+func (it *GenStructureProperty) HasConstVal() bool { return it.ConstVal != nil }
+
 type GenBase struct {
-	Name       string
-	NameUp     string
-	DocLines   []string
-	Since      string
-	Deprecated string
+	Name     string
+	NameUp   string
+	DocLines []string
 }
 
 func (it *GenBase) base() *GenBase { return it }
@@ -95,7 +96,7 @@ type GenTypeMap struct {
 }
 
 func (it GenTypeMap) NameSuggestion(up bool) string {
-	return it.ValueType.NameSuggestion(up) + "By" + it.KeyType.NameSuggestion(up)
+	return it.ValueType.NameSuggestion(up) + "By" + it.KeyType.NameSuggestion(true)
 }
 func (it GenTypeMap) String() string { return genTypeString(it) }
 func (it GenTypeMap) kind() string   { return "Map" }
@@ -113,7 +114,7 @@ func (it GenTypeArray) key() string                   { return "[" + it.ElemType
 type GenTypeAnd []GenType
 
 func (it GenTypeAnd) NameSuggestion(up bool) string {
-	return strings.Join(Map(it, func(t GenType) string { return t.NameSuggestion(up) }), "And")
+	return strings.Join(MapIdx(it, func(t GenType, i int) string { return t.NameSuggestion(If(i == 0, up, true)) }), "And")
 }
 func (it GenTypeAnd) String() string { return genTypeString(it) }
 func (it GenTypeAnd) kind() string   { return "And" }
@@ -124,7 +125,7 @@ func (it GenTypeAnd) key() string {
 type GenTypeOr []GenType
 
 func (it GenTypeOr) NameSuggestion(up bool) string {
-	return strings.Join(Map(it, func(t GenType) string { return t.NameSuggestion(up) }), "Or")
+	return strings.Join(MapIdx(it, func(t GenType, i int) string { return t.NameSuggestion(If(i == 0, up, true)) }), "Or")
 }
 func (it GenTypeOr) String() string { return genTypeString(it) }
 func (it GenTypeOr) kind() string   { return "Or" }
@@ -141,7 +142,7 @@ func (it GenTypeOr) NonNull() []GenType {
 type GenTypeTuple []GenType
 
 func (it GenTypeTuple) NameSuggestion(up bool) string {
-	return strings.Join(Map(it, func(t GenType) string { return t.NameSuggestion(up) }), "With")
+	return strings.Join(MapIdx(it, func(t GenType, i int) string { return t.NameSuggestion(If(i == 0, up, true)) }), "With")
 }
 func (it GenTypeTuple) String() string { return genTypeString(it) }
 func (it GenTypeTuple) kind() string   { return "Tuple" }
@@ -168,5 +169,11 @@ func (it GenTypeStructure) key() string {
 }
 
 func (it *Gen) Type(t GenType) GenType {
+	if key := t.key(); it.tracked.types[key] == nil {
+		it.tracked.types[key] = t
+		if struc, is := t.(GenTypeStructure); is {
+			ensureConstValDocHints(struc.Properties, func(p GenStructureProperty) any { return p.ConstVal })
+		}
+	}
 	return t
 }

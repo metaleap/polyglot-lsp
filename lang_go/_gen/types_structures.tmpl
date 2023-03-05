@@ -6,7 +6,7 @@
 type {{ $struct.Name }} struct {
     {{ range .Properties }}
     {{ .DoDocComments $it }}
-    {{ .NameUp }} {{ $it.DoTypeOptional .Type .Optional }}
+    {{ .NameUp }} {{ $it.DoTypeOptional .Type ($it.If .HasConstVal false .Optional) }}
     {{ end }}
 }
 

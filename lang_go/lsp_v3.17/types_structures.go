@@ -13,7 +13,7 @@ type Location struct {
     Uri DocumentURI
     
     
-    Range *Range/*OPT:Range*/
+    Range Range
     
 }
 type ImplementationRegistrationOptions struct {
@@ -35,7 +35,7 @@ type WorkspaceFolder struct {
     
 // The name of the workspace folder. Used to refer to this
 // workspace folder in the user interface.
-    Name *String
+    Name string
     
 }
 // The parameters of a `workspace/didChangeWorkspaceFolders` notification.
@@ -43,7 +43,7 @@ type DidChangeWorkspaceFoldersParams struct {
     
     
 // The actual workspace folder change event.
-    Event *WorkspaceFoldersChangeEvent/*OPT:WorkspaceFoldersChangeEvent*/
+    Event WorkspaceFoldersChangeEvent
     
 }
 // The parameters of a configuration request.
@@ -58,7 +58,7 @@ type DocumentColorParams struct {
     
     
 // The text document.
-    TextDocument *TextDocumentIdentifier/*OPT:TextDocumentIdentifier*/
+    TextDocument TextDocumentIdentifier
     
 }
 // Represents a color range from a document.
@@ -66,11 +66,11 @@ type ColorInformation struct {
     
     
 // The range in the document where this color appears.
-    Range *Range/*OPT:Range*/
+    Range Range
     
     
 // The actual color value for this color range.
-    Color *Color/*OPT:Color*/
+    Color Color
     
 }
 type DocumentColorRegistrationOptions struct {
@@ -81,15 +81,15 @@ type ColorPresentationParams struct {
     
     
 // The text document.
-    TextDocument *TextDocumentIdentifier/*OPT:TextDocumentIdentifier*/
+    TextDocument TextDocumentIdentifier
     
     
 // The color to request presentations for.
-    Color *Color/*OPT:Color*/
+    Color Color
     
     
 // The range where the color would be inserted. Serves as a context.
-    Range *Range/*OPT:Range*/
+    Range Range
     
 }
 type ColorPresentation struct {
@@ -98,7 +98,7 @@ type ColorPresentation struct {
 // The label of this color presentation. It will be shown on the color
 // picker header. By default this is also the text that is inserted when selecting
 // this color presentation.
-    Label *String
+    Label string
     
     
 // An `TextEdit` which is applied to a document when selecting
@@ -124,7 +124,7 @@ type TextDocumentRegistrationOptions struct {
     
 // A document selector to identify the scope of the registration. If set to null
 // the document selector provided on the client side will be used.
-    DocumentSelector struct { // one-of semantics: only at-most one field is ever non-`nil`
+    DocumentSelector struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     DocumentSelector *DocumentSelector/*OPT:DocumentSelector*/
 }
     
@@ -134,7 +134,7 @@ type FoldingRangeParams struct {
     
     
 // The text document.
-    TextDocument *TextDocumentIdentifier/*OPT:TextDocumentIdentifier*/
+    TextDocument TextDocumentIdentifier
     
 }
 // Represents a folding range. To be valid, start and end line must be bigger than zero and smaller
@@ -144,7 +144,7 @@ type FoldingRange struct {
     
 // The zero-based start line of the range to fold. The folded area starts after the line's last character.
 // To be valid, the end must be zero or larger and smaller than the number of lines in the document.
-    StartLine *Uinteger
+    StartLine uint
     
     
 // The zero-based character offset from where the folded range starts. If not defined, defaults to the length of the start line.
@@ -153,7 +153,7 @@ type FoldingRange struct {
     
 // The zero-based end line of the range to fold. The folded area ends with the line's last character.
 // To be valid, the end must be zero or larger and smaller than the number of lines in the document.
-    EndLine *Uinteger
+    EndLine uint
     
     
 // The zero-based character offset before the folded range ends. If not defined, defaults to the length of the end line.
@@ -188,7 +188,7 @@ type SelectionRangeParams struct {
     
     
 // The text document.
-    TextDocument *TextDocumentIdentifier/*OPT:TextDocumentIdentifier*/
+    TextDocument TextDocumentIdentifier
     
     
 // The positions inside the text document.
@@ -201,7 +201,7 @@ type SelectionRange struct {
     
     
 // The `Range` of this selection range.
-    Range *Range/*OPT:Range*/
+    Range Range
     
     
 // The parent selection range containing this range. Therefore `parent.range` must contain `this.range`.
@@ -215,14 +215,14 @@ type WorkDoneProgressCreateParams struct {
     
     
 // The token to be used to report progress.
-    Token *ProgressToken/*OPT:ProgressToken*/
+    Token ProgressToken
     
 }
 type WorkDoneProgressCancelParams struct {
     
     
 // The token to be used to report progress.
-    Token *ProgressToken/*OPT:ProgressToken*/
+    Token ProgressToken
     
 }
 // The parameter of a `textDocument/prepareCallHierarchy` request.
@@ -239,7 +239,7 @@ type CallHierarchyItem struct {
     
     
 // The name of this item.
-    Name *String
+    Name string
     
     
 // The kind of this item.
@@ -259,12 +259,12 @@ type CallHierarchyItem struct {
     
     
 // The range enclosing this symbol not including leading/trailing whitespace but everything else, e.g. comments and code.
-    Range *Range/*OPT:Range*/
+    Range Range
     
     
 // The range that should be selected and revealed when this symbol is being picked, e.g. the name of a function.
 // Must be contained by the `CallHierarchyItem.range`.
-    SelectionRange *Range/*OPT:Range*/
+    SelectionRange Range
     
     
 // A data entry field that is preserved between a call hierarchy prepare and
@@ -284,7 +284,7 @@ type CallHierarchyRegistrationOptions struct {
 type CallHierarchyIncomingCallsParams struct {
     
     
-    Item *CallHierarchyItem/*OPT:CallHierarchyItem*/
+    Item CallHierarchyItem
     
 }
 // Represents an incoming call, e.g. a caller of a method or constructor.
@@ -294,7 +294,7 @@ type CallHierarchyIncomingCall struct {
     
     
 // The item that makes the call.
-    From *CallHierarchyItem/*OPT:CallHierarchyItem*/
+    From CallHierarchyItem
     
     
 // The ranges at which the calls appear. This is relative to the caller
@@ -308,7 +308,7 @@ type CallHierarchyIncomingCall struct {
 type CallHierarchyOutgoingCallsParams struct {
     
     
-    Item *CallHierarchyItem/*OPT:CallHierarchyItem*/
+    Item CallHierarchyItem
     
 }
 // Represents an outgoing call, e.g. calling a getter from a method or a method from a constructor etc.
@@ -318,7 +318,7 @@ type CallHierarchyOutgoingCall struct {
     
     
 // The item that is called.
-    To *CallHierarchyItem/*OPT:CallHierarchyItem*/
+    To CallHierarchyItem
     
     
 // The range at which this item is called. This is the range relative to the caller, e.g the item
@@ -332,7 +332,7 @@ type SemanticTokensParams struct {
     
     
 // The text document.
-    TextDocument *TextDocumentIdentifier/*OPT:TextDocumentIdentifier*/
+    TextDocument TextDocumentIdentifier
     
 }
 // @since 3.16.0
@@ -366,12 +366,12 @@ type SemanticTokensDeltaParams struct {
     
     
 // The text document.
-    TextDocument *TextDocumentIdentifier/*OPT:TextDocumentIdentifier*/
+    TextDocument TextDocumentIdentifier
     
     
 // The result id of a previous response. The result Id can either point to a full response
 // or a delta response depending on what was received last.
-    PreviousResultId *String
+    PreviousResultId string
     
 }
 // @since 3.16.0
@@ -397,11 +397,11 @@ type SemanticTokensRangeParams struct {
     
     
 // The text document.
-    TextDocument *TextDocumentIdentifier/*OPT:TextDocumentIdentifier*/
+    TextDocument TextDocumentIdentifier
     
     
 // The range the semantic tokens are requested for.
-    Range *Range/*OPT:Range*/
+    Range Range
     
 }
 // Params to show a document.
@@ -441,7 +441,7 @@ type ShowDocumentResult struct {
     
     
 // A boolean indicating if the show was successful.
-    Success *Boolean
+    Success bool
     
 }
 type LinkedEditingRangeParams struct {
@@ -507,7 +507,7 @@ type WorkspaceEdit struct {
 // 
 // If a client neither supports `documentChanges` nor `workspace.workspaceEdit.resourceOperations` then
 // only plain `TextEdit`s using the `changes` property are supported.
-    DocumentChanges []struct { // one-of semantics: only at-most one field is ever non-`nil`
+    DocumentChanges []struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     TextDocumentEdit *TextDocumentEdit/*OPT:TextDocumentEdit*/
     CreateFile *CreateFile/*OPT:CreateFile*/
     RenameFile *RenameFile/*OPT:RenameFile*/
@@ -567,12 +567,12 @@ type Moniker struct {
     
     
 // The scheme of the moniker. For example tsc or .Net
-    Scheme *String
+    Scheme string
     
     
 // The identifier of the moniker. The value is opaque in LSIF however
 // schema owners are allowed to define the structure if they want.
-    Identifier *String
+    Identifier string
     
     
 // The scope in which the moniker is unique
@@ -597,7 +597,7 @@ type TypeHierarchyItem struct {
     
     
 // The name of this item.
-    Name *String
+    Name string
     
     
 // The kind of this item.
@@ -618,13 +618,13 @@ type TypeHierarchyItem struct {
     
 // The range enclosing this symbol not including leading/trailing whitespace
 // but everything else, e.g. comments and code.
-    Range *Range/*OPT:Range*/
+    Range Range
     
     
 // The range that should be selected and revealed when this symbol is being
 // picked, e.g. the name of a function. Must be contained by the
 // `TypeHierarchyItem.range`.
-    SelectionRange *Range/*OPT:Range*/
+    SelectionRange Range
     
     
 // A data entry field that is preserved between a type hierarchy prepare and
@@ -646,7 +646,7 @@ type TypeHierarchyRegistrationOptions struct {
 type TypeHierarchySupertypesParams struct {
     
     
-    Item *TypeHierarchyItem/*OPT:TypeHierarchyItem*/
+    Item TypeHierarchyItem
     
 }
 // The parameter of a `typeHierarchy/subtypes` request.
@@ -655,7 +655,7 @@ type TypeHierarchySupertypesParams struct {
 type TypeHierarchySubtypesParams struct {
     
     
-    Item *TypeHierarchyItem/*OPT:TypeHierarchyItem*/
+    Item TypeHierarchyItem
     
 }
 // A parameter literal used in inline value requests.
@@ -665,16 +665,16 @@ type InlineValueParams struct {
     
     
 // The text document.
-    TextDocument *TextDocumentIdentifier/*OPT:TextDocumentIdentifier*/
+    TextDocument TextDocumentIdentifier
     
     
 // The document range for which inline values should be computed.
-    Range *Range/*OPT:Range*/
+    Range Range
     
     
 // Additional information about the context in which inline values were
 // requested.
-    Context *InlineValueContext/*OPT:InlineValueContext*/
+    Context InlineValueContext
     
 }
 // Inline value options used during static or dynamic registration.
@@ -690,11 +690,11 @@ type InlayHintParams struct {
     
     
 // The text document.
-    TextDocument *TextDocumentIdentifier/*OPT:TextDocumentIdentifier*/
+    TextDocument TextDocumentIdentifier
     
     
 // The document range for which inlay hints should be computed.
-    Range *Range/*OPT:Range*/
+    Range Range
     
 }
 // Inlay hint information.
@@ -704,14 +704,14 @@ type InlayHint struct {
     
     
 // The position of this hint.
-    Position *Position/*OPT:Position*/
+    Position Position
     
     
 // The label of this hint. A human readable string or an array of
 // InlayHintLabelPart label parts.
 // 
 // *Note* that neither the string nor the label part can be empty.
-    Label struct { // one-of semantics: only at-most one field is ever non-`nil`
+    Label struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     String *String
     InlayHintLabelParts []InlayHintLabelPart
 }
@@ -731,7 +731,7 @@ type InlayHint struct {
     
     
 // The tooltip text when you hover over this item.
-    Tooltip struct { // one-of semantics: only at-most one field is ever non-`nil`
+    Tooltip struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     String *String
     MarkupContent *MarkupContent/*OPT:MarkupContent*/
 }
@@ -771,7 +771,7 @@ type DocumentDiagnosticParams struct {
     
     
 // The text document.
-    TextDocument *TextDocumentIdentifier/*OPT:TextDocumentIdentifier*/
+    TextDocument TextDocumentIdentifier
     
     
 // The additional identifier  provided during registration.
@@ -788,7 +788,7 @@ type DocumentDiagnosticParams struct {
 type DocumentDiagnosticReportPartialResult struct {
     
     
-    RelatedDocuments map[DocumentURI]struct { // one-of semantics: only at-most one field is ever non-`nil`
+    RelatedDocuments map[DocumentURI]struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     FullDocumentDiagnosticReport *FullDocumentDiagnosticReport/*OPT:FullDocumentDiagnosticReport*/
     UnchangedDocumentDiagnosticReport *UnchangedDocumentDiagnosticReport/*OPT:UnchangedDocumentDiagnosticReport*/
 }
@@ -800,7 +800,7 @@ type DocumentDiagnosticReportPartialResult struct {
 type DiagnosticServerCancellationData struct {
     
     
-    RetriggerRequest *Boolean
+    RetriggerRequest bool
     
 }
 // Diagnostic registration options.
@@ -849,7 +849,7 @@ type DidOpenNotebookDocumentParams struct {
     
     
 // The notebook document that got opened.
-    NotebookDocument *NotebookDocument/*OPT:NotebookDocument*/
+    NotebookDocument NotebookDocument
     
     
 // The text documents that represent the content
@@ -867,7 +867,7 @@ type DidChangeNotebookDocumentParams struct {
 // to the version after all provided changes have been applied. If
 // only the text document content of a cell changes the notebook version
 // doesn't necessarily have to change.
-    NotebookDocument *VersionedNotebookDocumentIdentifier/*OPT:VersionedNotebookDocumentIdentifier*/
+    NotebookDocument VersionedNotebookDocumentIdentifier
     
     
 // The actual changes to the notebook document.
@@ -883,7 +883,7 @@ type DidChangeNotebookDocumentParams struct {
 // - apply the 'notebookDocument/didChange' notifications in the order you receive them.
 // - apply the `NotebookChangeEvent`s in a single notification in the order
 //   you receive them.
-    Change *NotebookDocumentChangeEvent/*OPT:NotebookDocumentChangeEvent*/
+    Change NotebookDocumentChangeEvent
     
 }
 // The params sent in a save notebook document notification.
@@ -893,7 +893,7 @@ type DidSaveNotebookDocumentParams struct {
     
     
 // The notebook document that got saved.
-    NotebookDocument *NotebookDocumentIdentifier/*OPT:NotebookDocumentIdentifier*/
+    NotebookDocument NotebookDocumentIdentifier
     
 }
 // The params sent in a close notebook document notification.
@@ -903,7 +903,7 @@ type DidCloseNotebookDocumentParams struct {
     
     
 // The notebook document that got closed.
-    NotebookDocument *NotebookDocumentIdentifier/*OPT:NotebookDocumentIdentifier*/
+    NotebookDocument NotebookDocumentIdentifier
     
     
 // The text documents that represent the content
@@ -931,7 +931,7 @@ type InitializeResult struct {
     
     
 // The capabilities the language server provides.
-    Capabilities *ServerCapabilities/*OPT:ServerCapabilities*/
+    Capabilities ServerCapabilities
     
     
 // Information about the server.
@@ -941,7 +941,7 @@ type InitializeResult struct {
     
     
 // The name of the server as defined by the server.
-    Name *String
+    Name string
     
     
 // The server's version as defined by the server.
@@ -960,7 +960,7 @@ type InitializeError struct {
 // (1) show the message provided by the ResponseError to the user
 // (2) user selects retry or cancel
 // (3) if user selected retry the initialize method is sent again.
-    Retry *Boolean
+    Retry bool
     
 }
 type InitializedParams struct {
@@ -971,13 +971,13 @@ type DidChangeConfigurationParams struct {
     
     
 // The actual changed settings
-    Settings *LSPAny/*OPT:LSPAny*/
+    Settings LSPAny
     
 }
 type DidChangeConfigurationRegistrationOptions struct {
     
     
-    Section struct { // one-of semantics: only at-most one field is ever non-`nil`
+    Section struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     String *String
     Strings []string
 }
@@ -992,7 +992,7 @@ type ShowMessageParams struct {
     
     
 // The actual message.
-    Message *String
+    Message string
     
 }
 type ShowMessageRequestParams struct {
@@ -1003,7 +1003,7 @@ type ShowMessageRequestParams struct {
     
     
 // The actual message.
-    Message *String
+    Message string
     
     
 // The message action items to present.
@@ -1014,7 +1014,7 @@ type MessageActionItem struct {
     
     
 // A short title like 'Retry', 'Open Log' etc.
-    Title *String
+    Title string
     
 }
 // The log message parameters.
@@ -1026,7 +1026,7 @@ type LogMessageParams struct {
     
     
 // The actual message.
-    Message *String
+    Message string
     
 }
 // The parameters sent in an open text document notification
@@ -1034,7 +1034,7 @@ type DidOpenTextDocumentParams struct {
     
     
 // The document that was opened.
-    TextDocument *TextDocumentItem/*OPT:TextDocumentItem*/
+    TextDocument TextDocumentItem
     
 }
 // The change text document notification's parameters.
@@ -1044,7 +1044,7 @@ type DidChangeTextDocumentParams struct {
 // The document that did change. The version number points
 // to the version after all provided content changes have
 // been applied.
-    TextDocument *VersionedTextDocumentIdentifier/*OPT:VersionedTextDocumentIdentifier*/
+    TextDocument VersionedTextDocumentIdentifier
     
     
 // The actual content changes. The content changes describe single state changes
@@ -1074,7 +1074,7 @@ type DidCloseTextDocumentParams struct {
     
     
 // The document that was closed.
-    TextDocument *TextDocumentIdentifier/*OPT:TextDocumentIdentifier*/
+    TextDocument TextDocumentIdentifier
     
 }
 // The parameters sent in a save text document notification
@@ -1082,7 +1082,7 @@ type DidSaveTextDocumentParams struct {
     
     
 // The document that was saved.
-    TextDocument *TextDocumentIdentifier/*OPT:TextDocumentIdentifier*/
+    TextDocument TextDocumentIdentifier
     
     
 // Optional the content when saved. Depends on the includeText value
@@ -1099,7 +1099,7 @@ type WillSaveTextDocumentParams struct {
     
     
 // The document that will be saved.
-    TextDocument *TextDocumentIdentifier/*OPT:TextDocumentIdentifier*/
+    TextDocument TextDocumentIdentifier
     
     
 // The 'TextDocumentSaveReason'.
@@ -1112,12 +1112,12 @@ type TextEdit struct {
     
 // The range of the text document to be manipulated. To insert
 // text into a document create a range where start === end.
-    Range *Range/*OPT:Range*/
+    Range Range
     
     
 // The string to be inserted. For delete operations use an
 // empty string.
-    NewText *String
+    NewText string
     
 }
 // The watched files change notification's parameters.
@@ -1175,7 +1175,7 @@ type CompletionItem struct {
 // 
 // If label details are provided the label itself should
 // be an unqualified name of the completion item.
-    Label *String
+    Label string
     
     
 // Additional details for the label
@@ -1201,7 +1201,7 @@ type CompletionItem struct {
     
     
 // A human-readable string that represents a doc-comment.
-    Documentation struct { // one-of semantics: only at-most one field is ever non-`nil`
+    Documentation struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     String *String
     MarkupContent *MarkupContent/*OPT:MarkupContent*/
 }
@@ -1283,7 +1283,7 @@ type CompletionItem struct {
 // contained and starting at the same position.
 // 
 // @since 3.16.0 additional type `InsertReplaceEdit`
-    TextEdit struct { // one-of semantics: only at-most one field is ever non-`nil`
+    TextEdit struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     TextEdit *TextEdit/*OPT:TextEdit*/
     InsertReplaceEdit *InsertReplaceEdit/*OPT:InsertReplaceEdit*/
 }
@@ -1338,7 +1338,7 @@ type CompletionList struct {
 // 
 // Recomputed lists have all their items replaced (not appended) in the
 // incomplete completion sessions.
-    IsIncomplete *Boolean
+    IsIncomplete bool
     
     
 // In many cases the items of an actual completion result share the same
@@ -1366,15 +1366,15 @@ type CompletionList struct {
 // A default edit range.
 // 
 // @since 3.17.0
-    EditRange struct { // one-of semantics: only at-most one field is ever non-`nil`
+    EditRange struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Range *Range/*OPT:Range*/
     InsertReplace *struct {
     
     
-    Insert *Range/*OPT:Range*/
+    Insert Range
     
     
-    Replace *Range/*OPT:Range*/
+    Replace Range
     
 }
 /*OPT:<Structure>{insert @Range;replace @Range}*/
@@ -1419,7 +1419,7 @@ type Hover struct {
     
     
 // The hover's content
-    Contents struct { // one-of semantics: only at-most one field is ever non-`nil`
+    Contents struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     MarkupContent *MarkupContent/*OPT:MarkupContent*/
     MarkedString *MarkedString/*OPT:MarkedString*/
     MarkedStrings []MarkedString
@@ -1494,7 +1494,7 @@ type DefinitionRegistrationOptions struct {
 type ReferenceParams struct {
     
     
-    Context *ReferenceContext/*OPT:ReferenceContext*/
+    Context ReferenceContext
     
 }
 // Registration options for a `ReferencesRequest`.
@@ -1512,7 +1512,7 @@ type DocumentHighlight struct {
     
     
 // The range this highlight applies to.
-    Range *Range/*OPT:Range*/
+    Range Range
     
     
 // The highlight kind, default is `DocumentHighlightKind.Text`.
@@ -1528,7 +1528,7 @@ type DocumentSymbolParams struct {
     
     
 // The text document.
-    TextDocument *TextDocumentIdentifier/*OPT:TextDocumentIdentifier*/
+    TextDocument TextDocumentIdentifier
     
 }
 // Represents information about programming constructs like variables, classes,
@@ -1551,7 +1551,7 @@ type SymbolInformation struct {
 // The range doesn't have to denote a node range in the sense of an abstract
 // syntax tree. It can therefore not be used to re-construct a hierarchy of
 // the symbols.
-    Location *Location/*OPT:Location*/
+    Location Location
     
 }
 // Represents programming constructs like variables, classes, interfaces etc.
@@ -1563,7 +1563,7 @@ type DocumentSymbol struct {
     
 // The name of this symbol. Will be displayed in the user interface and therefore must not be
 // an empty string or a string only consisting of white spaces.
-    Name *String
+    Name string
     
     
 // More detail for this symbol, e.g the signature of a function.
@@ -1589,12 +1589,12 @@ type DocumentSymbol struct {
 // The range enclosing this symbol not including leading/trailing whitespace but everything else
 // like comments. This information is typically used to determine if the clients cursor is
 // inside the symbol to reveal in the symbol in the UI.
-    Range *Range/*OPT:Range*/
+    Range Range
     
     
 // The range that should be selected and revealed when this symbol is being picked, e.g the name of a function.
 // Must be contained by the `range`.
-    SelectionRange *Range/*OPT:Range*/
+    SelectionRange Range
     
     
 // Children of this symbol, e.g. properties of a class.
@@ -1610,15 +1610,15 @@ type CodeActionParams struct {
     
     
 // The document in which the command was invoked.
-    TextDocument *TextDocumentIdentifier/*OPT:TextDocumentIdentifier*/
+    TextDocument TextDocumentIdentifier
     
     
 // The range for which the command was invoked.
-    Range *Range/*OPT:Range*/
+    Range Range
     
     
 // Context carrying additional information.
-    Context *CodeActionContext/*OPT:CodeActionContext*/
+    Context CodeActionContext
     
 }
 // Represents a reference to a command. Provides a title which
@@ -1629,11 +1629,11 @@ type Command struct {
     
     
 // Title of the command, like `save`.
-    Title *String
+    Title string
     
     
 // The identifier of the actual command handler.
-    Command *String
+    Command string
     
     
 // Arguments that the command handler should be
@@ -1649,7 +1649,7 @@ type CodeAction struct {
     
     
 // A short, human-readable, title for this code action.
-    Title *String
+    Title string
     
     
 // The kind of the code action.
@@ -1693,7 +1693,7 @@ type CodeAction struct {
 // Human readable description of why the code action is currently disabled.
 // 
 // This is displayed in the code actions UI.
-    Reason *String
+    Reason string
     
 }
 /*OPT:<Structure>{reason b#string}*/
@@ -1726,7 +1726,7 @@ type WorkspaceSymbolParams struct {
     
 // A query string to filter symbols by. Clients may send an empty
 // string here to request all symbols.
-    Query *String
+    Query string
     
 }
 // A special workspace symbol that supports locations without a range.
@@ -1742,7 +1742,7 @@ type WorkspaceSymbol struct {
 // capability `workspace.symbol.resolveSupport`.
 // 
 // See SymbolInformation#location for more details.
-    Location struct { // one-of semantics: only at-most one field is ever non-`nil`
+    Location struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Location *Location/*OPT:Location*/
     Uri *struct {
     
@@ -1768,7 +1768,7 @@ type CodeLensParams struct {
     
     
 // The document to request code lens for.
-    TextDocument *TextDocumentIdentifier/*OPT:TextDocumentIdentifier*/
+    TextDocument TextDocumentIdentifier
     
 }
 // A code lens represents a `Command` that should be shown along with
@@ -1780,7 +1780,7 @@ type CodeLens struct {
     
     
 // The range in which this code lens is valid. Should only span a single line.
-    Range *Range/*OPT:Range*/
+    Range Range
     
     
 // The command this code lens represents.
@@ -1802,7 +1802,7 @@ type DocumentLinkParams struct {
     
     
 // The document to provide document links for.
-    TextDocument *TextDocumentIdentifier/*OPT:TextDocumentIdentifier*/
+    TextDocument TextDocumentIdentifier
     
 }
 // A document link is a range in a text document that links to an internal or external resource, like another
@@ -1811,7 +1811,7 @@ type DocumentLink struct {
     
     
 // The range this link applies to.
-    Range *Range/*OPT:Range*/
+    Range Range
     
     
 // The uri this link points to. If missing a resolve request is sent later.
@@ -1842,11 +1842,11 @@ type DocumentFormattingParams struct {
     
     
 // The document to format.
-    TextDocument *TextDocumentIdentifier/*OPT:TextDocumentIdentifier*/
+    TextDocument TextDocumentIdentifier
     
     
 // The format options.
-    Options *FormattingOptions/*OPT:FormattingOptions*/
+    Options FormattingOptions
     
 }
 // Registration options for a `DocumentFormattingRequest`.
@@ -1858,15 +1858,15 @@ type DocumentRangeFormattingParams struct {
     
     
 // The document to format.
-    TextDocument *TextDocumentIdentifier/*OPT:TextDocumentIdentifier*/
+    TextDocument TextDocumentIdentifier
     
     
 // The range to format
-    Range *Range/*OPT:Range*/
+    Range Range
     
     
 // The format options
-    Options *FormattingOptions/*OPT:FormattingOptions*/
+    Options FormattingOptions
     
 }
 // Registration options for a `DocumentRangeFormattingRequest`.
@@ -1878,24 +1878,24 @@ type DocumentOnTypeFormattingParams struct {
     
     
 // The document to format.
-    TextDocument *TextDocumentIdentifier/*OPT:TextDocumentIdentifier*/
+    TextDocument TextDocumentIdentifier
     
     
 // The position around which the on type formatting should happen.
 // This is not necessarily the exact position where the character denoted
 // by the property `ch` got typed.
-    Position *Position/*OPT:Position*/
+    Position Position
     
     
 // The character that has been typed that triggered the formatting
 // on type request. That is not necessarily the last character that
 // got inserted into the document since the client could auto insert
 // characters as well (e.g. like automatic brace completion).
-    Ch *String
+    Ch string
     
     
 // The formatting options.
-    Options *FormattingOptions/*OPT:FormattingOptions*/
+    Options FormattingOptions
     
 }
 // Registration options for a `DocumentOnTypeFormattingRequest`.
@@ -1907,17 +1907,17 @@ type RenameParams struct {
     
     
 // The document to rename.
-    TextDocument *TextDocumentIdentifier/*OPT:TextDocumentIdentifier*/
+    TextDocument TextDocumentIdentifier
     
     
 // The position at which this request was sent.
-    Position *Position/*OPT:Position*/
+    Position Position
     
     
 // The new name of the symbol. If the given name is not valid the
 // request must return a `ResponseError` with an
 // appropriate message set.
-    NewName *String
+    NewName string
     
 }
 // Registration options for a `RenameRequest`.
@@ -1932,7 +1932,7 @@ type ExecuteCommandParams struct {
     
     
 // The identifier of the actual command handler.
-    Command *String
+    Command string
     
     
 // Arguments that the command should be invoked with.
@@ -1954,7 +1954,7 @@ type ApplyWorkspaceEditParams struct {
     
     
 // The edits to apply.
-    Edit *WorkspaceEdit/*OPT:WorkspaceEdit*/
+    Edit WorkspaceEdit
     
 }
 // The result returned from the apply workspace edit request.
@@ -1964,7 +1964,7 @@ type ApplyWorkspaceEditResult struct {
     
     
 // Indicates whether the edit was applied or not.
-    Applied *Boolean
+    Applied bool
     
     
 // An optional textual description for why the edit was not applied.
@@ -1982,15 +1982,15 @@ type ApplyWorkspaceEditResult struct {
 type WorkDoneProgressBegin struct {
     
     
-// The value is always "begin".
-    Kind *String
+// The value is always "begin"
+    Kind string
     
     
 // Mandatory title of the progress operation. Used to briefly inform about
 // the kind of operation being performed.
 // 
 // Examples: "Indexing" or "Linking dependencies".
-    Title *String
+    Title string
     
     
 // Controls if a cancel button should show to allow the user to cancel the
@@ -2019,8 +2019,8 @@ type WorkDoneProgressBegin struct {
 type WorkDoneProgressReport struct {
     
     
-// The value is always "report".
-    Kind *String
+// The value is always "report"
+    Kind string
     
     
 // Controls enablement state of a cancel button.
@@ -2050,8 +2050,8 @@ type WorkDoneProgressReport struct {
 type WorkDoneProgressEnd struct {
     
     
-// The value is always "end".
-    Kind *String
+// The value is always "end"
+    Kind string
     
     
 // Optional, a final message indicating to for example indicate the outcome
@@ -2068,7 +2068,7 @@ type SetTraceParams struct {
 type LogTraceParams struct {
     
     
-    Message *String
+    Message string
     
     
     Verbose *String
@@ -2078,7 +2078,7 @@ type CancelParams struct {
     
     
 // The request id to cancel.
-    Id struct { // one-of semantics: only at-most one field is ever non-`nil`
+    Id struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Integer *Integer
     String *String
 }
@@ -2088,11 +2088,11 @@ type ProgressParams struct {
     
     
 // The progress token provided by the client or server.
-    Token *ProgressToken/*OPT:ProgressToken*/
+    Token ProgressToken
     
     
 // The progress data.
-    Value *LSPAny/*OPT:LSPAny*/
+    Value LSPAny
     
 }
 // A parameter literal used in requests to pass a text document and a position inside that
@@ -2101,11 +2101,11 @@ type TextDocumentPositionParams struct {
     
     
 // The text document.
-    TextDocument *TextDocumentIdentifier/*OPT:TextDocumentIdentifier*/
+    TextDocument TextDocumentIdentifier
     
     
 // The position inside the text document.
-    Position *Position/*OPT:Position*/
+    Position Position
     
 }
 type WorkDoneProgressParams struct {
@@ -2142,12 +2142,12 @@ type LocationLink struct {
 // The full target range of this link. If the target for example is a symbol then target range is the
 // range enclosing this symbol not including leading/trailing whitespace but everything else
 // like comments. This information is typically used to highlight the range in the editor.
-    TargetRange *Range/*OPT:Range*/
+    TargetRange Range
     
     
 // The range that should be selected and revealed when this link is being followed, e.g the name of a function.
 // Must be contained by the `targetRange`. See also `DocumentSymbol#range`
-    TargetSelectionRange *Range/*OPT:Range*/
+    TargetSelectionRange Range
     
 }
 // A range in a text document expressed as (zero-based) start and end positions.
@@ -2165,11 +2165,11 @@ type Range struct {
     
     
 // The range's start position.
-    Start *Position/*OPT:Position*/
+    Start Position
     
     
 // The range's end position.
-    End *Position/*OPT:Position*/
+    End Position
     
 }
 type ImplementationOptions struct {
@@ -2224,19 +2224,19 @@ type Color struct {
     
     
 // The red component of this color in the range [0-1].
-    Red *Decimal
+    Red float64
     
     
 // The green component of this color in the range [0-1].
-    Green *Decimal
+    Green float64
     
     
 // The blue component of this color in the range [0-1].
-    Blue *Decimal
+    Blue float64
     
     
 // The alpha component of this color in the range [0-1].
-    Alpha *Decimal
+    Alpha float64
     
 }
 type DocumentColorOptions struct {
@@ -2282,7 +2282,7 @@ type Position struct {
 // 
 // If a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.
 // If a line number is negative, it defaults to 0.
-    Line *Uinteger
+    Line uint
     
     
 // Character offset on a line in a document (zero-based).
@@ -2292,7 +2292,7 @@ type Position struct {
 // 
 // If the character value is greater than the line length it defaults back to the
 // line length.
-    Character *Uinteger
+    Character uint
     
 }
 type SelectionRangeOptions struct {
@@ -2309,12 +2309,12 @@ type SemanticTokensOptions struct {
     
     
 // The legend used by the server
-    Legend *SemanticTokensLegend/*OPT:SemanticTokensLegend*/
+    Legend SemanticTokensLegend
     
     
 // Server supports providing semantic tokens for a specific range
 // of a document.
-    Range struct { // one-of semantics: only at-most one field is ever non-`nil`
+    Range struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Boolean *Boolean
      *struct {
     
@@ -2324,7 +2324,7 @@ type SemanticTokensOptions struct {
     
     
 // Server supports providing semantic tokens for a full document.
-    Full struct { // one-of semantics: only at-most one field is ever non-`nil`
+    Full struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Boolean *Boolean
     Delta *struct {
     
@@ -2342,11 +2342,11 @@ type SemanticTokensEdit struct {
     
     
 // The start offset of the edit.
-    Start *Uinteger
+    Start uint
     
     
 // The count of elements to remove.
-    DeleteCount *Uinteger
+    DeleteCount uint
     
     
 // The elements to insert.
@@ -2363,7 +2363,7 @@ type FileCreate struct {
     
     
 // A file:// URI for the location of the file/folder being created.
-    Uri *String
+    Uri string
     
 }
 // Describes textual changes on a text document. A TextDocumentEdit describes all changes
@@ -2374,14 +2374,14 @@ type TextDocumentEdit struct {
     
     
 // The text document to change.
-    TextDocument *OptionalVersionedTextDocumentIdentifier/*OPT:OptionalVersionedTextDocumentIdentifier*/
+    TextDocument OptionalVersionedTextDocumentIdentifier
     
     
 // The edits to be applied.
 // 
 // @since 3.16.0 - support for AnnotatedTextEdit. This is guarded using a
 // client capability.
-    Edits []struct { // one-of semantics: only at-most one field is ever non-`nil`
+    Edits []struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     TextEdit *TextEdit/*OPT:TextEdit*/
     AnnotatedTextEdit *AnnotatedTextEdit/*OPT:AnnotatedTextEdit*/
 }
@@ -2392,9 +2392,8 @@ type CreateFile struct {
     
     
 // A create
-// 
-// The value is always "create".
-    Kind *String
+// The value is always "create"
+    Kind string
     
     
 // The resource to create.
@@ -2410,9 +2409,8 @@ type RenameFile struct {
     
     
 // A rename
-// 
-// The value is always "rename".
-    Kind *String
+// The value is always "rename"
+    Kind string
     
     
 // The old (existing) location.
@@ -2432,9 +2430,8 @@ type DeleteFile struct {
     
     
 // A delete
-// 
-// The value is always "delete".
-    Kind *String
+// The value is always "delete"
+    Kind string
     
     
 // The file to delete.
@@ -2453,7 +2450,7 @@ type ChangeAnnotation struct {
     
 // A human-readable string describing the actual change. The string
 // is rendered prominent in the user interface.
-    Label *String
+    Label string
     
     
 // A flag which indicates that user confirmation is needed
@@ -2478,7 +2475,7 @@ type FileOperationFilter struct {
     
     
 // The actual file operation pattern.
-    Pattern *FileOperationPattern/*OPT:FileOperationPattern*/
+    Pattern FileOperationPattern
     
 }
 // Represents information on a file/folder rename.
@@ -2488,11 +2485,11 @@ type FileRename struct {
     
     
 // A file:// URI for the original location of the file/folder being renamed.
-    OldUri *String
+    OldUri string
     
     
 // A file:// URI for the new location of the file/folder being renamed.
-    NewUri *String
+    NewUri string
     
 }
 // Represents information on a file/folder delete.
@@ -2502,7 +2499,7 @@ type FileDelete struct {
     
     
 // A file:// URI for the location of the file/folder being deleted.
-    Uri *String
+    Uri string
     
 }
 type MonikerOptions struct {
@@ -2519,12 +2516,12 @@ type InlineValueContext struct {
     
     
 // The stack frame (as a DAP Id) where the execution has stopped.
-    FrameId *Integer
+    FrameId int
     
     
 // The document range where execution has stopped.
 // Typically the end position of the range denotes the line where the inline values are shown.
-    StoppedLocation *Range/*OPT:Range*/
+    StoppedLocation Range
     
 }
 // Provide inline value as text.
@@ -2534,11 +2531,11 @@ type InlineValueText struct {
     
     
 // The document range for which the inline value applies.
-    Range *Range/*OPT:Range*/
+    Range Range
     
     
 // The text of the inline value.
-    Text *String
+    Text string
     
 }
 // Provide inline value through a variable lookup.
@@ -2551,7 +2548,7 @@ type InlineValueVariableLookup struct {
     
 // The document range for which the inline value applies.
 // The range is used to extract the variable name from the underlying document.
-    Range *Range/*OPT:Range*/
+    Range Range
     
     
 // If specified the name of the variable to look up.
@@ -2559,7 +2556,7 @@ type InlineValueVariableLookup struct {
     
     
 // How to perform the lookup.
-    CaseSensitiveLookup *Boolean
+    CaseSensitiveLookup bool
     
 }
 // Provide an inline value through an expression evaluation.
@@ -2572,7 +2569,7 @@ type InlineValueEvaluatableExpression struct {
     
 // The document range for which the inline value applies.
 // The range is used to extract the evaluatable expression from the underlying document.
-    Range *Range/*OPT:Range*/
+    Range Range
     
     
 // If specified the expression overrides the extracted expression.
@@ -2593,13 +2590,13 @@ type InlayHintLabelPart struct {
     
     
 // The value of this label part.
-    Value *String
+    Value string
     
     
 // The tooltip text when you hover over this label part. Depending on
 // the client capability `inlayHint.resolveSupport` clients might resolve
 // this property late using the resolve request.
-    Tooltip struct { // one-of semantics: only at-most one field is ever non-`nil`
+    Tooltip struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     String *String
     MarkupContent *MarkupContent/*OPT:MarkupContent*/
 }
@@ -2656,7 +2653,7 @@ type MarkupContent struct {
     
     
 // The content itself
-    Value *String
+    Value string
     
 }
 // Inlay hint options used during static registration.
@@ -2683,7 +2680,7 @@ type RelatedFullDocumentDiagnosticReport struct {
 // a.cpp and result in errors in a header file b.hpp.
 // 
 // @since 3.17.0
-    RelatedDocuments map[DocumentURI]struct { // one-of semantics: only at-most one field is ever non-`nil`
+    RelatedDocuments map[DocumentURI]struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     FullDocumentDiagnosticReport *FullDocumentDiagnosticReport/*OPT:FullDocumentDiagnosticReport*/
     UnchangedDocumentDiagnosticReport *UnchangedDocumentDiagnosticReport/*OPT:UnchangedDocumentDiagnosticReport*/
 }
@@ -2702,7 +2699,7 @@ type RelatedUnchangedDocumentDiagnosticReport struct {
 // a.cpp and result in errors in a header file b.hpp.
 // 
 // @since 3.17.0
-    RelatedDocuments map[DocumentURI]struct { // one-of semantics: only at-most one field is ever non-`nil`
+    RelatedDocuments map[DocumentURI]struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     FullDocumentDiagnosticReport *FullDocumentDiagnosticReport/*OPT:FullDocumentDiagnosticReport*/
     UnchangedDocumentDiagnosticReport *UnchangedDocumentDiagnosticReport/*OPT:UnchangedDocumentDiagnosticReport*/
 }
@@ -2715,9 +2712,8 @@ type FullDocumentDiagnosticReport struct {
     
     
 // A full document diagnostic report.
-// 
-// The value is always "full".
-    Kind *String
+// The value is always "full"
+    Kind string
     
     
 // An optional result id. If provided it will
@@ -2741,14 +2737,13 @@ type UnchangedDocumentDiagnosticReport struct {
 // no changes to the last result. A server can
 // only return `unchanged` if result ids are
 // provided.
-// 
-// The value is always "unchanged".
-    Kind *String
+// The value is always "unchanged"
+    Kind string
     
     
 // A result id which will be sent on the next
 // diagnostic request for the same document.
-    ResultId *String
+    ResultId string
     
 }
 // Diagnostic options.
@@ -2766,11 +2761,11 @@ type DiagnosticOptions struct {
 // editing code in one file can result in a different diagnostic
 // set in another file. Inter file dependencies are common for
 // most programming languages and typically uncommon for linters.
-    InterFileDependencies *Boolean
+    InterFileDependencies bool
     
     
 // The server provides support for workspace diagnostics as well.
-    WorkspaceDiagnostics *Boolean
+    WorkspaceDiagnostics bool
     
 }
 // A previous result id in a workspace pull request.
@@ -2785,7 +2780,7 @@ type PreviousResultId struct {
     
     
 // The value of the previous result id.
-    Value *String
+    Value string
     
 }
 // A notebook document.
@@ -2799,12 +2794,12 @@ type NotebookDocument struct {
     
     
 // The type of the notebook.
-    NotebookType *String
+    NotebookType string
     
     
 // The version number of this document (it will increase after each
 // change, including undo/redo).
-    Version *Integer
+    Version int
     
     
 // Additional metadata stored with the notebook
@@ -2828,16 +2823,16 @@ type TextDocumentItem struct {
     
     
 // The text document's language identifier.
-    LanguageId *String
+    LanguageId string
     
     
 // The version number of this document (it will increase after each
 // change, including undo/redo).
-    Version *Integer
+    Version int
     
     
 // The content of the opened text document.
-    Text *String
+    Text string
     
 }
 // A versioned notebook document identifier.
@@ -2847,7 +2842,7 @@ type VersionedNotebookDocumentIdentifier struct {
     
     
 // The version number of this notebook document.
-    Version *Integer
+    Version int
     
     
 // The notebook document's uri.
@@ -2876,7 +2871,7 @@ type NotebookDocumentChangeEvent struct {
     
     
 // The change to the cell array.
-    Array *NotebookCellArrayChange/*OPT:NotebookCellArrayChange*/
+    Array NotebookCellArrayChange
     
     
 // Additional opened cell text documents.
@@ -2899,7 +2894,7 @@ type NotebookDocumentChangeEvent struct {
     TextContent []struct {
     
     
-    Document *VersionedTextDocumentIdentifier/*OPT:VersionedTextDocumentIdentifier*/
+    Document VersionedTextDocumentIdentifier
     
     
     Changes []TextDocumentContentChangeEvent
@@ -2927,11 +2922,11 @@ type Registration struct {
     
 // The id used to register the request. The id can be used to deregister
 // the request again.
-    Id *String
+    Id string
     
     
 // The method / capability to register for.
-    Method *String
+    Method string
     
     
 // Options necessary for the registration.
@@ -2944,11 +2939,11 @@ type Unregistration struct {
     
 // The id used to unregister the request or notification. Usually an id
 // provided during the register request.
-    Id *String
+    Id string
     
     
 // The method to unregister for.
-    Method *String
+    Method string
     
 }
 // The initialize parameters
@@ -2960,7 +2955,7 @@ type _InitializeParams struct {
 // 
 // Is `null` if the process has not been started by another process.
 // If the parent process is not alive then the server should exit.
-    ProcessId struct { // one-of semantics: only at-most one field is ever non-`nil`
+    ProcessId struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Integer *Integer
 }
     
@@ -2972,7 +2967,7 @@ type _InitializeParams struct {
     
     
 // The name of the client as defined by the client.
-    Name *String
+    Name string
     
     
 // The client's version as defined by the client.
@@ -2997,7 +2992,7 @@ type _InitializeParams struct {
 // if no folder is open.
 // 
 // @deprecated in favour of rootUri.
-    RootPath struct { // one-of semantics: only at-most one field is ever non-`nil`
+    RootPath struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     String *String
 }
     
@@ -3007,13 +3002,13 @@ type _InitializeParams struct {
 // `rootUri` wins.
 // 
 // @deprecated in favour of workspaceFolders.
-    RootUri struct { // one-of semantics: only at-most one field is ever non-`nil`
+    RootUri struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     DocumentUri DocumentURI
 }
     
     
 // The capabilities provided by the client (editor or tool)
-    Capabilities *ClientCapabilities/*OPT:ClientCapabilities*/
+    Capabilities ClientCapabilities
     
     
 // User provided initialization options.
@@ -3034,7 +3029,7 @@ type WorkspaceFoldersInitializeParams struct {
 // configured.
 // 
 // @since 3.6.0
-    WorkspaceFolders struct { // one-of semantics: only at-most one field is ever non-`nil`
+    WorkspaceFolders struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     WorkspaceFolders []WorkspaceFolder
 }
     
@@ -3059,7 +3054,7 @@ type ServerCapabilities struct {
 // Defines how text documents are synced. Is either a detailed structure
 // defining each notification or for backwards compatibility the
 // TextDocumentSyncKind number.
-    TextDocumentSync struct { // one-of semantics: only at-most one field is ever non-`nil`
+    TextDocumentSync struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     TextDocumentSyncOptions *TextDocumentSyncOptions/*OPT:TextDocumentSyncOptions*/
     TextDocumentSyncKind TextDocumentSyncKind
 }
@@ -3068,7 +3063,7 @@ type ServerCapabilities struct {
 // Defines how notebook documents are synced.
 // 
 // @since 3.17.0
-    NotebookDocumentSync struct { // one-of semantics: only at-most one field is ever non-`nil`
+    NotebookDocumentSync struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     NotebookDocumentSyncOptions *NotebookDocumentSyncOptions/*OPT:NotebookDocumentSyncOptions*/
     NotebookDocumentSyncRegistrationOptions *NotebookDocumentSyncRegistrationOptions/*OPT:NotebookDocumentSyncRegistrationOptions*/
 }
@@ -3079,7 +3074,7 @@ type ServerCapabilities struct {
     
     
 // The server provides hover support.
-    HoverProvider struct { // one-of semantics: only at-most one field is ever non-`nil`
+    HoverProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Boolean *Boolean
     HoverOptions *HoverOptions/*OPT:HoverOptions*/
 }
@@ -3090,7 +3085,7 @@ type ServerCapabilities struct {
     
     
 // The server provides Goto Declaration support.
-    DeclarationProvider struct { // one-of semantics: only at-most one field is ever non-`nil`
+    DeclarationProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Boolean *Boolean
     DeclarationOptions *DeclarationOptions/*OPT:DeclarationOptions*/
     DeclarationRegistrationOptions *DeclarationRegistrationOptions/*OPT:DeclarationRegistrationOptions*/
@@ -3098,14 +3093,14 @@ type ServerCapabilities struct {
     
     
 // The server provides goto definition support.
-    DefinitionProvider struct { // one-of semantics: only at-most one field is ever non-`nil`
+    DefinitionProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Boolean *Boolean
     DefinitionOptions *DefinitionOptions/*OPT:DefinitionOptions*/
 }
     
     
 // The server provides Goto Type Definition support.
-    TypeDefinitionProvider struct { // one-of semantics: only at-most one field is ever non-`nil`
+    TypeDefinitionProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Boolean *Boolean
     TypeDefinitionOptions *TypeDefinitionOptions/*OPT:TypeDefinitionOptions*/
     TypeDefinitionRegistrationOptions *TypeDefinitionRegistrationOptions/*OPT:TypeDefinitionRegistrationOptions*/
@@ -3113,7 +3108,7 @@ type ServerCapabilities struct {
     
     
 // The server provides Goto Implementation support.
-    ImplementationProvider struct { // one-of semantics: only at-most one field is ever non-`nil`
+    ImplementationProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Boolean *Boolean
     ImplementationOptions *ImplementationOptions/*OPT:ImplementationOptions*/
     ImplementationRegistrationOptions *ImplementationRegistrationOptions/*OPT:ImplementationRegistrationOptions*/
@@ -3121,21 +3116,21 @@ type ServerCapabilities struct {
     
     
 // The server provides find references support.
-    ReferencesProvider struct { // one-of semantics: only at-most one field is ever non-`nil`
+    ReferencesProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Boolean *Boolean
     ReferenceOptions *ReferenceOptions/*OPT:ReferenceOptions*/
 }
     
     
 // The server provides document highlight support.
-    DocumentHighlightProvider struct { // one-of semantics: only at-most one field is ever non-`nil`
+    DocumentHighlightProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Boolean *Boolean
     DocumentHighlightOptions *DocumentHighlightOptions/*OPT:DocumentHighlightOptions*/
 }
     
     
 // The server provides document symbol support.
-    DocumentSymbolProvider struct { // one-of semantics: only at-most one field is ever non-`nil`
+    DocumentSymbolProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Boolean *Boolean
     DocumentSymbolOptions *DocumentSymbolOptions/*OPT:DocumentSymbolOptions*/
 }
@@ -3144,7 +3139,7 @@ type ServerCapabilities struct {
 // The server provides code actions. CodeActionOptions may only be
 // specified if the client states that it supports
 // `codeActionLiteralSupport` in its initial `initialize` request.
-    CodeActionProvider struct { // one-of semantics: only at-most one field is ever non-`nil`
+    CodeActionProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Boolean *Boolean
     CodeActionOptions *CodeActionOptions/*OPT:CodeActionOptions*/
 }
@@ -3159,7 +3154,7 @@ type ServerCapabilities struct {
     
     
 // The server provides color provider support.
-    ColorProvider struct { // one-of semantics: only at-most one field is ever non-`nil`
+    ColorProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Boolean *Boolean
     DocumentColorOptions *DocumentColorOptions/*OPT:DocumentColorOptions*/
     DocumentColorRegistrationOptions *DocumentColorRegistrationOptions/*OPT:DocumentColorRegistrationOptions*/
@@ -3167,21 +3162,21 @@ type ServerCapabilities struct {
     
     
 // The server provides workspace symbol support.
-    WorkspaceSymbolProvider struct { // one-of semantics: only at-most one field is ever non-`nil`
+    WorkspaceSymbolProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Boolean *Boolean
     WorkspaceSymbolOptions *WorkspaceSymbolOptions/*OPT:WorkspaceSymbolOptions*/
 }
     
     
 // The server provides document formatting.
-    DocumentFormattingProvider struct { // one-of semantics: only at-most one field is ever non-`nil`
+    DocumentFormattingProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Boolean *Boolean
     DocumentFormattingOptions *DocumentFormattingOptions/*OPT:DocumentFormattingOptions*/
 }
     
     
 // The server provides document range formatting.
-    DocumentRangeFormattingProvider struct { // one-of semantics: only at-most one field is ever non-`nil`
+    DocumentRangeFormattingProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Boolean *Boolean
     DocumentRangeFormattingOptions *DocumentRangeFormattingOptions/*OPT:DocumentRangeFormattingOptions*/
 }
@@ -3194,14 +3189,14 @@ type ServerCapabilities struct {
 // The server provides rename support. RenameOptions may only be
 // specified if the client states that it supports
 // `prepareSupport` in its initial `initialize` request.
-    RenameProvider struct { // one-of semantics: only at-most one field is ever non-`nil`
+    RenameProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Boolean *Boolean
     RenameOptions *RenameOptions/*OPT:RenameOptions*/
 }
     
     
 // The server provides folding provider support.
-    FoldingRangeProvider struct { // one-of semantics: only at-most one field is ever non-`nil`
+    FoldingRangeProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Boolean *Boolean
     FoldingRangeOptions *FoldingRangeOptions/*OPT:FoldingRangeOptions*/
     FoldingRangeRegistrationOptions *FoldingRangeRegistrationOptions/*OPT:FoldingRangeRegistrationOptions*/
@@ -3209,7 +3204,7 @@ type ServerCapabilities struct {
     
     
 // The server provides selection range support.
-    SelectionRangeProvider struct { // one-of semantics: only at-most one field is ever non-`nil`
+    SelectionRangeProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Boolean *Boolean
     SelectionRangeOptions *SelectionRangeOptions/*OPT:SelectionRangeOptions*/
     SelectionRangeRegistrationOptions *SelectionRangeRegistrationOptions/*OPT:SelectionRangeRegistrationOptions*/
@@ -3223,7 +3218,7 @@ type ServerCapabilities struct {
 // The server provides call hierarchy support.
 // 
 // @since 3.16.0
-    CallHierarchyProvider struct { // one-of semantics: only at-most one field is ever non-`nil`
+    CallHierarchyProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Boolean *Boolean
     CallHierarchyOptions *CallHierarchyOptions/*OPT:CallHierarchyOptions*/
     CallHierarchyRegistrationOptions *CallHierarchyRegistrationOptions/*OPT:CallHierarchyRegistrationOptions*/
@@ -3233,7 +3228,7 @@ type ServerCapabilities struct {
 // The server provides linked editing range support.
 // 
 // @since 3.16.0
-    LinkedEditingRangeProvider struct { // one-of semantics: only at-most one field is ever non-`nil`
+    LinkedEditingRangeProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Boolean *Boolean
     LinkedEditingRangeOptions *LinkedEditingRangeOptions/*OPT:LinkedEditingRangeOptions*/
     LinkedEditingRangeRegistrationOptions *LinkedEditingRangeRegistrationOptions/*OPT:LinkedEditingRangeRegistrationOptions*/
@@ -3243,7 +3238,7 @@ type ServerCapabilities struct {
 // The server provides semantic tokens support.
 // 
 // @since 3.16.0
-    SemanticTokensProvider struct { // one-of semantics: only at-most one field is ever non-`nil`
+    SemanticTokensProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     SemanticTokensOptions *SemanticTokensOptions/*OPT:SemanticTokensOptions*/
     SemanticTokensRegistrationOptions *SemanticTokensRegistrationOptions/*OPT:SemanticTokensRegistrationOptions*/
 }
@@ -3252,7 +3247,7 @@ type ServerCapabilities struct {
 // The server provides moniker support.
 // 
 // @since 3.16.0
-    MonikerProvider struct { // one-of semantics: only at-most one field is ever non-`nil`
+    MonikerProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Boolean *Boolean
     MonikerOptions *MonikerOptions/*OPT:MonikerOptions*/
     MonikerRegistrationOptions *MonikerRegistrationOptions/*OPT:MonikerRegistrationOptions*/
@@ -3262,7 +3257,7 @@ type ServerCapabilities struct {
 // The server provides type hierarchy support.
 // 
 // @since 3.17.0
-    TypeHierarchyProvider struct { // one-of semantics: only at-most one field is ever non-`nil`
+    TypeHierarchyProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Boolean *Boolean
     TypeHierarchyOptions *TypeHierarchyOptions/*OPT:TypeHierarchyOptions*/
     TypeHierarchyRegistrationOptions *TypeHierarchyRegistrationOptions/*OPT:TypeHierarchyRegistrationOptions*/
@@ -3272,7 +3267,7 @@ type ServerCapabilities struct {
 // The server provides inline values.
 // 
 // @since 3.17.0
-    InlineValueProvider struct { // one-of semantics: only at-most one field is ever non-`nil`
+    InlineValueProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Boolean *Boolean
     InlineValueOptions *InlineValueOptions/*OPT:InlineValueOptions*/
     InlineValueRegistrationOptions *InlineValueRegistrationOptions/*OPT:InlineValueRegistrationOptions*/
@@ -3282,7 +3277,7 @@ type ServerCapabilities struct {
 // The server provides inlay hints.
 // 
 // @since 3.17.0
-    InlayHintProvider struct { // one-of semantics: only at-most one field is ever non-`nil`
+    InlayHintProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Boolean *Boolean
     InlayHintOptions *InlayHintOptions/*OPT:InlayHintOptions*/
     InlayHintRegistrationOptions *InlayHintRegistrationOptions/*OPT:InlayHintRegistrationOptions*/
@@ -3292,7 +3287,7 @@ type ServerCapabilities struct {
 // The server has support for pull model diagnostics.
 // 
 // @since 3.17.0
-    DiagnosticProvider struct { // one-of semantics: only at-most one field is ever non-`nil`
+    DiagnosticProvider struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     DiagnosticOptions *DiagnosticOptions/*OPT:DiagnosticOptions*/
     DiagnosticRegistrationOptions *DiagnosticRegistrationOptions/*OPT:DiagnosticRegistrationOptions*/
 }
@@ -3326,7 +3321,7 @@ type VersionedTextDocumentIdentifier struct {
     
     
 // The version number of this document.
-    Version *Integer
+    Version int
     
 }
 // Save options.
@@ -3355,7 +3350,7 @@ type FileSystemWatcher struct {
 // The glob pattern to watch. See `GlobPattern` for more detail.
 // 
 // @since 3.17.0 support for relative patterns.
-    GlobPattern *GlobPattern/*OPT:GlobPattern*/
+    GlobPattern GlobPattern
     
     
 // The kind of events of interest. If omitted it defaults
@@ -3370,7 +3365,7 @@ type Diagnostic struct {
     
     
 // The range at which the message applies
-    Range *Range/*OPT:Range*/
+    Range Range
     
     
 // The diagnostic's severity. Can be omitted. If omitted it is up to the
@@ -3379,7 +3374,7 @@ type Diagnostic struct {
     
     
 // The diagnostic's code, which usually appear in the user interface.
-    Code struct { // one-of semantics: only at-most one field is ever non-`nil`
+    Code struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Integer *Integer
     String *String
 }
@@ -3399,7 +3394,7 @@ type Diagnostic struct {
     
     
 // The diagnostic's message. It usually appears in the user interface
-    Message *String
+    Message string
     
     
 // Additional metadata about the diagnostic.
@@ -3456,15 +3451,15 @@ type InsertReplaceEdit struct {
     
     
 // The string to be inserted.
-    NewText *String
+    NewText string
     
     
 // The range if the insert is requested
-    Insert *Range/*OPT:Range*/
+    Insert Range
     
     
 // The range if the replace is requested.
-    Replace *Range/*OPT:Range*/
+    Replace Range
     
 }
 // Completion options.
@@ -3540,7 +3535,7 @@ type SignatureHelpContext struct {
 // 
 // Retriggers occurs when the signature help is already active and can be caused by actions such as
 // typing a trigger character, a cursor move, or document content changes.
-    IsRetrigger *Boolean
+    IsRetrigger bool
     
     
 // The currently active `SignatureHelp`.
@@ -3558,12 +3553,12 @@ type SignatureInformation struct {
     
 // The label of this signature. Will be shown in
 // the UI.
-    Label *String
+    Label string
     
     
 // The human-readable doc-comment of this signature. Will be shown
 // in the UI but can be omitted.
-    Documentation struct { // one-of semantics: only at-most one field is ever non-`nil`
+    Documentation struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     String *String
     MarkupContent *MarkupContent/*OPT:MarkupContent*/
 }
@@ -3608,7 +3603,7 @@ type ReferenceContext struct {
     
     
 // Include the declaration of the current symbol.
-    IncludeDeclaration *Boolean
+    IncludeDeclaration bool
     
 }
 // Reference options.
@@ -3624,7 +3619,7 @@ type BaseSymbolInformation struct {
     
     
 // The name of this symbol.
-    Name *String
+    Name string
     
     
 // The kind of this symbol.
@@ -3731,11 +3726,11 @@ type FormattingOptions struct {
     
     
 // Size of a tab in spaces.
-    TabSize *Uinteger
+    TabSize uint
     
     
 // Prefer spaces over tabs.
-    InsertSpaces *Boolean
+    InsertSpaces bool
     
     
 // Trim trailing whitespace on a line.
@@ -3769,7 +3764,7 @@ type DocumentOnTypeFormattingOptions struct {
     
     
 // A character on which formatting should be triggered, like `{`.
-    FirstTriggerCharacter *String
+    FirstTriggerCharacter string
     
     
 // More trigger characters.
@@ -3815,7 +3810,7 @@ type OptionalVersionedTextDocumentIdentifier struct {
 // (the server has not received an open notification before) the server can send
 // `null` to indicate that the version is unknown and the content on disk is the
 // truth (as specified with document content ownership).
-    Version struct { // one-of semantics: only at-most one field is ever non-`nil`
+    Version struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Integer *Integer
 }
     
@@ -3827,7 +3822,7 @@ type AnnotatedTextEdit struct {
     
     
 // The actual identifier of the change annotation
-    AnnotationId *ChangeAnnotationIdentifier/*OPT:ChangeAnnotationIdentifier*/
+    AnnotationId ChangeAnnotationIdentifier
     
 }
 // A generic resource operation.
@@ -3835,7 +3830,7 @@ type ResourceOperation struct {
     
     
 // The resource operation kind.
-    Kind *String
+    Kind string
     
     
 // An optional annotation identifier describing the operation.
@@ -3894,7 +3889,7 @@ type FileOperationPattern struct {
 // - `{}` to group sub patterns into an OR expression. (e.g. `**​/*.{ts,js}` matches all TypeScript and JavaScript files)
 // - `[]` to declare a range of characters to match in a path segment (e.g., `example.[0-9]` to match on `example.0`, `example.1`, …)
 // - `[!...]` to negate a range of characters to match in a path segment (e.g., `example.[!0-9]` to match on `example.a`, `example.b`, but not `example.0`)
-    Glob *String
+    Glob string
     
     
 // Whether to match files or folders with this pattern.
@@ -3919,7 +3914,7 @@ type WorkspaceFullDocumentDiagnosticReport struct {
     
 // The version number for which the diagnostics are reported.
 // If the document is not marked as open `null` can be provided.
-    Version struct { // one-of semantics: only at-most one field is ever non-`nil`
+    Version struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Integer *Integer
 }
     
@@ -3936,7 +3931,7 @@ type WorkspaceUnchangedDocumentDiagnosticReport struct {
     
 // The version number for which the diagnostics are reported.
 // If the document is not marked as open `null` can be provided.
-    Version struct { // one-of semantics: only at-most one field is ever non-`nil`
+    Version struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Integer *Integer
 }
     
@@ -3979,11 +3974,11 @@ type NotebookCellArrayChange struct {
     
     
 // The start oftest of the cell that changed.
-    Start *Uinteger
+    Start uint
     
     
 // The deleted cells
-    DeleteCount *Uinteger
+    DeleteCount uint
     
     
 // The new cells, if any
@@ -4047,7 +4042,7 @@ type TextDocumentSyncOptions struct {
     
 // If present save notifications are sent to the server. If omitted the notification should not be
 // sent.
-    Save struct { // one-of semantics: only at-most one field is ever non-`nil`
+    Save struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Boolean *Boolean
     SaveOptions *SaveOptions/*OPT:SaveOptions*/
 }
@@ -4070,14 +4065,14 @@ type NotebookDocumentSyncOptions struct {
     
     
 // The notebooks to be synced
-    NotebookSelector []struct { // one-of semantics: only at-most one field is ever non-`nil`
+    NotebookSelector []struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     NotebookCells *struct {
     
     
 // The notebook to be synced If a string
 // value is provided it matches against the
 // notebook type. '*' matches every notebook.
-    Notebook struct { // one-of semantics: only at-most one field is ever non-`nil`
+    Notebook struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     String *String
     NotebookDocumentFilter *NotebookDocumentFilter/*OPT:NotebookDocumentFilter*/
 }
@@ -4087,7 +4082,7 @@ type NotebookDocumentSyncOptions struct {
     Cells []struct {
     
     
-    Language *String
+    Language string
     
 }
 
@@ -4100,7 +4095,7 @@ type NotebookDocumentSyncOptions struct {
 // The notebook to be synced If a string
 // value is provided it matches against the
 // notebook type. '*' matches every notebook.
-    Notebook struct { // one-of semantics: only at-most one field is ever non-`nil`
+    Notebook struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     String *String
     NotebookDocumentFilter *NotebookDocumentFilter/*OPT:NotebookDocumentFilter*/
 }
@@ -4110,7 +4105,7 @@ type NotebookDocumentSyncOptions struct {
     Cells []struct {
     
     
-    Language *String
+    Language string
     
 }
 
@@ -4145,7 +4140,7 @@ type WorkspaceFoldersServerCapabilities struct {
 // under which the notification is registered on the client
 // side. The ID can be used to unregister for these events
 // using the `client/unregisterCapability` request.
-    ChangeNotifications struct { // one-of semantics: only at-most one field is ever non-`nil`
+    ChangeNotifications struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     String *String
     Boolean *Boolean
 }
@@ -4198,11 +4193,11 @@ type DiagnosticRelatedInformation struct {
     
     
 // The location of this related diagnostic information.
-    Location *Location/*OPT:Location*/
+    Location Location
     
     
 // The message of this related diagnostic information.
-    Message *String
+    Message string
     
 }
 // Represents a parameter of a callable-signature. A parameter can
@@ -4218,7 +4213,7 @@ type ParameterInformation struct {
 // 
 // *Note*: a label of type string should be a substring of its containing signature label.
 // Its intended use case is to highlight the parameter label part in the `SignatureInformation.label`.
-    Label struct { // one-of semantics: only at-most one field is ever non-`nil`
+    Label struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     String *String
     UintegerWithUinteger *struct {
     Uinteger uint
@@ -4229,7 +4224,7 @@ type ParameterInformation struct {
     
 // The human-readable doc-comment of this parameter. Will be shown
 // in the UI but can be omitted.
-    Documentation struct { // one-of semantics: only at-most one field is ever non-`nil`
+    Documentation struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     String *String
     MarkupContent *MarkupContent/*OPT:MarkupContent*/
 }
@@ -4246,7 +4241,7 @@ type NotebookCellTextDocumentFilter struct {
 // containing the notebook cell. If a string
 // value is provided it matches against the
 // notebook type. '*' matches every notebook.
-    Notebook struct { // one-of semantics: only at-most one field is ever non-`nil`
+    Notebook struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     String *String
     NotebookDocumentFilter *NotebookDocumentFilter/*OPT:NotebookDocumentFilter*/
 }
@@ -4275,7 +4270,7 @@ type ExecutionSummary struct {
 // A strict monotonically increasing value
 // indicating the execution order of a cell
 // inside a notebook.
-    ExecutionOrder *Uinteger
+    ExecutionOrder uint
     
     
 // Whether the execution was successful or
@@ -4528,7 +4523,7 @@ type NotebookDocumentClientCapabilities struct {
 // Capabilities specific to notebook document synchronization
 // 
 // @since 3.17.0
-    Synchronization *NotebookDocumentSyncClientCapabilities/*OPT:NotebookDocumentSyncClientCapabilities*/
+    Synchronization NotebookDocumentSyncClientCapabilities
     
 }
 type WindowClientCapabilities struct {
@@ -4574,7 +4569,7 @@ type GeneralClientCapabilities struct {
     
     
 // The client will actively cancel the request.
-    Cancel *Boolean
+    Cancel bool
     
     
 // The list of requests for which the client
@@ -4629,14 +4624,14 @@ type RelativePattern struct {
     
 // A workspace folder or a base URI to which this pattern will be matched
 // against relatively.
-    BaseUri struct { // one-of semantics: only at-most one field is ever non-`nil`
+    BaseUri struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     WorkspaceFolder *WorkspaceFolder/*OPT:WorkspaceFolder*/
     URI URI
 }
     
     
 // The actual glob pattern;
-    Pattern *Pattern/*OPT:Pattern*/
+    Pattern Pattern
     
 }
 type WorkspaceEditClientCapabilities struct {
@@ -5269,7 +5264,7 @@ type CodeActionClientCapabilities struct {
     
 // The code action kind is support with the following value
 // set.
-    CodeActionKind *struct {
+    CodeActionKind struct {
     
     
 // The code action kind values the client supports. When this
@@ -5279,7 +5274,7 @@ type CodeActionClientCapabilities struct {
     ValueSet []CodeActionKind
     
 }
-/*OPT:<Structure>{valueSet [@CodeActionKind]}*/
+
     
 }
 /*OPT:<Structure>{codeActionKind {valueSet [@CodeActionKind]}}*/
@@ -5551,12 +5546,12 @@ type SemanticTokensClientCapabilities struct {
 // `request.range` are both set to true but the server only provides a
 // range provider the client might not render a minimap correctly or might
 // even decide to not show any semantic tokens at all.
-    Requests *struct {
+    Requests struct {
     
     
 // The client will send the `textDocument/semanticTokens/range` request if
 // the server provides a corresponding handler.
-    Range struct { // one-of semantics: only at-most one field is ever non-`nil`
+    Range struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Boolean *Boolean
      *struct {
     
@@ -5567,7 +5562,7 @@ type SemanticTokensClientCapabilities struct {
     
 // The client will send the `textDocument/semanticTokens/full` request if
 // the server provides a corresponding handler.
-    Full struct { // one-of semantics: only at-most one field is ever non-`nil`
+    Full struct { // "OneOf" / union-type semantics: only at-most one field is ever non-`nil`
     Boolean *Boolean
     Delta *struct {
     
@@ -5581,7 +5576,7 @@ type SemanticTokensClientCapabilities struct {
 }
     
 }
-/*OPT:<Structure>{range? {b#boolean|{}};full? {b#boolean|{delta? b#boolean}}}*/
+
     
     
 // The token types that the client supports.
@@ -5750,7 +5745,7 @@ type ShowDocumentClientCapabilities struct {
     
 // The client has support for the showDocument
 // request.
-    Support *Boolean
+    Support bool
     
 }
 // Client capabilities specific to regular expressions.
@@ -5760,7 +5755,7 @@ type RegularExpressionsClientCapabilities struct {
     
     
 // The engine's name.
-    Engine *String
+    Engine string
     
     
 // The engine's version.
@@ -5774,7 +5769,7 @@ type MarkdownClientCapabilities struct {
     
     
 // The name of the parser.
-    Parser *String
+    Parser string
     
     
 // The version of the parser.

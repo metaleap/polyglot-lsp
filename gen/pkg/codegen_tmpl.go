@@ -27,30 +27,20 @@ func (it *GenBase) DoDocComments(root *GenDot) string {
 			}
 		}
 	}
-	if it.Since != "" && !Exists(doc_lines, func(s string) bool { return strings.Contains(s, "@since") }) {
-		doc_lines = append(doc_lines, "@since "+it.Since)
-	}
-	if it.Deprecated != "" && !Exists(doc_lines, func(s string) bool { return strings.Contains(s, "@deprecated") }) {
-		doc_lines = append(doc_lines, "@deprecated "+it.Deprecated)
-	}
 	return root.gen.tmplExec(nil, root.gen.tmpl("doc_comments", ""), doc_lines)
 }
 
 func (it *GenDot) DoType(t GenType) string {
-	return it.doType(t, nil)
+	return it.DoTypeOptional(t, false)
 }
 
 func (it *GenDot) DoTypeOptional(t GenType, optional bool) string {
-	return it.doType(t, &optional)
-}
-
-func (it *GenDot) doType(t GenType, optional *bool) string {
 	type GenDotType struct {
 		Dot  *GenDot
 		Type GenType
 	}
 
-	if optional != nil {
+	if optional {
 		return it.gen.tmplExec(nil, it.gen.tmpl("type_Optional", ""), GenDotType{Dot: it, Type: t})
 	}
 	switch t := t.(type) {
@@ -66,7 +56,8 @@ func (it *GenDot) doType(t GenType, optional *bool) string {
 	}
 }
 
-func (it *GenDot) Up0(s string) string { return Up0(s) }
+func (it *GenDot) If(b bool, ifTrue any, ifFalse any) any { return If(b, ifTrue, ifFalse) }
+func (it *GenDot) Up0(s string) string                    { return Up0(s) }
 
 func (it *GenDot) IsEnumTypeName(name string) bool {
 	return it.gen.tracked.decls.enumerations[name] != nil

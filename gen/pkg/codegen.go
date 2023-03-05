@@ -17,11 +17,12 @@ type Gen struct {
 	dirPathDst   string // lang_foo/{{.GenIdent}}_v{{.GenVer}}
 	filePathLang string // lang_foo/lang_foo.json
 	tracked      struct {
-		types map[string]GenType
-		decls struct {
+		types     map[string]GenType
+		sideTypes map[string]GenType
+		decls     struct {
 			enumerations map[string]*GenEnumeration
 			structures   map[string]*GenStructure
-			typeAliases  map[string]*GenTypeAlias
+			typeAliases  map[string]*GenAlias
 		}
 		filesGenerated struct {
 			code  []string
@@ -58,14 +59,14 @@ type GenLang struct { // the contents of your lang_foo/lang_foo.json
 }
 
 type GenDots interface {
-	PerTypeAlias(*Gen, func(*GenTypeAlias))
+	PerTypeAlias(*Gen, func(*GenAlias))
 	PerEnumeration(*Gen, func(*GenEnumeration))
 	PerStructure(*Gen, func(*GenStructure))
 }
 
 func (it *Gen) Generate(dots GenDots) {
 	it.Dot.gen = it
-	it.tracked.types, it.tracked.decls.enumerations, it.tracked.decls.structures, it.tracked.decls.typeAliases = map[string]GenType{}, map[string]*GenEnumeration{}, map[string]*GenStructure{}, map[string]*GenTypeAlias{}
+	it.tracked.types, it.tracked.sideTypes, it.tracked.decls.enumerations, it.tracked.decls.structures, it.tracked.decls.typeAliases = map[string]GenType{}, map[string]GenType{}, map[string]*GenEnumeration{}, map[string]*GenStructure{}, map[string]*GenAlias{}
 	it.dirPathLang = "../lang_" + it.LangIdent
 	it.dirPathSrc = it.dirPathLang + "/_gen"
 	it.dirPathDst = it.dirPathLang + "/" + it.Dot.GenIdent + "_v" + it.Dot.GenVer
@@ -108,10 +109,12 @@ func (it *Gen) genDots(buf *bytes.Buffer, dots_by_file_name []Tup[string, func()
 			case *GenEnumeration:
 				it.tracked.decls.enumerations[decl.Name] = decl
 				it.tracked.decls.enumerations[decl.NameUp] = decl
+				ensureConstValDocHints(decl.Enumerants, func(p GenEnumerant) any { return p.Value })
 			case *GenStructure:
 				it.tracked.decls.structures[decl.Name] = decl
 				it.tracked.decls.structures[decl.NameUp] = decl
-			case *GenTypeAlias:
+				ensureConstValDocHints(decl.Properties, func(p GenStructureProperty) any { return p.ConstVal })
+			case *GenAlias:
 				it.tracked.decls.typeAliases[decl.Name] = decl
 				it.tracked.decls.typeAliases[decl.NameUp] = decl
 			}
@@ -123,8 +126,8 @@ func (it *Gen) genDots(buf *bytes.Buffer, dots_by_file_name []Tup[string, func()
 }
 
 func (it *Gen) genSideTypes(buf *bytes.Buffer) {
-	types := make([]any, 0, len(it.tracked.types))
-	for _, ty := range it.tracked.types {
+	types := make([]any, 0, len(it.tracked.sideTypes))
+	for _, ty := range it.tracked.sideTypes {
 		if _, is_ref := ty.(GenTypeReference); is_ref {
 			continue
 		}
@@ -153,6 +156,13 @@ func (it *Gen) postGenCleanUp() {
 	}
 }
 
+func ensureConstValDocHints[T any](items []T, constVal func(T) any) {
+	for i, item := range items {
+		if base, const_val := any(&items[i]).(interface{ base() *GenBase }).base(), constVal(item); const_val != nil {
+			base.DocLines = append(base.DocLines, "The value is always "+ValueString(const_val))
+		}
+	}
+}
 func toAnys[T any](gen *Gen, each func(*Gen, func(*T))) func() []any {
 	return func() (ret []any) {
 		each(gen, func(dot *T) {

@@ -11,78 +11,76 @@ package lsp
 // @since 3.16.0
 type SemanticTokenTypes string
 
-// The value is always "namespace".
+// The value is always "namespace"
 const SemanticTokenTypesNamespace SemanticTokenTypes = "namespace"
 
 // Represents a generic type. Acts as a fallback for types which can't be mapped to
 // a specific type like class or enum.
-// 
-// The value is always "type".
+// The value is always "type"
 const SemanticTokenTypesType SemanticTokenTypes = "type"
 
-// The value is always "class".
+// The value is always "class"
 const SemanticTokenTypesClass SemanticTokenTypes = "class"
 
-// The value is always "enum".
+// The value is always "enum"
 const SemanticTokenTypesEnum SemanticTokenTypes = "enum"
 
-// The value is always "interface".
+// The value is always "interface"
 const SemanticTokenTypesInterface SemanticTokenTypes = "interface"
 
-// The value is always "struct".
+// The value is always "struct"
 const SemanticTokenTypesStruct SemanticTokenTypes = "struct"
 
-// The value is always "typeParameter".
+// The value is always "typeParameter"
 const SemanticTokenTypesTypeParameter SemanticTokenTypes = "typeParameter"
 
-// The value is always "parameter".
+// The value is always "parameter"
 const SemanticTokenTypesParameter SemanticTokenTypes = "parameter"
 
-// The value is always "variable".
+// The value is always "variable"
 const SemanticTokenTypesVariable SemanticTokenTypes = "variable"
 
-// The value is always "property".
+// The value is always "property"
 const SemanticTokenTypesProperty SemanticTokenTypes = "property"
 
-// The value is always "enumMember".
+// The value is always "enumMember"
 const SemanticTokenTypesEnumMember SemanticTokenTypes = "enumMember"
 
-// The value is always "event".
+// The value is always "event"
 const SemanticTokenTypesEvent SemanticTokenTypes = "event"
 
-// The value is always "function".
+// The value is always "function"
 const SemanticTokenTypesFunction SemanticTokenTypes = "function"
 
-// The value is always "method".
+// The value is always "method"
 const SemanticTokenTypesMethod SemanticTokenTypes = "method"
 
-// The value is always "macro".
+// The value is always "macro"
 const SemanticTokenTypesMacro SemanticTokenTypes = "macro"
 
-// The value is always "keyword".
+// The value is always "keyword"
 const SemanticTokenTypesKeyword SemanticTokenTypes = "keyword"
 
-// The value is always "modifier".
+// The value is always "modifier"
 const SemanticTokenTypesModifier SemanticTokenTypes = "modifier"
 
-// The value is always "comment".
+// The value is always "comment"
 const SemanticTokenTypesComment SemanticTokenTypes = "comment"
 
-// The value is always "string".
+// The value is always "string"
 const SemanticTokenTypesString SemanticTokenTypes = "string"
 
-// The value is always "number".
+// The value is always "number"
 const SemanticTokenTypesNumber SemanticTokenTypes = "number"
 
-// The value is always "regexp".
+// The value is always "regexp"
 const SemanticTokenTypesRegexp SemanticTokenTypes = "regexp"
 
-// The value is always "operator".
+// The value is always "operator"
 const SemanticTokenTypesOperator SemanticTokenTypes = "operator"
 
 // @since 3.17.0
-// 
-// The value is always "decorator".
+// The value is always "decorator"
 const SemanticTokenTypesDecorator SemanticTokenTypes = "decorator"
 
 // String returns "" or "Namespace" or "Type" or "Class" or "Enum" or "Interface" or "Struct" or "TypeParameter" or "Parameter" or "Variable" or "Property" or "EnumMember" or "Event" or "Function" or "Method" or "Macro" or "Keyword" or "Modifier" or "Comment" or "String" or "Number" or "Regexp" or "Operator" or "Decorator", depending on the value of `it`.
@@ -146,34 +144,34 @@ func (it SemanticTokenTypes) String() string {
 // @since 3.16.0
 type SemanticTokenModifiers string
 
-// The value is always "declaration".
+// The value is always "declaration"
 const SemanticTokenModifiersDeclaration SemanticTokenModifiers = "declaration"
 
-// The value is always "definition".
+// The value is always "definition"
 const SemanticTokenModifiersDefinition SemanticTokenModifiers = "definition"
 
-// The value is always "readonly".
+// The value is always "readonly"
 const SemanticTokenModifiersReadonly SemanticTokenModifiers = "readonly"
 
-// The value is always "static".
+// The value is always "static"
 const SemanticTokenModifiersStatic SemanticTokenModifiers = "static"
 
-// The value is always "deprecated".
+// The value is always "deprecated"
 const SemanticTokenModifiersDeprecated SemanticTokenModifiers = "deprecated"
 
-// The value is always "abstract".
+// The value is always "abstract"
 const SemanticTokenModifiersAbstract SemanticTokenModifiers = "abstract"
 
-// The value is always "async".
+// The value is always "async"
 const SemanticTokenModifiersAsync SemanticTokenModifiers = "async"
 
-// The value is always "modification".
+// The value is always "modification"
 const SemanticTokenModifiersModification SemanticTokenModifiers = "modification"
 
-// The value is always "documentation".
+// The value is always "documentation"
 const SemanticTokenModifiersDocumentation SemanticTokenModifiers = "documentation"
 
-// The value is always "defaultLibrary".
+// The value is always "defaultLibrary"
 const SemanticTokenModifiersDefaultLibrary SemanticTokenModifiers = "defaultLibrary"
 
 // String returns "" or "Declaration" or "Definition" or "Readonly" or "Static" or "Deprecated" or "Abstract" or "Async" or "Modification" or "Documentation" or "DefaultLibrary", depending on the value of `it`.
@@ -211,14 +209,12 @@ type DocumentDiagnosticReportKind string
 
 // A diagnostic report with a full
 // set of problems.
-// 
-// The value is always "full".
+// The value is always "full"
 const DocumentDiagnosticReportKindFull DocumentDiagnosticReportKind = "full"
 
 // A report indicating that the last
 // returned report is still accurate.
-// 
-// The value is always "unchanged".
+// The value is always "unchanged"
 const DocumentDiagnosticReportKindUnchanged DocumentDiagnosticReportKind = "unchanged"
 
 // String returns "" or "Full" or "Unchanged", depending on the value of `it`.
@@ -236,28 +232,27 @@ func (it DocumentDiagnosticReportKind) String() string {
 // Predefined error codes.
 type ErrorCodes int
 
-// The value is always -32700.
+// The value is always -32700
 const ErrorCodesParseError ErrorCodes = -32700
 
-// The value is always -32600.
+// The value is always -32600
 const ErrorCodesInvalidRequest ErrorCodes = -32600
 
-// The value is always -32601.
+// The value is always -32601
 const ErrorCodesMethodNotFound ErrorCodes = -32601
 
-// The value is always -32602.
+// The value is always -32602
 const ErrorCodesInvalidParams ErrorCodes = -32602
 
-// The value is always -32603.
+// The value is always -32603
 const ErrorCodesInternalError ErrorCodes = -32603
 
 // Error code indicating that a server received a notification or
 // request before the server has received the `initialize` request.
-// 
-// The value is always -32002.
+// The value is always -32002
 const ErrorCodesServerNotInitialized ErrorCodes = -32002
 
-// The value is always -32001.
+// The value is always -32001
 const ErrorCodesUnknownErrorCode ErrorCodes = -32001
 
 // String returns "" or "ParseError" or "InvalidRequest" or "MethodNotFound" or "InvalidParams" or "InternalError" or "ServerNotInitialized" or "UnknownErrorCode", depending on the value of `it`.
@@ -290,8 +285,7 @@ type LSPErrorCodes int
 // the request failed.
 // 
 // @since 3.17.0
-// 
-// The value is always -32803.
+// The value is always -32803
 const LSPErrorCodesRequestFailed LSPErrorCodes = -32803
 
 // The server cancelled the request. This error code should
@@ -299,8 +293,7 @@ const LSPErrorCodesRequestFailed LSPErrorCodes = -32803
 // server cancellable.
 // 
 // @since 3.17.0
-// 
-// The value is always -32802.
+// The value is always -32802
 const LSPErrorCodesServerCancelled LSPErrorCodes = -32802
 
 // The server detected that the content of a document got
@@ -311,14 +304,12 @@ const LSPErrorCodesServerCancelled LSPErrorCodes = -32802
 // 
 // If a client decides that a result is not of any use anymore
 // the client should cancel the request.
-// 
-// The value is always -32801.
+// The value is always -32801
 const LSPErrorCodesContentModified LSPErrorCodes = -32801
 
 // The client has canceled a request and a server as detected
 // the cancel.
-// 
-// The value is always -32800.
+// The value is always -32800
 const LSPErrorCodesRequestCancelled LSPErrorCodes = -32800
 
 // String returns "" or "RequestFailed" or "ServerCancelled" or "ContentModified" or "RequestCancelled", depending on the value of `it`.
@@ -341,18 +332,15 @@ func (it LSPErrorCodes) String() string {
 type FoldingRangeKind string
 
 // Folding range for a comment
-// 
-// The value is always "comment".
+// The value is always "comment"
 const FoldingRangeKindComment FoldingRangeKind = "comment"
 
 // Folding range for an import or include
-// 
-// The value is always "imports".
+// The value is always "imports"
 const FoldingRangeKindImports FoldingRangeKind = "imports"
 
 // Folding range for a region (e.g. `#region`)
-// 
-// The value is always "region".
+// The value is always "region"
 const FoldingRangeKindRegion FoldingRangeKind = "region"
 
 // String returns "" or "Comment" or "Imports" or "Region", depending on the value of `it`.
@@ -372,82 +360,82 @@ func (it FoldingRangeKind) String() string {
 // A symbol kind.
 type SymbolKind uint
 
-// The value is always 1.
+// The value is always 1
 const SymbolKindFile SymbolKind = 1
 
-// The value is always 2.
+// The value is always 2
 const SymbolKindModule SymbolKind = 2
 
-// The value is always 3.
+// The value is always 3
 const SymbolKindNamespace SymbolKind = 3
 
-// The value is always 4.
+// The value is always 4
 const SymbolKindPackage SymbolKind = 4
 
-// The value is always 5.
+// The value is always 5
 const SymbolKindClass SymbolKind = 5
 
-// The value is always 6.
+// The value is always 6
 const SymbolKindMethod SymbolKind = 6
 
-// The value is always 7.
+// The value is always 7
 const SymbolKindProperty SymbolKind = 7
 
-// The value is always 8.
+// The value is always 8
 const SymbolKindField SymbolKind = 8
 
-// The value is always 9.
+// The value is always 9
 const SymbolKindConstructor SymbolKind = 9
 
-// The value is always 10.
+// The value is always 10
 const SymbolKindEnum SymbolKind = 10
 
-// The value is always 11.
+// The value is always 11
 const SymbolKindInterface SymbolKind = 11
 
-// The value is always 12.
+// The value is always 12
 const SymbolKindFunction SymbolKind = 12
 
-// The value is always 13.
+// The value is always 13
 const SymbolKindVariable SymbolKind = 13
 
-// The value is always 14.
+// The value is always 14
 const SymbolKindConstant SymbolKind = 14
 
-// The value is always 15.
+// The value is always 15
 const SymbolKindString SymbolKind = 15
 
-// The value is always 16.
+// The value is always 16
 const SymbolKindNumber SymbolKind = 16
 
-// The value is always 17.
+// The value is always 17
 const SymbolKindBoolean SymbolKind = 17
 
-// The value is always 18.
+// The value is always 18
 const SymbolKindArray SymbolKind = 18
 
-// The value is always 19.
+// The value is always 19
 const SymbolKindObject SymbolKind = 19
 
-// The value is always 20.
+// The value is always 20
 const SymbolKindKey SymbolKind = 20
 
-// The value is always 21.
+// The value is always 21
 const SymbolKindNull SymbolKind = 21
 
-// The value is always 22.
+// The value is always 22
 const SymbolKindEnumMember SymbolKind = 22
 
-// The value is always 23.
+// The value is always 23
 const SymbolKindStruct SymbolKind = 23
 
-// The value is always 24.
+// The value is always 24
 const SymbolKindEvent SymbolKind = 24
 
-// The value is always 25.
+// The value is always 25
 const SymbolKindOperator SymbolKind = 25
 
-// The value is always 26.
+// The value is always 26
 const SymbolKindTypeParameter SymbolKind = 26
 
 // String returns "" or "File" or "Module" or "Namespace" or "Package" or "Class" or "Method" or "Property" or "Field" or "Constructor" or "Enum" or "Interface" or "Function" or "Variable" or "Constant" or "String" or "Number" or "Boolean" or "Array" or "Object" or "Key" or "Null" or "EnumMember" or "Struct" or "Event" or "Operator" or "TypeParameter", depending on the value of `it`.
@@ -516,8 +504,7 @@ func (it SymbolKind) String() string {
 type SymbolTag uint
 
 // Render a symbol as obsolete, usually using a strike-out.
-// 
-// The value is always 1.
+// The value is always 1
 const SymbolTagDeprecated SymbolTag = 1
 
 // String returns "" or "Deprecated", depending on the value of `it`.
@@ -536,28 +523,23 @@ func (it SymbolTag) String() string {
 type UniquenessLevel string
 
 // The moniker is only unique inside a document
-// 
-// The value is always "document".
+// The value is always "document"
 const UniquenessLevelDocument UniquenessLevel = "document"
 
 // The moniker is unique inside a project for which a dump got created
-// 
-// The value is always "project".
+// The value is always "project"
 const UniquenessLevelProject UniquenessLevel = "project"
 
 // The moniker is unique inside the group to which a project belongs
-// 
-// The value is always "group".
+// The value is always "group"
 const UniquenessLevelGroup UniquenessLevel = "group"
 
 // The moniker is unique inside the moniker scheme.
-// 
-// The value is always "scheme".
+// The value is always "scheme"
 const UniquenessLevelScheme UniquenessLevel = "scheme"
 
 // The moniker is globally unique
-// 
-// The value is always "global".
+// The value is always "global"
 const UniquenessLevelGlobal UniquenessLevel = "global"
 
 // String returns "" or "Document" or "Project" or "Group" or "Scheme" or "Global", depending on the value of `it`.
@@ -584,19 +566,16 @@ func (it UniquenessLevel) String() string {
 type MonikerKind string
 
 // The moniker represent a symbol that is imported into a project
-// 
-// The value is always "import".
+// The value is always "import"
 const MonikerKindImport MonikerKind = "import"
 
 // The moniker represents a symbol that is exported from a project
-// 
-// The value is always "export".
+// The value is always "export"
 const MonikerKindExport MonikerKind = "export"
 
 // The moniker represents a symbol that is local to a project (e.g. a local
 // variable of a function, a class not visible outside the project, ...)
-// 
-// The value is always "local".
+// The value is always "local"
 const MonikerKindLocal MonikerKind = "local"
 
 // String returns "" or "Import" or "Export" or "Local", depending on the value of `it`.
@@ -619,13 +598,11 @@ func (it MonikerKind) String() string {
 type InlayHintKind uint
 
 // An inlay hint that for a type annotation.
-// 
-// The value is always 1.
+// The value is always 1
 const InlayHintKindType InlayHintKind = 1
 
 // An inlay hint that is for a parameter.
-// 
-// The value is always 2.
+// The value is always 2
 const InlayHintKindParameter InlayHintKind = 2
 
 // String returns "" or "Type" or "Parameter", depending on the value of `it`.
@@ -644,23 +621,19 @@ func (it InlayHintKind) String() string {
 type MessageType uint
 
 // An error message.
-// 
-// The value is always 1.
+// The value is always 1
 const MessageTypeError MessageType = 1
 
 // A warning message.
-// 
-// The value is always 2.
+// The value is always 2
 const MessageTypeWarning MessageType = 2
 
 // An information message.
-// 
-// The value is always 3.
+// The value is always 3
 const MessageTypeInfo MessageType = 3
 
 // A log message.
-// 
-// The value is always 4.
+// The value is always 4
 const MessageTypeLog MessageType = 4
 
 // String returns "" or "Error" or "Warning" or "Info" or "Log", depending on the value of `it`.
@@ -684,21 +657,18 @@ func (it MessageType) String() string {
 type TextDocumentSyncKind uint
 
 // Documents should not be synced at all.
-// 
-// The value is always 0.
+// The value is always 0
 const TextDocumentSyncKindNone TextDocumentSyncKind = 0
 
 // Documents are synced by always sending the full content
 // of the document.
-// 
-// The value is always 1.
+// The value is always 1
 const TextDocumentSyncKindFull TextDocumentSyncKind = 1
 
 // Documents are synced by sending the full content on open.
 // After that only incremental updates to the document are
 // send.
-// 
-// The value is always 2.
+// The value is always 2
 const TextDocumentSyncKindIncremental TextDocumentSyncKind = 2
 
 // String returns "" or "None" or "Full" or "Incremental", depending on the value of `it`.
@@ -720,18 +690,15 @@ type TextDocumentSaveReason uint
 
 // Manually triggered, e.g. by the user pressing save, by starting debugging,
 // or by an API call.
-// 
-// The value is always 1.
+// The value is always 1
 const TextDocumentSaveReasonManual TextDocumentSaveReason = 1
 
 // Automatic after a delay.
-// 
-// The value is always 2.
+// The value is always 2
 const TextDocumentSaveReasonAfterDelay TextDocumentSaveReason = 2
 
 // When the editor lost focus.
-// 
-// The value is always 3.
+// The value is always 3
 const TextDocumentSaveReasonFocusOut TextDocumentSaveReason = 3
 
 // String returns "" or "Manual" or "AfterDelay" or "FocusOut", depending on the value of `it`.
@@ -751,79 +718,79 @@ func (it TextDocumentSaveReason) String() string {
 // The kind of a completion entry.
 type CompletionItemKind uint
 
-// The value is always 1.
+// The value is always 1
 const CompletionItemKindText CompletionItemKind = 1
 
-// The value is always 2.
+// The value is always 2
 const CompletionItemKindMethod CompletionItemKind = 2
 
-// The value is always 3.
+// The value is always 3
 const CompletionItemKindFunction CompletionItemKind = 3
 
-// The value is always 4.
+// The value is always 4
 const CompletionItemKindConstructor CompletionItemKind = 4
 
-// The value is always 5.
+// The value is always 5
 const CompletionItemKindField CompletionItemKind = 5
 
-// The value is always 6.
+// The value is always 6
 const CompletionItemKindVariable CompletionItemKind = 6
 
-// The value is always 7.
+// The value is always 7
 const CompletionItemKindClass CompletionItemKind = 7
 
-// The value is always 8.
+// The value is always 8
 const CompletionItemKindInterface CompletionItemKind = 8
 
-// The value is always 9.
+// The value is always 9
 const CompletionItemKindModule CompletionItemKind = 9
 
-// The value is always 10.
+// The value is always 10
 const CompletionItemKindProperty CompletionItemKind = 10
 
-// The value is always 11.
+// The value is always 11
 const CompletionItemKindUnit CompletionItemKind = 11
 
-// The value is always 12.
+// The value is always 12
 const CompletionItemKindValue CompletionItemKind = 12
 
-// The value is always 13.
+// The value is always 13
 const CompletionItemKindEnum CompletionItemKind = 13
 
-// The value is always 14.
+// The value is always 14
 const CompletionItemKindKeyword CompletionItemKind = 14
 
-// The value is always 15.
+// The value is always 15
 const CompletionItemKindSnippet CompletionItemKind = 15
 
-// The value is always 16.
+// The value is always 16
 const CompletionItemKindColor CompletionItemKind = 16
 
-// The value is always 17.
+// The value is always 17
 const CompletionItemKindFile CompletionItemKind = 17
 
-// The value is always 18.
+// The value is always 18
 const CompletionItemKindReference CompletionItemKind = 18
 
-// The value is always 19.
+// The value is always 19
 const CompletionItemKindFolder CompletionItemKind = 19
 
-// The value is always 20.
+// The value is always 20
 const CompletionItemKindEnumMember CompletionItemKind = 20
 
-// The value is always 21.
+// The value is always 21
 const CompletionItemKindConstant CompletionItemKind = 21
 
-// The value is always 22.
+// The value is always 22
 const CompletionItemKindStruct CompletionItemKind = 22
 
-// The value is always 23.
+// The value is always 23
 const CompletionItemKindEvent CompletionItemKind = 23
 
-// The value is always 24.
+// The value is always 24
 const CompletionItemKindOperator CompletionItemKind = 24
 
-// The value is always 25.
+// The value is always 25
 const CompletionItemKindTypeParameter CompletionItemKind = 25
 
 // String returns "" or "Text" or "Method" or "Function" or "Constructor" or "Field" or "Variable" or "Class" or "Interface" or "Module" or "Property" or "Unit" or "Value" or "Enum" or "Keyword" or "Snippet" or "Color" or "File" or "Reference" or "Folder" or "EnumMember" or "Constant" or "Struct" or "Event" or "Operator" or "TypeParameter", depending on the value of `it`.
@@ -891,8 +858,7 @@ func (it CompletionItemKind) String() string {
 type CompletionItemTag uint
 
 // Render a completion as obsolete, usually using a strike-out.
-// 
-// The value is always 1.
+// The value is always 1
 const CompletionItemTagDeprecated CompletionItemTag = 1
 
 // String returns "" or "Deprecated", depending on the value of `it`.
@@ -910,8 +876,7 @@ func (it CompletionItemTag) String() string {
 type InsertTextFormat uint
 
 // The primary text to be inserted is treated as a plain string.
-// 
-// The value is always 1.
+// The value is always 1
 const InsertTextFormatPlainText InsertTextFormat = 1
 
 // The primary text to be inserted is treated as a snippet.
@@ -922,8 +887,7 @@ const InsertTextFormatPlainText InsertTextFormat = 1
 // that is typing in one will update others too.
 // 
 // See also: https://microsoft.github.io/language-server-protocol/specifications/specification-current/#snippet_syntax
-// 
-// The value is always 2.
+// The value is always 2
 const InsertTextFormatSnippet InsertTextFormat = 2
 
 // String returns "" or "PlainText" or "Snippet", depending on the value of `it`.
@@ -949,8 +913,7 @@ type InsertTextMode uint
 // inserted using the indentation defined in the string value.
 // The client will not apply any kind of adjustments to the
 // string.
-// 
-// The value is always 1.
+// The value is always 1
 const InsertTextModeAsIs InsertTextMode = 1
 
 // The editor adjusts leading whitespace of new lines so that
@@ -960,8 +923,7 @@ const InsertTextModeAsIs InsertTextMode = 1
 // Consider a line like this: <2tabs><cursor><3tabs>foo. Accepting a
 // multi line completion item is indented using 2 tabs and all
 // following lines inserted will be indented using 2 tabs as well.
-// 
-// The value is always 2.
+// The value is always 2
 const InsertTextModeAdjustIndentation InsertTextMode = 2
 
 // String returns "" or "AsIs" or "AdjustIndentation", depending on the value of `it`.
@@ -980,18 +942,15 @@ func (it InsertTextMode) String() string {
 type DocumentHighlightKind uint
 
 // A textual occurrence.
-// 
-// The value is always 1.
+// The value is always 1
 const DocumentHighlightKindText DocumentHighlightKind = 1
 
 // Read-access of a symbol, like reading a variable.
-// 
-// The value is always 2.
+// The value is always 2
 const DocumentHighlightKindRead DocumentHighlightKind = 2
 
 // Write-access of a symbol, like writing to a variable.
-// 
-// The value is always 3.
+// The value is always 3
 const DocumentHighlightKindWrite DocumentHighlightKind = 3
 
 // String returns "" or "Text" or "Read" or "Write", depending on the value of `it`.
@@ -1012,18 +971,15 @@ func (it DocumentHighlightKind) String() string {
 type CodeActionKind string
 
 // Empty kind.
-// 
-// The value is always "".
+// The value is always ""
 const CodeActionKindEmpty CodeActionKind = ""
 
 // Base kind for quickfix actions: 'quickfix'
-// 
-// The value is always "quickfix".
+// The value is always "quickfix"
 const CodeActionKindQuickFix CodeActionKind = "quickfix"
 
 // Base kind for refactoring actions: 'refactor'
-// 
-// The value is always "refactor".
+// The value is always "refactor"
 const CodeActionKindRefactor CodeActionKind = "refactor"
 
 // Base kind for refactoring extraction actions: 'refactor.extract'
@@ -1035,8 +991,7 @@ const CodeActionKindRefactor CodeActionKind = "refactor"
 // - Extract variable
 // - Extract interface from class
 // - ...
-// 
-// The value is always "refactor.extract".
+// The value is always "refactor.extract"
 const CodeActionKindRefactorExtract CodeActionKind = "refactor.extract"
 
 // Base kind for refactoring inline actions: 'refactor.inline'
@@ -1047,8 +1002,7 @@ const CodeActionKindRefactorExtract CodeActionKind = "refactor.extract"
 // - Inline variable
 // - Inline constant
 // - ...
-// 
-// The value is always "refactor.inline".
+// The value is always "refactor.inline"
 const CodeActionKindRefactorInline CodeActionKind = "refactor.inline"
 
 // Base kind for refactoring rewrite actions: 'refactor.rewrite'
@@ -1061,20 +1015,17 @@ const CodeActionKindRefactorInline CodeActionKind = "refactor.inline"
 // - Make method static
 // - Move method to base class
 // - ...
-// 
-// The value is always "refactor.rewrite".
+// The value is always "refactor.rewrite"
 const CodeActionKindRefactorRewrite CodeActionKind = "refactor.rewrite"
 
 // Base kind for source actions: `source`
 // 
 // Source code actions apply to the entire file.
-// 
-// The value is always "source".
+// The value is always "source"
 const CodeActionKindSource CodeActionKind = "source"
 
 // Base kind for an organize imports source action: `source.organizeImports`
-// 
-// The value is always "source.organizeImports".
+// The value is always "source.organizeImports"
 const CodeActionKindSourceOrganizeImports CodeActionKind = "source.organizeImports"
 
 // Base kind for auto-fix source actions: `source.fixAll`.
@@ -1083,8 +1034,7 @@ const CodeActionKindSourceOrganizeImports CodeActionKind = "source.organizeImpor
 // They should not suppress errors or perform unsafe fixes such as generating new types or classes.
 // 
 // @since 3.15.0
-// 
-// The value is always "source.fixAll".
+// The value is always "source.fixAll"
 const CodeActionKindSourceFixAll CodeActionKind = "source.fixAll"
 
 // String returns "" or "Empty" or "QuickFix" or "Refactor" or "RefactorExtract" or "RefactorInline" or "RefactorRewrite" or "Source" or "SourceOrganizeImports" or "SourceFixAll", depending on the value of `it`.
@@ -1116,18 +1066,15 @@ func (it CodeActionKind) String() string {
 type TraceValues string
 
 // Turn tracing off.
-// 
-// The value is always "off".
+// The value is always "off"
 const TraceValuesOff TraceValues = "off"
 
 // Trace messages only.
-// 
-// The value is always "messages".
+// The value is always "messages"
 const TraceValuesMessages TraceValues = "messages"
 
 // Verbose message tracing.
-// 
-// The value is always "verbose".
+// The value is always "verbose"
 const TraceValuesVerbose TraceValues = "verbose"
 
 // String returns "" or "Off" or "Messages" or "Verbose", depending on the value of `it`.
@@ -1152,13 +1099,11 @@ func (it TraceValues) String() string {
 type MarkupKind string
 
 // Plain text is supported as a content format
-// 
-// The value is always "plaintext".
+// The value is always "plaintext"
 const MarkupKindPlainText MarkupKind = "plaintext"
 
 // Markdown is supported as a content format
-// 
-// The value is always "markdown".
+// The value is always "markdown"
 const MarkupKindMarkdown MarkupKind = "markdown"
 
 // String returns "" or "PlainText" or "Markdown", depending on the value of `it`.
@@ -1179,16 +1124,14 @@ func (it MarkupKind) String() string {
 type PositionEncodingKind string
 
 // Character offsets count UTF-8 code units.
-// 
-// The value is always "utf-8".
+// The value is always "utf-8"
 const PositionEncodingKindUTF8 PositionEncodingKind = "utf-8"
 
 // Character offsets count UTF-16 code units.
 // 
 // This is the default and must always be supported
 // by servers
-// 
-// The value is always "utf-16".
+// The value is always "utf-16"
 const PositionEncodingKindUTF16 PositionEncodingKind = "utf-16"
 
 // Character offsets count UTF-32 code units.
@@ -1196,8 +1139,7 @@ const PositionEncodingKindUTF16 PositionEncodingKind = "utf-16"
 // Implementation note: these are the same as Unicode code points,
 // so this `PositionEncodingKind` may also be used for an
 // encoding-agnostic representation of character offsets.
-// 
-// The value is always "utf-32".
+// The value is always "utf-32"
 const PositionEncodingKindUTF32 PositionEncodingKind = "utf-32"
 
 // String returns "" or "UTF8" or "UTF16" or "UTF32", depending on the value of `it`.
@@ -1218,18 +1160,15 @@ func (it PositionEncodingKind) String() string {
 type FileChangeType uint
 
 // The file got created.
-// 
-// The value is always 1.
+// The value is always 1
 const FileChangeTypeCreated FileChangeType = 1
 
 // The file got changed.
-// 
-// The value is always 2.
+// The value is always 2
 const FileChangeTypeChanged FileChangeType = 2
 
 // The file got deleted.
-// 
-// The value is always 3.
+// The value is always 3
 const FileChangeTypeDeleted FileChangeType = 3
 
 // String returns "" or "Created" or "Changed" or "Deleted", depending on the value of `it`.
@@ -1249,18 +1188,15 @@ func (it FileChangeType) String() string {
 type WatchKind uint
 
 // Interested in create events.
-// 
-// The value is always 1.
+// The value is always 1
 const WatchKindCreate WatchKind = 1
 
 // Interested in change events
-// 
-// The value is always 2.
+// The value is always 2
 const WatchKindChange WatchKind = 2
 
 // Interested in delete events
-// 
-// The value is always 4.
+// The value is always 4
 const WatchKindDelete WatchKind = 4
 
 // String returns "" or "Create" or "Change" or "Delete", depending on the value of `it`.
@@ -1281,23 +1217,19 @@ func (it WatchKind) String() string {
 type DiagnosticSeverity uint
 
 // Reports an error.
-// 
-// The value is always 1.
+// The value is always 1
 const DiagnosticSeverityError DiagnosticSeverity = 1
 
 // Reports a warning.
-// 
-// The value is always 2.
+// The value is always 2
 const DiagnosticSeverityWarning DiagnosticSeverity = 2
 
 // Reports an information.
-// 
-// The value is always 3.
+// The value is always 3
 const DiagnosticSeverityInformation DiagnosticSeverity = 3
 
 // Reports a hint.
-// 
-// The value is always 4.
+// The value is always 4
 const DiagnosticSeverityHint DiagnosticSeverity = 4
 
 // String returns "" or "Error" or "Warning" or "Information" or "Hint", depending on the value of `it`.
@@ -1325,15 +1257,13 @@ type DiagnosticTag uint
 // 
 // Clients are allowed to render diagnostics with this tag faded out instead of having
 // an error squiggle.
-// 
-// The value is always 1.
+// The value is always 1
 const DiagnosticTagUnnecessary DiagnosticTag = 1
 
 // Deprecated or obsolete code.
 // 
 // Clients are allowed to rendered diagnostics with this tag strike through.
-// 
-// The value is always 2.
+// The value is always 2
 const DiagnosticTagDeprecated DiagnosticTag = 2
 
 // String returns "" or "Unnecessary" or "Deprecated", depending on the value of `it`.
@@ -1353,19 +1283,16 @@ type CompletionTriggerKind uint
 
 // Completion was triggered by typing an identifier (24x7 code
 // complete), manual invocation (e.g Ctrl+Space) or via API.
-// 
-// The value is always 1.
+// The value is always 1
 const CompletionTriggerKindInvoked CompletionTriggerKind = 1
 
 // Completion was triggered by a trigger character specified by
 // the `triggerCharacters` properties of the `CompletionRegistrationOptions`.
-// 
-// The value is always 2.
+// The value is always 2
 const CompletionTriggerKindTriggerCharacter CompletionTriggerKind = 2
 
 // Completion was re-triggered as current completion list is incomplete
-// 
-// The value is always 3.
+// The value is always 3
 const CompletionTriggerKindTriggerForIncompleteCompletions CompletionTriggerKind = 3
 
 // String returns "" or "Invoked" or "TriggerCharacter" or "TriggerForIncompleteCompletions", depending on the value of `it`.
@@ -1388,18 +1315,15 @@ func (it CompletionTriggerKind) String() string {
 type SignatureHelpTriggerKind uint
 
 // Signature help was invoked manually by the user or by a command.
-// 
-// The value is always 1.
+// The value is always 1
 const SignatureHelpTriggerKindInvoked SignatureHelpTriggerKind = 1
 
 // Signature help was triggered by a trigger character.
-// 
-// The value is always 2.
+// The value is always 2
 const SignatureHelpTriggerKindTriggerCharacter SignatureHelpTriggerKind = 2
 
 // Signature help was triggered by the cursor moving or by the document content changing.
-// 
-// The value is always 3.
+// The value is always 3
 const SignatureHelpTriggerKindContentChange SignatureHelpTriggerKind = 3
 
 // String returns "" or "Invoked" or "TriggerCharacter" or "ContentChange", depending on the value of `it`.
@@ -1422,16 +1346,14 @@ func (it SignatureHelpTriggerKind) String() string {
 type CodeActionTriggerKind uint
 
 // Code actions were explicitly requested by the user or by an extension.
-// 
-// The value is always 1.
+// The value is always 1
 const CodeActionTriggerKindInvoked CodeActionTriggerKind = 1
 
 // Code actions were requested automatically.
 // 
 // This typically happens when current selection in a file changes, but can
 // also be triggered when file content changes.
-// 
-// The value is always 2.
+// The value is always 2
 const CodeActionTriggerKindAutomatic CodeActionTriggerKind = 2
 
 // String returns "" or "Invoked" or "Automatic", depending on the value of `it`.
@@ -1453,13 +1375,11 @@ func (it CodeActionTriggerKind) String() string {
 type FileOperationPatternKind string
 
 // The pattern matches a file only.
-// 
-// The value is always "file".
+// The value is always "file"
 const FileOperationPatternKindFile FileOperationPatternKind = "file"
 
 // The pattern matches a folder only.
-// 
-// The value is always "folder".
+// The value is always "folder"
 const FileOperationPatternKindFolder FileOperationPatternKind = "folder"
 
 // String returns "" or "File" or "Folder", depending on the value of `it`.
@@ -1480,13 +1400,11 @@ func (it FileOperationPatternKind) String() string {
 type NotebookCellKind uint
 
 // A markup-cell is formatted source that is used for display.
-// 
-// The value is always 1.
+// The value is always 1
 const NotebookCellKindMarkup NotebookCellKind = 1
 
 // A code-cell is source code.
-// 
-// The value is always 2.
+// The value is always 2
 const NotebookCellKindCode NotebookCellKind = 2
 
 // String returns "" or "Markup" or "Code", depending on the value of `it`.
@@ -1504,18 +1422,15 @@ func (it NotebookCellKind) String() string {
 type ResourceOperationKind string
 
 // Supports creating new files and folders.
-// 
-// The value is always "create".
+// The value is always "create"
 const ResourceOperationKindCreate ResourceOperationKind = "create"
 
 // Supports renaming existing files and folders.
-// 
-// The value is always "rename".
+// The value is always "rename"
 const ResourceOperationKindRename ResourceOperationKind = "rename"
 
 // Supports deleting existing files and folders.
-// 
-// The value is always "delete".
+// The value is always "delete"
 const ResourceOperationKindDelete ResourceOperationKind = "delete"
 
 // String returns "" or "Create" or "Rename" or "Delete", depending on the value of `it`.
@@ -1536,27 +1451,23 @@ type FailureHandlingKind string
 
 // Applying the workspace change is simply aborted if one of the changes provided
 // fails. All operations executed before the failing operation stay executed.
-// 
-// The value is always "abort".
+// The value is always "abort"
 const FailureHandlingKindAbort FailureHandlingKind = "abort"
 
 // All operations are executed transactional. That means they either all
 // succeed or no changes at all are applied to the workspace.
-// 
-// The value is always "transactional".
+// The value is always "transactional"
 const FailureHandlingKindTransactional FailureHandlingKind = "transactional"
 
 // If the workspace edit contains only textual file changes they are executed transactional.
 // If resource changes (create, rename or delete file) are part of the change the failure
 // handling strategy is abort.
-// 
-// The value is always "textOnlyTransactional".
+// The value is always "textOnlyTransactional"
 const FailureHandlingKindTextOnlyTransactional FailureHandlingKind = "textOnlyTransactional"
 
 // The client tries to undo the operations already executed. But there is no
 // guarantee that this is succeeding.
-// 
-// The value is always "undo".
+// The value is always "undo"
 const FailureHandlingKindUndo FailureHandlingKind = "undo"
 
 // String returns "" or "Abort" or "Transactional" or "TextOnlyTransactional" or "Undo", depending on the value of `it`.
@@ -1579,8 +1490,7 @@ type PrepareSupportDefaultBehavior uint
 
 // The client's default behavior is to select the identifier
 // according the to language's syntax rule.
-// 
-// The value is always 1.
+// The value is always 1
 const PrepareSupportDefaultBehaviorIdentifier PrepareSupportDefaultBehavior = 1
 
 // String returns "" or "Identifier", depending on the value of `it`.
@@ -1595,7 +1505,7 @@ func (it PrepareSupportDefaultBehavior) String() string {
 
 type TokenFormat string
 
-// The value is always "relative".
+// The value is always "relative"
 const TokenFormatRelative TokenFormat = "relative"
 
 // String returns "" or "Relative", depending on the value of `it`.

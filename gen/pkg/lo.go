@@ -42,6 +42,14 @@ func Map[T any, R any](list []T, convert func(T) R) (ret []R) {
 	return
 }
 
+func MapIdx[T any, R any](list []T, convert func(T, int) R) (ret []R) {
+	ret = make([]R, len(list))
+	for i, item := range list {
+		ret[i] = convert(item, i)
+	}
+	return
+}
+
 func Replace[T comparable](list []T, repl map[T]T) (ret []T) {
 	ret = Copy(list)
 	for i, item := range ret {
