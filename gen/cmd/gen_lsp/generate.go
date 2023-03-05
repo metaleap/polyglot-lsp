@@ -16,8 +16,11 @@ func generate(metaModel *MetaModel, ver string, lang string) {
 	gen.Generate(metaModel)
 }
 
-func (*MetaModel) toGenBase(it *MMBase) glot.GenBase {
+func (*MetaModel) toGenBase(it *MMBase, constValue string) glot.GenBase {
 	it.Documentation = strings.TrimSpace(it.Documentation)
+	if constValue != "" {
+		it.Documentation += "\n\nThe value is always " + constValue + "."
+	}
 
 	return glot.GenBase{Deprecated: it.Deprecated, Since: it.Since, Name: it.Name, NameUp: glot.Up0(it.Name),
 		DocLines: glot.If[[]string](it.Documentation == "", nil, strings.Split(it.Documentation, "\n"))}
@@ -29,11 +32,11 @@ func (it *MetaModel) PerEnumeration(gen *glot.Gen, do func(*glot.GenEnumeration)
 			continue
 		}
 		do(&glot.GenEnumeration{
-			GenBase: it.toGenBase(&enumeration.MMBase),
+			GenBase: it.toGenBase(&enumeration.MMBase, ""),
 			Type:    gen.Type(enumeration.Type.toGenType(it, gen)),
 			Enumerants: glot.Map(glot.Filter(enumeration.Values, func(e MMEnumerant) bool { return !e.Proposed }), func(e MMEnumerant) glot.GenEnumerant {
 				return glot.GenEnumerant{
-					GenBase: it.toGenBase(&e.MMBase),
+					GenBase: it.toGenBase(&e.MMBase, ""),
 					Value:   e.Value.String(),
 				}
 			}),
@@ -78,11 +81,11 @@ func (it *MMType) toGenType(mm *MetaModel, gen *glot.Gen) glot.GenType {
 	case MMTypeKindTuple:
 		return glot.GenTypeTuple(glot.Map(it.Items, func(t MMType) glot.GenType { return t.toGenType(mm, gen) }))
 	case MMTypeKindStringLiteral:
-		return glot.GenTypeLitString(it.Value.s)
+		return (&MMType{Kind: MMTypeKindBase, Name: MMTypeNameString}).toGenType(mm, gen)
 	case MMTypeKindIntegerLiteral:
-		return glot.GenTypeLitInt(it.Value.i)
+		return (&MMType{Kind: MMTypeKindBase, Name: MMTypeNameInteger}).toGenType(mm, gen)
 	case MMTypeKindBooleanLiteral:
-		return glot.GenTypeLitBool(it.Value.b)
+		return (&MMType{Kind: MMTypeKindBase, Name: MMTypeNameBoolean}).toGenType(mm, gen)
 	case MMTypeKindLiteral:
 		return glot.GenTypeStructure{
 			GenBase: mm.toGenBase(&it.Value.l.MMBase),

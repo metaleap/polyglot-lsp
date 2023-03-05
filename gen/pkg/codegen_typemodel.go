@@ -2,7 +2,6 @@ package glot
 
 import (
 	"fmt"
-	"strconv"
 	"strings"
 )
 
@@ -142,24 +141,6 @@ func (it GenTypeTuple) kind() string   { return "Tuple" }
 func (it GenTypeTuple) key() string {
 	return "{" + strings.Join(Map(it, func(gt GenType) string { return gt.key() }), ",") + "}"
 }
-
-type GenTypeLitBool bool
-
-func (it GenTypeLitBool) String() string { return genTypeString(it) }
-func (it GenTypeLitBool) kind() string   { return "BooleanLiteral" }
-func (it GenTypeLitBool) key() string    { return strconv.FormatBool(bool(it)) }
-
-type GenTypeLitString string
-
-func (it GenTypeLitString) String() string { return genTypeString(it) }
-func (it GenTypeLitString) kind() string   { return "StringLiteral" }
-func (it GenTypeLitString) key() string    { return strconv.Quote(string(it)) }
-
-type GenTypeLitInt int
-
-func (it GenTypeLitInt) String() string { return genTypeString(it) }
-func (it GenTypeLitInt) kind() string   { return "IntegerLiteral" }
-func (it GenTypeLitInt) key() string    { return strconv.FormatInt(int64(it), 36) }
 
 type GenTypeStructure struct {
 	GenBase
