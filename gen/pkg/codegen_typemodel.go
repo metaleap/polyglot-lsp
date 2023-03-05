@@ -15,6 +15,11 @@ type GenEnumerant struct {
 	Value string
 }
 
+type GenTypeAlias struct {
+	GenBase
+	Type GenType
+}
+
 type GenStructure struct {
 	GenBase
 	Extends    []GenType
@@ -36,36 +41,6 @@ type GenBase struct {
 }
 
 func (it *GenBase) base() *GenBase { return it }
-
-func (it *GenBase) DocComments(root *GenDot) string {
-	if len(it.DocLines) == 0 {
-		return ""
-	}
-	doc_lines := Copy(it.DocLines)
-	for i, doc_line := range doc_lines {
-		for idx1 := strings.Index(doc_line, "{@link "); idx1 >= 0; idx1 = strings.Index(doc_line, "{@link ") {
-			if idx2 := strings.Index(doc_line[idx1:], "}"); idx2 < 0 {
-				break
-			} else {
-				link_strs := []string{doc_line[idx1+len("{@link ") : idx2+idx1]}
-				if idx_space := strings.IndexByte(link_strs[0], ' '); idx_space > 0 {
-					link_strs = append(link_strs, link_strs[0][idx_space+1:])
-					link_strs[0] = link_strs[0][:idx_space]
-				}
-				rendered := root.gen.tmplExec(nil, root.gen.tmpl("doc_comments_link", "`{{index . 0}}`"), link_strs)
-				doc_lines[i] = doc_line[:idx1] + If(rendered == "", link_strs[0], rendered) + doc_line[idx2+idx1+1:]
-				doc_line = doc_lines[i]
-			}
-		}
-	}
-	if it.Since != "" && !Exists(doc_lines, func(s string) bool { return strings.Contains(s, "@since") }) {
-		doc_lines = append(doc_lines, "@since "+it.Since)
-	}
-	if it.Deprecated != "" && !Exists(doc_lines, func(s string) bool { return strings.Contains(s, "@deprecated") }) {
-		doc_lines = append(doc_lines, "@deprecated "+it.Deprecated)
-	}
-	return root.gen.tmplExec(nil, root.gen.tmpl("doc_comments", ""), doc_lines)
-}
 
 type GenType interface {
 	fmt.Stringer
@@ -157,24 +132,4 @@ func (it GenTypeStructure) key() string {
 
 func (it *Gen) Type(t GenType) GenType {
 	return t
-}
-
-type GenDotType struct {
-	Dot  *GenDot
-	Type GenType
-}
-
-func (it *GenDot) Type(t GenType) string {
-
-	switch t := t.(type) {
-	case GenTypeBaseType:
-		if s := it.Lang.BaseTypeMapping[string(t)]; s != "" {
-			return s
-		}
-		panic("(missing in " + it.gen.filePathLang + ": \"BaseTypeMapping\"{\"" + t.String() + "\":...})")
-	case GenTypeReference:
-		return t.String()
-	default:
-		return it.gen.tmplExec(nil, it.gen.tmpl("type_"+t.kind(), ""), GenDotType{Dot: it, Type: t})
-	}
 }

@@ -12,15 +12,22 @@ type Gen struct {
 	LangIdent string // eg. "go" or "cs"
 	Dot       GenDot
 
-	types          map[string]GenType
-	filesGenerated struct {
-		code  []string
-		other []string
-	}
 	dirPathLang  string // lang_foo
 	dirPathSrc   string // lang_foo/_gen
 	dirPathDst   string // lang_foo/{{.GenIdent}}_v{{.GenVer}}
 	filePathLang string // lang_foo/lang_foo.json
+	tracked      struct {
+		types map[string]GenType
+		decls struct {
+			enumerations map[string]*GenEnumeration
+			structures   map[string]*GenStructure
+			typeAliass   map[string]*GenTypeAlias
+		}
+		filesGenerated struct {
+			code  []string
+			other []string
+		}
+	}
 }
 
 type GenDot struct {
@@ -51,13 +58,14 @@ type GenLang struct { // the contents of your lang_foo/lang_foo.json
 }
 
 type GenDots interface {
+	PerTypeAlias(*Gen, func(*GenTypeAlias))
 	PerEnumeration(*Gen, func(*GenEnumeration))
 	PerStructure(*Gen, func(*GenStructure))
 }
 
 func (it *Gen) Generate(dots GenDots) {
 	it.Dot.gen = it
-	it.types = map[string]GenType{}
+	it.tracked.types, it.tracked.decls.enumerations, it.tracked.decls.structures, it.tracked.decls.typeAliass = map[string]GenType{}, map[string]*GenEnumeration{}, map[string]*GenStructure{}, map[string]*GenTypeAlias{}
 	it.dirPathLang = "../lang_" + it.LangIdent
 	it.dirPathSrc = it.dirPathLang + "/_gen"
 	it.dirPathDst = it.dirPathLang + "/" + it.Dot.GenIdent + "_v" + it.Dot.GenVer
@@ -74,12 +82,12 @@ func (it *Gen) Generate(dots GenDots) {
 
 	var buf bytes.Buffer
 	it.genPkgFile(&buf)
-	it.genDots(&buf, map[string]func() []any{
-		"types_enumerations": toAnys(it, dots.PerEnumeration),
-		"types_structures":   toAnys(it, dots.PerStructure),
+	it.genDots(&buf, []Tup[string, func() []any]{ // no map here because the order matters:
+		{"types_enumerations", toAnys(it, dots.PerEnumeration)},
+		{"types_structures", toAnys(it, dots.PerStructure)},
+		{"types_aliases", toAnys(it, dots.PerTypeAlias)},
 	})
 	it.genSideTypes(&buf)
-
 	if it.Dot.Lang.PostGenTools.Format.ok() && !it.Dot.Lang.PostGenTools.Format.PerFile {
 		it.Dot.Lang.PostGenTools.Format.exec(it, nil)
 	}
@@ -90,10 +98,24 @@ func (it *Gen) Generate(dots GenDots) {
 	}
 }
 
-func (it *Gen) genDots(buf *bytes.Buffer, dots_by_file_name map[string]func() []any) {
-	for file_name, dots := range dots_by_file_name {
+func (it *Gen) genDots(buf *bytes.Buffer, dots_by_file_name []Tup[string, func() []any]) {
+	for _, tup := range dots_by_file_name {
+		file_name, dots := tup.F1, tup.F2
 		tmpl := it.tmpl(file_name, "")
 		it.Dot.Items = dots()
+		for _, item := range it.Dot.Items {
+			switch decl := item.(type) {
+			case *GenEnumeration:
+				it.tracked.decls.enumerations[decl.Name] = decl
+				it.tracked.decls.enumerations[decl.NameUp] = decl
+			case *GenStructure:
+				it.tracked.decls.structures[decl.Name] = decl
+				it.tracked.decls.structures[decl.NameUp] = decl
+			case *GenTypeAlias:
+				it.tracked.decls.typeAliass[decl.Name] = decl
+				it.tracked.decls.typeAliass[decl.NameUp] = decl
+			}
+		}
 		it.tmplExec(buf, tmpl, nil)
 
 		it.toCodeFile(buf, file_name)
@@ -101,8 +123,8 @@ func (it *Gen) genDots(buf *bytes.Buffer, dots_by_file_name map[string]func() []
 }
 
 func (it *Gen) genSideTypes(buf *bytes.Buffer) {
-	types := make([]any, 0, len(it.types))
-	for _, ty := range it.types {
+	types := make([]any, 0, len(it.tracked.types))
+	for _, ty := range it.tracked.types {
 		if _, is_ref := ty.(GenTypeReference); is_ref {
 			continue
 		}
@@ -121,7 +143,7 @@ func (it *Gen) genPkgFile(buf *bytes.Buffer) {
 	tmpl := it.tmpl("file_pkg", "")
 	it.tmplExec(buf, tmpl, nil)
 	file_path := it.toOutputFile(buf, "file_pkg", it.Dot.Lang.PkgFile)
-	it.filesGenerated.other = append(it.filesGenerated.other, file_path)
+	it.tracked.filesGenerated.other = append(it.tracked.filesGenerated.other, file_path)
 }
 
 func (it *Gen) postGenCleanUp() {

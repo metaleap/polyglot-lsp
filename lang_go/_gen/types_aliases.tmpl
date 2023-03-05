@@ -1,0 +1,10 @@
+{{- with $it := . }}
+{{- range .Items }}
+{{- with $alias := . }}
+
+{{ .DoDocComments $it }}
+type {{ $alias.Name }} {{ $it.DoType $alias.Type }}
+
+{{- end }}
+{{- end }}
+{{- end }}

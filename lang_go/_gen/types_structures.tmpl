@@ -2,11 +2,11 @@
 {{- range .Items -}}
 {{- with $struct := . -}}
 
-{{ .DocComments $it }}
+{{ .DoDocComments $it }}
 type {{ $struct.Name }} struct {
     {{ range .Properties }}
-    {{ .DocComments $it }}
-    {{ .NameUp }} {{if .Optional}}*{{end}}{{ $it.Type .Type }}
+    {{ .DoDocComments $it }}
+    {{ .NameUp }} {{ $it.DoTypeOptional .Type .Optional }}
     {{ end }}
 }
 

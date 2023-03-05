@@ -13,8 +13,8 @@ type MetaModel struct {
 		Version string `json:"version"`
 	} `json:"metaData"`
 	Enumerations  []MMEnumeration  `json:"enumerations"`
-	Structures    []MMStructure    `json:"structures"`
 	TypeAliases   []MMTypeAlias    `json:"typeAliases"`
+	Structures    []MMStructure    `json:"structures"`
 	Notifications []MMNotification `json:"notifications"`
 	Requests      []MMRequest      `json:"requests"`
 }
@@ -34,6 +34,63 @@ type MMEnumeration struct {
 	Values               []MMEnumerant `json:"values"`
 }
 
+type MMEnumerant struct {
+	MMBase
+	Value glot.NumberOrString `json:"value"`
+}
+
+type MMStructure struct {
+	MMBase
+	Extends    []MMType     `json:"extends,omitempty"`
+	Mixins     []MMType     `json:"mixins,omitempty"`
+	Properties []MMProperty `json:"properties"`
+}
+
+type MMStructureLiteral struct {
+	MMBase
+	Properties []MMProperty `json:"properties"`
+}
+
+type MMProperty struct {
+	MMBase
+	Optional bool   `json:"optional,omitempty"`
+	Type     MMType `json:"type"`
+}
+
+type MMTypeAlias struct {
+	MMBase
+	Type MMType `json:"type"`
+}
+
+type MMNotification struct {
+	MMBase
+	MMMessageBase
+}
+
+type MMMessageBase struct {
+	MessageDirection    MMNotificationMessageDirection `json:"messageDirection"`
+	Method              string                         `json:"method,omitempty"`
+	Params              MMTypes                        `json:"params,omitempty"`
+	RegistrationMethod  string                         `json:"registrationMethod,omitempty"`
+	RegistrationOptions *MMType                        `json:"registrationOptions,omitempty"`
+}
+
+type MMNotificationMessageDirection string
+
+const (
+	MMNotificationMessageDirectionBoth           MMNotificationMessageDirection = "both"
+	MMNotificationMessageDirectionClientToServer MMNotificationMessageDirection = "clientToServer"
+	MMNotificationMessageDirectionServerToClient MMNotificationMessageDirection = "serverToClient"
+)
+
+type MMRequest struct {
+	MMBase
+	MMMessageBase
+	ErrorData     *MMType `json:"errorData,omitempty"`
+	PartialResult *MMType `json:"partialResult,omitempty"`
+	Result        MMType  `json:"result"`
+}
+
 type MMType struct {
 	Kind    MMTypeKind   `json:"kind"`              // always
 	Name    MMTypeName   `json:"name,omitempty"`    // if EnumerationType, MapKeyType, or `Kind` of base|reference
@@ -41,6 +98,18 @@ type MMType struct {
 	Value   *MMTypeValue `json:"value,omitempty"`   // if StructureLiteralType or `Kind` of booleanLiteral|integerLiteral|map|stringLiteral
 	Element *MMType      `json:"element,omitempty"` // if `Kind` of array
 	Items   []MMType     `json:"items,omitempty"`   // if `Kind` of and|or|tuple
+}
+
+func (it *MMType) constVal() any {
+	switch it.Kind {
+	case MMTypeKindBooleanLiteral:
+		return it.Value.b
+	case MMTypeKindIntegerLiteral:
+		return it.Value.i
+	case MMTypeKindStringLiteral:
+		return it.Value.s
+	}
+	return nil
 }
 
 type MMTypeKind string
@@ -199,61 +268,4 @@ func (it *MMTypes) MarshalJSON() ([]byte, error) {
 		return json.Marshal((slice)[0])
 	}
 	return json.Marshal((slice))
-}
-
-type MMEnumerant struct {
-	MMBase
-	Value glot.NumberOrString `json:"value"`
-}
-
-type MMStructure struct {
-	MMBase
-	Extends    []MMType     `json:"extends,omitempty"`
-	Mixins     []MMType     `json:"mixins,omitempty"`
-	Properties []MMProperty `json:"properties"`
-}
-
-type MMStructureLiteral struct {
-	MMBase
-	Properties []MMProperty `json:"properties"`
-}
-
-type MMProperty struct {
-	MMBase
-	Optional bool   `json:"optional,omitempty"`
-	Type     MMType `json:"type"`
-}
-
-type MMTypeAlias struct {
-	MMBase
-	Type MMType `json:"type"`
-}
-
-type MMNotification struct {
-	MMBase
-	MMMessageBase
-}
-
-type MMMessageBase struct {
-	MessageDirection    MMNotificationMessageDirection `json:"messageDirection"`
-	Method              string                         `json:"method,omitempty"`
-	Params              MMTypes                        `json:"params,omitempty"`
-	RegistrationMethod  string                         `json:"registrationMethod,omitempty"`
-	RegistrationOptions *MMType                        `json:"registrationOptions,omitempty"`
-}
-
-type MMNotificationMessageDirection string
-
-const (
-	MMNotificationMessageDirectionBoth           MMNotificationMessageDirection = "both"
-	MMNotificationMessageDirectionClientToServer MMNotificationMessageDirection = "clientToServer"
-	MMNotificationMessageDirectionServerToClient MMNotificationMessageDirection = "serverToClient"
-)
-
-type MMRequest struct {
-	MMBase
-	MMMessageBase
-	ErrorData     *MMType `json:"errorData,omitempty"`
-	PartialResult *MMType `json:"partialResult,omitempty"`
-	Result        MMType  `json:"result"`
 }

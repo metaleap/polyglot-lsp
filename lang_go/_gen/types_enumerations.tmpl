@@ -2,11 +2,11 @@
 {{- range .Items }}
 {{- with $enum := . }}
 
-{{ .DocComments $it }}
-type {{ $enum.Name }} {{ $it.Type $enum.Type }}
+{{ .DoDocComments $it }}
+type {{ $enum.Name }} {{ $it.DoType $enum.Type }}
 
 {{- range .Enumerants }}
-{{ .DocComments $it }}
+{{ .DoDocComments $it }}
 const {{ $enum.Name }}{{ .NameUp }} {{ $enum.Name }} = {{ .Value }}
 {{- end }}
 

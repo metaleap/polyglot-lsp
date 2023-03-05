@@ -1,0 +1,27 @@
+{{- with $it := . -}}
+{{- with $tyStr := printf "%s" $it.Type -}}
+
+{{- if or
+        (eq $tyStr "DocumentUri" "URI")
+        ($it.Dot.IsEnumTypeName $tyStr)
+        ($it.Dot.IsTypeKindArray $it.Type)
+        ($it.Dot.IsTypeKindMap $it.Type)
+        ($it.Dot.IsTypeKindOr $it.Type)
+  -}}
+    {{- $it.Dot.DoType $it.Type -}}
+{{- else if eq $tyStr "string"  -}}
+    *String
+{{- else if eq $tyStr "integer"  -}}
+    *Integer
+{{- else if eq $tyStr "uinteger"  -}}
+    *Uinteger
+{{- else if eq $tyStr "decimal"  -}}
+    *Decimal
+{{- else if eq $tyStr "boolean"  -}}
+    *Boolean
+{{- else -}}
+    *{{- $it.Dot.DoType $it.Type -}}/*{{- $it.Type -}}*/
+{{- end -}}
+
+{{- end -}}
+{{- end -}}

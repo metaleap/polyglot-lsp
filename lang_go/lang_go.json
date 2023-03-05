@@ -12,13 +12,13 @@
         "URI": "URI"
     },
     "Tmpls": {
-        "type_Array":"[]{{.Dot.Type .Type.ElemType}}",
-        "type_Map":"map[{{.Dot.Type .Type.KeyType}}]{{.Dot.Type .Type.ValueType}}"
+        "type_Array": "[]{{.Dot.DoType .Type.ElemType}}",
+        "type_Map": "map[{{.Dot.DoType .Type.KeyType}}]{{.Dot.DoType .Type.ValueType}}"
     },
     "Dict": {},
     "PostGenTools": {
         "Format": {
-            "Disabled": true,
+            "Disabled": false,
             "Cmd": "gofmt -l -w -s -e {file}",
             "PerFile": true
         },

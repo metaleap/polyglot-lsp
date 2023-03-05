@@ -16,14 +16,26 @@ func generate(metaModel *MetaModel, ver string, lang string) {
 	gen.Generate(metaModel)
 }
 
-func (*MetaModel) toGenBase(it *MMBase, constValue string) glot.GenBase {
+func (*MetaModel) toGenBase(it *MMBase, constValue any) glot.GenBase {
 	it.Documentation = strings.TrimSpace(it.Documentation)
-	if constValue != "" {
-		it.Documentation += "\n\nThe value is always " + constValue + "."
+	if constValue != nil {
+		it.Documentation += "\n\nThe value is always " + glot.ValueString(constValue) + "."
+		it.Documentation = strings.TrimSpace(it.Documentation)
 	}
-
 	return glot.GenBase{Deprecated: it.Deprecated, Since: it.Since, Name: it.Name, NameUp: glot.Up0(it.Name),
 		DocLines: glot.If[[]string](it.Documentation == "", nil, strings.Split(it.Documentation, "\n"))}
+}
+
+func (it *MetaModel) PerTypeAlias(gen *glot.Gen, do func(*glot.GenTypeAlias)) {
+	for _, type_alias := range it.TypeAliases {
+		if type_alias.Proposed {
+			continue
+		}
+		do(&glot.GenTypeAlias{
+			GenBase: it.toGenBase(&type_alias.MMBase, nil),
+			Type:    gen.Type(type_alias.Type.toGenType(it, gen)),
+		})
+	}
 }
 
 func (it *MetaModel) PerEnumeration(gen *glot.Gen, do func(*glot.GenEnumeration)) {
@@ -32,11 +44,11 @@ func (it *MetaModel) PerEnumeration(gen *glot.Gen, do func(*glot.GenEnumeration)
 			continue
 		}
 		do(&glot.GenEnumeration{
-			GenBase: it.toGenBase(&enumeration.MMBase, ""),
+			GenBase: it.toGenBase(&enumeration.MMBase, nil),
 			Type:    gen.Type(enumeration.Type.toGenType(it, gen)),
 			Enumerants: glot.Map(glot.Filter(enumeration.Values, func(e MMEnumerant) bool { return !e.Proposed }), func(e MMEnumerant) glot.GenEnumerant {
 				return glot.GenEnumerant{
-					GenBase: it.toGenBase(&e.MMBase, ""),
+					GenBase: it.toGenBase(&e.MMBase, e.Value),
 					Value:   e.Value.String(),
 				}
 			}),
@@ -50,12 +62,12 @@ func (it *MetaModel) PerStructure(gen *glot.Gen, do func(*glot.GenStructure)) {
 			continue
 		}
 		do(&glot.GenStructure{
-			GenBase: it.toGenBase(&structure.MMBase),
+			GenBase: it.toGenBase(&structure.MMBase, nil),
 			Mixins:  glot.Map(structure.Mixins, func(t MMType) glot.GenType { return gen.Type(t.toGenType(it, gen)) }),
 			Extends: glot.Map(structure.Extends, func(t MMType) glot.GenType { return gen.Type(t.toGenType(it, gen)) }),
 			Properties: glot.Map(glot.Filter(structure.Properties, func(p MMProperty) bool { return !p.Proposed }), func(p MMProperty) glot.GenStructureProperty {
 				return glot.GenStructureProperty{
-					GenBase:  it.toGenBase(&p.MMBase),
+					GenBase:  it.toGenBase(&p.MMBase, p.Type.constVal()),
 					Type:     gen.Type(p.Type.toGenType(it, gen)),
 					Optional: p.Optional,
 				}
@@ -88,10 +100,10 @@ func (it *MMType) toGenType(mm *MetaModel, gen *glot.Gen) glot.GenType {
 		return (&MMType{Kind: MMTypeKindBase, Name: MMTypeNameBoolean}).toGenType(mm, gen)
 	case MMTypeKindLiteral:
 		return glot.GenTypeStructure{
-			GenBase: mm.toGenBase(&it.Value.l.MMBase),
+			GenBase: mm.toGenBase(&it.Value.l.MMBase, nil),
 			Properties: glot.Map(glot.Filter(it.Value.l.Properties, func(p MMProperty) bool { return !p.Proposed }), func(p MMProperty) glot.GenStructureProperty {
 				return glot.GenStructureProperty{
-					GenBase:  mm.toGenBase(&p.MMBase),
+					GenBase:  mm.toGenBase(&p.MMBase, p.Type.constVal()),
 					Type:     gen.Type(p.Type.toGenType(mm, gen)),
 					Optional: p.Optional,
 				}

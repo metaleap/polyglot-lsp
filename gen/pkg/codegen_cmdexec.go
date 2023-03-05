@@ -36,7 +36,7 @@ func (it *GenLangCmd) exec(gen *Gen, repl map[string]string) {
 	parts := Without(strings.Split(it.Cmd, " "), "")
 	for i := 0; i < len(parts); i++ {
 		if parts[i] == "{files}" {
-			parts = append(parts[:i], append(gen.filesGenerated.code, parts[i+1:]...)...)
+			parts = append(parts[:i], append(gen.tracked.filesGenerated.code, parts[i+1:]...)...)
 			i--
 		} else {
 			for old, new := range repl {
