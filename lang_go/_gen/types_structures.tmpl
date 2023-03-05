@@ -1,0 +1,11 @@
+{{- with $this := . -}}
+{{- range .Items -}}
+{{- with $struct := . -}}
+
+{{ .DocComments $this }}
+type {{ $struct.Name }} struct {
+}
+
+{{- end -}}
+{{- end -}}
+{{- end -}}
