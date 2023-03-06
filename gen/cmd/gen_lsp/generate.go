@@ -30,45 +30,42 @@ func (*MetaModel) toGenBase(it *MMBase) glot.GenBase {
 	return glot.GenBase{Name: it.Name, NameUp: glot.Up0(it.Name), DocLines: doc_lines}
 }
 
-func (it *MetaModel) PerTypeAlias(gen *glot.Gen, do func(*glot.GenAlias)) {
-	for _, type_alias := range it.TypeAliases {
-		if type_alias.Proposed {
-			continue
-		}
-		do(&glot.GenAlias{
-			GenBase: it.toGenBase(&type_alias.MMBase),
-			Type:    type_alias.Type.toGenType(it, gen),
-		})
-	}
-}
-
-func (it *MetaModel) PerEnumeration(gen *glot.Gen, do func(*glot.GenEnumeration)) {
-	for _, enumeration := range it.Enumerations {
-		if enumeration.Proposed {
-			continue
-		}
-		do(&glot.GenEnumeration{
-			GenBase: it.toGenBase(&enumeration.MMBase),
-			Type:    enumeration.Type.toGenType(it, gen),
-			Enumerants: glot.Map(glot.Filter(enumeration.Values, func(e MMEnumerant) bool { return !e.Proposed }), func(e MMEnumerant) glot.GenEnumerant {
+func (it *MetaModel) GenEnumerations(gen *glot.Gen) []*glot.GenEnumeration {
+	return glot.Map(glot.Filter(it.Enumerations, func(en MMEnumeration) bool {
+		return !en.Proposed
+	}), func(en MMEnumeration) *glot.GenEnumeration {
+		return &glot.GenEnumeration{
+			GenBase: it.toGenBase(&en.MMBase),
+			Type:    en.Type.toGenType(it, gen),
+			Enumerants: glot.Map(glot.Filter(en.Values, func(e MMEnumerant) bool { return !e.Proposed }), func(e MMEnumerant) glot.GenEnumerant {
 				return glot.GenEnumerant{
 					GenBase: it.toGenBase(&e.MMBase),
 					Value:   e.Value,
 				}
 			}),
-		})
-	}
+		}
+	})
 }
 
-func (it *MetaModel) PerStructure(gen *glot.Gen, do func(*glot.GenStructure)) {
-	for _, structure := range it.Structures {
-		if structure.Proposed {
-			continue
+func (it *MetaModel) GenTypeAliases(gen *glot.Gen) []*glot.GenAlias {
+	return glot.Map(glot.Filter(it.TypeAliases, func(ta MMTypeAlias) bool {
+		return !ta.Proposed
+	}), func(ta MMTypeAlias) *glot.GenAlias {
+		return &glot.GenAlias{
+			GenBase: it.toGenBase(&ta.MMBase),
+			Type:    ta.Type.toGenType(it, gen),
 		}
-		do(&glot.GenStructure{
+	})
+}
+
+func (it *MetaModel) GenStructures(gen *glot.Gen) []*glot.GenStructure {
+	return glot.Map(glot.Filter(it.Structures, func(st MMStructure) bool {
+		return !st.Proposed
+	}), func(st MMStructure) *glot.GenStructure {
+		return &glot.GenStructure{
 			GenTypeStructure: glot.GenTypeStructure{
-				GenBase: it.toGenBase(&structure.MMBase),
-				Properties: glot.Map(glot.Filter(structure.Properties, func(p MMProperty) bool { return !p.Proposed }), func(p MMProperty) glot.GenStructureProperty {
+				GenBase: it.toGenBase(&st.MMBase),
+				Properties: glot.Map(glot.Filter(st.Properties, func(p MMProperty) bool { return !p.Proposed }), func(p MMProperty) glot.GenStructureProperty {
 					return glot.GenStructureProperty{
 						GenBase:  it.toGenBase(&p.MMBase),
 						Type:     p.Type.toGenType(it, gen),
@@ -77,10 +74,10 @@ func (it *MetaModel) PerStructure(gen *glot.Gen, do func(*glot.GenStructure)) {
 					}
 				}),
 			},
-			Mixins:  glot.Map(structure.Mixins, func(t MMType) glot.GenType { return t.toGenType(it, gen) }),
-			Extends: glot.Map(structure.Extends, func(t MMType) glot.GenType { return t.toGenType(it, gen) }),
-		})
-	}
+			Mixins:  glot.Map(st.Mixins, func(t MMType) glot.GenType { return t.toGenType(it, gen) }),
+			Extends: glot.Map(st.Extends, func(t MMType) glot.GenType { return t.toGenType(it, gen) }),
+		}
+	})
 }
 
 func (it *MMType) toGenType(mm *MetaModel, gen *glot.Gen) (ret glot.GenType) {

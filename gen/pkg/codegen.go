@@ -59,9 +59,9 @@ type GenLang struct { // the contents of your lang_foo/lang_foo.json
 }
 
 type Source interface {
-	PerTypeAlias(*Gen, func(*GenAlias))
-	PerEnumeration(*Gen, func(*GenEnumeration))
-	PerStructure(*Gen, func(*GenStructure))
+	GenTypeAliases(*Gen) []*GenAlias
+	GenEnumerations(*Gen) []*GenEnumeration
+	GenStructures(*Gen) []*GenStructure
 }
 
 func (it *Gen) Generate(source Source) {
@@ -83,10 +83,10 @@ func (it *Gen) Generate(source Source) {
 
 	var buf bytes.Buffer
 	it.genPkgFile(&buf)
-	it.genMainDecls(&buf, []Tup[string, func() []any]{ // no map here because the ordering of these matters:
-		{"types_enumerations", toAnys(it, source.PerEnumeration)},
-		{"types_aliases", toAnys(it, source.PerTypeAlias)},
-		{"types_structures", toAnys(it, source.PerStructure)},
+	it.genMainDecls(&buf, []Tup[string, []any]{ // no map here because the ordering of these matters:
+		{"types_enumerations", toAnys(source.GenEnumerations(it))},
+		{"types_aliases", toAnys(source.GenTypeAliases(it))},
+		{"types_structures", toAnys(source.GenStructures(it))},
 	})
 	it.genSideTypes(&buf)
 	if it.Main.Lang.PostGenTools.Format.ok() && !it.Main.Lang.PostGenTools.Format.PerFile {
@@ -99,11 +99,11 @@ func (it *Gen) Generate(source Source) {
 	}
 }
 
-func (it *Gen) genMainDecls(buf *bytes.Buffer, byFileName []Tup[string, func() []any]) {
-	for _, tup := range byFileName {
-		file_name, decls := tup.F1, tup.F2
+func (it *Gen) genMainDecls(buf *bytes.Buffer, declsByFileName []Tup[string, []any]) {
+	for _, tup := range declsByFileName {
+		file_name := tup.F1
+		it.Main.Items = tup.F2
 		tmpl := it.tmpl(file_name, "")
-		it.Main.Items = decls()
 		for _, item := range it.Main.Items {
 			switch decl := item.(type) {
 			case *GenEnumeration:
@@ -191,9 +191,4 @@ func ensureDocHintUnionType(base *GenBase, t GenType, prefix string) {
 	}
 }
 
-func toAnys[T any](gen *Gen, each func(*Gen, func(*T))) func() []any {
-	return func() (ret []any) {
-		each(gen, func(decl *T) { ret = append(ret, decl) })
-		return
-	}
-}
+func toAnys[T any](items []T) []any { return Map(items, func(it T) any { return it }) }
