@@ -177,7 +177,7 @@ func (it *GenTypeStructure) String() string { return genTypeString(it) }
 func (it *GenTypeStructure) kind() string   { return "Structure" }
 func (it *GenTypeStructure) key() string {
 	return it.Name + "{" + strings.Join(Map(it.Properties, func(p GenStructureProperty) string {
-		return p.Name + If(p.Optional, "?", "") + " " + p.Type.key()
+		return p.Name + If(p.Optional, "?", "") + " " + p.Type.key() + If(p.ConstVal == nil, "", ValueString(p.ConstVal))
 	}), ";") + "}"
 }
 
@@ -263,13 +263,11 @@ func (it *Gen) EnsureTypeTracked(t GenType) GenType {
 		case GenTypeOr:
 			// ditch pattern { {a;b?;c?} | {a?;b;c?} | {a?;b?;c} }
 			tstruct, is_struct := ty[0].(*GenTypeStructure)
-			if is_struct && AllEq(ty, func(t1 GenType, t2 GenType) bool {
-				return sameGenType(t1, t2)
-			}) {
+			if is_struct && AllEq(ty, func(t1 GenType, t2 GenType) bool { return sameGenType(t1, t2) }) {
 				for i := range tstruct.Properties {
 					tstruct.Properties[i].Optional = true
 				}
-				t = tstruct
+				t = it.EnsureTypeTracked(tstruct)
 			} else {
 				ty = it.ensureTypesTracked(ty)
 				t = ty

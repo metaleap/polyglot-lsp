@@ -41,6 +41,9 @@ func Up0(s string) string {
 }
 
 func ValueString(v any) string {
+	if v == nil {
+		return ""
+	}
 	switch it := v.(type) {
 	case bool:
 		return strconv.FormatBool(it)

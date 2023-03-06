@@ -1635,6 +1635,7 @@ type ApplyWorkspaceEditResult struct {
 }
 type WorkDoneProgressBegin struct {
 	// The value is always "begin".
+	// The value is always "begin".
 	Kind string
 	// Mandatory title of the progress operation. Used to briefly inform about
 	// the kind of operation being performed.
@@ -1661,6 +1662,7 @@ type WorkDoneProgressBegin struct {
 }
 type WorkDoneProgressReport struct {
 	// The value is always "report".
+	// The value is always "report".
 	Kind string
 	// Controls enablement state of a cancel button.
 	//
@@ -1682,6 +1684,7 @@ type WorkDoneProgressReport struct {
 	Percentage *Uinteger
 }
 type WorkDoneProgressEnd struct {
+	// The value is always "end".
 	// The value is always "end".
 	Kind string
 	// Optional, a final message indicating to for example indicate the outcome
@@ -1946,6 +1949,7 @@ type CreateFile struct {
 	ResourceOperation
 	// A create
 	// The value is always "create".
+	// The value is always "create".
 	Kind string
 	// The resource to create.
 	Uri DocumentURI
@@ -1957,6 +1961,7 @@ type CreateFile struct {
 type RenameFile struct {
 	ResourceOperation
 	// A rename
+	// The value is always "rename".
 	// The value is always "rename".
 	Kind string
 	// The old (existing) location.
@@ -1971,6 +1976,7 @@ type RenameFile struct {
 type DeleteFile struct {
 	ResourceOperation
 	// A delete
+	// The value is always "delete".
 	// The value is always "delete".
 	Kind string
 	// The file to delete.
@@ -2209,6 +2215,7 @@ type RelatedUnchangedDocumentDiagnosticReport struct {
 type FullDocumentDiagnosticReport struct {
 	// A full document diagnostic report.
 	// The value is always "full".
+	// The value is always "full".
 	Kind string
 	// An optional result id. If provided it will
 	// be sent on the next diagnostic request for the
@@ -2227,6 +2234,7 @@ type UnchangedDocumentDiagnosticReport struct {
 	// no changes to the last result. A server can
 	// only return `unchanged` if result ids are
 	// provided.
+	// The value is always "unchanged".
 	// The value is always "unchanged".
 	Kind string
 	// A result id which will be sent on the next
@@ -3259,7 +3267,7 @@ type NotebookDocumentSyncOptions struct {
 		// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
 		Notebook struct {
 			String                 *String
-			NotebookDocumentFilter *NotebookDocumentFilter
+			NotebookDocumentFilter NotebookDocumentFilter
 		}
 		// The cells of the matching notebook to be synced.
 		Cells []struct {
@@ -3376,7 +3384,7 @@ type NotebookCellTextDocumentFilter struct {
 	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
 	Notebook struct {
 		String                 *String
-		NotebookDocumentFilter *NotebookDocumentFilter
+		NotebookDocumentFilter NotebookDocumentFilter
 	}
 	// A language id like `python`.
 	//

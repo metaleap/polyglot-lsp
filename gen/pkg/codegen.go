@@ -119,9 +119,9 @@ func (it *Gen) genMainDecls(buf *bytes.Buffer, declsByFileName []Tup[string, []a
 			case *GenStructure:
 				it.tracked.decls.structures[decl.Name] = decl
 				it.tracked.decls.structures[decl.NameUp] = decl
+				it.EnsureTypeTracked(&decl.GenTypeStructure)
 				it.ensureTypesTracked(decl.Extends)
 				it.ensureTypesTracked(decl.Mixins)
-				it.ensureTypesTracked(Map(decl.Properties, func(p GenStructureProperty) GenType { return p.Type }))
 				ensureDocHintConstVal(decl.Properties, func(p GenStructureProperty) any { return p.ConstVal })
 				decl.ensureDocHintUnionType()
 			default:

@@ -178,7 +178,7 @@ type MarkedString struct {
 //
 // "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
 type DocumentFilter struct {
-	TextDocumentFilter             *TextDocumentFilter
+	TextDocumentFilter             TextDocumentFilter
 	NotebookCellTextDocumentFilter *NotebookCellTextDocumentFilter
 }
 
@@ -212,13 +212,35 @@ type GlobPattern struct {
 // @sample A language filter that applies to all package.json paths: `{ language: 'json', pattern: '**package.json' }`
 //
 // @since 3.17.0
+//
+// "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
 type TextDocumentFilter struct {
-	// A language id, like `typescript`.
-	Language *String
-	// A Uri `Uri.scheme`, like `file` or `untitled`.
-	Scheme *String
-	// A glob pattern, like `*.{ts,js}`.
-	Pattern *String
+	LanguageSchemePattern *struct {
+		// A language id, like `typescript`.
+		Language *String
+		// A Uri `Uri.scheme`, like `file` or `untitled`.
+		Scheme *String
+		// A glob pattern, like `*.{ts,js}`.
+		Pattern *String
+	}
+
+	LanguageSchemePattern *struct {
+		// A language id, like `typescript`.
+		Language *String
+		// A Uri `Uri.scheme`, like `file` or `untitled`.
+		Scheme string
+		// A glob pattern, like `*.{ts,js}`.
+		Pattern *String
+	}
+
+	LanguageSchemePattern *struct {
+		// A language id, like `typescript`.
+		Language *String
+		// A Uri `Uri.scheme`, like `file` or `untitled`.
+		Scheme *String
+		// A glob pattern, like `*.{ts,js}`.
+		Pattern string
+	}
 }
 
 // A notebook document filter denotes a notebook document by
@@ -226,13 +248,35 @@ type TextDocumentFilter struct {
 // against the notebook's URI (same as with documents)
 //
 // @since 3.17.0
+//
+// "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
 type NotebookDocumentFilter struct {
-	// The type of the enclosing notebook.
-	NotebookType *String
-	// A Uri `Uri.scheme`, like `file` or `untitled`.
-	Scheme *String
-	// A glob pattern.
-	Pattern *String
+	NotebookTypeSchemePattern *struct {
+		// The type of the enclosing notebook.
+		NotebookType *String
+		// A Uri `Uri.scheme`, like `file` or `untitled`.
+		Scheme *String
+		// A glob pattern.
+		Pattern *String
+	}
+
+	NotebookTypeSchemePattern *struct {
+		// The type of the enclosing notebook.
+		NotebookType *String
+		// A Uri `Uri.scheme`, like `file` or `untitled`.
+		Scheme string
+		// A glob pattern.
+		Pattern *String
+	}
+
+	NotebookTypeSchemePattern *struct {
+		// The type of the enclosing notebook.
+		NotebookType *String
+		// A Uri `Uri.scheme`, like `file` or `untitled`.
+		Scheme *String
+		// A glob pattern.
+		Pattern string
+	}
 }
 
 // The glob pattern to watch relative to the base path. Glob patterns can have the following syntax:
