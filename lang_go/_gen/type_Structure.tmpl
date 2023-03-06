@@ -1,8 +1,8 @@
-{{- with $it := . -}}
+{{- with $bag := . -}}
 struct {
-    {{- range $it.Type.Properties -}}
-    {{ .DoDocComments $it.Main }}
-    {{ .NameUp }} {{ $it.Main.DoTypeOptional .Type ($it.Main.If .HasConstVal false .Optional) }}
+    {{- range $bag.Type.Properties -}}
+    {{ .DoDocComments $bag.Main }}
+    {{ .NameUp }} {{ $bag.Main.DoTypeOptional .Type ($bag.Main.If .HasConstVal false .Optional) }}
     {{- end -}}
 }
 {{- end }}

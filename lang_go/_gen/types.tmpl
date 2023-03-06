@@ -61,10 +61,12 @@ func (it *Boolean) IfNil(ifNil bool) bool {
     return bool(*it)
 }
 
-{{ range .Items }}
-{{- with $type := . }}
+{{- with $main := . -}}
+{{- range $main.Items -}}
 
-{{- $type -}}
+{{- with $type := . }}
+{{- $main.DoType $type -}}
+{{- end -}}
 
 {{- end -}}
-{{end}}
+{{- end -}}

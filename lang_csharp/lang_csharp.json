@@ -2,8 +2,25 @@
     "DisplayName": "C#",
     "PkgFile": "*.csproj",
     "SrcFileExt": ".cs",
+    "BaseTypeMapping": {
+        "any": "object",
+        "string": "string",
+        "uinteger": "uint",
+        "integer": "int",
+        "boolean": "bool",
+        "decimal": "double",
+        "DocumentUri": "string",
+        "URI": "string"
+    },
+    "Tmpls": {
+        "doc_comments_link": "<c>{{index . 0}}</c>",
+        "type_Array": "{{.Main.DoType .Type.ElemType}}[]",
+        "type_Map": "System.Collections.Generic.Dictionary<{{.Main.DoType .Type.KeyType}}, {{.Main.DoType .Type.ValueType}}>"
+    },
+    "Dict": {},
     "PostGenTools": {
         "Format": {
+            "Disabled":true,
             "Cmd": "dotnet format whitespace {dir} --folder",
             "Env": {
                 "DOTNET_CLI_TELEMETRY_OPTOUT": "1"
@@ -11,6 +28,7 @@
         },
         "Check": [
             {
+                "Disabled":true,
                 "Cmd": "dotnet build {pkg_file_path} --nologo -o {trash_dir}/{pkg_file_name}",
                 "Env": {
                     "DOTNET_CLI_TELEMETRY_OPTOUT": "1"
@@ -21,6 +39,5 @@
     "PostGenCleanUp": [
         "obj",
         "bin"
-    ],
-    "Dict": {}
+    ]
 }

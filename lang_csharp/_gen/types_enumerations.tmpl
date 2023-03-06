@@ -1,22 +1,22 @@
-{{- with $this := . -}}
+{{- with $main := . -}}
 {{- range .Items -}}
 {{- with $enum := . -}}
 
 {{- if eq $enum.Type "string" }}
-{{ .DocComments $this -}}
+{{ .DoDocComments $main -}}
 public static class {{ $enum.Name }} {
     {{- range .Enumerants }}
-    {{ .DocComments $this -}}
+    {{ .DoDocComments $main -}}
     public static readonly string {{ .NameUp }} = {{ .Value }};
     {{- end -}}
 }
 {{ else }}
-{{ .DocComments $this -}}
+{{ .DoDocComments $main -}}
 public enum {{ $enum.Name }} {
     {{- range .Enumerants }}
-    {{ .DocComments $this -}}
+    {{ .DoDocComments $main -}}
     {{ .NameUp }} = {{ .Value }},
-    {{ end -}}
+    {{- end -}}
 }
 {{ end }}
 

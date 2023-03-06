@@ -4,9 +4,12 @@
 {{- if eq (len $member_types) 1 -}}
 {{ $bag.Main.DoTypeOptional (index $member_types 0) true }}
 {{- else -}}
-struct {
+public abstract record {{ $bag.IdentGen }}
+{
+    private {{ $bag.IdentGen }}() { }
+
 {{- range $member_types -}}
-    {{.NameSuggestion true}} {{ $bag.Main.DoTypeOptional . true }}
+    public sealed record {{.NameSuggestion true}}({{ $bag.Main.DoTypeOptional . true }} {{.NameSuggestion true}}) : {{ $bag.IdentGen }};
 {{ end }}
 }
 {{- end }}

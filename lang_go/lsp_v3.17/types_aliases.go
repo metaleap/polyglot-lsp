@@ -90,8 +90,8 @@ type DocumentDiagnosticReport struct {
 
 // "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
 type PrepareRenameResult struct {
-	Range                *Range
-	RangeOlsoPlaceholder *struct {
+	Range            *Range
+	RangePlaceholder *struct {
 		Range       Range
 		Placeholder string
 	}
@@ -132,7 +132,7 @@ type WorkspaceDocumentDiagnosticReport struct {
 //
 // "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
 type TextDocumentContentChangeEvent struct {
-	RangeOlsoRangeLengthOlsoText *struct {
+	RangeRangeLengthText *struct {
 		// The range of the document that changed.
 		Range Range
 		// The optional length of the range that got replaced.
@@ -164,8 +164,8 @@ type TextDocumentContentChangeEvent struct {
 //
 // "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
 type MarkedString struct {
-	String            *String
-	LanguageOlsoValue *struct {
+	String        *String
+	LanguageValue *struct {
 		Language string
 		Value    string
 	}

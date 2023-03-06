@@ -1,12 +1,12 @@
-{{- with $it := . }}
+{{- with $main := . }}
 {{- range .Items }}
 {{- with $enum := . }}
 
-{{ .DoDocComments $it }}
-type {{ $enum.Name }} {{ $it.DoType $enum.Type }}
+{{ .DoDocComments $main }}
+type {{ $enum.Name }} {{ $main.DoType $enum.Type }}
 
 {{- range .Enumerants }}
-{{ .DoDocComments $it }}
+{{ .DoDocComments $main }}
 const {{ $enum.Name }}{{ .NameUp }} {{ $enum.Name }} = {{ .Value }}
 {{- end }}
 

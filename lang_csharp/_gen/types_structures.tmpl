@@ -1,0 +1,23 @@
+{{- with $main := . -}}
+{{- range .Items -}}
+{{- with $struct := . -}}
+
+{{ .DoDocComments $main }}
+public class {{ $struct.NameUp }} {
+/*    {{- range .Extends }}
+    {{ $main.DoType . }}
+    {{- end -}}
+
+    {{- range .Mixins }}
+    {{ $main.DoType . }}
+    {{- end -}} */
+
+    {{- range .Properties -}}
+    {{ .DoDocComments $main }}
+    public {{ $main.DoTypeOptional .Type ($main.If .HasConstVal false .Optional) }} {{ .NameUp }};
+    {{- end }}
+}
+
+{{- end -}}
+{{- end -}}
+{{- end -}}

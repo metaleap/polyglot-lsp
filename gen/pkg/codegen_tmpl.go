@@ -6,6 +6,11 @@ import (
 	"text/template"
 )
 
+var tmpls = map[string]struct {
+	Tmpl *template.Template
+	Src  string
+}{}
+
 func (it *GenBase) DoDocComments(root *GenMain) string {
 	if len(it.DocLines) == 0 {
 		return ""
@@ -35,14 +40,10 @@ func (it *GenMain) DoType(t GenType) string {
 }
 
 func (it *GenMain) DoTypeOptional(t GenType, optional bool) string {
-	type both struct {
-		Main *GenMain
-		Type GenType
+	if optional {
+		return it.doType(t, "type_Optional")
 	}
 
-	if optional {
-		return it.gen.tmplExec(nil, it.gen.tmpl("type_Optional", ""), both{Main: it, Type: t})
-	}
 	switch t := t.(type) {
 	case GenTypeBaseType:
 		if s := it.Lang.BaseTypeMapping[string(t)]; s != "" {
@@ -52,8 +53,24 @@ func (it *GenMain) DoTypeOptional(t GenType, optional bool) string {
 	case GenTypeReference:
 		return t.String()
 	default:
-		return it.gen.tmplExec(nil, it.gen.tmpl("type_"+t.kind(), ""), both{Main: it, Type: t})
+		return it.doType(t, "type_"+t.kind())
 	}
+}
+
+func (it *GenMain) doType(t GenType, tmplName string) (ret string) {
+	bag := struct {
+		Main     *GenMain
+		Type     GenType
+		IdentGen string
+	}{it, t, t.NameSuggestion(true)}
+
+	tmpl, src := it.gen.tmplSrc(tmplName, "")
+	gen_ident := strings.Contains(src, ".IdentGen")
+	if ret = it.gen.tmplExec(nil, tmpl, bag); gen_ident {
+		it.gen.tracked.namedAnonTypeRenders = append(it.gen.tracked.namedAnonTypeRenders, ret)
+		ret = bag.IdentGen
+	}
+	return
 }
 
 func (it *GenMain) If(b bool, ifTrue any, ifFalse any) any { return If(b, ifTrue, ifFalse) }
@@ -82,34 +99,40 @@ func (it *GenMain) IsTypeKindOr(t GenType) bool {
 	return isTypeKind[GenTypeOr](it.gen, t)
 }
 
-func (it *Gen) tmpl(tmplName string, defaultFallback string) (ret *template.Template) {
-	file_path := it.dirPathSrc + "/" + tmplName + ".tmpl"
-	if ret = tmpls[file_path]; ret == nil {
-		file_exists := FileExists(file_path)
-		if defaultFallback == "" && !file_exists {
-			defaultFallback = it.Main.Lang.Tmpls[tmplName]
-		}
-		if defaultFallback != "" && !file_exists {
-			ret = template.Must(template.New(tmplName).Parse(defaultFallback))
-		} else if file_exists {
-			ret = template.Must(template.ParseFiles(file_path))
-		} else {
-			panic("template '" + tmplName + "' missing: add file '" + it.dirPathSrc + "/" + tmplName + ".tmpl' or add entry Tmpls/" + tmplName + " to " + it.filePathLang)
-		}
-		tmpls[file_path] = ret
-	}
+func (it *Gen) tmpl(tmplName string, fallbackSrc string) (ret *template.Template) {
+	ret, _ = it.tmplSrc(tmplName, fallbackSrc)
 	return
 }
 
+func (it *Gen) tmplSrc(tmplName string, fallbackSrc string) (*template.Template, string) {
+	file_path := it.dirPathSrc + "/" + tmplName + ".tmpl"
+	tup := tmpls[file_path]
+	if tup.Tmpl == nil {
+		if alt_src := it.Main.Lang.Tmpls[tmplName]; alt_src != "" {
+			fallbackSrc = alt_src
+		}
+		if tup.Src = fallbackSrc; FileExists(file_path) {
+			tup.Src = string(FileRead(file_path))
+		}
+		if tup.Src != "" {
+			tup.Tmpl = template.Must(template.New(tmplName).Parse(tup.Src))
+		} else {
+			panic("template '" + tmplName + "' missing: add file '" + it.dirPathSrc + "/" + tmplName + ".tmpl' or add entry Tmpls/" + tmplName + " to " + it.filePathLang)
+		}
+		tmpls[file_path] = tup
+	}
+	return tup.Tmpl, tup.Src
+}
+
 func (it *Gen) tmplExec(buf *bytes.Buffer, tmpl *template.Template, dot any) (ret string) {
+	if dot == nil {
+		dot = &it.Main
+	}
 	on_the_fly := (buf == nil)
 	if on_the_fly {
 		buf = new(bytes.Buffer)
 	} else {
 		buf.Reset()
-	}
-	if dot == nil {
-		dot = &it.Main
 	}
 	if err := tmpl.Execute(buf, dot); err != nil {
 		panic(err)

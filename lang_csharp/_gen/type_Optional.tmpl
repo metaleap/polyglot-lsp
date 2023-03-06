@@ -7,20 +7,21 @@
         ($bag.Main.IsTypeKindArray $bag.Type)
         ($bag.Main.IsTypeKindMap $bag.Type)
         ($bag.Main.IsTypeKindOr $bag.Type)
+        ($bag.Main.IsTypeKindStructure $bag.Type)
   -}}
     {{- $bag.Main.DoType $bag.Type -}}
 {{- else if eq $tyStr "string"  -}}
-    *String
+    string?
 {{- else if eq $tyStr "integer"  -}}
-    *Integer
+    int?
 {{- else if eq $tyStr "uinteger"  -}}
-    *Uinteger
+    uint?
 {{- else if eq $tyStr "decimal"  -}}
-    *Decimal
+    double?
 {{- else if eq $tyStr "boolean"  -}}
-    *Boolean
+    bool?
 {{- else -}}
-    *{{- $bag.Main.DoType $bag.Type -}}
+    {{- $bag.Main.DoType $bag.Type -}}?
 {{- end -}}
 
 {{- end -}}

@@ -1110,8 +1110,8 @@ type CompletionList struct {
 		//
 		// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
 		EditRange struct {
-			Range             *Range
-			InsertOlsoReplace *struct {
+			Range         *Range
+			InsertReplace *struct {
 				Insert  Range
 				Replace Range
 			}

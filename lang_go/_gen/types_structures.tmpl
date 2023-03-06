@@ -1,20 +1,20 @@
-{{- with $it := . -}}
+{{- with $main := . -}}
 {{- range .Items -}}
 {{- with $struct := . -}}
 
-{{ .DoDocComments $it }}
-type {{ $struct.Name }} struct {
+{{ .DoDocComments $main }}
+type {{ $struct.NameUp }} struct {
     {{- range .Extends }}
-    {{ $it.DoType . }}
+    {{ $main.DoType . }}
     {{- end -}}
 
     {{- range .Mixins }}
-    {{ $it.DoType . }}
+    {{ $main.DoType . }}
     {{- end -}}
 
     {{- range .Properties -}}
-    {{ .DoDocComments $it }}
-    {{ .NameUp }} {{ $it.DoTypeOptional .Type ($it.If .HasConstVal false .Optional) }}
+    {{ .DoDocComments $main }}
+    {{ .NameUp }} {{ $main.DoTypeOptional .Type ($main.If .HasConstVal false .Optional) }}
     {{- end }}
 }
 

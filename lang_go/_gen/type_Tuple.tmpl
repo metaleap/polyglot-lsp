@@ -1,9 +1,9 @@
-{{- with $it := . -}}
-{{- with $member_types := $it.Type -}}
+{{- with $bag := . -}}
+{{- with $member_types := $bag.Type -}}
 
 struct {
 {{- range $i, $mt := $member_types }}
-    {{$mt.NameSuggestion true}}{{$i}} {{ $it.Main.DoType $mt }}
+    {{$mt.NameSuggestion true}}{{$i}} {{ $bag.Main.DoType $mt }}
 {{- end }}
 }
 

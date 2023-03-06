@@ -1,7 +1,5 @@
-{{ range .Items }}
-{{- with $type := . }}
-
-{{- $type -}}
-
-{{- end }}
-{{end}}
+{{- with $main := . -}}
+{{- range $main.Items -}}
+{{ . }}
+{{- end -}}
+{{- end -}}
