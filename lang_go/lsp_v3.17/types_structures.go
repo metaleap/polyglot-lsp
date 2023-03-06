@@ -1110,8 +1110,8 @@ type CompletionList struct {
 		//
 		// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
 		EditRange struct {
-			Range         *Range
-			InsertReplace *struct {
+			Range             *Range
+			InsertOlsoReplace *struct {
 				Insert  Range
 				Replace Range
 			}
@@ -3267,7 +3267,7 @@ type NotebookDocumentSyncOptions struct {
 		// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
 		Notebook struct {
 			String                 *String
-			NotebookDocumentFilter NotebookDocumentFilter
+			NotebookDocumentFilter *NotebookDocumentFilter
 		}
 		// The cells of the matching notebook to be synced.
 		Cells []struct {
@@ -3384,7 +3384,7 @@ type NotebookCellTextDocumentFilter struct {
 	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
 	Notebook struct {
 		String                 *String
-		NotebookDocumentFilter NotebookDocumentFilter
+		NotebookDocumentFilter *NotebookDocumentFilter
 	}
 	// A language id like `python`.
 	//

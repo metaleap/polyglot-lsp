@@ -110,10 +110,13 @@ type GenTypeArray struct {
 	ElemType GenType
 }
 
-func (it GenTypeArray) NameSuggestion(up bool) string { return it.ElemType.NameSuggestion(up) + "s" }
-func (it GenTypeArray) String() string                { return genTypeString(it) }
-func (it GenTypeArray) kind() string                  { return "Array" }
-func (it GenTypeArray) key() string                   { return "[" + it.ElemType.key() + "]" }
+func (it GenTypeArray) NameSuggestion(up bool) string {
+	elem_ns := it.ElemType.NameSuggestion(up)
+	return elem_ns + If(strings.HasSuffix(elem_ns, "s"), "es", "s")
+}
+func (it GenTypeArray) String() string { return genTypeString(it) }
+func (it GenTypeArray) kind() string   { return "Array" }
+func (it GenTypeArray) key() string    { return "[" + it.ElemType.key() + "]" }
 
 type GenTypeAnd []GenType
 
@@ -167,7 +170,7 @@ func (it *GenTypeStructure) ensureDocHintUnionType() {
 }
 func (it *GenTypeStructure) NameSuggestion(up bool) string {
 	if len(it.Properties) == 0 {
-		return "Empty"
+		return If(up, "Void", "void")
 	}
 	return strings.Join(Map(it.Properties, func(p GenStructureProperty) string {
 		return If(up, Up0, self[string])(p.Name)
