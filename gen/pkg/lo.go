@@ -1,5 +1,14 @@
 package glot
 
+func AllEq[T any](list []T, eq func(T, T) bool) bool {
+	for i := 1; i < len(list); i++ {
+		if !eq(list[i-1], list[i]) {
+			return false
+		}
+	}
+	return true
+}
+
 func Contains[T comparable](list []T, needle T) bool {
 	for _, item := range list {
 		if needle == item {

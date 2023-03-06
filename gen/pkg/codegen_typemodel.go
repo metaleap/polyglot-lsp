@@ -186,6 +186,9 @@ func (it *Gen) EnsureTypeTracked(t GenType) GenType {
 			ensureDocHintConstVal(t.Properties, func(p GenStructureProperty) any { return p.ConstVal })
 		case GenTypeOr:
 			// TODO ditch pattern { {a;?b;?c} | {?a;b;?c} | {?a;?b;c} }
+			// if AllEq(t,func(t1 GenType,t2 GenType)bool {
+
+			// }){}
 		}
 	}
 	return t
