@@ -6,7 +6,7 @@ import (
 	"text/template"
 )
 
-func (it *GenBase) DoDocComments(root *GenDot) string {
+func (it *GenBase) DoDocComments(root *GenMain) string {
 	if len(it.DocLines) == 0 {
 		return ""
 	}
@@ -30,18 +30,18 @@ func (it *GenBase) DoDocComments(root *GenDot) string {
 	return root.gen.tmplExec(nil, root.gen.tmpl("doc_comments", ""), doc_lines)
 }
 
-func (it *GenDot) DoType(t GenType) string {
+func (it *GenMain) DoType(t GenType) string {
 	return it.DoTypeOptional(t, false)
 }
 
-func (it *GenDot) DoTypeOptional(t GenType, optional bool) string {
-	type GenDotType struct {
-		Dot  *GenDot
+func (it *GenMain) DoTypeOptional(t GenType, optional bool) string {
+	type both struct {
+		Main *GenMain
 		Type GenType
 	}
 
 	if optional {
-		return it.gen.tmplExec(nil, it.gen.tmpl("type_Optional", ""), GenDotType{Dot: it, Type: t})
+		return it.gen.tmplExec(nil, it.gen.tmpl("type_Optional", ""), both{Main: it, Type: t})
 	}
 	switch t := t.(type) {
 	case GenTypeBaseType:
@@ -52,46 +52,34 @@ func (it *GenDot) DoTypeOptional(t GenType, optional bool) string {
 	case GenTypeReference:
 		return t.String()
 	default:
-		return it.gen.tmplExec(nil, it.gen.tmpl("type_"+t.kind(), ""), GenDotType{Dot: it, Type: t})
+		return it.gen.tmplExec(nil, it.gen.tmpl("type_"+t.kind(), ""), both{Main: it, Type: t})
 	}
 }
 
-func (it *GenDot) If(b bool, ifTrue any, ifFalse any) any { return If(b, ifTrue, ifFalse) }
-func (it *GenDot) Up0(s string) string                    { return Up0(s) }
+func (it *GenMain) If(b bool, ifTrue any, ifFalse any) any { return If(b, ifTrue, ifFalse) }
+func (it *GenMain) Up0(s string) string                    { return Up0(s) }
 
-func (it *GenDot) IsEnumTypeName(name string) bool {
+func (it *GenMain) IsEnumTypeName(name string) bool {
 	return it.gen.tracked.decls.enumerations[name] != nil
 }
-
-func (it *GenDot) IsAliasTypeName(name string) bool {
+func (it *GenMain) IsAliasTypeName(name string) bool {
 	return it.gen.tracked.decls.typeAliases[name] != nil
 }
-
-func (it *GenDot) IsStructTypeName(name string) bool {
+func (it *GenMain) IsStructTypeName(name string) bool {
 	return it.gen.tracked.decls.structures[name] != nil
 }
 
-func isTypeKind[T GenType](it *Gen, t GenType) (is bool) {
-	if _, is = t.(T); !is {
-		if tref, isref := t.(GenTypeReference); isref {
-			if alias := it.tracked.decls.typeAliases[string(tref)]; alias != nil {
-				return isTypeKind[T](it, alias.Type)
-			}
-		}
-	}
-	return
-}
-
-func (it *GenDot) IsTypeKindArray(t GenType) bool {
+func (it *GenMain) IsTypeKindArray(t GenType) bool {
 	return isTypeKind[GenTypeArray](it.gen, t)
 }
-
-func (it *GenDot) IsTypeKindOr(t GenType) bool {
-	return isTypeKind[GenTypeOr](it.gen, t)
-}
-
-func (it *GenDot) IsTypeKindMap(t GenType) bool {
+func (it *GenMain) IsTypeKindMap(t GenType) bool {
 	return isTypeKind[GenTypeMap](it.gen, t)
+}
+func (it *GenMain) IsTypeKindStructure(t GenType) bool {
+	return isTypeKind[*GenTypeStructure](it.gen, t)
+}
+func (it *GenMain) IsTypeKindOr(t GenType) bool {
+	return isTypeKind[GenTypeOr](it.gen, t)
 }
 
 func (it *Gen) tmpl(tmplName string, defaultFallback string) (ret *template.Template) {
@@ -99,7 +87,7 @@ func (it *Gen) tmpl(tmplName string, defaultFallback string) (ret *template.Temp
 	if ret = tmpls[file_path]; ret == nil {
 		file_exists := FileExists(file_path)
 		if defaultFallback == "" && !file_exists {
-			defaultFallback = it.Dot.Lang.Tmpls[tmplName]
+			defaultFallback = it.Main.Lang.Tmpls[tmplName]
 		}
 		if defaultFallback != "" && !file_exists {
 			ret = template.Must(template.New(tmplName).Parse(defaultFallback))
@@ -121,26 +109,26 @@ func (it *Gen) tmplExec(buf *bytes.Buffer, tmpl *template.Template, dot any) (re
 		buf.Reset()
 	}
 	if dot == nil {
-		dot = &it.Dot
+		dot = &it.Main
 	}
 	if err := tmpl.Execute(buf, dot); err != nil {
 		panic(err)
 	}
 	if ret = buf.String(); !on_the_fly {
-		it.Dot.FileContents = ret
+		it.Main.FileContents = ret
 	}
 	return
 }
 
 func (it *Gen) toCodeFile(buf *bytes.Buffer, fileName string) {
-	file_path := it.toOutputFile(buf, "file_code", fileName+it.Dot.Lang.SrcFileExt)
+	file_path := it.toOutputFile(buf, "file_code", fileName+it.Main.Lang.SrcFileExt)
 	it.tracked.filesGenerated.code = append(it.tracked.filesGenerated.code, file_path)
 
 	cmd_repl := map[string]string{"{file}": PathAbs(file_path)}
-	if it.Dot.Lang.PostGenTools.Format.ok() && it.Dot.Lang.PostGenTools.Format.PerFile {
-		it.Dot.Lang.PostGenTools.Format.exec(it, cmd_repl)
+	if it.Main.Lang.PostGenTools.Format.ok() && it.Main.Lang.PostGenTools.Format.PerFile {
+		it.Main.Lang.PostGenTools.Format.exec(it, cmd_repl)
 	}
-	for _, check := range it.Dot.Lang.PostGenTools.Check {
+	for _, check := range it.Main.Lang.PostGenTools.Check {
 		if check.ok() && check.PerFile {
 			check.exec(it, cmd_repl)
 		}
@@ -151,6 +139,6 @@ func (it *Gen) toOutputFile(buf *bytes.Buffer, tmplName string, fileName string)
 	tmpl := it.tmpl(tmplName, "")
 	it.tmplExec(buf, tmpl, nil)
 	filePath = it.dirPathDst + "/" + fileName
-	FileWrite(filePath, []byte(it.Dot.FileContents))
+	FileWrite(filePath, []byte(it.Main.FileContents))
 	return
 }

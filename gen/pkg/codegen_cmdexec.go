@@ -24,8 +24,8 @@ func (it *GenLangCmd) exec(gen *Gen, repl map[string]string) {
 	for old, new := range map[string]string{
 		"{dir}":           PathAbs(gen.dirPathDst),
 		"{trash_dir}":     trashDir,
-		"{pkg_file_name}": gen.Dot.Lang.PkgFile,
-		"{pkg_file_path}": PathAbs(gen.dirPathDst + "/" + gen.Dot.Lang.PkgFile),
+		"{pkg_file_name}": gen.Main.Lang.PkgFile,
+		"{pkg_file_path}": PathAbs(gen.dirPathDst + "/" + gen.Main.Lang.PkgFile),
 		"{user_home_dir}": os.Getenv("HOME"),
 	} {
 		if repl[old] == "" {

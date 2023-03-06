@@ -13,8 +13,8 @@
         "URI": "URI"
     },
     "Tmpls": {
-        "type_Array": "[]{{.Dot.DoType .Type.ElemType}}",
-        "type_Map": "map[{{.Dot.DoType .Type.KeyType}}]{{.Dot.DoType .Type.ValueType}}"
+        "type_Array": "[]{{.Main.DoType .Type.ElemType}}",
+        "type_Map": "map[{{.Main.DoType .Type.KeyType}}]{{.Main.DoType .Type.ValueType}}"
     },
     "Dict": {},
     "PostGenTools": {

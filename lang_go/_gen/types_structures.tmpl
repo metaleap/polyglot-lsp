@@ -4,10 +4,18 @@
 
 {{ .DoDocComments $it }}
 type {{ $struct.Name }} struct {
-    {{ range .Properties }}
+    {{- range .Extends }}
+    {{ $it.DoType . }}
+    {{- end -}}
+
+    {{- range .Mixins }}
+    {{ $it.DoType . }}
+    {{- end -}}
+
+    {{- range .Properties -}}
     {{ .DoDocComments $it }}
     {{ .NameUp }} {{ $it.DoTypeOptional .Type ($it.If .HasConstVal false .Optional) }}
-    {{ end }}
+    {{- end }}
 }
 
 {{- end -}}

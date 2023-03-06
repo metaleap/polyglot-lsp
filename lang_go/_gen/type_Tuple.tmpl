@@ -3,7 +3,7 @@
 
 struct {
 {{- range $i, $mt := $member_types }}
-    {{$mt.NameSuggestion true}}{{$i}} {{ $it.Dot.DoType $mt }}
+    {{$mt.NameSuggestion true}}{{$i}} {{ $it.Main.DoType $mt }}
 {{- end }}
 }
 

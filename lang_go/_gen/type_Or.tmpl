@@ -2,12 +2,12 @@
 {{- with $member_types := $it.Type.NonNull -}}
 
 {{- if eq (len $member_types) 1 -}}
-{{ $it.Dot.DoTypeOptional (index $member_types 0) true }}//JUST1
+{{ $it.Main.DoTypeOptional (index $member_types 0) true }}
 {{- else -}}
 struct {
-{{- range $member_types }}
-    {{.NameSuggestion true}} {{ $it.Dot.DoTypeOptional . true }}
-{{- end }}
+{{- range $member_types -}}
+    {{.NameSuggestion true}} {{ $it.Main.DoTypeOptional . true }}
+{{ end }}
 }
 {{- end }}
 

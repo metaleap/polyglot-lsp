@@ -7,7 +7,7 @@ import (
 )
 
 func generate(metaModel *MetaModel, ver string, lang string) {
-	gen := glot.Gen{LangIdent: lang, Dot: glot.GenDot{
+	gen := glot.Gen{LangIdent: lang, Main: glot.GenMain{
 		GenTitle: "Language Server Protocol (LSP)",
 		GenIdent: "lsp",
 		GenVer:   ver,

@@ -3,12 +3,12 @@
 
 {{- if or
         (eq $tyStr "DocumentUri" "URI")
-        ($it.Dot.IsEnumTypeName $tyStr)
-        ($it.Dot.IsTypeKindArray $it.Type)
-        ($it.Dot.IsTypeKindMap $it.Type)
-        ($it.Dot.IsTypeKindOr $it.Type)
+        ($it.Main.IsEnumTypeName $tyStr)
+        ($it.Main.IsTypeKindArray $it.Type)
+        ($it.Main.IsTypeKindMap $it.Type)
+        ($it.Main.IsTypeKindOr $it.Type)
   -}}
-    {{- $it.Dot.DoType $it.Type -}}
+    {{- $it.Main.DoType $it.Type -}}
 {{- else if eq $tyStr "string"  -}}
     *String
 {{- else if eq $tyStr "integer"  -}}
@@ -20,7 +20,7 @@
 {{- else if eq $tyStr "boolean"  -}}
     *Boolean
 {{- else -}}
-    *{{- $it.Dot.DoType $it.Type -}}/*OPT:{{- $it.Type -}}*/
+    *{{- $it.Main.DoType $it.Type -}}
 {{- end -}}
 
 {{- end -}}

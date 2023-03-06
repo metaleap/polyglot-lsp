@@ -162,7 +162,7 @@ type GenTypeStructure struct {
 func (it *GenTypeStructure) base() *GenBase { return &it.GenBase }
 func (it *GenTypeStructure) ensureDocHintUnionType() {
 	for i := range it.Properties {
-		ensureDocHintUnionType(&it.Properties[i].GenBase, it.Properties[i].Type, "This field has ")
+		ensureDocHintUnionType(&it.Properties[i].GenBase, it.Properties[i].Type, "This object has ")
 	}
 }
 func (it *GenTypeStructure) NameSuggestion(up bool) string {
@@ -287,4 +287,15 @@ func (it *Gen) EnsureTypeTracked(t GenType) GenType {
 		it.tracked.types[key] = t
 	}
 	return t
+}
+
+func isTypeKind[T GenType](it *Gen, t GenType) (is bool) {
+	if _, is = t.(T); !is {
+		if tref, isref := t.(GenTypeReference); isref {
+			if alias := it.tracked.decls.typeAliases[string(tref)]; alias != nil {
+				is = isTypeKind[T](it, alias.Type)
+			}
+		}
+	}
+	return
 }

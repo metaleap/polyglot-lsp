@@ -1,3 +1,5 @@
 go 1.20
 
 use ./gen
+
+use ./lang_go/lsp_v3.17
