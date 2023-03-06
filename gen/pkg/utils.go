@@ -3,6 +3,9 @@ package glot
 import (
 	"strconv"
 	"strings"
+
+	"github.com/google/go-cmp/cmp"
+	"github.com/google/go-cmp/cmp/cmpopts"
 )
 
 type Tup[T1 any, T2 any] struct {
@@ -11,6 +14,17 @@ type Tup[T1 any, T2 any] struct {
 }
 
 func self[T any](it T) T { return it }
+
+func CmpEq(a any, b any, equateEmpty bool, ignoreUnexported bool) bool {
+	var opts []cmp.Option
+	if equateEmpty {
+		opts = append(opts, cmpopts.EquateEmpty())
+	}
+	if ignoreUnexported {
+		opts = append(opts, cmpopts.IgnoreUnexported())
+	}
+	return cmp.Equal(a, b, opts...)
+}
 
 func If[T any](b bool, ifTrue T, ifFalse T) T {
 	if b {

@@ -118,7 +118,7 @@ func (it *Gen) genDots(buf *bytes.Buffer, dots_by_file_name []Tup[string, func()
 			case *GenAlias:
 				it.tracked.decls.typeAliases[decl.Name] = decl
 				it.tracked.decls.typeAliases[decl.NameUp] = decl
-				ensureDocHintUnionType(&decl.GenBase, decl.Type)
+				ensureDocHintUnionType(&decl.GenBase, decl.Type, "")
 			}
 		}
 		it.tmplExec(buf, tmpl, nil)
@@ -166,19 +166,19 @@ func ensureDocHintConstVal[T any](items []T, constVal func(T) any) {
 	}
 }
 
-func ensureDocHintUnionType(base *GenBase, t GenType) {
+func ensureDocHintUnionType(base *GenBase, t GenType, prefix string) {
 	switch t := t.(type) {
 	case GenTypeOr:
 		if len(t.NonNull()) > 1 && base != nil && !base.docHintUnionsEnsured {
 			base.docHintUnionsEnsured = true
-			base.DocLines = append(base.DocLines, "\"OneOf\" union-type semantics: only at-most one field is ever non-`nil`.")
+			base.DocLines = append(base.DocLines, prefix+"\"OneOf\" union-type semantics: only at-most one field is ever set, all others will be null/undefined/nil/empty/etc.")
 		}
 	case *GenTypeStructure:
 		t.ensureDocHintUnionType()
 	case GenTypeMap:
-		ensureDocHintUnionType(base, t.ValueType)
+		ensureDocHintUnionType(base, t.ValueType, "Every map value has ")
 	case GenTypeArray:
-		ensureDocHintUnionType(base, t.ElemType)
+		ensureDocHintUnionType(base, t.ElemType, "Every array element has ")
 	}
 }
 

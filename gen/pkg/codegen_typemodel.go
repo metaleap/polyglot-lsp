@@ -33,6 +33,9 @@ type GenStructureProperty struct {
 }
 
 func (it *GenStructureProperty) HasConstVal() bool { return it.ConstVal != nil }
+func (it *GenStructureProperty) equiv(cmp *GenStructureProperty) bool {
+	return it.Name == cmp.Name && sameGenType(it.Type, cmp.Type)
+}
 
 type GenBase struct {
 	Name     string
@@ -73,15 +76,6 @@ func (it GenTypeEnumeration) String() string { return genTypeString(it) }
 func (it GenTypeEnumeration) kind() string   { return "Enumeration" }
 func (it GenTypeEnumeration) key() string    { return "e#" + string(it) }
 
-type GenTypeMapKey string
-
-func (it GenTypeMapKey) NameSuggestion(up bool) string {
-	return If(up, Up0, self[string])(string(it)) + "Key"
-}
-func (it GenTypeMapKey) String() string { return genTypeString(it) }
-func (it GenTypeMapKey) kind() string   { return "MapKey" }
-func (it GenTypeMapKey) key() string    { return ":" + string(it) }
-
 type GenTypeReference string
 
 func (it GenTypeReference) NameSuggestion(up bool) string {
@@ -90,6 +84,15 @@ func (it GenTypeReference) NameSuggestion(up bool) string {
 func (it GenTypeReference) String() string { return string(it) }
 func (it GenTypeReference) kind() string   { return "Reference" }
 func (it GenTypeReference) key() string    { return "@" + string(it) }
+
+type GenTypeMapKey string
+
+func (it GenTypeMapKey) NameSuggestion(up bool) string {
+	return If(up, Up0, self[string])(string(it)) + "Key"
+}
+func (it GenTypeMapKey) String() string { return genTypeString(it) }
+func (it GenTypeMapKey) kind() string   { return "MapKey" }
+func (it GenTypeMapKey) key() string    { return ":" + string(it) }
 
 type GenTypeMap struct {
 	KeyType   GenType
@@ -159,7 +162,7 @@ type GenTypeStructure struct {
 func (it *GenTypeStructure) base() *GenBase { return &it.GenBase }
 func (it *GenTypeStructure) ensureDocHintUnionType() {
 	for i := range it.Properties {
-		ensureDocHintUnionType(&it.Properties[i].GenBase, it.Properties[i].Type)
+		ensureDocHintUnionType(&it.Properties[i].GenBase, it.Properties[i].Type, "This field has ")
 	}
 }
 func (it *GenTypeStructure) NameSuggestion(up bool) string {
@@ -173,23 +176,115 @@ func (it *GenTypeStructure) NameSuggestion(up bool) string {
 func (it *GenTypeStructure) String() string { return genTypeString(it) }
 func (it *GenTypeStructure) kind() string   { return "Structure" }
 func (it *GenTypeStructure) key() string {
-	return "{" + strings.Join(Map(it.Properties, func(p GenStructureProperty) string {
+	return it.Name + "{" + strings.Join(Map(it.Properties, func(p GenStructureProperty) string {
 		return p.Name + If(p.Optional, "?", "") + " " + p.Type.key()
 	}), ";") + "}"
 }
 
+func sameGenTypes(t1 []GenType, t2 []GenType) (ok bool) {
+	if ok = (len(t1) == len(t2)); ok {
+		for _, t := range t1 {
+			if !Exists(t2, func(t2 GenType) bool { return sameGenType(t, t2) }) {
+				return false
+			}
+		}
+	}
+	return
+}
+
+func sameGenType(t1 GenType, t2 GenType) bool {
+	if t1 == nil || t2 == nil {
+		return t1 == nil && t2 == nil
+	}
+	switch t1 := t1.(type) {
+	case GenTypeBaseType:
+		t2, ok := t2.(GenTypeBaseType)
+		return ok && t1 == t2
+	case GenTypeEnumeration:
+		t2, ok := t2.(GenTypeEnumeration)
+		return ok && t1 == t2
+	case GenTypeMapKey:
+		t2, ok := t2.(GenTypeMapKey)
+		return ok && t1 == t2
+	case GenTypeReference:
+		t2, ok := t2.(GenTypeReference)
+		return ok && t1 == t2
+	case GenTypeAnd:
+		t2, ok := t2.(GenTypeAnd)
+		return ok && sameGenTypes(t1, t2)
+	case GenTypeOr:
+		t2, ok := t2.(GenTypeOr)
+		return ok && sameGenTypes(t1, t2)
+	case GenTypeTuple:
+		t2, ok := t2.(GenTypeTuple)
+		return ok && sameGenTypes(t1, t2)
+	case GenTypeArray:
+		t2, ok := t2.(GenTypeArray)
+		return ok && sameGenType(t1.ElemType, t2.ElemType)
+	case GenTypeMap:
+		t2, ok := t2.(GenTypeMap)
+		return ok && sameGenType(t1.KeyType, t2.KeyType) && sameGenType(t1.ValueType, t2.ValueType)
+	case *GenTypeStructure:
+		t2, ok := t2.(*GenTypeStructure)
+		if ok = ok && len(t1.Properties) == len(t2.Properties) && t1.Name == t2.Name; ok {
+			for i := range t1.Properties {
+				if !Exists(t2.Properties, func(p GenStructureProperty) bool { return t1.Properties[i].equiv(&p) }) {
+					return false
+				}
+			}
+		}
+		return ok
+	default:
+		panic(t1)
+	}
+}
+
+func (it *Gen) ensureTypesTracked(t []GenType) []GenType {
+	for i := range t {
+		t[i] = it.EnsureTypeTracked(t[i])
+	}
+	return t
+}
+
 func (it *Gen) EnsureTypeTracked(t GenType) GenType {
 	if key := t.key(); it.tracked.types[key] == nil {
-		it.tracked.types[key] = t
-		switch t := t.(type) {
-		case *GenTypeStructure:
-			ensureDocHintConstVal(t.Properties, func(p GenStructureProperty) any { return p.ConstVal })
+		it.tracked.types[key] = t // do it again below, this just to avoid infinite-type recursions
+		switch ty := t.(type) {
+		case GenTypeArray:
+			ty.ElemType = it.EnsureTypeTracked(ty.ElemType)
+			t = ty
+		case GenTypeMap:
+			ty.KeyType = it.EnsureTypeTracked(ty.KeyType)
+			ty.ValueType = it.EnsureTypeTracked(ty.ValueType)
+			t = ty
+		case GenTypeAnd:
+			ty = it.ensureTypesTracked(ty)
+			t = ty
 		case GenTypeOr:
-			// TODO ditch pattern { {a;?b;?c} | {?a;b;?c} | {?a;?b;c} }
-			// if AllEq(t,func(t1 GenType,t2 GenType)bool {
-
-			// }){}
+			// ditch pattern { {a;b?;c?} | {a?;b;c?} | {a?;b?;c} }
+			tstruct, is_struct := ty[0].(*GenTypeStructure)
+			if is_struct && AllEq(ty, func(t1 GenType, t2 GenType) bool {
+				return sameGenType(t1, t2)
+			}) {
+				for i := range tstruct.Properties {
+					tstruct.Properties[i].Optional = true
+				}
+				t = tstruct
+			} else {
+				ty = it.ensureTypesTracked(ty)
+				t = ty
+			}
+		case GenTypeTuple:
+			ty = it.ensureTypesTracked(ty)
+			t = ty
+		case *GenTypeStructure:
+			ensureDocHintConstVal(ty.Properties, func(p GenStructureProperty) any { return p.ConstVal })
+			for i, p := range ty.Properties {
+				ty.Properties[i].Type = it.EnsureTypeTracked(p.Type)
+			}
+			t = ty
 		}
+		it.tracked.types[key] = t
 	}
 	return t
 }

@@ -19,7 +19,7 @@
     "Dict": {},
     "PostGenTools": {
         "Format": {
-            "Disabled": true,
+            "Disabled": false,
             "Cmd": "gofmt -l -w -s -e {file}",
             "PerFile": true
         },
