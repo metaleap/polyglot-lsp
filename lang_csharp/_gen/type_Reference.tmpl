@@ -1,0 +1,6 @@
+{{- $bag := . -}}
+{{- if and ($bag.Main.IsEnumTypeName (printf "%s" $bag.Type)) ($bag.Main.IsTypeKindOf $bag.Type "string") -}}
+/*{{- $bag.Type -}}*/string
+{{- else -}}
+{{- $bag.Type -}}
+{{- end -}}

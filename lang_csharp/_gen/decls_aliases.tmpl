@@ -1,1 +1,8 @@
-// yo
+{{- $main := . }}
+
+{{- range .Decls }}
+{{- $alias := . }}
+
+// using {{ $alias.Name }} = {{ $main.DoType $alias.Type }};
+
+{{- end }}

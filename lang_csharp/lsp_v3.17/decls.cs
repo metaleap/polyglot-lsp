@@ -2,287 +2,8 @@
 namespace lsp;
 
 
-/*TOr*/
-public abstract record BooleanOrDocumentHighlightOptions
-{
-    private BooleanOrDocumentHighlightOptions() { }
-    public sealed record Boolean(/*TOpt*/bool? Boolean) : BooleanOrDocumentHighlightOptions;
-    public sealed record DocumentHighlightOptions(/*TOpt*/DocumentHighlightOptions? DocumentHighlightOptions) : BooleanOrDocumentHighlightOptions;
-}
-
-/*TOr*/
-public abstract record BooleanOrRenameOptions
-{
-    private BooleanOrRenameOptions() { }
-    public sealed record Boolean(/*TOpt*/bool? Boolean) : BooleanOrRenameOptions;
-    public sealed record RenameOptions(/*TOpt*/RenameOptions? RenameOptions) : BooleanOrRenameOptions;
-}
-
-/*TOr*/
-public abstract record BooleanOrCallHierarchyOptionsOrCallHierarchyRegistrationOptions
-{
-    private BooleanOrCallHierarchyOptionsOrCallHierarchyRegistrationOptions() { }
-    public sealed record Boolean(/*TOpt*/bool? Boolean) : BooleanOrCallHierarchyOptionsOrCallHierarchyRegistrationOptions;
-    public sealed record CallHierarchyOptions(/*TOpt*/CallHierarchyOptions? CallHierarchyOptions) : BooleanOrCallHierarchyOptionsOrCallHierarchyRegistrationOptions;
-    public sealed record CallHierarchyRegistrationOptions(/*TOpt*/CallHierarchyRegistrationOptions? CallHierarchyRegistrationOptions) : BooleanOrCallHierarchyOptionsOrCallHierarchyRegistrationOptions;
-}
-
-/*TOr*/
-public abstract record BooleanOrLinkedEditingRangeOptionsOrLinkedEditingRangeRegistrationOptions
-{
-    private BooleanOrLinkedEditingRangeOptionsOrLinkedEditingRangeRegistrationOptions() { }
-    public sealed record Boolean(/*TOpt*/bool? Boolean) : BooleanOrLinkedEditingRangeOptionsOrLinkedEditingRangeRegistrationOptions;
-    public sealed record LinkedEditingRangeOptions(/*TOpt*/LinkedEditingRangeOptions? LinkedEditingRangeOptions) : BooleanOrLinkedEditingRangeOptionsOrLinkedEditingRangeRegistrationOptions;
-    public sealed record LinkedEditingRangeRegistrationOptions(/*TOpt*/LinkedEditingRangeRegistrationOptions? LinkedEditingRangeRegistrationOptions) : BooleanOrLinkedEditingRangeOptionsOrLinkedEditingRangeRegistrationOptions;
-}
-
-/*TOr*/
-public abstract record StringOrMarkupContent___
-{
-    private StringOrMarkupContent___() { }
-    public sealed record String(/*TOpt*/string? String) : StringOrMarkupContent___;
-    public sealed record MarkupContent(/*TOpt*/MarkupContent? MarkupContent) : StringOrMarkupContent___;
-}
-
-/*TOr*/
-public abstract record StringOrNotebookDocumentFilter_
-{
-    private StringOrNotebookDocumentFilter_() { }
-    public sealed record String(/*TOpt*/string? String) : StringOrNotebookDocumentFilter_;
-    public sealed record NotebookDocumentFilter(/*TOpt*/NotebookDocumentFilter NotebookDocumentFilter) : StringOrNotebookDocumentFilter_;
-}
-
-/*TOr*/
-public abstract record BooleanOrDelta
-{
-    private BooleanOrDelta() { }
-    public sealed record Boolean(/*TOpt*/bool? Boolean) : BooleanOrDelta;
-    public sealed record Delta(/*TOpt*/Delta Delta) : BooleanOrDelta;
-}
-
-/*TOr*/
-public abstract record BooleanOrDefinitionOptions
-{
-    private BooleanOrDefinitionOptions() { }
-    public sealed record Boolean(/*TOpt*/bool? Boolean) : BooleanOrDefinitionOptions;
-    public sealed record DefinitionOptions(/*TOpt*/DefinitionOptions? DefinitionOptions) : BooleanOrDefinitionOptions;
-}
-
 /*TStruc*/
-public class Properties_
-{
-    /// <summary>
-    /// The properties that a client can resolve lazily.
-    /// </summary>
-    public string[] Properties;
-}
-
-
-/*TStruc*/
-public class ValueSet______
-{
-    /// <summary>
-    /// The tags supported by the client.
-    /// </summary>
-    public SymbolTag[] ValueSet;
-}
-
-
-/*TOr*/
-public abstract record BooleanOrImplementationOptionsOrImplementationRegistrationOptions
-{
-    private BooleanOrImplementationOptionsOrImplementationRegistrationOptions() { }
-    public sealed record Boolean(/*TOpt*/bool? Boolean) : BooleanOrImplementationOptionsOrImplementationRegistrationOptions;
-    public sealed record ImplementationOptions(/*TOpt*/ImplementationOptions? ImplementationOptions) : BooleanOrImplementationOptionsOrImplementationRegistrationOptions;
-    public sealed record ImplementationRegistrationOptions(/*TOpt*/ImplementationRegistrationOptions? ImplementationRegistrationOptions) : BooleanOrImplementationOptionsOrImplementationRegistrationOptions;
-}
-
-/*TOr*/
-public abstract record BooleanOrReferenceOptions
-{
-    private BooleanOrReferenceOptions() { }
-    public sealed record Boolean(/*TOpt*/bool? Boolean) : BooleanOrReferenceOptions;
-    public sealed record ReferenceOptions(/*TOpt*/ReferenceOptions? ReferenceOptions) : BooleanOrReferenceOptions;
-}
-
-/*TOr*/
-public abstract record BooleanOrFoldingRangeOptionsOrFoldingRangeRegistrationOptions
-{
-    private BooleanOrFoldingRangeOptionsOrFoldingRangeRegistrationOptions() { }
-    public sealed record Boolean(/*TOpt*/bool? Boolean) : BooleanOrFoldingRangeOptionsOrFoldingRangeRegistrationOptions;
-    public sealed record FoldingRangeOptions(/*TOpt*/FoldingRangeOptions? FoldingRangeOptions) : BooleanOrFoldingRangeOptionsOrFoldingRangeRegistrationOptions;
-    public sealed record FoldingRangeRegistrationOptions(/*TOpt*/FoldingRangeRegistrationOptions? FoldingRangeRegistrationOptions) : BooleanOrFoldingRangeOptionsOrFoldingRangeRegistrationOptions;
-}
-
-/*TStruc*/
-public class ValueSet__
-{
-    /// <summary>
-    /// The tags supported by the client.
-    /// </summary>
-    public CompletionItemTag[] ValueSet;
-}
-
-
-/*TStruc*/
-public class Properties__
-{
-    /// <summary>
-    /// The properties that a client can resolve lazily.
-    /// </summary>
-    public string[] Properties;
-}
-
-
-/*TOr*/
-public abstract record MarkupContentOrMarkedStringOrMarkedStrings
-{
-    private MarkupContentOrMarkedStringOrMarkedStrings() { }
-    public sealed record MarkupContent(/*TOpt*/MarkupContent? MarkupContent) : MarkupContentOrMarkedStringOrMarkedStrings;
-    public sealed record MarkedString(/*TOpt*/MarkedString MarkedString) : MarkupContentOrMarkedStringOrMarkedStrings;
-    public sealed record MarkedStrings(/*TOpt*/MarkedString[] MarkedStrings) : MarkupContentOrMarkedStringOrMarkedStrings;
-}
-
-/*TStruc*/
-public class Reason
-{
-    /// <summary>
-    /// Human readable description of why the code action is currently disabled.
-    /// 
-    /// This is displayed in the code actions UI.
-    /// </summary>
-    public string Reason;
-}
-
-
-/*TOr*/
-public abstract record TextEditOrAnnotatedTextEdit
-{
-    private TextEditOrAnnotatedTextEdit() { }
-    public sealed record TextEdit(/*TOpt*/TextEdit? TextEdit) : TextEditOrAnnotatedTextEdit;
-    public sealed record AnnotatedTextEdit(/*TOpt*/AnnotatedTextEdit? AnnotatedTextEdit) : TextEditOrAnnotatedTextEdit;
-}
-
-/*TStruc*/
-public class Language
-{
-    public string Language;
-}
-
-
-/*TStruc*/
-public class ValueSet
-{
-    /// <summary>
-    /// The symbol kind values the client supports. When this
-    /// property exists the client also guarantees that it will
-    /// handle values outside its set gracefully and falls back
-    /// to a default value when unknown.
-    /// 
-    /// If this property is not present the client only supports
-    /// the symbol kinds from `File` to `Array` as defined in
-    /// the initial version of the protocol.
-    /// </summary>
-    public /*TOpt*/SymbolKind[] ValueSet;
-}
-
-
-/*TStruc*/
-public class Uri
-{
-    public string Uri;
-}
-
-
-/*TOr*/
-public abstract record IntegerOrString
-{
-    private IntegerOrString() { }
-    public sealed record Integer(/*TOpt*/int? Integer) : IntegerOrString;
-    public sealed record String(/*TOpt*/string? String) : IntegerOrString;
-}
-
-/*TStruc*/
-public class Cancel_RetryOnContentModified
-{
-    /// <summary>
-    /// The client will actively cancel the request.
-    /// </summary>
-    public bool Cancel;
-    /// <summary>
-    /// The list of requests for which the client
-    /// will retry the request if it receives a
-    /// response with error code `ContentModified`
-    /// </summary>
-    public string[] RetryOnContentModified;
-}
-
-
-/*TStruc*/
-public class ValueSet_____
-{
-    /// <summary>
-    /// The symbol kind values the client supports. When this
-    /// property exists the client also guarantees that it will
-    /// handle values outside its set gracefully and falls back
-    /// to a default value when unknown.
-    /// 
-    /// If this property is not present the client only supports
-    /// the symbol kinds from `File` to `Array` as defined in
-    /// the initial version of the protocol.
-    /// </summary>
-    public /*TOpt*/SymbolKind[] ValueSet;
-}
-
-
-/*TOr*/
-public abstract record BooleanOrWorkspaceSymbolOptions
-{
-    private BooleanOrWorkspaceSymbolOptions() { }
-    public sealed record Boolean(/*TOpt*/bool? Boolean) : BooleanOrWorkspaceSymbolOptions;
-    public sealed record WorkspaceSymbolOptions(/*TOpt*/WorkspaceSymbolOptions? WorkspaceSymbolOptions) : BooleanOrWorkspaceSymbolOptions;
-}
-
-/*TOr*/
-public abstract record StringOrBoolean
-{
-    private StringOrBoolean() { }
-    public sealed record String(/*TOpt*/string? String) : StringOrBoolean;
-    public sealed record Boolean(/*TOpt*/bool? Boolean) : StringOrBoolean;
-}
-
-/*TStruc*/
-public class DocumentationFormat_ParameterInformation_ActiveParameterSupport
-{
-    /// <summary>
-    /// Client supports the following content formats for the documentation
-    /// property. The order describes the preferred format of the client.
-    /// </summary>
-    public /*TOpt*/MarkupKind[] DocumentationFormat;
-    /// <summary>
-    /// Client capabilities specific to parameter information.
-    /// </summary>
-    public /*TOpt*/LabelOffsetSupport ParameterInformation;
-    /// <summary>
-    /// The client supports the `activeParameter` property on `SignatureInformation`
-    /// literal.
-    /// 
-    /// @since 3.16.0
-    /// </summary>
-    public /*TOpt*/bool? ActiveParameterSupport;
-}
-
-
-/*TOr*/
-public abstract record FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport
-{
-    private FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport() { }
-    public sealed record FullDocumentDiagnosticReport(/*TOpt*/FullDocumentDiagnosticReport? FullDocumentDiagnosticReport) : FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport;
-    public sealed record UnchangedDocumentDiagnosticReport(/*TOpt*/UnchangedDocumentDiagnosticReport? UnchangedDocumentDiagnosticReport) : FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport;
-}
-
-/*TStruc*/
-public class SnippetSupport_CommitCharactersSupport_DocumentationFormat_DeprecatedSupport_PreselectSupport_TagSupport_InsertReplaceSupport_ResolveSupport_InsertTextModeSupport_LabelDetailsSupport
+public class SnippetSupportBooleanWithCommitCharactersSupportBooleanWithDocumentationFormatMarkupKindsWithDeprecatedSupportBooleanWithPreselectSupportBooleanWithTagSupportValueSetCompletionItemTagsWithInsertReplaceSupportBooleanWithResolveSupportPropertiesStringsWithInsertTextModeSupportValueSetInsertTextModesWithLabelDetailsSupportBoolean
 {
     /// <summary>
     /// Client supports snippets as insert text.
@@ -301,7 +22,7 @@ public class SnippetSupport_CommitCharactersSupport_DocumentationFormat_Deprecat
     /// Client supports the following content formats for the documentation
     /// property. The order describes the preferred format of the client.
     /// </summary>
-    public /*TOpt*/MarkupKind[] DocumentationFormat;
+    public /*TOpt*//*MarkupKind*/string[] DocumentationFormat;
     /// <summary>
     /// Client supports the deprecated property on a completion item.
     /// </summary>
@@ -318,7 +39,7 @@ public class SnippetSupport_CommitCharactersSupport_DocumentationFormat_Deprecat
     /// 
     /// @since 3.15.0
     /// </summary>
-    public /*TOpt*/ValueSet__ TagSupport;
+    public /*TOpt*/ValueSetCompletionItemTags TagSupport;
     /// <summary>
     /// Client support insert replace edit to control different behavior if a
     /// completion item is inserted in the text or should replace text.
@@ -333,7 +54,7 @@ public class SnippetSupport_CommitCharactersSupport_DocumentationFormat_Deprecat
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/Properties_ ResolveSupport;
+    public /*TOpt*/PropertiesStrings_ ResolveSupport;
     /// <summary>
     /// The client supports the `insertTextMode` property on
     /// a completion item to override the whitespace handling mode
@@ -341,7 +62,7 @@ public class SnippetSupport_CommitCharactersSupport_DocumentationFormat_Deprecat
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/ValueSet___ InsertTextModeSupport;
+    public /*TOpt*/ValueSetInsertTextModes InsertTextModeSupport;
     /// <summary>
     /// The client has support for completion item label
     /// details (see also `CompletionItemLabelDetails`).
@@ -352,8 +73,286 @@ public class SnippetSupport_CommitCharactersSupport_DocumentationFormat_Deprecat
 }
 
 
+/*TOr*/
+public abstract record class BooleanOrDeltaBoolean
+{
+    private BooleanOrDeltaBoolean() { }
+    public record class WithBoolean(/*TOpt*/bool? Boolean) : BooleanOrDeltaBoolean;
+    public record class WithDeltaBoolean(/*TOpt*/DeltaBoolean_ DeltaBoolean) : BooleanOrDeltaBoolean;
+}
+
+/*TOr*/
+public abstract record class InlineValueTextOrInlineValueVariableLookupOrInlineValueEvaluatableExpression
+{
+    private InlineValueTextOrInlineValueVariableLookupOrInlineValueEvaluatableExpression() { }
+    public record class WithInlineValueText(/*TOpt*/InlineValueText? InlineValueText) : InlineValueTextOrInlineValueVariableLookupOrInlineValueEvaluatableExpression;
+    public record class WithInlineValueVariableLookup(/*TOpt*/InlineValueVariableLookup? InlineValueVariableLookup) : InlineValueTextOrInlineValueVariableLookupOrInlineValueEvaluatableExpression;
+    public record class WithInlineValueEvaluatableExpression(/*TOpt*/InlineValueEvaluatableExpression? InlineValueEvaluatableExpression) : InlineValueTextOrInlineValueVariableLookupOrInlineValueEvaluatableExpression;
+}
+
+/*TOr*/
+public abstract record class RangeOrRangeWithPlaceholderStringOrDefaultBehaviorBoolean
+{
+    private RangeOrRangeWithPlaceholderStringOrDefaultBehaviorBoolean() { }
+    public record class WithRange(/*TOpt*/Range? Range) : RangeOrRangeWithPlaceholderStringOrDefaultBehaviorBoolean;
+    public record class WithRangeWithPlaceholderString(/*TOpt*/RangeWithPlaceholderString RangeWithPlaceholderString) : RangeOrRangeWithPlaceholderStringOrDefaultBehaviorBoolean;
+    public record class WithDefaultBehaviorBoolean(/*TOpt*/DefaultBehaviorBoolean DefaultBehaviorBoolean) : RangeOrRangeWithPlaceholderStringOrDefaultBehaviorBoolean;
+}
+
 /*TStruc*/
-public class LabelDetailsSupport
+public class UriDocumentUri
+{
+    public string Uri;
+}
+
+
+/*TOr*/
+public abstract record class TextEditOrAnnotatedTextEdit
+{
+    private TextEditOrAnnotatedTextEdit() { }
+    public record class WithTextEdit(/*TOpt*/TextEdit? TextEdit) : TextEditOrAnnotatedTextEdit;
+    public record class WithAnnotatedTextEdit(/*TOpt*/AnnotatedTextEdit? AnnotatedTextEdit) : TextEditOrAnnotatedTextEdit;
+}
+
+/*TOr*/
+public abstract record class BooleanOrDocumentColorOptionsOrDocumentColorRegistrationOptions
+{
+    private BooleanOrDocumentColorOptionsOrDocumentColorRegistrationOptions() { }
+    public record class WithBoolean(/*TOpt*/bool? Boolean) : BooleanOrDocumentColorOptionsOrDocumentColorRegistrationOptions;
+    public record class WithDocumentColorOptions(/*TOpt*/DocumentColorOptions? DocumentColorOptions) : BooleanOrDocumentColorOptionsOrDocumentColorRegistrationOptions;
+    public record class WithDocumentColorRegistrationOptions(/*TOpt*/DocumentColorRegistrationOptions? DocumentColorRegistrationOptions) : BooleanOrDocumentColorOptionsOrDocumentColorRegistrationOptions;
+}
+
+/*TOr*/
+public abstract record class StringOrNotebookDocumentFilter
+{
+    private StringOrNotebookDocumentFilter() { }
+    public record class WithString(/*TOpt*/string? String) : StringOrNotebookDocumentFilter;
+    public record class WithNotebookDocumentFilter(/*TOpt*/NotebookDocumentFilter NotebookDocumentFilter) : StringOrNotebookDocumentFilter;
+}
+
+/*TStruc*/
+public class ValueSetCodeActionKinds
+{
+    /// <summary>
+    /// The code action kind values the client supports. When this
+    /// property exists the client also guarantees that it will
+    /// handle values outside its set gracefully and falls back
+    /// to a default value when unknown.
+    /// </summary>
+    public /*CodeActionKind*/string[] ValueSet;
+}
+
+
+/*TStruc*/
+public class TextString
+{
+    /// <summary>
+    /// The new text of the whole document.
+    /// </summary>
+    public string Text;
+}
+
+
+/*TOr*/
+public abstract record class RangeWithRangeLengthUintegerWithTextStringOrTextString
+{
+    private RangeWithRangeLengthUintegerWithTextStringOrTextString() { }
+    public record class WithRangeWithRangeLengthUintegerWithTextString(/*TOpt*/RangeWithRangeLengthUintegerWithTextString RangeWithRangeLengthUintegerWithTextString) : RangeWithRangeLengthUintegerWithTextStringOrTextString;
+    public record class WithTextString(/*TOpt*/TextString TextString) : RangeWithRangeLengthUintegerWithTextStringOrTextString;
+}
+
+/*TStruc*/
+public class InsertRangeWithReplaceRange
+{
+    public Range Insert;
+    public Range Replace;
+}
+
+
+/*TOr*/
+public abstract record class BooleanOrReferenceOptions
+{
+    private BooleanOrReferenceOptions() { }
+    public record class WithBoolean(/*TOpt*/bool? Boolean) : BooleanOrReferenceOptions;
+    public record class WithReferenceOptions(/*TOpt*/ReferenceOptions? ReferenceOptions) : BooleanOrReferenceOptions;
+}
+
+/*TTup*/
+public class UintegerWithUinteger
+{
+    public uint Uinteger0;
+    public uint Uinteger1;
+}
+
+
+/*TOr*/
+public abstract record class BooleanOrDefinitionOptions
+{
+    private BooleanOrDefinitionOptions() { }
+    public record class WithBoolean(/*TOpt*/bool? Boolean) : BooleanOrDefinitionOptions;
+    public record class WithDefinitionOptions(/*TOpt*/DefinitionOptions? DefinitionOptions) : BooleanOrDefinitionOptions;
+}
+
+/*TOr*/
+public abstract record class BooleanOrDocumentSymbolOptions
+{
+    private BooleanOrDocumentSymbolOptions() { }
+    public record class WithBoolean(/*TOpt*/bool? Boolean) : BooleanOrDocumentSymbolOptions;
+    public record class WithDocumentSymbolOptions(/*TOpt*/DocumentSymbolOptions? DocumentSymbolOptions) : BooleanOrDocumentSymbolOptions;
+}
+
+/*TOr*/
+public abstract record class BooleanOrSaveOptions
+{
+    private BooleanOrSaveOptions() { }
+    public record class WithBoolean(/*TOpt*/bool? Boolean) : BooleanOrSaveOptions;
+    public record class WithSaveOptions(/*TOpt*/SaveOptions? SaveOptions) : BooleanOrSaveOptions;
+}
+
+/*TStruc*/
+public class NotebookStringOrNotebookDocumentFilterWithCellsLanguageStrings
+{
+    /// <summary>
+    /// The notebook to be synced If a string
+    /// value is provided it matches against the
+    /// notebook type. '*' matches every notebook.
+    /// 
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+    /// </summary>
+    public /*TOpt*/StringOrNotebookDocumentFilter Notebook;
+    /// <summary>
+    /// The cells of the matching notebook to be synced.
+    /// </summary>
+    public /*TOpt*/LanguageString[] Cells;
+}
+
+
+/*TStruc*/
+public class GroupsOnLabelBoolean
+{
+    /// <summary>
+    /// Whether the client groups edits with equal labels into tree nodes,
+    /// for instance all edits labelled with "Changes in Strings" would
+    /// be a tree node.
+    /// </summary>
+    public /*TOpt*/bool? GroupsOnLabel;
+}
+
+
+/*TStruc*/
+public class CodeActionKindValueSetCodeActionKinds
+{
+    /// <summary>
+    /// The code action kind is support with the following value
+    /// set.
+    /// </summary>
+    public ValueSetCodeActionKinds CodeActionKind;
+}
+
+
+/*TOr*/
+public abstract record class LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull
+{
+    private LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull() { }
+    public record class WithLSPObject(/*TOpt*/LSPObject LSPObject) : LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull;
+    public record class WithLSPArray(/*TOpt*/LSPArray LSPArray) : LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull;
+    public record class WithString(/*TOpt*/string? String) : LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull;
+    public record class WithInteger(/*TOpt*/int? Integer) : LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull;
+    public record class WithUinteger(/*TOpt*/uint? Uinteger) : LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull;
+    public record class WithDecimal(/*TOpt*/double? Decimal) : LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull;
+    public record class WithBoolean(/*TOpt*/bool? Boolean) : LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull;
+}
+
+/*TStruc*/
+public class RangeWithPlaceholderString
+{
+    public Range Range;
+    public string Placeholder;
+}
+
+
+/*TStruc*/
+public class NameStringWithVersionString
+{
+    /// <summary>
+    /// The name of the client as defined by the client.
+    /// </summary>
+    public string Name;
+    /// <summary>
+    /// The client's version as defined by the client.
+    /// </summary>
+    public /*TOpt*/string? Version;
+}
+
+
+/*TOr*/
+public abstract record class StringOrBoolean
+{
+    private StringOrBoolean() { }
+    public record class WithString(/*TOpt*/string? String) : StringOrBoolean;
+    public record class WithBoolean(/*TOpt*/bool? Boolean) : StringOrBoolean;
+}
+
+/*TOr*/
+public abstract record class SemanticTokensOptionsOrSemanticTokensRegistrationOptions
+{
+    private SemanticTokensOptionsOrSemanticTokensRegistrationOptions() { }
+    public record class WithSemanticTokensOptions(/*TOpt*/SemanticTokensOptions? SemanticTokensOptions) : SemanticTokensOptionsOrSemanticTokensRegistrationOptions;
+    public record class WithSemanticTokensRegistrationOptions(/*TOpt*/SemanticTokensRegistrationOptions? SemanticTokensRegistrationOptions) : SemanticTokensOptionsOrSemanticTokensRegistrationOptions;
+}
+
+/*TStruc*/
+public class ValueSetInsertTextModes
+{
+    public InsertTextMode[] ValueSet;
+}
+
+
+/*TStruc*/
+public class DefaultBehaviorBoolean
+{
+    public bool DefaultBehavior;
+}
+
+
+/*TOr*/
+public abstract record class FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport
+{
+    private FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport() { }
+    public record class WithFullDocumentDiagnosticReport(/*TOpt*/FullDocumentDiagnosticReport? FullDocumentDiagnosticReport) : FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport;
+    public record class WithUnchangedDocumentDiagnosticReport(/*TOpt*/UnchangedDocumentDiagnosticReport? UnchangedDocumentDiagnosticReport) : FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport;
+}
+
+/*TStruc*/
+public class DeltaBoolean
+{
+    /// <summary>
+    /// The server supports deltas for full documents.
+    /// </summary>
+    public /*TOpt*/bool? Delta;
+}
+
+
+/*TOr*/
+public abstract record class BooleanOrRenameOptions
+{
+    private BooleanOrRenameOptions() { }
+    public record class WithBoolean(/*TOpt*/bool? Boolean) : BooleanOrRenameOptions;
+    public record class WithRenameOptions(/*TOpt*/RenameOptions? RenameOptions) : BooleanOrRenameOptions;
+}
+
+/*TOr*/
+public abstract record class BooleanOrTypeHierarchyOptionsOrTypeHierarchyRegistrationOptions
+{
+    private BooleanOrTypeHierarchyOptionsOrTypeHierarchyRegistrationOptions() { }
+    public record class WithBoolean(/*TOpt*/bool? Boolean) : BooleanOrTypeHierarchyOptionsOrTypeHierarchyRegistrationOptions;
+    public record class WithTypeHierarchyOptions(/*TOpt*/TypeHierarchyOptions? TypeHierarchyOptions) : BooleanOrTypeHierarchyOptionsOrTypeHierarchyRegistrationOptions;
+    public record class WithTypeHierarchyRegistrationOptions(/*TOpt*/TypeHierarchyRegistrationOptions? TypeHierarchyRegistrationOptions) : BooleanOrTypeHierarchyOptionsOrTypeHierarchyRegistrationOptions;
+}
+
+/*TStruc*/
+public class LabelDetailsSupportBoolean
 {
     /// <summary>
     /// The server has support for completion item label
@@ -366,198 +365,275 @@ public class LabelDetailsSupport
 }
 
 
-/*TOr*/
-public abstract record StringOrNotebookDocumentFilter
+/*TStruc*/
+public class CancelBooleanWithRetryOnContentModifiedStrings
 {
-    private StringOrNotebookDocumentFilter() { }
-    public sealed record String(/*TOpt*/string? String) : StringOrNotebookDocumentFilter;
-    public sealed record NotebookDocumentFilter(/*TOpt*/NotebookDocumentFilter NotebookDocumentFilter) : StringOrNotebookDocumentFilter;
+    /// <summary>
+    /// The client will actively cancel the request.
+    /// </summary>
+    public bool Cancel;
+    /// <summary>
+    /// The list of requests for which the client
+    /// will retry the request if it receives a
+    /// response with error code `ContentModified`
+    /// </summary>
+    public string[] RetryOnContentModified;
 }
 
-/*TOr*/
-public abstract record StringOrUintegerWithUinteger
-{
-    private StringOrUintegerWithUinteger() { }
-    public sealed record String(/*TOpt*/string? String) : StringOrUintegerWithUinteger;
-    public sealed record UintegerWithUinteger(/*TOpt*/UintegerWithUinteger? UintegerWithUinteger) : StringOrUintegerWithUinteger;
-}
 
 /*TOr*/
-public abstract record StringOrInlayHintLabelParts
+public abstract record class LocationOrLocations
+{
+    private LocationOrLocations() { }
+    public record class WithLocation(/*TOpt*/Location? Location) : LocationOrLocations;
+    public record class WithLocations(/*TOpt*/Location[] Locations) : LocationOrLocations;
+}
+
+/*TStruc*/
+public class RangeWithRangeLengthUintegerWithTextString
+{
+    /// <summary>
+    /// The range of the document that changed.
+    /// </summary>
+    public Range Range;
+    /// <summary>
+    /// The optional length of the range that got replaced.
+    /// 
+    /// @deprecated use range instead.
+    /// </summary>
+    public /*TOpt*/uint? RangeLength;
+    /// <summary>
+    /// The new text for the provided range.
+    /// </summary>
+    public string Text;
+}
+
+
+/*TStruc*/
+public class LanguageStringWithValueString
+{
+    public string Language;
+    public string Value;
+}
+
+
+/*TOr*/
+public abstract record class BooleanOrImplementationOptionsOrImplementationRegistrationOptions
+{
+    private BooleanOrImplementationOptionsOrImplementationRegistrationOptions() { }
+    public record class WithBoolean(/*TOpt*/bool? Boolean) : BooleanOrImplementationOptionsOrImplementationRegistrationOptions;
+    public record class WithImplementationOptions(/*TOpt*/ImplementationOptions? ImplementationOptions) : BooleanOrImplementationOptionsOrImplementationRegistrationOptions;
+    public record class WithImplementationRegistrationOptions(/*TOpt*/ImplementationRegistrationOptions? ImplementationRegistrationOptions) : BooleanOrImplementationOptionsOrImplementationRegistrationOptions;
+}
+
+/*TStruc*/
+public class LanguageString
+{
+    public string Language;
+}
+
+
+/*TStruc*/
+public class DocumentationFormatMarkupKindsWithParameterInformationLabelOffsetSupportBooleanWithActiveParameterSupportBoolean
+{
+    /// <summary>
+    /// Client supports the following content formats for the documentation
+    /// property. The order describes the preferred format of the client.
+    /// </summary>
+    public /*TOpt*//*MarkupKind*/string[] DocumentationFormat;
+    /// <summary>
+    /// Client capabilities specific to parameter information.
+    /// </summary>
+    public /*TOpt*/LabelOffsetSupportBoolean ParameterInformation;
+    /// <summary>
+    /// The client supports the `activeParameter` property on `SignatureInformation`
+    /// literal.
+    /// 
+    /// @since 3.16.0
+    /// </summary>
+    public /*TOpt*/bool? ActiveParameterSupport;
+}
+
+
+/*TStruc*/
+public class RangeBooleanOrAnyByStringWithFullBooleanOrDeltaBoolean
+{
+    /// <summary>
+    /// The client will send the `textDocument/semanticTokens/range` request if
+    /// the server provides a corresponding handler.
+    /// 
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+    /// </summary>
+    public /*TOpt*/BooleanOrAnyByString Range;
+    /// <summary>
+    /// The client will send the `textDocument/semanticTokens/full` request if
+    /// the server provides a corresponding handler.
+    /// 
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+    /// </summary>
+    public /*TOpt*/BooleanOrDeltaBoolean_ Full;
+}
+
+
+/*TOr*/
+public abstract record class StringOrInlayHintLabelParts
 {
     private StringOrInlayHintLabelParts() { }
-    public sealed record String(/*TOpt*/string? String) : StringOrInlayHintLabelParts;
-    public sealed record InlayHintLabelParts(/*TOpt*/InlayHintLabelPart[] InlayHintLabelParts) : StringOrInlayHintLabelParts;
+    public record class WithString(/*TOpt*/string? String) : StringOrInlayHintLabelParts;
+    public record class WithInlayHintLabelParts(/*TOpt*/InlayHintLabelPart[] InlayHintLabelParts) : StringOrInlayHintLabelParts;
 }
 
 /*TOr*/
-public abstract record BooleanOrInlineValueOptionsOrInlineValueRegistrationOptions
+public abstract record class BooleanOrDocumentFormattingOptions
+{
+    private BooleanOrDocumentFormattingOptions() { }
+    public record class WithBoolean(/*TOpt*/bool? Boolean) : BooleanOrDocumentFormattingOptions;
+    public record class WithDocumentFormattingOptions(/*TOpt*/DocumentFormattingOptions? DocumentFormattingOptions) : BooleanOrDocumentFormattingOptions;
+}
+
+/*TOr*/
+public abstract record class BooleanOrInlineValueOptionsOrInlineValueRegistrationOptions
 {
     private BooleanOrInlineValueOptionsOrInlineValueRegistrationOptions() { }
-    public sealed record Boolean(/*TOpt*/bool? Boolean) : BooleanOrInlineValueOptionsOrInlineValueRegistrationOptions;
-    public sealed record InlineValueOptions(/*TOpt*/InlineValueOptions? InlineValueOptions) : BooleanOrInlineValueOptionsOrInlineValueRegistrationOptions;
-    public sealed record InlineValueRegistrationOptions(/*TOpt*/InlineValueRegistrationOptions? InlineValueRegistrationOptions) : BooleanOrInlineValueOptionsOrInlineValueRegistrationOptions;
-}
-
-/*TOr*/
-public abstract record FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport_
-{
-    private FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport_() { }
-    public sealed record FullDocumentDiagnosticReport(/*TOpt*/FullDocumentDiagnosticReport? FullDocumentDiagnosticReport) : FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport_;
-    public sealed record UnchangedDocumentDiagnosticReport(/*TOpt*/UnchangedDocumentDiagnosticReport? UnchangedDocumentDiagnosticReport) : FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport_;
-}
-
-/*TOr*/
-public abstract record BooleanOrHoverOptions
-{
-    private BooleanOrHoverOptions() { }
-    public sealed record Boolean(/*TOpt*/bool? Boolean) : BooleanOrHoverOptions;
-    public sealed record HoverOptions(/*TOpt*/HoverOptions? HoverOptions) : BooleanOrHoverOptions;
+    public record class WithBoolean(/*TOpt*/bool? Boolean) : BooleanOrInlineValueOptionsOrInlineValueRegistrationOptions;
+    public record class WithInlineValueOptions(/*TOpt*/InlineValueOptions? InlineValueOptions) : BooleanOrInlineValueOptionsOrInlineValueRegistrationOptions;
+    public record class WithInlineValueRegistrationOptions(/*TOpt*/InlineValueRegistrationOptions? InlineValueRegistrationOptions) : BooleanOrInlineValueOptionsOrInlineValueRegistrationOptions;
 }
 
 /*TStruc*/
-public class ValueSet_
+public class WorkspaceFoldersWorkspaceFoldersServerCapabilitiesWithFileOperationsFileOperationOptions
 {
     /// <summary>
-    /// The tags supported by the client.
-    /// </summary>
-    public SymbolTag[] ValueSet;
-}
-
-
-/*TStruc*/
-public class LabelOffsetSupport
-{
-    /// <summary>
-    /// The client supports processing label offsets instead of a
-    /// simple label string.
+    /// The server supports workspace folder.
     /// 
-    /// @since 3.14.0
+    /// @since 3.6.0
     /// </summary>
-    public /*TOpt*/bool? LabelOffsetSupport;
+    public /*TOpt*/WorkspaceFoldersServerCapabilities? WorkspaceFolders;
+    /// <summary>
+    /// The server is interested in notifications/requests for operations on files.
+    /// 
+    /// @since 3.16.0
+    /// </summary>
+    public /*TOpt*/FileOperationOptions? FileOperations;
+}
+
+
+/*TStruc*/
+public class CollapsedTextBoolean
+{
+    /// <summary>
+    /// If set, the client signals that it supports setting collapsedText on
+    /// folding ranges to display custom labels instead of the default text.
+    /// 
+    /// @since 3.17.0
+    /// </summary>
+    public /*TOpt*/bool? CollapsedText;
+}
+
+
+/*TStruc*/
+public class AdditionalPropertiesSupportBoolean
+{
+    /// <summary>
+    /// Whether the client supports additional attributes which
+    /// are preserved and send back to the server in the
+    /// request's response.
+    /// </summary>
+    public /*TOpt*/bool? AdditionalPropertiesSupport;
 }
 
 
 /*TOr*/
-public abstract record TextDocumentEditOrCreateFileOrRenameFileOrDeleteFile
+public abstract record class IntegerOrString
 {
-    private TextDocumentEditOrCreateFileOrRenameFileOrDeleteFile() { }
-    public sealed record TextDocumentEdit(/*TOpt*/TextDocumentEdit? TextDocumentEdit) : TextDocumentEditOrCreateFileOrRenameFileOrDeleteFile;
-    public sealed record CreateFile(/*TOpt*/CreateFile? CreateFile) : TextDocumentEditOrCreateFileOrRenameFileOrDeleteFile;
-    public sealed record RenameFile(/*TOpt*/RenameFile? RenameFile) : TextDocumentEditOrCreateFileOrRenameFileOrDeleteFile;
-    public sealed record DeleteFile(/*TOpt*/DeleteFile? DeleteFile) : TextDocumentEditOrCreateFileOrRenameFileOrDeleteFile;
+    private IntegerOrString() { }
+    public record class WithInteger(/*TOpt*/int? Integer) : IntegerOrString;
+    public record class WithString(/*TOpt*/string? String) : IntegerOrString;
 }
 
 /*TOr*/
-public abstract record StringOrMarkupContent__
+public abstract record class StringOrMarkupContent
 {
-    private StringOrMarkupContent__() { }
-    public sealed record String(/*TOpt*/string? String) : StringOrMarkupContent__;
-    public sealed record MarkupContent(/*TOpt*/MarkupContent? MarkupContent) : StringOrMarkupContent__;
-}
-
-/*TOr*/
-public abstract record TextEditOrInsertReplaceEdit
-{
-    private TextEditOrInsertReplaceEdit() { }
-    public sealed record TextEdit(/*TOpt*/TextEdit? TextEdit) : TextEditOrInsertReplaceEdit;
-    public sealed record InsertReplaceEdit(/*TOpt*/InsertReplaceEdit? InsertReplaceEdit) : TextEditOrInsertReplaceEdit;
-}
-
-/*TOr*/
-public abstract record LocationOrUri
-{
-    private LocationOrUri() { }
-    public sealed record Location(/*TOpt*/Location? Location) : LocationOrUri;
-    public sealed record Uri(/*TOpt*/Uri Uri) : LocationOrUri;
+    private StringOrMarkupContent() { }
+    public record class WithString(/*TOpt*/string? String) : StringOrMarkupContent;
+    public record class WithMarkupContent(/*TOpt*/MarkupContent? MarkupContent) : StringOrMarkupContent;
 }
 
 /*TStruc*/
-public class Structure_Data_TextContent
+public class DocumentVersionedTextDocumentIdentifierWithChangesTextDocumentContentChangeEvents
+{
+    public VersionedTextDocumentIdentifier Document;
+    public TextDocumentContentChangeEvent[] Changes;
+}
+
+
+/*TStruc*/
+public class PropertiesStrings
 {
     /// <summary>
-    /// Changes to the cell structure to add or
-    /// remove cells.
+    /// The properties that a client can resolve lazily.
     /// </summary>
-    public /*TOpt*/Array_DidOpen_DidClose Structure;
-    /// <summary>
-    /// Changes to notebook cells properties like its
-    /// kind, execution summary or metadata.
-    /// </summary>
-    public /*TOpt*/NotebookCell[] Data;
-    /// <summary>
-    /// Changes to the text content of notebook cells.
-    /// </summary>
-    public /*TOpt*/Document_Changes[] TextContent;
+    public string[] Properties;
 }
 
 
 /*TOr*/
-public abstract record BooleanOrDocumentColorOptionsOrDocumentColorRegistrationOptions
+public abstract record class BooleanOrAnyByString
 {
-    private BooleanOrDocumentColorOptionsOrDocumentColorRegistrationOptions() { }
-    public sealed record Boolean(/*TOpt*/bool? Boolean) : BooleanOrDocumentColorOptionsOrDocumentColorRegistrationOptions;
-    public sealed record DocumentColorOptions(/*TOpt*/DocumentColorOptions? DocumentColorOptions) : BooleanOrDocumentColorOptionsOrDocumentColorRegistrationOptions;
-    public sealed record DocumentColorRegistrationOptions(/*TOpt*/DocumentColorRegistrationOptions? DocumentColorRegistrationOptions) : BooleanOrDocumentColorOptionsOrDocumentColorRegistrationOptions;
+    private BooleanOrAnyByString() { }
+    public record class WithBoolean(/*TOpt*/bool? Boolean) : BooleanOrAnyByString;
+    public record class WithAnyByString(/*TOpt*/System.Collections.Generic.Dictionary<string, object> AnyByString) : BooleanOrAnyByString;
 }
 
 /*TOr*/
-public abstract record BooleanOrInlayHintOptionsOrInlayHintRegistrationOptions
+public abstract record class NotebookDocumentSyncOptionsOrNotebookDocumentSyncRegistrationOptions
 {
-    private BooleanOrInlayHintOptionsOrInlayHintRegistrationOptions() { }
-    public sealed record Boolean(/*TOpt*/bool? Boolean) : BooleanOrInlayHintOptionsOrInlayHintRegistrationOptions;
-    public sealed record InlayHintOptions(/*TOpt*/InlayHintOptions? InlayHintOptions) : BooleanOrInlayHintOptionsOrInlayHintRegistrationOptions;
-    public sealed record InlayHintRegistrationOptions(/*TOpt*/InlayHintRegistrationOptions? InlayHintRegistrationOptions) : BooleanOrInlayHintOptionsOrInlayHintRegistrationOptions;
+    private NotebookDocumentSyncOptionsOrNotebookDocumentSyncRegistrationOptions() { }
+    public record class WithNotebookDocumentSyncOptions(/*TOpt*/NotebookDocumentSyncOptions? NotebookDocumentSyncOptions) : NotebookDocumentSyncOptionsOrNotebookDocumentSyncRegistrationOptions;
+    public record class WithNotebookDocumentSyncRegistrationOptions(/*TOpt*/NotebookDocumentSyncRegistrationOptions? NotebookDocumentSyncRegistrationOptions) : NotebookDocumentSyncOptionsOrNotebookDocumentSyncRegistrationOptions;
+}
+
+/*TOr*/
+public abstract record class WorkspaceFullDocumentDiagnosticReportOrWorkspaceUnchangedDocumentDiagnosticReport
+{
+    private WorkspaceFullDocumentDiagnosticReportOrWorkspaceUnchangedDocumentDiagnosticReport() { }
+    public record class WithWorkspaceFullDocumentDiagnosticReport(/*TOpt*/WorkspaceFullDocumentDiagnosticReport? WorkspaceFullDocumentDiagnosticReport) : WorkspaceFullDocumentDiagnosticReportOrWorkspaceUnchangedDocumentDiagnosticReport;
+    public record class WithWorkspaceUnchangedDocumentDiagnosticReport(/*TOpt*/WorkspaceUnchangedDocumentDiagnosticReport? WorkspaceUnchangedDocumentDiagnosticReport) : WorkspaceFullDocumentDiagnosticReportOrWorkspaceUnchangedDocumentDiagnosticReport;
 }
 
 /*TStruc*/
-public class GroupsOnLabel
+public class NameStringWithVersionString
 {
     /// <summary>
-    /// Whether the client groups edits with equal labels into tree nodes,
-    /// for instance all edits labelled with "Changes in Strings" would
-    /// be a tree node.
+    /// The name of the server as defined by the server.
     /// </summary>
-    public /*TOpt*/bool? GroupsOnLabel;
+    public string Name;
+    /// <summary>
+    /// The server's version as defined by the server.
+    /// </summary>
+    public /*TOpt*/string? Version;
 }
 
 
 /*TOr*/
-public abstract record StringOrStrings
+public abstract record class StringOrStrings
 {
     private StringOrStrings() { }
-    public sealed record String(/*TOpt*/string? String) : StringOrStrings;
-    public sealed record Strings(/*TOpt*/string[] Strings) : StringOrStrings;
+    public record class WithString(/*TOpt*/string? String) : StringOrStrings;
+    public record class WithStrings(/*TOpt*/string[] Strings) : StringOrStrings;
 }
 
 /*TOr*/
-public abstract record StringOrMarkupContent_
+public abstract record class MarkupContentOrMarkedStringOrMarkedStrings
 {
-    private StringOrMarkupContent_() { }
-    public sealed record String(/*TOpt*/string? String) : StringOrMarkupContent_;
-    public sealed record MarkupContent(/*TOpt*/MarkupContent? MarkupContent) : StringOrMarkupContent_;
+    private MarkupContentOrMarkedStringOrMarkedStrings() { }
+    public record class WithMarkupContent(/*TOpt*/MarkupContent? MarkupContent) : MarkupContentOrMarkedStringOrMarkedStrings;
+    public record class WithMarkedString(/*TOpt*/MarkedString MarkedString) : MarkupContentOrMarkedStringOrMarkedStrings;
+    public record class WithMarkedStrings(/*TOpt*/MarkedString[] MarkedStrings) : MarkupContentOrMarkedStringOrMarkedStrings;
 }
 
 /*TStruc*/
-public class CodeActionKind
-{
-    /// <summary>
-    /// The code action kind is support with the following value
-    /// set.
-    /// </summary>
-    public ValueSet_______ CodeActionKind;
-}
-
-
-/*TStruc*/
-public class ValueSet___
-{
-    public InsertTextMode[] ValueSet;
-}
-
-
-/*TStruc*/
-public class ValueSet____
+public class ValueSetCompletionItemKinds
 {
     /// <summary>
     /// The completion item kind values the client supports. When this
@@ -574,103 +650,328 @@ public class ValueSet____
 
 
 /*TOr*/
-public abstract record BooleanOrMonikerOptionsOrMonikerRegistrationOptions
+public abstract record class RelatedFullDocumentDiagnosticReportOrRelatedUnchangedDocumentDiagnosticReport
 {
-    private BooleanOrMonikerOptionsOrMonikerRegistrationOptions() { }
-    public sealed record Boolean(/*TOpt*/bool? Boolean) : BooleanOrMonikerOptionsOrMonikerRegistrationOptions;
-    public sealed record MonikerOptions(/*TOpt*/MonikerOptions? MonikerOptions) : BooleanOrMonikerOptionsOrMonikerRegistrationOptions;
-    public sealed record MonikerRegistrationOptions(/*TOpt*/MonikerRegistrationOptions? MonikerRegistrationOptions) : BooleanOrMonikerOptionsOrMonikerRegistrationOptions;
+    private RelatedFullDocumentDiagnosticReportOrRelatedUnchangedDocumentDiagnosticReport() { }
+    public record class WithRelatedFullDocumentDiagnosticReport(/*TOpt*/RelatedFullDocumentDiagnosticReport? RelatedFullDocumentDiagnosticReport) : RelatedFullDocumentDiagnosticReportOrRelatedUnchangedDocumentDiagnosticReport;
+    public record class WithRelatedUnchangedDocumentDiagnosticReport(/*TOpt*/RelatedUnchangedDocumentDiagnosticReport? RelatedUnchangedDocumentDiagnosticReport) : RelatedFullDocumentDiagnosticReportOrRelatedUnchangedDocumentDiagnosticReport;
 }
 
 /*TOr*/
-public abstract record DiagnosticOptionsOrDiagnosticRegistrationOptions
+public abstract record class PatternOrRelativePattern
+{
+    private PatternOrRelativePattern() { }
+    public record class WithPattern(/*TOpt*/string? Pattern) : PatternOrRelativePattern;
+    public record class WithRelativePattern(/*TOpt*/RelativePattern? RelativePattern) : PatternOrRelativePattern;
+}
+
+/*TStruc*/
+public class LanguageStringWithSchemeStringWithPatternString
+{
+    /// <summary>
+    /// A language id, like `typescript`.
+    /// </summary>
+    public /*TOpt*/string? Language;
+    /// <summary>
+    /// A Uri <c>Uri.scheme</c>, like `file` or `untitled`.
+    /// </summary>
+    public /*TOpt*/string? Scheme;
+    /// <summary>
+    /// A glob pattern, like `*.{ts,js}`.
+    /// </summary>
+    public /*TOpt*/string? Pattern;
+}
+
+
+/*TOr*/
+public abstract record class DiagnosticOptionsOrDiagnosticRegistrationOptions
 {
     private DiagnosticOptionsOrDiagnosticRegistrationOptions() { }
-    public sealed record DiagnosticOptions(/*TOpt*/DiagnosticOptions? DiagnosticOptions) : DiagnosticOptionsOrDiagnosticRegistrationOptions;
-    public sealed record DiagnosticRegistrationOptions(/*TOpt*/DiagnosticRegistrationOptions? DiagnosticRegistrationOptions) : DiagnosticOptionsOrDiagnosticRegistrationOptions;
+    public record class WithDiagnosticOptions(/*TOpt*/DiagnosticOptions? DiagnosticOptions) : DiagnosticOptionsOrDiagnosticRegistrationOptions;
+    public record class WithDiagnosticRegistrationOptions(/*TOpt*/DiagnosticRegistrationOptions? DiagnosticRegistrationOptions) : DiagnosticOptionsOrDiagnosticRegistrationOptions;
 }
 
 /*TOr*/
-public abstract record IntegerOrString_
+public abstract record class BooleanOrDeltaBoolean
 {
-    private IntegerOrString_() { }
-    public sealed record Integer(/*TOpt*/int? Integer) : IntegerOrString_;
-    public sealed record String(/*TOpt*/string? String) : IntegerOrString_;
+    private BooleanOrDeltaBoolean() { }
+    public record class WithBoolean(/*TOpt*/bool? Boolean) : BooleanOrDeltaBoolean;
+    public record class WithDeltaBoolean(/*TOpt*/DeltaBoolean DeltaBoolean) : BooleanOrDeltaBoolean;
 }
 
 /*TOr*/
-public abstract record TextDocumentSyncOptionsOrTextDocumentSyncKind
-{
-    private TextDocumentSyncOptionsOrTextDocumentSyncKind() { }
-    public sealed record TextDocumentSyncOptions(/*TOpt*/TextDocumentSyncOptions? TextDocumentSyncOptions) : TextDocumentSyncOptionsOrTextDocumentSyncKind;
-    public sealed record TextDocumentSyncKind(/*TOpt*/TextDocumentSyncKind TextDocumentSyncKind) : TextDocumentSyncOptionsOrTextDocumentSyncKind;
-}
-
-/*TOr*/
-public abstract record BooleanOrDocumentSymbolOptions
-{
-    private BooleanOrDocumentSymbolOptions() { }
-    public sealed record Boolean(/*TOpt*/bool? Boolean) : BooleanOrDocumentSymbolOptions;
-    public sealed record DocumentSymbolOptions(/*TOpt*/DocumentSymbolOptions? DocumentSymbolOptions) : BooleanOrDocumentSymbolOptions;
-}
-
-/*TStruc*/
-public class Name_Version_
-{
-    /// <summary>
-    /// The name of the client as defined by the client.
-    /// </summary>
-    public string Name;
-    /// <summary>
-    /// The client's version as defined by the client.
-    /// </summary>
-    public /*TOpt*/string? Version;
-}
-
-
-/*TOr*/
-public abstract record BooleanOrCodeActionOptions
+public abstract record class BooleanOrCodeActionOptions
 {
     private BooleanOrCodeActionOptions() { }
-    public sealed record Boolean(/*TOpt*/bool? Boolean) : BooleanOrCodeActionOptions;
-    public sealed record CodeActionOptions(/*TOpt*/CodeActionOptions? CodeActionOptions) : BooleanOrCodeActionOptions;
+    public record class WithBoolean(/*TOpt*/bool? Boolean) : BooleanOrCodeActionOptions;
+    public record class WithCodeActionOptions(/*TOpt*/CodeActionOptions? CodeActionOptions) : BooleanOrCodeActionOptions;
+}
+
+/*TOr*/
+public abstract record class BooleanOrLinkedEditingRangeOptionsOrLinkedEditingRangeRegistrationOptions
+{
+    private BooleanOrLinkedEditingRangeOptionsOrLinkedEditingRangeRegistrationOptions() { }
+    public record class WithBoolean(/*TOpt*/bool? Boolean) : BooleanOrLinkedEditingRangeOptionsOrLinkedEditingRangeRegistrationOptions;
+    public record class WithLinkedEditingRangeOptions(/*TOpt*/LinkedEditingRangeOptions? LinkedEditingRangeOptions) : BooleanOrLinkedEditingRangeOptionsOrLinkedEditingRangeRegistrationOptions;
+    public record class WithLinkedEditingRangeRegistrationOptions(/*TOpt*/LinkedEditingRangeRegistrationOptions? LinkedEditingRangeRegistrationOptions) : BooleanOrLinkedEditingRangeOptionsOrLinkedEditingRangeRegistrationOptions;
 }
 
 /*TStruc*/
-public class ItemDefaults
+public class DeltaBoolean
 {
     /// <summary>
-    /// The client supports the following itemDefaults on
-    /// a completion list.
-    /// 
-    /// The value lists the supported property names of the
-    /// `CompletionList.itemDefaults` object. If omitted
-    /// no properties are supported.
-    /// 
-    /// @since 3.17.0
+    /// The client will send the `textDocument/semanticTokens/full/delta` request if
+    /// the server provides a corresponding handler.
     /// </summary>
-    public /*TOpt*/string[] ItemDefaults;
+    public /*TOpt*/bool? Delta;
 }
 
 
 /*TOr*/
-public abstract record BooleanOrDelta_
+public abstract record class BooleanOrSelectionRangeOptionsOrSelectionRangeRegistrationOptions
 {
-    private BooleanOrDelta_() { }
-    public sealed record Boolean(/*TOpt*/bool? Boolean) : BooleanOrDelta_;
-    public sealed record Delta(/*TOpt*/Delta_ Delta) : BooleanOrDelta_;
-}
-
-/*TOr*/
-public abstract record RangeOrInsert_Replace
-{
-    private RangeOrInsert_Replace() { }
-    public sealed record Range(/*TOpt*/Range? Range) : RangeOrInsert_Replace;
-    public sealed record Insert_Replace(/*TOpt*/Insert_Replace Insert_Replace) : RangeOrInsert_Replace;
+    private BooleanOrSelectionRangeOptionsOrSelectionRangeRegistrationOptions() { }
+    public record class WithBoolean(/*TOpt*/bool? Boolean) : BooleanOrSelectionRangeOptionsOrSelectionRangeRegistrationOptions;
+    public record class WithSelectionRangeOptions(/*TOpt*/SelectionRangeOptions? SelectionRangeOptions) : BooleanOrSelectionRangeOptionsOrSelectionRangeRegistrationOptions;
+    public record class WithSelectionRangeRegistrationOptions(/*TOpt*/SelectionRangeRegistrationOptions? SelectionRangeRegistrationOptions) : BooleanOrSelectionRangeOptionsOrSelectionRangeRegistrationOptions;
 }
 
 /*TStruc*/
-public class CommitCharacters_EditRange_InsertTextFormat_InsertTextMode_Data
+public class ValueSetSymbolKinds
+{
+    /// <summary>
+    /// The symbol kind values the client supports. When this
+    /// property exists the client also guarantees that it will
+    /// handle values outside its set gracefully and falls back
+    /// to a default value when unknown.
+    /// 
+    /// If this property is not present the client only supports
+    /// the symbol kinds from `File` to `Array` as defined in
+    /// the initial version of the protocol.
+    /// </summary>
+    public /*TOpt*/SymbolKind[] ValueSet;
+}
+
+
+/*TStruc*/
+public class ValueSetSymbolTags
+{
+    /// <summary>
+    /// The tags supported by the client.
+    /// </summary>
+    public SymbolTag[] ValueSet;
+}
+
+
+/*TStruc*/
+public class NotebookTypeStringWithSchemeStringWithPatternString
+{
+    /// <summary>
+    /// The type of the enclosing notebook.
+    /// </summary>
+    public /*TOpt*/string? NotebookType;
+    /// <summary>
+    /// A Uri <c>Uri.scheme</c>, like `file` or `untitled`.
+    /// </summary>
+    public /*TOpt*/string? Scheme;
+    /// <summary>
+    /// A glob pattern.
+    /// </summary>
+    public /*TOpt*/string? Pattern;
+}
+
+
+/*TOr*/
+public abstract record class TextEditOrInsertReplaceEdit
+{
+    private TextEditOrInsertReplaceEdit() { }
+    public record class WithTextEdit(/*TOpt*/TextEdit? TextEdit) : TextEditOrInsertReplaceEdit;
+    public record class WithInsertReplaceEdit(/*TOpt*/InsertReplaceEdit? InsertReplaceEdit) : TextEditOrInsertReplaceEdit;
+}
+
+/*TStruc*/
+public class ReasonString
+{
+    /// <summary>
+    /// Human readable description of why the code action is currently disabled.
+    /// 
+    /// This is displayed in the code actions UI.
+    /// </summary>
+    public string Reason;
+}
+
+
+/*TOr*/
+public abstract record class BooleanOrDeclarationOptionsOrDeclarationRegistrationOptions
+{
+    private BooleanOrDeclarationOptionsOrDeclarationRegistrationOptions() { }
+    public record class WithBoolean(/*TOpt*/bool? Boolean) : BooleanOrDeclarationOptionsOrDeclarationRegistrationOptions;
+    public record class WithDeclarationOptions(/*TOpt*/DeclarationOptions? DeclarationOptions) : BooleanOrDeclarationOptionsOrDeclarationRegistrationOptions;
+    public record class WithDeclarationRegistrationOptions(/*TOpt*/DeclarationRegistrationOptions? DeclarationRegistrationOptions) : BooleanOrDeclarationOptionsOrDeclarationRegistrationOptions;
+}
+
+/*TOr*/
+public abstract record class WorkspaceFolderOrURI
+{
+    private WorkspaceFolderOrURI() { }
+    public record class WithWorkspaceFolder(/*TOpt*/WorkspaceFolder? WorkspaceFolder) : WorkspaceFolderOrURI;
+    public record class WithURI(/*TOpt*/string URI) : WorkspaceFolderOrURI;
+}
+
+/*TStruc*/
+public class LabelOffsetSupportBoolean
+{
+    /// <summary>
+    /// The client supports processing label offsets instead of a
+    /// simple label string.
+    /// 
+    /// @since 3.14.0
+    /// </summary>
+    public /*TOpt*/bool? LabelOffsetSupport;
+}
+
+
+/*TStruc*/
+public class ValueSetFoldingRangeKinds
+{
+    /// <summary>
+    /// The folding range kind values the client supports. When this
+    /// property exists the client also guarantees that it will
+    /// handle values outside its set gracefully and falls back
+    /// to a default value when unknown.
+    /// </summary>
+    public /*TOpt*//*FoldingRangeKind*/string[] ValueSet;
+}
+
+
+/*TOr*/
+public abstract record class StringOrLanguageStringWithValueString
+{
+    private StringOrLanguageStringWithValueString() { }
+    public record class WithString(/*TOpt*/string? String) : StringOrLanguageStringWithValueString;
+    public record class WithLanguageStringWithValueString(/*TOpt*/LanguageStringWithValueString LanguageStringWithValueString) : StringOrLanguageStringWithValueString;
+}
+
+/*TOr*/
+public abstract record class TextDocumentEditOrCreateFileOrRenameFileOrDeleteFile
+{
+    private TextDocumentEditOrCreateFileOrRenameFileOrDeleteFile() { }
+    public record class WithTextDocumentEdit(/*TOpt*/TextDocumentEdit? TextDocumentEdit) : TextDocumentEditOrCreateFileOrRenameFileOrDeleteFile;
+    public record class WithCreateFile(/*TOpt*/CreateFile? CreateFile) : TextDocumentEditOrCreateFileOrRenameFileOrDeleteFile;
+    public record class WithRenameFile(/*TOpt*/RenameFile? RenameFile) : TextDocumentEditOrCreateFileOrRenameFileOrDeleteFile;
+    public record class WithDeleteFile(/*TOpt*/DeleteFile? DeleteFile) : TextDocumentEditOrCreateFileOrRenameFileOrDeleteFile;
+}
+
+/*TOr*/
+public abstract record class RangeOrInsertRangeWithReplaceRange
+{
+    private RangeOrInsertRangeWithReplaceRange() { }
+    public record class WithRange(/*TOpt*/Range? Range) : RangeOrInsertRangeWithReplaceRange;
+    public record class WithInsertRangeWithReplaceRange(/*TOpt*/InsertRangeWithReplaceRange InsertRangeWithReplaceRange) : RangeOrInsertRangeWithReplaceRange;
+}
+
+/*TOr*/
+public abstract record class BooleanOrWorkspaceSymbolOptions
+{
+    private BooleanOrWorkspaceSymbolOptions() { }
+    public record class WithBoolean(/*TOpt*/bool? Boolean) : BooleanOrWorkspaceSymbolOptions;
+    public record class WithWorkspaceSymbolOptions(/*TOpt*/WorkspaceSymbolOptions? WorkspaceSymbolOptions) : BooleanOrWorkspaceSymbolOptions;
+}
+
+/*TStruc*/
+public class PropertiesStrings
+{
+    /// <summary>
+    /// The properties that a client can resolve lazily. Usually
+    /// `location.range`
+    /// </summary>
+    public string[] Properties;
+}
+
+
+/*TStruc*/
+public class ValueSetDiagnosticTags
+{
+    /// <summary>
+    /// The tags supported by the client.
+    /// </summary>
+    public DiagnosticTag[] ValueSet;
+}
+
+
+/*TStruc*/
+public class StructureArrayNotebookCellArrayChangeWithDidOpenTextDocumentItemsWithDidCloseTextDocumentIdentifiersWithDataNotebookCellsWithTextContentDocumentVersionedTextDocumentIdentifierWithChangesTextDocumentContentChangeEventses
+{
+    /// <summary>
+    /// Changes to the cell structure to add or
+    /// remove cells.
+    /// </summary>
+    public /*TOpt*/ArrayNotebookCellArrayChangeWithDidOpenTextDocumentItemsWithDidCloseTextDocumentIdentifiers Structure;
+    /// <summary>
+    /// Changes to notebook cells properties like its
+    /// kind, execution summary or metadata.
+    /// </summary>
+    public /*TOpt*/NotebookCell[] Data;
+    /// <summary>
+    /// Changes to the text content of notebook cells.
+    /// </summary>
+    public /*TOpt*/DocumentVersionedTextDocumentIdentifierWithChangesTextDocumentContentChangeEvents[] TextContent;
+}
+
+
+/*TOr*/
+public abstract record class BooleanOrHoverOptions
+{
+    private BooleanOrHoverOptions() { }
+    public record class WithBoolean(/*TOpt*/bool? Boolean) : BooleanOrHoverOptions;
+    public record class WithHoverOptions(/*TOpt*/HoverOptions? HoverOptions) : BooleanOrHoverOptions;
+}
+
+/*TOr*/
+public abstract record class BooleanOrTypeDefinitionOptionsOrTypeDefinitionRegistrationOptions
+{
+    private BooleanOrTypeDefinitionOptionsOrTypeDefinitionRegistrationOptions() { }
+    public record class WithBoolean(/*TOpt*/bool? Boolean) : BooleanOrTypeDefinitionOptionsOrTypeDefinitionRegistrationOptions;
+    public record class WithTypeDefinitionOptions(/*TOpt*/TypeDefinitionOptions? TypeDefinitionOptions) : BooleanOrTypeDefinitionOptionsOrTypeDefinitionRegistrationOptions;
+    public record class WithTypeDefinitionRegistrationOptions(/*TOpt*/TypeDefinitionRegistrationOptions? TypeDefinitionRegistrationOptions) : BooleanOrTypeDefinitionOptionsOrTypeDefinitionRegistrationOptions;
+}
+
+/*TOr*/
+public abstract record class BooleanOrInlayHintOptionsOrInlayHintRegistrationOptions
+{
+    private BooleanOrInlayHintOptionsOrInlayHintRegistrationOptions() { }
+    public record class WithBoolean(/*TOpt*/bool? Boolean) : BooleanOrInlayHintOptionsOrInlayHintRegistrationOptions;
+    public record class WithInlayHintOptions(/*TOpt*/InlayHintOptions? InlayHintOptions) : BooleanOrInlayHintOptionsOrInlayHintRegistrationOptions;
+    public record class WithInlayHintRegistrationOptions(/*TOpt*/InlayHintRegistrationOptions? InlayHintRegistrationOptions) : BooleanOrInlayHintOptionsOrInlayHintRegistrationOptions;
+}
+
+/*TOr*/
+public abstract record class BooleanOrMonikerOptionsOrMonikerRegistrationOptions
+{
+    private BooleanOrMonikerOptionsOrMonikerRegistrationOptions() { }
+    public record class WithBoolean(/*TOpt*/bool? Boolean) : BooleanOrMonikerOptionsOrMonikerRegistrationOptions;
+    public record class WithMonikerOptions(/*TOpt*/MonikerOptions? MonikerOptions) : BooleanOrMonikerOptionsOrMonikerRegistrationOptions;
+    public record class WithMonikerRegistrationOptions(/*TOpt*/MonikerRegistrationOptions? MonikerRegistrationOptions) : BooleanOrMonikerOptionsOrMonikerRegistrationOptions;
+}
+
+/*TOr*/
+public abstract record class StringOrUintegerWithUinteger
+{
+    private StringOrUintegerWithUinteger() { }
+    public record class WithString(/*TOpt*/string? String) : StringOrUintegerWithUinteger;
+    public record class WithUintegerWithUinteger(/*TOpt*/UintegerWithUinteger? UintegerWithUinteger) : StringOrUintegerWithUinteger;
+}
+
+/*TOr*/
+public abstract record class TextDocumentFilterOrNotebookCellTextDocumentFilter
+{
+    private TextDocumentFilterOrNotebookCellTextDocumentFilter() { }
+    public record class WithTextDocumentFilter(/*TOpt*/TextDocumentFilter TextDocumentFilter) : TextDocumentFilterOrNotebookCellTextDocumentFilter;
+    public record class WithNotebookCellTextDocumentFilter(/*TOpt*/NotebookCellTextDocumentFilter? NotebookCellTextDocumentFilter) : TextDocumentFilterOrNotebookCellTextDocumentFilter;
+}
+
+/*TStruc*/
+public class CommitCharactersStringsWithEditRangeRangeOrInsertRangeWithReplaceRangeWithInsertTextFormatWithInsertTextModeWithDataLSPAny
 {
     /// <summary>
     /// A default commit character set.
@@ -685,7 +986,7 @@ public class CommitCharacters_EditRange_InsertTextFormat_InsertTextMode_Data
     /// 
     /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/RangeOrInsert_Replace EditRange;
+    public /*TOpt*/RangeOrInsertRangeWithReplaceRange EditRange;
     /// <summary>
     /// A default insert text format.
     /// 
@@ -708,319 +1009,59 @@ public class CommitCharacters_EditRange_InsertTextFormat_InsertTextMode_Data
 
 
 /*TOr*/
-public abstract record BooleanOrDeclarationOptionsOrDeclarationRegistrationOptions
+public abstract record class LocationOrUriDocumentUri
 {
-    private BooleanOrDeclarationOptionsOrDeclarationRegistrationOptions() { }
-    public sealed record Boolean(/*TOpt*/bool? Boolean) : BooleanOrDeclarationOptionsOrDeclarationRegistrationOptions;
-    public sealed record DeclarationOptions(/*TOpt*/DeclarationOptions? DeclarationOptions) : BooleanOrDeclarationOptionsOrDeclarationRegistrationOptions;
-    public sealed record DeclarationRegistrationOptions(/*TOpt*/DeclarationRegistrationOptions? DeclarationRegistrationOptions) : BooleanOrDeclarationOptionsOrDeclarationRegistrationOptions;
-}
-
-/*TStruc*/
-public class Notebook_Cells
-{
-    /// <summary>
-    /// The notebook to be synced If a string
-    /// value is provided it matches against the
-    /// notebook type. '*' matches every notebook.
-    /// 
-    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-    /// </summary>
-    public /*TOpt*/StringOrNotebookDocumentFilter Notebook;
-    /// <summary>
-    /// The cells of the matching notebook to be synced.
-    /// </summary>
-    public /*TOpt*/Language[] Cells;
-}
-
-
-/*TStruc*/
-public class ValueSet_______
-{
-    /// <summary>
-    /// The code action kind values the client supports. When this
-    /// property exists the client also guarantees that it will
-    /// handle values outside its set gracefully and falls back
-    /// to a default value when unknown.
-    /// </summary>
-    public CodeActionKind[] ValueSet;
-}
-
-
-/*TStruc*/
-public class CollapsedText
-{
-    /// <summary>
-    /// If set, the client signals that it supports setting collapsedText on
-    /// folding ranges to display custom labels instead of the default text.
-    /// 
-    /// @since 3.17.0
-    /// </summary>
-    public /*TOpt*/bool? CollapsedText;
-}
-
-
-/*TStruc*/
-public class Range_Full
-{
-    /// <summary>
-    /// The client will send the `textDocument/semanticTokens/range` request if
-    /// the server provides a corresponding handler.
-    /// 
-    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-    /// </summary>
-    public /*TOpt*/BooleanOrAnyByString_ Range;
-    /// <summary>
-    /// The client will send the `textDocument/semanticTokens/full` request if
-    /// the server provides a corresponding handler.
-    /// 
-    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-    /// </summary>
-    public /*TOpt*/BooleanOrDelta_ Full;
-}
-
-
-/*TOr*/
-public abstract record FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport__
-{
-    private FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport__() { }
-    public sealed record FullDocumentDiagnosticReport(/*TOpt*/FullDocumentDiagnosticReport? FullDocumentDiagnosticReport) : FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport__;
-    public sealed record UnchangedDocumentDiagnosticReport(/*TOpt*/UnchangedDocumentDiagnosticReport? UnchangedDocumentDiagnosticReport) : FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport__;
+    private LocationOrUriDocumentUri() { }
+    public record class WithLocation(/*TOpt*/Location? Location) : LocationOrUriDocumentUri;
+    public record class WithUriDocumentUri(/*TOpt*/UriDocumentUri UriDocumentUri) : LocationOrUriDocumentUri;
 }
 
 /*TOr*/
-public abstract record NotebookDocumentSyncOptionsOrNotebookDocumentSyncRegistrationOptions
-{
-    private NotebookDocumentSyncOptionsOrNotebookDocumentSyncRegistrationOptions() { }
-    public sealed record NotebookDocumentSyncOptions(/*TOpt*/NotebookDocumentSyncOptions? NotebookDocumentSyncOptions) : NotebookDocumentSyncOptionsOrNotebookDocumentSyncRegistrationOptions;
-    public sealed record NotebookDocumentSyncRegistrationOptions(/*TOpt*/NotebookDocumentSyncRegistrationOptions? NotebookDocumentSyncRegistrationOptions) : NotebookDocumentSyncOptionsOrNotebookDocumentSyncRegistrationOptions;
-}
-
-/*TOr*/
-public abstract record BooleanOrDocumentRangeFormattingOptions
+public abstract record class BooleanOrDocumentRangeFormattingOptions
 {
     private BooleanOrDocumentRangeFormattingOptions() { }
-    public sealed record Boolean(/*TOpt*/bool? Boolean) : BooleanOrDocumentRangeFormattingOptions;
-    public sealed record DocumentRangeFormattingOptions(/*TOpt*/DocumentRangeFormattingOptions? DocumentRangeFormattingOptions) : BooleanOrDocumentRangeFormattingOptions;
+    public record class WithBoolean(/*TOpt*/bool? Boolean) : BooleanOrDocumentRangeFormattingOptions;
+    public record class WithDocumentRangeFormattingOptions(/*TOpt*/DocumentRangeFormattingOptions? DocumentRangeFormattingOptions) : BooleanOrDocumentRangeFormattingOptions;
 }
 
 /*TOr*/
-public abstract record BooleanOrSaveOptions
+public abstract record class BooleanOrCallHierarchyOptionsOrCallHierarchyRegistrationOptions
 {
-    private BooleanOrSaveOptions() { }
-    public sealed record Boolean(/*TOpt*/bool? Boolean) : BooleanOrSaveOptions;
-    public sealed record SaveOptions(/*TOpt*/SaveOptions? SaveOptions) : BooleanOrSaveOptions;
-}
-
-/*TTup*/
-public class UintegerWithUinteger
-{
-    public uint Uinteger0;
-    public uint Uinteger1;
-}
-
-
-/*TStruc*/
-public class Delta_
-{
-    /// <summary>
-    /// The client will send the `textDocument/semanticTokens/full/delta` request if
-    /// the server provides a corresponding handler.
-    /// </summary>
-    public /*TOpt*/bool? Delta;
-}
-
-
-/*TStruc*/
-public class Name_Version
-{
-    /// <summary>
-    /// The name of the server as defined by the server.
-    /// </summary>
-    public string Name;
-    /// <summary>
-    /// The server's version as defined by the server.
-    /// </summary>
-    public /*TOpt*/string? Version;
-}
-
-
-/*TStruc*/
-public class Document_Changes
-{
-    public VersionedTextDocumentIdentifier Document;
-    public TextDocumentContentChangeEvent[] Changes;
-}
-
-
-/*TOr*/
-public abstract record BooleanOrAnyByString_
-{
-    private BooleanOrAnyByString_() { }
-    public sealed record Boolean(/*TOpt*/bool? Boolean) : BooleanOrAnyByString_;
-    public sealed record AnyByString(/*TOpt*/System.Collections.Generic.Dictionary<string, object> AnyByString) : BooleanOrAnyByString_;
+    private BooleanOrCallHierarchyOptionsOrCallHierarchyRegistrationOptions() { }
+    public record class WithBoolean(/*TOpt*/bool? Boolean) : BooleanOrCallHierarchyOptionsOrCallHierarchyRegistrationOptions;
+    public record class WithCallHierarchyOptions(/*TOpt*/CallHierarchyOptions? CallHierarchyOptions) : BooleanOrCallHierarchyOptionsOrCallHierarchyRegistrationOptions;
+    public record class WithCallHierarchyRegistrationOptions(/*TOpt*/CallHierarchyRegistrationOptions? CallHierarchyRegistrationOptions) : BooleanOrCallHierarchyOptionsOrCallHierarchyRegistrationOptions;
 }
 
 /*TStruc*/
-public class Properties___
-{
-    /// <summary>
-    /// The properties that a client can resolve lazily.
-    /// </summary>
-    public string[] Properties;
-}
-
-
-/*TOr*/
-public abstract record BooleanOrAnyByString
-{
-    private BooleanOrAnyByString() { }
-    public sealed record Boolean(/*TOpt*/bool? Boolean) : BooleanOrAnyByString;
-    public sealed record AnyByString(/*TOpt*/System.Collections.Generic.Dictionary<string, object> AnyByString) : BooleanOrAnyByString;
-}
-
-/*TOr*/
-public abstract record BooleanOrTypeDefinitionOptionsOrTypeDefinitionRegistrationOptions
-{
-    private BooleanOrTypeDefinitionOptionsOrTypeDefinitionRegistrationOptions() { }
-    public sealed record Boolean(/*TOpt*/bool? Boolean) : BooleanOrTypeDefinitionOptionsOrTypeDefinitionRegistrationOptions;
-    public sealed record TypeDefinitionOptions(/*TOpt*/TypeDefinitionOptions? TypeDefinitionOptions) : BooleanOrTypeDefinitionOptionsOrTypeDefinitionRegistrationOptions;
-    public sealed record TypeDefinitionRegistrationOptions(/*TOpt*/TypeDefinitionRegistrationOptions? TypeDefinitionRegistrationOptions) : BooleanOrTypeDefinitionOptionsOrTypeDefinitionRegistrationOptions;
-}
-
-/*TOr*/
-public abstract record SemanticTokensOptionsOrSemanticTokensRegistrationOptions
-{
-    private SemanticTokensOptionsOrSemanticTokensRegistrationOptions() { }
-    public sealed record SemanticTokensOptions(/*TOpt*/SemanticTokensOptions? SemanticTokensOptions) : SemanticTokensOptionsOrSemanticTokensRegistrationOptions;
-    public sealed record SemanticTokensRegistrationOptions(/*TOpt*/SemanticTokensRegistrationOptions? SemanticTokensRegistrationOptions) : SemanticTokensOptionsOrSemanticTokensRegistrationOptions;
-}
-
-/*TStruc*/
-public class WorkspaceFolders_FileOperations
-{
-    /// <summary>
-    /// The server supports workspace folder.
-    /// 
-    /// @since 3.6.0
-    /// </summary>
-    public /*TOpt*/WorkspaceFoldersServerCapabilities? WorkspaceFolders;
-    /// <summary>
-    /// The server is interested in notifications/requests for operations on files.
-    /// 
-    /// @since 3.16.0
-    /// </summary>
-    public /*TOpt*/FileOperationOptions? FileOperations;
-}
-
-
-/*TOr*/
-public abstract record StringOrMarkupContent____
-{
-    private StringOrMarkupContent____() { }
-    public sealed record String(/*TOpt*/string? String) : StringOrMarkupContent____;
-    public sealed record MarkupContent(/*TOpt*/MarkupContent? MarkupContent) : StringOrMarkupContent____;
-}
-
-/*TStruc*/
-public class Properties
-{
-    /// <summary>
-    /// The properties that a client can resolve lazily. Usually
-    /// `location.range`
-    /// </summary>
-    public string[] Properties;
-}
-
-
-/*TOr*/
-public abstract record StringOrMarkupContent
-{
-    private StringOrMarkupContent() { }
-    public sealed record String(/*TOpt*/string? String) : StringOrMarkupContent;
-    public sealed record MarkupContent(/*TOpt*/MarkupContent? MarkupContent) : StringOrMarkupContent;
-}
-
-/*TOr*/
-public abstract record BooleanOrDocumentFormattingOptions
-{
-    private BooleanOrDocumentFormattingOptions() { }
-    public sealed record Boolean(/*TOpt*/bool? Boolean) : BooleanOrDocumentFormattingOptions;
-    public sealed record DocumentFormattingOptions(/*TOpt*/DocumentFormattingOptions? DocumentFormattingOptions) : BooleanOrDocumentFormattingOptions;
-}
-
-/*TStruc*/
-public class ValueSet________
-{
-    /// <summary>
-    /// The folding range kind values the client supports. When this
-    /// property exists the client also guarantees that it will
-    /// handle values outside its set gracefully and falls back
-    /// to a default value when unknown.
-    /// </summary>
-    public /*TOpt*/FoldingRangeKind[] ValueSet;
-}
-
-
-/*TStruc*/
-public class Insert_Replace
-{
-    public Range Insert;
-    public Range Replace;
-}
-
-
-/*TStruc*/
-public class Delta
-{
-    /// <summary>
-    /// The server supports deltas for full documents.
-    /// </summary>
-    public /*TOpt*/bool? Delta;
-}
-
-
-/*TOr*/
-public abstract record BooleanOrTypeHierarchyOptionsOrTypeHierarchyRegistrationOptions
-{
-    private BooleanOrTypeHierarchyOptionsOrTypeHierarchyRegistrationOptions() { }
-    public sealed record Boolean(/*TOpt*/bool? Boolean) : BooleanOrTypeHierarchyOptionsOrTypeHierarchyRegistrationOptions;
-    public sealed record TypeHierarchyOptions(/*TOpt*/TypeHierarchyOptions? TypeHierarchyOptions) : BooleanOrTypeHierarchyOptionsOrTypeHierarchyRegistrationOptions;
-    public sealed record TypeHierarchyRegistrationOptions(/*TOpt*/TypeHierarchyRegistrationOptions? TypeHierarchyRegistrationOptions) : BooleanOrTypeHierarchyOptionsOrTypeHierarchyRegistrationOptions;
-}
-
-/*TOr*/
-public abstract record WorkspaceFolderOrURI
-{
-    private WorkspaceFolderOrURI() { }
-    public sealed record WorkspaceFolder(/*TOpt*/WorkspaceFolder? WorkspaceFolder) : WorkspaceFolderOrURI;
-    public sealed record URI(/*TOpt*/string URI) : WorkspaceFolderOrURI;
-}
-
-/*TStruc*/
-public class ValueSet_________
+public class ValueSetCompletionItemTags
 {
     /// <summary>
     /// The tags supported by the client.
     /// </summary>
-    public DiagnosticTag[] ValueSet;
+    public CompletionItemTag[] ValueSet;
 }
 
 
 /*TStruc*/
-public class AdditionalPropertiesSupport
+public class ItemDefaultsStrings
 {
     /// <summary>
-    /// Whether the client supports additional attributes which
-    /// are preserved and send back to the server in the
-    /// request's response.
+    /// The client supports the following itemDefaults on
+    /// a completion list.
+    /// 
+    /// The value lists the supported property names of the
+    /// `CompletionList.itemDefaults` object. If omitted
+    /// no properties are supported.
+    /// 
+    /// @since 3.17.0
     /// </summary>
-    public /*TOpt*/bool? AdditionalPropertiesSupport;
+    public /*TOpt*/string[] ItemDefaults;
 }
 
 
 /*TStruc*/
-public class Array_DidOpen_DidClose
+public class ArrayNotebookCellArrayChangeWithDidOpenTextDocumentItemsWithDidCloseTextDocumentIdentifiers
 {
     /// <summary>
     /// The change to the cell array.
@@ -1038,11 +1079,27 @@ public class Array_DidOpen_DidClose
 
 
 /*TOr*/
-public abstract record BooleanOrSelectionRangeOptionsOrSelectionRangeRegistrationOptions
+public abstract record class TextDocumentSyncOptionsOrTextDocumentSyncKind
 {
-    private BooleanOrSelectionRangeOptionsOrSelectionRangeRegistrationOptions() { }
-    public sealed record Boolean(/*TOpt*/bool? Boolean) : BooleanOrSelectionRangeOptionsOrSelectionRangeRegistrationOptions;
-    public sealed record SelectionRangeOptions(/*TOpt*/SelectionRangeOptions? SelectionRangeOptions) : BooleanOrSelectionRangeOptionsOrSelectionRangeRegistrationOptions;
-    public sealed record SelectionRangeRegistrationOptions(/*TOpt*/SelectionRangeRegistrationOptions? SelectionRangeRegistrationOptions) : BooleanOrSelectionRangeOptionsOrSelectionRangeRegistrationOptions;
+    private TextDocumentSyncOptionsOrTextDocumentSyncKind() { }
+    public record class WithTextDocumentSyncOptions(/*TOpt*/TextDocumentSyncOptions? TextDocumentSyncOptions) : TextDocumentSyncOptionsOrTextDocumentSyncKind;
+    public record class WithTextDocumentSyncKind(/*TOpt*/TextDocumentSyncKind TextDocumentSyncKind) : TextDocumentSyncOptionsOrTextDocumentSyncKind;
+}
+
+/*TOr*/
+public abstract record class BooleanOrDocumentHighlightOptions
+{
+    private BooleanOrDocumentHighlightOptions() { }
+    public record class WithBoolean(/*TOpt*/bool? Boolean) : BooleanOrDocumentHighlightOptions;
+    public record class WithDocumentHighlightOptions(/*TOpt*/DocumentHighlightOptions? DocumentHighlightOptions) : BooleanOrDocumentHighlightOptions;
+}
+
+/*TOr*/
+public abstract record class BooleanOrFoldingRangeOptionsOrFoldingRangeRegistrationOptions
+{
+    private BooleanOrFoldingRangeOptionsOrFoldingRangeRegistrationOptions() { }
+    public record class WithBoolean(/*TOpt*/bool? Boolean) : BooleanOrFoldingRangeOptionsOrFoldingRangeRegistrationOptions;
+    public record class WithFoldingRangeOptions(/*TOpt*/FoldingRangeOptions? FoldingRangeOptions) : BooleanOrFoldingRangeOptionsOrFoldingRangeRegistrationOptions;
+    public record class WithFoldingRangeRegistrationOptions(/*TOpt*/FoldingRangeRegistrationOptions? FoldingRangeRegistrationOptions) : BooleanOrFoldingRangeOptionsOrFoldingRangeRegistrationOptions;
 }
 

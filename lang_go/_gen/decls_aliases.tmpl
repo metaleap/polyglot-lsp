@@ -6,6 +6,14 @@
 {{ $alias.DoDocComments $main }}
 {{ if ($main.IsTypeKindOf $alias.Type "string") -}}
 type {{ $alias.Name }} = String
+{{ else if ($main.IsTypeKindOf $alias.Type "integer") -}}
+type {{ $alias.Name }} = Integer
+{{ else if ($main.IsTypeKindOf $alias.Type "uinteger") -}}
+type {{ $alias.Name }} = Uinteger
+{{ else if ($main.IsTypeKindOf $alias.Type "decimal") -}}
+type {{ $alias.Name }} = Decimal
+{{ else if ($main.IsTypeKindOf $alias.Type "boolean") -}}
+type {{ $alias.Name }} = Boolean
 {{ else if or ($main.IsTypeKindOfStructure $alias.Type) ($main.IsTypeKindOfOr $alias.Type) -}}
 type {{ $alias.Name }} {{ $main.DoType $alias.Type }}
 {{ else -}}

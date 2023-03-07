@@ -13,6 +13,7 @@
         "URI": "URI"
     },
     "Tmpls": {
+        "type_Reference": "{{.Type}}",
         "type_Array": "[]{{.Main.DoType .Type.ElemType}}",
         "type_Map": "map[{{.Main.DoType .Type.KeyType}}]{{.Main.DoType .Type.ValueType}}"
     },

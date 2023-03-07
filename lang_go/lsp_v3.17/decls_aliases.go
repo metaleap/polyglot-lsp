@@ -91,12 +91,12 @@ type DocumentDiagnosticReport /*TOr*/ struct {
 // "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
 type PrepareRenameResult /*TOr*/ struct {
 	Range/*TOpt*/ *Range
-	Range_Placeholder/*TOpt*/ * /*TStruc*/ struct {
+	RangeWithPlaceholderString/*TOpt*/ * /*TStruc*/ struct {
 		Range       Range
 		Placeholder string
 	}
 
-	DefaultBehavior/*TOpt*/ * /*TStruc*/ struct {
+	DefaultBehaviorBoolean/*TOpt*/ * /*TStruc*/ struct {
 		DefaultBehavior bool
 	}
 }
@@ -132,7 +132,7 @@ type WorkspaceDocumentDiagnosticReport /*TOr*/ struct {
 //
 // "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
 type TextDocumentContentChangeEvent /*TOr*/ struct {
-	Range_RangeLength_Text/*TOpt*/ * /*TStruc*/ struct {
+	RangeWithRangeLengthUintegerWithTextString/*TOpt*/ * /*TStruc*/ struct {
 		// The range of the document that changed.
 		Range Range
 		// The optional length of the range that got replaced.
@@ -143,7 +143,7 @@ type TextDocumentContentChangeEvent /*TOr*/ struct {
 		Text string
 	}
 
-	Text/*TOpt*/ * /*TStruc*/ struct {
+	TextString/*TOpt*/ * /*TStruc*/ struct {
 		// The new text of the whole document.
 		Text string
 	}
@@ -165,7 +165,7 @@ type TextDocumentContentChangeEvent /*TOr*/ struct {
 // "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
 type MarkedString /*TOr*/ struct {
 	String/*TOpt*/ *String
-	Language_Value/*TOpt*/ * /*TStruc*/ struct {
+	LanguageStringWithValueString/*TOpt*/ * /*TStruc*/ struct {
 		Language string
 		Value    string
 	}

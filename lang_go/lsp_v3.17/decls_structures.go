@@ -1139,7 +1139,7 @@ type CompletionList struct {
 		// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
 		EditRange/*TOpt*/ /*TOr*/ struct {
 			Range/*TOpt*/ *Range
-			Insert_Replace/*TOpt*/ * /*TStruc*/ struct {
+			InsertRangeWithReplaceRange/*TOpt*/ * /*TStruc*/ struct {
 				Insert  Range
 				Replace Range
 			}
@@ -1468,7 +1468,7 @@ type WorkspaceSymbol struct {
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
 	Location/*TOr*/ struct {
 		Location/*TOpt*/ *Location
-		Uri/*TOpt*/ * /*TStruc*/ struct {
+		UriDocumentUri/*TOpt*/ * /*TStruc*/ struct {
 			Uri DocumentURI
 		}
 	}
@@ -1946,7 +1946,7 @@ type SemanticTokensOptions struct {
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
 	Full/*TOpt*/ /*TOr*/ struct {
 		Boolean/*TOpt*/ *Boolean
-		Delta/*TOpt*/ * /*TStruc*/ struct {
+		DeltaBoolean/*TOpt*/ * /*TStruc*/ struct {
 			// The server supports deltas for full documents.
 			Delta /*TOpt*/ *Boolean
 		}
@@ -4414,7 +4414,7 @@ type SemanticTokensClientCapabilities struct {
 		// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
 		Full/*TOpt*/ /*TOr*/ struct {
 			Boolean/*TOpt*/ *Boolean
-			Delta/*TOpt*/ * /*TStruc*/ struct {
+			DeltaBoolean/*TOpt*/ * /*TStruc*/ struct {
 				// The client will send the `textDocument/semanticTokens/full/delta` request if
 				// the server provides a corresponding handler.
 				Delta /*TOpt*/ *Boolean

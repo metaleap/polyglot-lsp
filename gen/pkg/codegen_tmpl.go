@@ -52,8 +52,6 @@ func (it *GenMain) DoTypeOptional(t GenType, optional bool) string {
 			return s
 		}
 		panic("(missing in " + it.gen.filePathLang + ": \"BaseTypeMapping\"{\"" + t.String() + "\":...})")
-	case GenTypeReference:
-		return t.String()
 	default:
 		return it.doType(t, "type_"+t.kind())
 	}
@@ -69,12 +67,12 @@ func (it *GenMain) doType(t GenType, tmplName string) (ret string) {
 	tmpl := it.gen.tmpl(tmplName, "")
 	if ret = it.gen.tmplExec(nil, tmpl, bag); strings.Contains(ret, bag.TypeIdentGen) {
 		ident := t.NameSuggestion(!it.Lang.AllowLowerCaseGeneratedTypeIdents)
-		for it.gen.tracked.namedAnonDeclRenders[ident] != "" && it.gen.tracked.namedAnonDeclRenders[ident] != ret {
+		for ret = strings.ReplaceAll(ret, bag.TypeIdentGen, ident); it.gen.tracked.namedAnonDeclRenders[ident] != "" && it.gen.tracked.namedAnonDeclRenders[ident] != ret; {
 			ident = ident + "_"
+			ret = strings.ReplaceAll(ret, bag.TypeIdentGen, ident)
 		}
-		ret = strings.ReplaceAll(ret, bag.TypeIdentGen, ident)
 		it.gen.tracked.namedAnonDeclRenders[ident] = ret
-		ret = ident
+		ret = it.doType(GenTypeReference(ident), "type_Reference")
 	}
 	return
 }

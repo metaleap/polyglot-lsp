@@ -42,7 +42,8 @@ type GenBase struct {
 	NameUp   string
 	DocLines []string
 
-	docHintUnionsEnsured bool
+	docHintUnionsEnsured     bool
+	docHintStringEnumEnsured bool
 }
 
 func (it *GenBase) base() *GenBase { return it }
@@ -174,8 +175,9 @@ func (it *GenTypeStructure) NameSuggestion(up bool) string {
 	}
 	up0 := If(up, Up0, self[string])
 	return strings.Join(Map(it.Properties, func(p GenStructureProperty) string {
-		return up0(p.Name)
-	}), "_")
+		n1, n2 := up0(p.Name), p.Type.NameSuggestion(up)
+		return If(n1 == n2, n1, n1+n2)
+	}), "With")
 }
 func (it *GenTypeStructure) String() string { return genTypeString(it) }
 func (it *GenTypeStructure) kind() string   { return "Structure" }

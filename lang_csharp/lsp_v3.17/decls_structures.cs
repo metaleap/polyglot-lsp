@@ -212,7 +212,7 @@ public class FoldingRange
     /// is used to categorize folding ranges and used by commands like 'Fold all comments'.
     /// See <c>FoldingRangeKind</c> for an enumeration of standardized kinds.
     /// </summary>
-    public /*TOpt*/FoldingRangeKind Kind;
+    public /*TOpt*//*FoldingRangeKind*/string Kind;
     /// <summary>
     /// The text that the client should show when the specified range is
     /// collapsed. If not defined or not supported by the client, a default
@@ -739,11 +739,11 @@ public class Moniker
     /// <summary>
     /// The scope in which the moniker is unique
     /// </summary>
-    public UniquenessLevel Unique;
+    public /*UniquenessLevel*/string Unique;
     /// <summary>
     /// The moniker kind if known.
     /// </summary>
-    public /*TOpt*/MonikerKind Kind;
+    public /*TOpt*//*MonikerKind*/string Kind;
 }
 
 public class MonikerRegistrationOptions
@@ -1180,7 +1180,7 @@ public class InitializeResult
     /// 
     /// @since 3.15.0
     /// </summary>
-    public /*TOpt*/Name_Version ServerInfo;
+    public /*TOpt*/NameStringWithVersionString ServerInfo;
 }
 
 /// <summary>
@@ -1494,7 +1494,7 @@ public class CompletionItem
     /// 
     /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/StringOrMarkupContent_ Documentation;
+    public /*TOpt*/StringOrMarkupContent Documentation;
     /// <summary>
     /// Indicates if this item is deprecated.
     /// @deprecated Use `tags` instead.
@@ -1646,7 +1646,7 @@ public class CompletionList
     /// 
     /// @since 3.17.0
     /// </summary>
-    public /*TOpt*/CommitCharacters_EditRange_InsertTextFormat_InsertTextMode_Data ItemDefaults;
+    public /*TOpt*/CommitCharactersStringsWithEditRangeRangeOrInsertRangeWithReplaceRangeWithInsertTextFormatWithInsertTextModeWithDataLSPAny ItemDefaults;
     /// <summary>
     /// The completion items.
     /// </summary>
@@ -1993,7 +1993,7 @@ public class CodeAction
     /// 
     /// Used to filter code actions.
     /// </summary>
-    public /*TOpt*/CodeActionKind Kind;
+    public /*TOpt*//*CodeActionKind*/string Kind;
     /// <summary>
     /// The diagnostics that this code action resolves.
     /// </summary>
@@ -2025,7 +2025,7 @@ public class CodeAction
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/Reason Disabled;
+    public /*TOpt*/ReasonString Disabled;
     /// <summary>
     /// The workspace edit this code action performs.
     /// </summary>
@@ -2087,7 +2087,7 @@ public class WorkspaceSymbol
     /// 
     /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public LocationOrUri Location;
+    public LocationOrUriDocumentUri Location;
     /// <summary>
     /// A data entry field that is preserved on a workspace symbol between a
     /// workspace symbol request and a workspace symbol resolve request.
@@ -2485,7 +2485,7 @@ public class WorkDoneProgressEnd
 
 public class SetTraceParams
 {
-    public TraceValues Value;
+    public /*TraceValues*/string Value;
 }
 
 public class LogTraceParams
@@ -2790,7 +2790,7 @@ public class SemanticTokensOptions
     /// 
     /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/BooleanOrDelta Full;
+    public /*TOpt*/BooleanOrDeltaBoolean Full;
 }
 
 /// <summary>
@@ -3116,7 +3116,7 @@ public class InlayHintLabelPart
     /// 
     /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/StringOrMarkupContent__ Tooltip;
+    public /*TOpt*/StringOrMarkupContent Tooltip;
     /// <summary>
     /// An optional source code location that represents this
     /// label part.
@@ -3169,7 +3169,7 @@ public class MarkupContent
     /// <summary>
     /// The type of the Markup
     /// </summary>
-    public MarkupKind Kind;
+    public /*MarkupKind*/string Kind;
     /// <summary>
     /// The content itself
     /// </summary>
@@ -3210,7 +3210,7 @@ public class RelatedFullDocumentDiagnosticReport
     /// 
     /// Every object in the map has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/System.Collections.Generic.Dictionary<string, FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport_> RelatedDocuments;
+    public /*TOpt*/System.Collections.Generic.Dictionary<string, FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport> RelatedDocuments;
 }
 
 /// <summary>
@@ -3232,7 +3232,7 @@ public class RelatedUnchangedDocumentDiagnosticReport
     /// 
     /// Every object in the map has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/System.Collections.Generic.Dictionary<string, FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport__> RelatedDocuments;
+    public /*TOpt*/System.Collections.Generic.Dictionary<string, FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport> RelatedDocuments;
 }
 
 /// <summary>
@@ -3419,7 +3419,7 @@ public class NotebookDocumentChangeEvent
     /// <summary>
     /// Changes to cells
     /// </summary>
-    public /*TOpt*/Structure_Data_TextContent Cells;
+    public /*TOpt*/StructureArrayNotebookCellArrayChangeWithDidOpenTextDocumentItemsWithDidCloseTextDocumentIdentifiersWithDataNotebookCellsWithTextContentDocumentVersionedTextDocumentIdentifierWithChangesTextDocumentContentChangeEventses Cells;
 }
 
 /// <summary>
@@ -3490,7 +3490,7 @@ public class _InitializeParams
     /// 
     /// @since 3.15.0
     /// </summary>
-    public /*TOpt*/Name_Version_ ClientInfo;
+    public /*TOpt*/NameStringWithVersionString_ ClientInfo;
     /// <summary>
     /// The locale the client is currently showing the user interface
     /// in. This must not necessarily be the locale of the operating
@@ -3528,7 +3528,7 @@ public class _InitializeParams
     /// <summary>
     /// The initial trace setting. If omitted trace is disabled ('off').
     /// </summary>
-    public /*TOpt*/TraceValues Trace;
+    public /*TOpt*//*TraceValues*/string Trace;
 }
 
 public class WorkspaceFoldersInitializeParams
@@ -3562,7 +3562,7 @@ public class ServerCapabilities
     /// 
     /// @since 3.17.0
     /// </summary>
-    public /*TOpt*/PositionEncodingKind PositionEncoding;
+    public /*TOpt*//*PositionEncodingKind*/string PositionEncoding;
     /// <summary>
     /// Defines how text documents are synced. Is either a detailed structure
     /// defining each notification or for backwards compatibility the
@@ -3770,7 +3770,7 @@ public class ServerCapabilities
     /// <summary>
     /// Workspace specific server capabilities.
     /// </summary>
-    public /*TOpt*/WorkspaceFolders_FileOperations Workspace;
+    public /*TOpt*/WorkspaceFoldersWorkspaceFoldersServerCapabilitiesWithFileOperationsFileOperationOptions Workspace;
     /// <summary>
     /// Experimental server capabilities.
     /// </summary>
@@ -3851,7 +3851,7 @@ public class Diagnostic
     /// 
     /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/IntegerOrString_ Code;
+    public /*TOpt*/IntegerOrString Code;
     /// <summary>
     /// An optional property to describe the error code.
     /// Requires the code field (above) to be present/not null.
@@ -3984,7 +3984,7 @@ public class CompletionOptions
     /// 
     /// @since 3.17.0
     /// </summary>
-    public /*TOpt*/LabelDetailsSupport CompletionItem;
+    public /*TOpt*/LabelDetailsSupportBoolean CompletionItem;
 }
 
 /// <summary>
@@ -4046,7 +4046,7 @@ public class SignatureInformation
     /// 
     /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/StringOrMarkupContent___ Documentation;
+    public /*TOpt*/StringOrMarkupContent Documentation;
     /// <summary>
     /// The parameters of this signature.
     /// </summary>
@@ -4181,7 +4181,7 @@ public class CodeActionContext
     /// Actions not of this kind are filtered out by the client before being shown. So servers
     /// can omit computing them.
     /// </summary>
-    public /*TOpt*/CodeActionKind[] Only;
+    public /*TOpt*//*CodeActionKind*/string[] Only;
     /// <summary>
     /// The reason why code actions were requested.
     /// 
@@ -4202,7 +4202,7 @@ public class CodeActionOptions
     /// The list of kinds may be generic, such as `CodeActionKind.Refactor`, or the server
     /// may list out every specific kind they provide.
     /// </summary>
-    public /*TOpt*/CodeActionKind[] CodeActionKinds;
+    public /*TOpt*//*CodeActionKind*/string[] CodeActionKinds;
     /// <summary>
     /// The server provides support to resolve additional
     /// information for a code action.
@@ -4471,7 +4471,7 @@ public class FileOperationPattern
     /// 
     /// Matches both if undefined.
     /// </summary>
-    public /*TOpt*/FileOperationPatternKind Matches;
+    public /*TOpt*//*FileOperationPatternKind*/string Matches;
     /// <summary>
     /// Additional options used during matching.
     /// </summary>
@@ -4657,7 +4657,7 @@ public class NotebookDocumentSyncOptions
     /// <summary>
     /// The notebooks to be synced
     /// </summary>
-    public Notebook_Cells[] NotebookSelector;
+    public NotebookStringOrNotebookDocumentFilterWithCellsLanguageStrings[] NotebookSelector;
     /// <summary>
     /// Whether save notification should be forwarded to
     /// the server. Will only be honored if mode === `notebook`.
@@ -4784,7 +4784,7 @@ public class ParameterInformation
     /// 
     /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/StringOrMarkupContent____ Documentation;
+    public /*TOpt*/StringOrMarkupContent Documentation;
 }
 
 /// <summary>
@@ -4803,7 +4803,7 @@ public class NotebookCellTextDocumentFilter
     /// 
     /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public StringOrNotebookDocumentFilter_ Notebook;
+    public StringOrNotebookDocumentFilter Notebook;
     /// <summary>
     /// A language id like `python`.
     /// 
@@ -5141,7 +5141,7 @@ public class GeneralClientCapabilities
     /// 
     /// @since 3.17.0
     /// </summary>
-    public /*TOpt*/Cancel_RetryOnContentModified StaleRequestSupport;
+    public /*TOpt*/CancelBooleanWithRetryOnContentModifiedStrings StaleRequestSupport;
     /// <summary>
     /// Client capabilities specific to regular expressions.
     /// 
@@ -5174,7 +5174,7 @@ public class GeneralClientCapabilities
     /// 
     /// @since 3.17.0
     /// </summary>
-    public /*TOpt*/PositionEncodingKind[] PositionEncodings;
+    public /*TOpt*//*PositionEncodingKind*/string[] PositionEncodings;
 }
 
 /// <summary>
@@ -5211,14 +5211,14 @@ public class WorkspaceEditClientCapabilities
     /// 
     /// @since 3.13.0
     /// </summary>
-    public /*TOpt*/ResourceOperationKind[] ResourceOperations;
+    public /*TOpt*//*ResourceOperationKind*/string[] ResourceOperations;
     /// <summary>
     /// The failure handling strategy of a client if applying the workspace edit
     /// fails.
     /// 
     /// @since 3.13.0
     /// </summary>
-    public /*TOpt*/FailureHandlingKind FailureHandling;
+    public /*TOpt*//*FailureHandlingKind*/string FailureHandling;
     /// <summary>
     /// Whether the client normalizes line endings to the client specific
     /// setting.
@@ -5235,7 +5235,7 @@ public class WorkspaceEditClientCapabilities
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/GroupsOnLabel ChangeAnnotationSupport;
+    public /*TOpt*/GroupsOnLabelBoolean ChangeAnnotationSupport;
 }
 
 public class DidChangeConfigurationClientCapabilities
@@ -5275,14 +5275,14 @@ public class WorkspaceSymbolClientCapabilities
     /// <summary>
     /// Specific capabilities for the `SymbolKind` in the `workspace/symbol` request.
     /// </summary>
-    public /*TOpt*/ValueSet SymbolKind;
+    public /*TOpt*/ValueSetSymbolKinds SymbolKind;
     /// <summary>
     /// The client supports tags on `SymbolInformation`.
     /// Clients supporting tags have to handle unknown tags gracefully.
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/ValueSet_ TagSupport;
+    public /*TOpt*/ValueSetSymbolTags TagSupport;
     /// <summary>
     /// The client support partial workspace symbols. The client will send the
     /// request `workspaceSymbol/resolve` to the server to resolve additional
@@ -5290,7 +5290,7 @@ public class WorkspaceSymbolClientCapabilities
     /// 
     /// @since 3.17.0
     /// </summary>
-    public /*TOpt*/Properties ResolveSupport;
+    public /*TOpt*/PropertiesStrings ResolveSupport;
 }
 
 /// <summary>
@@ -5470,8 +5470,8 @@ public class CompletionClientCapabilities
     /// The client supports the following `CompletionItem` specific
     /// capabilities.
     /// </summary>
-    public /*TOpt*/SnippetSupport_CommitCharactersSupport_DocumentationFormat_DeprecatedSupport_PreselectSupport_TagSupport_InsertReplaceSupport_ResolveSupport_InsertTextModeSupport_LabelDetailsSupport CompletionItem;
-    public /*TOpt*/ValueSet____ CompletionItemKind;
+    public /*TOpt*/SnippetSupportBooleanWithCommitCharactersSupportBooleanWithDocumentationFormatMarkupKindsWithDeprecatedSupportBooleanWithPreselectSupportBooleanWithTagSupportValueSetCompletionItemTagsWithInsertReplaceSupportBooleanWithResolveSupportPropertiesStringsWithInsertTextModeSupportValueSetInsertTextModesWithLabelDetailsSupportBoolean CompletionItem;
+    public /*TOpt*/ValueSetCompletionItemKinds CompletionItemKind;
     /// <summary>
     /// Defines how the client handles whitespace and indentation
     /// when accepting a completion item that uses multi line
@@ -5491,7 +5491,7 @@ public class CompletionClientCapabilities
     /// 
     /// @since 3.17.0
     /// </summary>
-    public /*TOpt*/ItemDefaults CompletionList;
+    public /*TOpt*/ItemDefaultsStrings CompletionList;
 }
 
 public class HoverClientCapabilities
@@ -5504,7 +5504,7 @@ public class HoverClientCapabilities
     /// Client supports the following content formats for the content
     /// property. The order describes the preferred format of the client.
     /// </summary>
-    public /*TOpt*/MarkupKind[] ContentFormat;
+    public /*TOpt*//*MarkupKind*/string[] ContentFormat;
 }
 
 /// <summary>
@@ -5520,7 +5520,7 @@ public class SignatureHelpClientCapabilities
     /// The client supports the following `SignatureInformation`
     /// specific properties.
     /// </summary>
-    public /*TOpt*/DocumentationFormat_ParameterInformation_ActiveParameterSupport SignatureInformation;
+    public /*TOpt*/DocumentationFormatMarkupKindsWithParameterInformationLabelOffsetSupportBooleanWithActiveParameterSupportBoolean SignatureInformation;
     /// <summary>
     /// The client supports to send additional context information for a
     /// `textDocument/signatureHelp` request. A client that opts into
@@ -5639,7 +5639,7 @@ public class DocumentSymbolClientCapabilities
     /// Specific capabilities for the `SymbolKind` in the
     /// `textDocument/documentSymbol` request.
     /// </summary>
-    public /*TOpt*/ValueSet_____ SymbolKind;
+    public /*TOpt*/ValueSetSymbolKinds SymbolKind;
     /// <summary>
     /// The client supports hierarchical document symbols.
     /// </summary>
@@ -5651,7 +5651,7 @@ public class DocumentSymbolClientCapabilities
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/ValueSet______ TagSupport;
+    public /*TOpt*/ValueSetSymbolTags TagSupport;
     /// <summary>
     /// The client supports an additional label presented in the UI when
     /// registering a document symbol provider.
@@ -5677,7 +5677,7 @@ public class CodeActionClientCapabilities
     /// 
     /// @since 3.8.0
     /// </summary>
-    public /*TOpt*/CodeActionKind CodeActionLiteralSupport;
+    public /*TOpt*/CodeActionKindValueSetCodeActionKinds CodeActionLiteralSupport;
     /// <summary>
     /// Whether code action supports the `isPreferred` property.
     /// 
@@ -5704,7 +5704,7 @@ public class CodeActionClientCapabilities
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/Properties__ ResolveSupport;
+    public /*TOpt*/PropertiesStrings_ ResolveSupport;
     /// <summary>
     /// Whether the client honors the change annotations in
     /// text edits and resource operations returned via the
@@ -5848,13 +5848,13 @@ public class FoldingRangeClientCapabilities
     /// 
     /// @since 3.17.0
     /// </summary>
-    public /*TOpt*/ValueSet________ FoldingRangeKind;
+    public /*TOpt*/ValueSetFoldingRangeKinds FoldingRangeKind;
     /// <summary>
     /// Specific options for the folding range.
     /// 
     /// @since 3.17.0
     /// </summary>
-    public /*TOpt*/CollapsedText FoldingRange;
+    public /*TOpt*/CollapsedTextBoolean FoldingRange;
 }
 
 public class SelectionRangeClientCapabilities
@@ -5882,7 +5882,7 @@ public class PublishDiagnosticsClientCapabilities
     /// 
     /// @since 3.15.0
     /// </summary>
-    public /*TOpt*/ValueSet_________ TagSupport;
+    public /*TOpt*/ValueSetDiagnosticTags TagSupport;
     /// <summary>
     /// Whether the client interprets the version property of the
     /// `textDocument/publishDiagnostics` notification's parameter.
@@ -5940,7 +5940,7 @@ public class SemanticTokensClientCapabilities
     /// range provider the client might not render a minimap correctly or might
     /// even decide to not show any semantic tokens at all.
     /// </summary>
-    public Range_Full Requests;
+    public RangeBooleanOrAnyByStringWithFullBooleanOrDeltaBoolean Requests;
     /// <summary>
     /// The token types that the client supports.
     /// </summary>
@@ -5952,7 +5952,7 @@ public class SemanticTokensClientCapabilities
     /// <summary>
     /// The token formats the clients supports.
     /// </summary>
-    public TokenFormat[] Formats;
+    public /*TokenFormat*/string[] Formats;
     /// <summary>
     /// Whether the client supports tokens that can overlap each other.
     /// </summary>
@@ -6056,7 +6056,7 @@ public class InlayHintClientCapabilities
     /// Indicates which properties a client can resolve lazily on an inlay
     /// hint.
     /// </summary>
-    public /*TOpt*/Properties___ ResolveSupport;
+    public /*TOpt*/PropertiesStrings_ ResolveSupport;
 }
 
 /// <summary>
@@ -6106,7 +6106,7 @@ public class ShowMessageRequestClientCapabilities
     /// <summary>
     /// Capabilities specific to the `MessageActionItem` type.
     /// </summary>
-    public /*TOpt*/AdditionalPropertiesSupport MessageActionItem;
+    public /*TOpt*/AdditionalPropertiesSupportBoolean MessageActionItem;
 }
 
 /// <summary>
