@@ -1,7 +1,7 @@
 {{- $main := . -}}
 
 {{- range .Decls -}}
-{{- $struct := . -}}
+{{- $struct := . }}
 
 {{ .DoDocComments $main }}
 type {{ $struct.NameUp }} struct {

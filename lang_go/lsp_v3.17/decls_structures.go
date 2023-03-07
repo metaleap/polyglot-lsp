@@ -13,16 +13,19 @@ type Location struct {
 	Uri   DocumentURI
 	Range Range
 }
+
 type ImplementationRegistrationOptions struct {
 	TextDocumentRegistrationOptions
 	ImplementationOptions
 	StaticRegistrationOptions
 }
+
 type TypeDefinitionParams struct {
 	TextDocumentPositionParams
 	WorkDoneProgressParams
 	PartialResultParams
 }
+
 type TypeDefinitionRegistrationOptions struct {
 	TextDocumentRegistrationOptions
 	TypeDefinitionOptions
@@ -64,6 +67,7 @@ type ColorInformation struct {
 	// The actual color value for this color range.
 	Color Color
 }
+
 type DocumentColorRegistrationOptions struct {
 	TextDocumentRegistrationOptions
 	DocumentColorOptions
@@ -81,6 +85,7 @@ type ColorPresentationParams struct {
 	// The range where the color would be inserted. Serves as a context.
 	Range Range
 }
+
 type ColorPresentation struct {
 	// The label of this color presentation. It will be shown on the color
 	// picker header. By default this is also the text that is inserted when selecting
@@ -94,6 +99,7 @@ type ColorPresentation struct {
 	// selecting this color presentation. Edits must not overlap with the main `ColorPresentation.textEdit` nor with themselves.
 	AdditionalTextEdits/*TOpt*/ []TextEdit
 }
+
 type WorkDoneProgressOptions struct {
 	WorkDoneProgress /*TOpt*/ *Boolean
 }
@@ -137,16 +143,19 @@ type FoldingRange struct {
 	// @since 3.17.0
 	CollapsedText/*TOpt*/ *String
 }
+
 type FoldingRangeRegistrationOptions struct {
 	TextDocumentRegistrationOptions
 	FoldingRangeOptions
 	StaticRegistrationOptions
 }
+
 type DeclarationParams struct {
 	TextDocumentPositionParams
 	WorkDoneProgressParams
 	PartialResultParams
 }
+
 type DeclarationRegistrationOptions struct {
 	DeclarationOptions
 	TextDocumentRegistrationOptions
@@ -171,15 +180,18 @@ type SelectionRange struct {
 	// The parent selection range containing this range. Therefore `parent.range` must contain `this.range`.
 	Parent/*TOpt*/ *SelectionRange
 }
+
 type SelectionRangeRegistrationOptions struct {
 	SelectionRangeOptions
 	TextDocumentRegistrationOptions
 	StaticRegistrationOptions
 }
+
 type WorkDoneProgressCreateParams struct {
 	// The token to be used to report progress.
 	Token ProgressToken
 }
+
 type WorkDoneProgressCancelParams struct {
 	// The token to be used to report progress.
 	Token ProgressToken
@@ -361,6 +373,7 @@ type ShowDocumentResult struct {
 	// A boolean indicating if the show was successful.
 	Success bool
 }
+
 type LinkedEditingRangeParams struct {
 	TextDocumentPositionParams
 	WorkDoneProgressParams
@@ -378,6 +391,7 @@ type LinkedEditingRanges struct {
 	// pattern will be used.
 	WordPattern/*TOpt*/ *String
 }
+
 type LinkedEditingRangeRegistrationOptions struct {
 	TextDocumentRegistrationOptions
 	LinkedEditingRangeOptions
@@ -462,6 +476,7 @@ type DeleteFilesParams struct {
 	// An array of all files/folders deleted in this operation.
 	Files []FileDelete
 }
+
 type MonikerParams struct {
 	TextDocumentPositionParams
 	WorkDoneProgressParams
@@ -482,6 +497,7 @@ type Moniker struct {
 	// The moniker kind if known.
 	Kind/*TOpt*/ MonikerKind
 }
+
 type MonikerRegistrationOptions struct {
 	TextDocumentRegistrationOptions
 	MonikerOptions
@@ -764,12 +780,15 @@ type DidCloseNotebookDocumentParams struct {
 	// of a notebook cell that got closed.
 	CellTextDocuments []TextDocumentIdentifier
 }
+
 type RegistrationParams struct {
 	Registrations []Registration
 }
+
 type UnregistrationParams struct {
 	Unregisterations []Unregistration
 }
+
 type InitializeParams struct {
 	_InitializeParams
 	WorkspaceFoldersInitializeParams
@@ -799,6 +818,7 @@ type InitializeError struct {
 	// (3) if user selected retry the initialize method is sent again.
 	Retry bool
 }
+
 type InitializedParams struct {
 }
 
@@ -807,6 +827,7 @@ type DidChangeConfigurationParams struct {
 	// The actual changed settings
 	Settings LSPAny
 }
+
 type DidChangeConfigurationRegistrationOptions struct {
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
 	Section /*TOpt*/ /*TOr*/ struct {
@@ -822,6 +843,7 @@ type ShowMessageParams struct {
 	// The actual message.
 	Message string
 }
+
 type ShowMessageRequestParams struct {
 	// The message type. See `MessageType`
 	Type MessageType
@@ -830,6 +852,7 @@ type ShowMessageRequestParams struct {
 	// The message action items to present.
 	Actions/*TOpt*/ []MessageActionItem
 }
+
 type MessageActionItem struct {
 	// A short title like 'Retry', 'Open Log' etc.
 	Title string
@@ -1597,6 +1620,7 @@ type RenameRegistrationOptions struct {
 	TextDocumentRegistrationOptions
 	RenameOptions
 }
+
 type PrepareRenameParams struct {
 	TextDocumentPositionParams
 	WorkDoneProgressParams
@@ -1641,6 +1665,7 @@ type ApplyWorkspaceEditResult struct {
 	// if the client signals a `failureHandlingStrategy` in its client capabilities.
 	FailedChange/*TOpt*/ *Uinteger
 }
+
 type WorkDoneProgressBegin struct {
 	// The value is always "begin".
 	// The value is always "begin".
@@ -1668,6 +1693,7 @@ type WorkDoneProgressBegin struct {
 	// that are not following this rule. The value range is [0, 100].
 	Percentage/*TOpt*/ *Uinteger
 }
+
 type WorkDoneProgressReport struct {
 	// The value is always "report".
 	// The value is always "report".
@@ -1691,6 +1717,7 @@ type WorkDoneProgressReport struct {
 	// that are not following this rule. The value range is [0, 100]
 	Percentage/*TOpt*/ *Uinteger
 }
+
 type WorkDoneProgressEnd struct {
 	// The value is always "end".
 	// The value is always "end".
@@ -1699,13 +1726,16 @@ type WorkDoneProgressEnd struct {
 	// of the operation.
 	Message/*TOpt*/ *String
 }
+
 type SetTraceParams struct {
 	Value TraceValues
 }
+
 type LogTraceParams struct {
 	Message string
 	Verbose/*TOpt*/ *String
 }
+
 type CancelParams struct {
 	// The request id to cancel.
 	//
@@ -1715,6 +1745,7 @@ type CancelParams struct {
 		String/*TOpt*/ *String
 	}
 }
+
 type ProgressParams struct {
 	// The progress token provided by the client or server.
 	Token ProgressToken
@@ -1730,10 +1761,12 @@ type TextDocumentPositionParams struct {
 	// The position inside the text document.
 	Position Position
 }
+
 type WorkDoneProgressParams struct {
 	// An optional token that a server can use to report work done progress.
 	WorkDoneToken /*TOpt*/ ProgressToken
 }
+
 type PartialResultParams struct {
 	// An optional token that a server can use to report partial results (e.g. streaming) to
 	// the client.
@@ -1778,6 +1811,7 @@ type Range struct {
 	// The range's end position.
 	End Position
 }
+
 type ImplementationOptions struct {
 	WorkDoneProgressOptions
 }
@@ -1789,6 +1823,7 @@ type StaticRegistrationOptions struct {
 	// the request again. See also Registration#id.
 	Id /*TOpt*/ *String
 }
+
 type TypeDefinitionOptions struct {
 	WorkDoneProgressOptions
 }
@@ -1800,6 +1835,7 @@ type WorkspaceFoldersChangeEvent struct {
 	// The array of the removed workspace folders
 	Removed []WorkspaceFolder
 }
+
 type ConfigurationItem struct {
 	// The scope to get the configuration section for.
 	ScopeUri/*TOpt*/ *String
@@ -1824,12 +1860,15 @@ type Color struct {
 	// The alpha component of this color in the range [0-1].
 	Alpha float64
 }
+
 type DocumentColorOptions struct {
 	WorkDoneProgressOptions
 }
+
 type FoldingRangeOptions struct {
 	WorkDoneProgressOptions
 }
+
 type DeclarationOptions struct {
 	WorkDoneProgressOptions
 }
@@ -1876,6 +1915,7 @@ type Position struct {
 	// line length.
 	Character uint
 }
+
 type SelectionRangeOptions struct {
 	WorkDoneProgressOptions
 }
@@ -1922,6 +1962,7 @@ type SemanticTokensEdit struct {
 	// The elements to insert.
 	Data/*TOpt*/ []uint
 }
+
 type LinkedEditingRangeOptions struct {
 	WorkDoneProgressOptions
 }
@@ -2037,6 +2078,7 @@ type FileDelete struct {
 	// A file:// URI for the location of the file/folder being deleted.
 	Uri string
 }
+
 type MonikerOptions struct {
 	WorkDoneProgressOptions
 }
@@ -2433,6 +2475,7 @@ type _InitializeParams struct {
 	// The initial trace setting. If omitted trace is disabled ('off').
 	Trace/*TOpt*/ TraceValues
 }
+
 type WorkspaceFoldersInitializeParams struct {
 	// The workspace folders configured in the client when the server starts.
 	//
@@ -2749,6 +2792,7 @@ type FileEvent struct {
 	// The change type.
 	Type FileChangeType
 }
+
 type FileSystemWatcher struct {
 	// The glob pattern to watch. See `GlobPattern` for more detail.
 	//
@@ -3262,6 +3306,7 @@ type ClientCapabilities struct {
 	// Experimental client capabilities.
 	Experimental/*TOpt*/ LSPAny
 }
+
 type TextDocumentSyncOptions struct {
 	// Open and close notifications are sent to the server. If omitted open close notification should not
 	// be sent.
@@ -3329,6 +3374,7 @@ type NotebookDocumentSyncRegistrationOptions struct {
 	NotebookDocumentSyncOptions
 	StaticRegistrationOptions
 }
+
 type WorkspaceFoldersServerCapabilities struct {
 	// The server has support for workspace folders
 	Supported/*TOpt*/ *Boolean
@@ -3444,6 +3490,7 @@ type FileOperationPatternOptions struct {
 	// The pattern should be matched ignoring casing.
 	IgnoreCase /*TOpt*/ *Boolean
 }
+
 type ExecutionSummary struct {
 	// A strict monotonically increasing value
 	// indicating the execution order of a cell
@@ -3611,6 +3658,7 @@ type NotebookDocumentClientCapabilities struct {
 	// @since 3.17.0
 	Synchronization NotebookDocumentSyncClientCapabilities
 }
+
 type WindowClientCapabilities struct {
 	// It indicates whether the client supports server initiated
 	// progress using the `window/workDoneProgress/create` request.
@@ -3698,6 +3746,7 @@ type RelativePattern struct {
 	// The actual glob pattern;
 	Pattern Pattern
 }
+
 type WorkspaceEditClientCapabilities struct {
 	// The client supports versioned document changes in `WorkspaceEdit`s
 	DocumentChanges/*TOpt*/ *Boolean
@@ -3730,10 +3779,12 @@ type WorkspaceEditClientCapabilities struct {
 		GroupsOnLabel /*TOpt*/ *Boolean
 	}
 }
+
 type DidChangeConfigurationClientCapabilities struct {
 	// Did change configuration notification supports dynamic registration.
 	DynamicRegistration /*TOpt*/ *Boolean
 }
+
 type DidChangeWatchedFilesClientCapabilities struct {
 	// Did change watched files notification supports dynamic registration. Please note
 	// that the current protocol doesn't support static configuration for file changes
@@ -3878,6 +3929,7 @@ type DiagnosticWorkspaceClientCapabilities struct {
 	// change that requires such a calculation.
 	RefreshSupport /*TOpt*/ *Boolean
 }
+
 type TextDocumentSyncClientCapabilities struct {
 	// Whether text document synchronization supports dynamic registration.
 	DynamicRegistration/*TOpt*/ *Boolean
@@ -3993,6 +4045,7 @@ type CompletionClientCapabilities struct {
 		ItemDefaults /*TOpt*/ []string
 	}
 }
+
 type HoverClientCapabilities struct {
 	// Whether hover supports dynamic registration.
 	DynamicRegistration/*TOpt*/ *Boolean
@@ -4198,6 +4251,7 @@ type DocumentLinkClientCapabilities struct {
 	// @since 3.15.0
 	TooltipSupport/*TOpt*/ *Boolean
 }
+
 type DocumentColorClientCapabilities struct {
 	// Whether implementation supports dynamic registration. If this is set to `true`
 	// the client supports the new `DocumentColorRegistrationOptions` return value
@@ -4222,6 +4276,7 @@ type DocumentOnTypeFormattingClientCapabilities struct {
 	// Whether on type formatting supports dynamic registration.
 	DynamicRegistration /*TOpt*/ *Boolean
 }
+
 type RenameClientCapabilities struct {
 	// Whether rename supports dynamic registration.
 	DynamicRegistration/*TOpt*/ *Boolean
@@ -4246,6 +4301,7 @@ type RenameClientCapabilities struct {
 	// @since 3.16.0
 	HonorsChangeAnnotations/*TOpt*/ *Boolean
 }
+
 type FoldingRangeClientCapabilities struct {
 	// Whether implementation supports dynamic registration for folding range
 	// providers. If this is set to `true` the client supports the new
@@ -4282,6 +4338,7 @@ type FoldingRangeClientCapabilities struct {
 		CollapsedText /*TOpt*/ *Boolean
 	}
 }
+
 type SelectionRangeClientCapabilities struct {
 	// Whether implementation supports dynamic registration for selection range providers. If this is set to `true`
 	// the client supports the new `SelectionRangeRegistrationOptions` return value for the corresponding server

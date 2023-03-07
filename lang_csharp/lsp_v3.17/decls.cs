@@ -94,7 +94,7 @@ public abstract record RangeOrInsertReplace
 {
     private RangeOrInsertReplace() { }
     public sealed record Range(Range? Range) : RangeOrInsertReplace;
-    public sealed record InsertReplace(/*TOpt*/__TypeIdentGen__cr0gpqmklu4x__ InsertReplace) : RangeOrInsertReplace;
+    public sealed record InsertReplace(/*TOpt*/__TypeIdentGen__cr0gvqi73k7w__ InsertReplace) : RangeOrInsertReplace;
 }
 
 
@@ -114,7 +114,7 @@ public class CommitCharactersEditRangeInsertTextFormatInsertTextModeData
     /// 
     /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr0gpqmkkawu__ EditRange;
+    public /*TOpt*/__TypeIdentGen__cr0gvqi721hz__ EditRange;
     /// <summary>
     /// A default insert text format.
     /// 
@@ -170,7 +170,7 @@ public abstract record LocationOrUri
 {
     private LocationOrUri() { }
     public sealed record Location(Location? Location) : LocationOrUri;
-    public sealed record Uri(/*TOpt*/__TypeIdentGen__cr0gpqmleqgs__ Uri) : LocationOrUri;
+    public sealed record Uri(/*TOpt*/__TypeIdentGen__cr0gvqi7w95b__ Uri) : LocationOrUri;
 }
 
 
@@ -207,7 +207,7 @@ public abstract record BooleanOrDelta
 {
     private BooleanOrDelta() { }
     public sealed record Boolean(bool? Boolean) : BooleanOrDelta;
-    public sealed record Delta(/*TOpt*/__TypeIdentGen__cr0gpqmmurfd__ Delta) : BooleanOrDelta;
+    public sealed record Delta(/*TOpt*/__TypeIdentGen__cr0gvqi9g6dx__ Delta) : BooleanOrDelta;
 }
 
 
@@ -280,7 +280,7 @@ public class StructureDataTextContent
     /// Changes to the cell structure to add or
     /// remove cells.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr0gpqmny0al__ Structure;
+    public /*TOpt*/__TypeIdentGen__cr0gvqiaik5e__ Structure;
     /// <summary>
     /// Changes to notebook cells properties like its
     /// kind, execution summary or metadata.
@@ -289,7 +289,7 @@ public class StructureDataTextContent
     /// <summary>
     /// Changes to the text content of notebook cells.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr0gpqmo0be4__[] TextContent;
+    public /*TOpt*/__TypeIdentGen__cr0gvqial2jb__[] TextContent;
 }
 
 
@@ -638,11 +638,11 @@ public class NotebookCells
     /// 
     /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr0gpqms1ak6__ Notebook;
+    public /*TOpt*/__TypeIdentGen__cr0gvqifc6bj__ Notebook;
     /// <summary>
     /// The cells of the matching notebook to be synced.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr0gpqms2zo4__[] Cells;
+    public /*TOpt*/__TypeIdentGen__cr0gvqiff15n__[] Cells;
 }
 
 
@@ -668,7 +668,7 @@ public abstract record StringOrUintegerWithUinteger
 {
     private StringOrUintegerWithUinteger() { }
     public sealed record String(string? String) : StringOrUintegerWithUinteger;
-    public sealed record UintegerWithUinteger(__TypeIdentGen__cr0gpqmsscyp__? UintegerWithUinteger) : StringOrUintegerWithUinteger;
+    public sealed record UintegerWithUinteger(__TypeIdentGen__cr0gvqifrbwy__? UintegerWithUinteger) : StringOrUintegerWithUinteger;
 }
 
 
@@ -829,7 +829,7 @@ public class SnippetSupportCommitCharactersSupportDocumentationFormatDeprecatedS
     /// 
     /// @since 3.15.0
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr0gpqmv5n2g__ TagSupport;
+    public /*TOpt*/__TypeIdentGen__cr0gvqiig4ky__ TagSupport;
     /// <summary>
     /// Client support insert replace edit to control different behavior if a
     /// completion item is inserted in the text or should replace text.
@@ -844,7 +844,7 @@ public class SnippetSupportCommitCharactersSupportDocumentationFormatDeprecatedS
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr0gpqmva6bc__ ResolveSupport;
+    public /*TOpt*/__TypeIdentGen__cr0gvqiiidfi__ ResolveSupport;
     /// <summary>
     /// The client supports the `insertTextMode` property on
     /// a completion item to override the whitespace handling mode
@@ -852,7 +852,7 @@ public class SnippetSupportCommitCharactersSupportDocumentationFormatDeprecatedS
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr0gpqmvbbym__ InsertTextModeSupport;
+    public /*TOpt*/__TypeIdentGen__cr0gvqiijlwe__ InsertTextModeSupport;
     /// <summary>
     /// The client has support for completion item label
     /// details (see also `CompletionItemLabelDetails`).
@@ -921,7 +921,7 @@ public class DocumentationFormatParameterInformationActiveParameterSupport
     /// <summary>
     /// Client capabilities specific to parameter information.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr0gpqmvn9dh__ ParameterInformation;
+    public /*TOpt*/__TypeIdentGen__cr0gvqiivhnk__ ParameterInformation;
     /// <summary>
     /// The client supports the `activeParameter` property on `SignatureInformation`
     /// literal.
@@ -979,7 +979,7 @@ public class CodeActionKind
     /// The code action kind is support with the following value
     /// set.
     /// </summary>
-    public __TypeIdentGen__cr0gpqmwb00m__ CodeActionKind;
+    public __TypeIdentGen__cr0gvqijhdh4__ CodeActionKind;
 }
 
 
@@ -1054,7 +1054,7 @@ public abstract record BooleanOrDelta
 {
     private BooleanOrDelta() { }
     public sealed record Boolean(bool? Boolean) : BooleanOrDelta;
-    public sealed record Delta(/*TOpt*/__TypeIdentGen__cr0gpqmxiagv__ Delta) : BooleanOrDelta;
+    public sealed record Delta(/*TOpt*/__TypeIdentGen__cr0gvqikygan__ Delta) : BooleanOrDelta;
 }
 
 
@@ -1067,14 +1067,14 @@ public class RangeFull
     /// 
     /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr0gpqmxc0qf__ Range;
+    public /*TOpt*/__TypeIdentGen__cr0gvqiksi6p__ Range;
     /// <summary>
     /// The client will send the `textDocument/semanticTokens/full` request if
     /// the server provides a corresponding handler.
     /// 
     /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr0gpqmxgcbk__ Full;
+    public /*TOpt*/__TypeIdentGen__cr0gvqikwuyi__ Full;
 }
 
 

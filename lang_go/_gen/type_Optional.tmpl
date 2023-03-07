@@ -7,17 +7,17 @@
         ($bag.Main.IsTypeKindOfMap $bag.Type)
         ($bag.Main.IsTypeKindOfOr $bag.Type)
   -}}
-    /*TOpt*/ {{- $bag.Main.DoType $bag.Type -}}
+    /*TOpt*/{{- $bag.Main.DoType $bag.Type -}}
 {{- else if ($bag.Main.IsTypeKindOf $bag.Type "string")  -}}
-    /*TOpt*/ *String
+    /*TOpt*/*String
 {{- else if ($bag.Main.IsTypeKindOf $bag.Type "integer")  -}}
-    /*TOpt*/ *Integer
+    /*TOpt*/*Integer
 {{- else if ($bag.Main.IsTypeKindOf $bag.Type "uinteger")  -}}
-    /*TOpt*/ *Uinteger
+    /*TOpt*/*Uinteger
 {{- else if ($bag.Main.IsTypeKindOf $bag.Type "decimal")  -}}
-    /*TOpt*/ *Decimal
+    /*TOpt*/*Decimal
 {{- else if ($bag.Main.IsTypeKindOf $bag.Type "boolean")  -}}
-    /*TOpt*/ *Boolean
+    /*TOpt*/*Boolean
 {{- else -}}
-    /*TOpt*/ *{{- $bag.Main.DoType $bag.Type -}}
+    /*TOpt*/*{{- $bag.Main.DoType $bag.Type -}}
 {{- end -}}
