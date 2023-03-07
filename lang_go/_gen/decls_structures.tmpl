@@ -1,6 +1,7 @@
-{{- with $main := . -}}
-{{- range .Items -}}
-{{- with $struct := . -}}
+{{- $main := . -}}
+
+{{- range .Decls -}}
+{{- $struct := . -}}
 
 {{ .DoDocComments $main }}
 type {{ $struct.NameUp }} struct {
@@ -18,6 +19,4 @@ type {{ $struct.NameUp }} struct {
     {{- end }}
 }
 
-{{- end -}}
-{{- end -}}
 {{- end -}}

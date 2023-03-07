@@ -1,6 +1,6 @@
 {{- $main := . }}
 
-{{- range .Items }}
+{{- range .Decls }}
 {{- $alias := . }}
 
 {{ $alias.DoDocComments $main }}

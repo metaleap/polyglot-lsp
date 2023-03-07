@@ -7,7 +7,7 @@ import (
 
 type Gen struct {
 	LangIdent string  // eg. "go" or "cs"
-	Main      GenMain // root "dot" object given to templates `types_*.tmpl` and `file_*.tmpl`
+	Main      GenMain // root "dot" object given to templates `decls_*.tmpl` and `file_*.tmpl`
 
 	dirPathLang  string // lang_foo
 	dirPathSrc   string // lang_foo/_gen
@@ -15,7 +15,7 @@ type Gen struct {
 	filePathLang string // lang_foo/lang_foo.json
 	tracked      struct {
 		types                map[string]GenType
-		namedAnonTypeRenders []string
+		namedAnonDeclRenders []string
 		decls                struct {
 			enumerations map[string]*GenEnumeration
 			structures   map[string]*GenStructure
@@ -35,7 +35,7 @@ type GenMain struct {
 	GenVer       string
 	GenIdent     string // aka "lsp" or "vsx"
 	PkgName      string // defaults to `GenIdent`
-	Items        []any
+	Decls        []any
 	FileContents string
 
 	gen *Gen
@@ -81,13 +81,13 @@ func (it *Gen) Generate(source Source) {
 	var buf bytes.Buffer
 	it.genPkgFile(&buf)
 	for _, decls_by_file_name := range []Tup[string, []any]{ // no map here because the ordering of these matters:
-		{"types_enumerations", toAnys(source.GenEnumerations(it))},
-		{"types_aliases", toAnys(source.GenTypeAliases(it))},
-		{"types_structures", toAnys(source.GenStructures(it))},
+		{"decls_enumerations", toAnys(source.GenEnumerations(it))},
+		{"decls_aliases", toAnys(source.GenTypeAliases(it))},
+		{"decls_structures", toAnys(source.GenStructures(it))},
 	} {
 		it.genMainDecls(&buf, decls_by_file_name.F1, decls_by_file_name.F2)
 	}
-	it.genNamedAnonTypes(&buf)
+	it.genNamedAnonDecls(&buf)
 
 	if it.Main.Lang.PostGenTools.Format.ok() && !it.Main.Lang.PostGenTools.Format.PerFile {
 		it.Main.Lang.PostGenTools.Format.exec(it, nil)
@@ -100,9 +100,9 @@ func (it *Gen) Generate(source Source) {
 }
 
 func (it *Gen) genMainDecls(buf *bytes.Buffer, fileName string, decls []any) {
-	it.Main.Items = decls
+	it.Main.Decls = decls
 	tmpl := it.tmpl(fileName, "")
-	for _, item := range it.Main.Items {
+	for _, item := range it.Main.Decls {
 		switch decl := item.(type) {
 		case *GenEnumeration:
 			it.tracked.decls.enumerations[decl.Name] = decl
@@ -130,11 +130,11 @@ func (it *Gen) genMainDecls(buf *bytes.Buffer, fileName string, decls []any) {
 	it.toCodeFile(buf, fileName)
 }
 
-func (it *Gen) genNamedAnonTypes(buf *bytes.Buffer) {
-	tmpl := it.tmpl("types", "")
-	it.Main.Items = toAnys(it.tracked.namedAnonTypeRenders)
+func (it *Gen) genNamedAnonDecls(buf *bytes.Buffer) {
+	tmpl := it.tmpl("decls", "")
+	it.Main.Decls = toAnys(it.tracked.namedAnonDeclRenders)
 	it.tmplExec(buf, tmpl, nil)
-	it.toCodeFile(buf, "types")
+	it.toCodeFile(buf, "decls")
 }
 
 func (it *Gen) genPkgFile(buf *bytes.Buffer) {

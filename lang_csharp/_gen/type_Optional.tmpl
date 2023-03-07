@@ -1,28 +1,25 @@
-{{- with $bag := . -}}
-{{- with $tyStr := printf "%s" $bag.Type -}}
+{{- $bag := . -}}
+{{- $tyStr := printf "%s" $bag.Type -}}
 
 {{- if or
         (eq $tyStr "DocumentUri" "URI")
         ($bag.Main.IsEnumTypeName $tyStr)
-        ($bag.Main.IsTypeKindArray $bag.Type)
-        ($bag.Main.IsTypeKindMap $bag.Type)
-        ($bag.Main.IsTypeKindOr $bag.Type)
-        ($bag.Main.IsTypeKindStructure $bag.Type)
+        ($bag.Main.IsTypeKindOfArray $bag.Type)
+        ($bag.Main.IsTypeKindOfMap $bag.Type)
+        ($bag.Main.IsTypeKindOfOr $bag.Type)
+        ($bag.Main.IsTypeKindOfStructure $bag.Type)
   -}}
     /*TOpt*/{{- $bag.Main.DoType $bag.Type -}}
-{{- else if eq $tyStr "string"  -}}
+{{- else if ($bag.Main.IsTypeKindOf $bag.Type "string") -}}
     string?
-{{- else if eq $tyStr "integer"  -}}
+{{- else if ($bag.Main.IsTypeKindOf $bag.Type "integer") -}}
     int?
-{{- else if eq $tyStr "uinteger"  -}}
+{{- else if ($bag.Main.IsTypeKindOf $bag.Type "uinteger") -}}
     uint?
-{{- else if eq $tyStr "decimal"  -}}
+{{- else if ($bag.Main.IsTypeKindOf $bag.Type "decimal") -}}
     double?
-{{- else if eq $tyStr "boolean"  -}}
+{{- else if ($bag.Main.IsTypeKindOf $bag.Type "boolean") -}}
     bool?
 {{- else -}}
     {{- $bag.Main.DoType $bag.Type -}}?
-{{- end -}}
-
-{{- end -}}
 {{- end -}}

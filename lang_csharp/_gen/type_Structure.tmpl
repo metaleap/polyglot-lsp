@@ -1,8 +1,8 @@
-{{- with $bag := . -}}
+{{- $bag := . -}}
+
 /*TStruc*/public class {{ $bag.TypeIdentGen }} {
     {{ range $bag.Type.Properties -}}
     {{ .DoDocComments $bag.Main -}}
     public {{ $bag.Main.DoTypeOptional .Type ($bag.Main.If .HasConstVal false .Optional) }} {{ .NameUp }};
     {{ end -}}
 }
-{{- end }}

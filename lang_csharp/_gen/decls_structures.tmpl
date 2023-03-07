@@ -1,6 +1,7 @@
-{{- with $main := . -}}
-{{- range .Items -}}
-{{- with $struct := . }}
+{{- $main := . -}}
+
+{{- range .Decls -}}
+{{- $struct := . }}
 
 {{ .DoDocComments $main -}}
 public class {{ $struct.NameUp }} {
@@ -18,6 +19,4 @@ public class {{ $struct.NameUp }} {
     {{- end }}
 }
 
-{{- end -}}
-{{- end -}}
 {{- end -}}

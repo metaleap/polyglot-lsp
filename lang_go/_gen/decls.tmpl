@@ -1,5 +1,17 @@
 import "net/url"
 
+{{ $main := . -}}
+
+{{- range $main.Decls -}}
+{{- $type := . -}}
+
+{{- $main.DoType $type -}}
+
+{{- end -}}
+
+
+
+
 type DocumentURI = URI
 type URI = String
 
@@ -109,13 +121,3 @@ func (it *Boolean) IfNil(ifNil bool) bool {
     if it == nil { return ifNil }
     return bool(*it)
 }
-
-{{- with $main := . -}}
-{{- range $main.Items -}}
-
-{{- with $type := . }}
-{{- $main.DoType $type -}}
-{{- end -}}
-
-{{- end -}}
-{{- end -}}

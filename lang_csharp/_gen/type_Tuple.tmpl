@@ -1,11 +1,8 @@
-{{- with $bag := . -}}
-{{- with $member_types := $bag.Type -}}
+{{- $bag := . -}}
+{{- $member_types := $bag.Type -}}
 
 /*TTup*/public class {{ $bag.TypeIdentGen }} {
     {{- range $i, $mt := $member_types }}
     public {{ $bag.Main.DoType $mt }} {{$mt.NameSuggestion true}}{{$i}};
     {{- end -}}
 }
-
-{{- end -}}
-{{- end -}}

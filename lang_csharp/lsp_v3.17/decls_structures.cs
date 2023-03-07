@@ -167,7 +167,8 @@ public class TextDocumentRegistrationOptions
     /// A document selector to identify the scope of the registration. If set to null
     /// the document selector provided on the client side will be used.
     /// </summary>
-    public /*TOr1*//*TOpt*/DocumentSelector DocumentSelector;
+    public /*TOr1*//*TOpt*/DocumentSelector
+     DocumentSelector;
 }
 
 /// <summary>
@@ -657,9 +658,9 @@ public class WorkspaceEdit
     /// If a client neither supports `documentChanges` nor `workspace.workspaceEdit.resourceOperations` then
     /// only plain `TextEdit`s using the `changes` property are supported.
     /// 
-    /// Every object in the array has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// Every object in the array has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj97qewa__[] DocumentChanges;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmir95s__[] DocumentChanges;
     /// <summary>
     /// A map of change annotations that can be referenced in `AnnotatedTextEdit`s or create, rename and
     /// delete file / folder operations.
@@ -914,9 +915,9 @@ public class InlayHint
     /// 
     /// *Note* that neither the string nor the label part can be empty.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public __TypeIdentGen__cr06pj985y79__ Label;
+    public __TypeIdentGen__cr0gpqmj6ckv__ Label;
     /// <summary>
     /// The kind of this hint. Can be omitted in which case the client
     /// should fall back to a reasonable default.
@@ -933,9 +934,9 @@ public class InlayHint
     /// <summary>
     /// The tooltip text when you hover over this item.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9896ei__ Tooltip;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmj9g00__ Tooltip;
     /// <summary>
     /// Render padding before the hint.
     /// 
@@ -1002,9 +1003,9 @@ public class DocumentDiagnosticParams
 public class DocumentDiagnosticReportPartialResult
 {
     /// <summary>
-    /// Every object in the map has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// Every object in the map has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public System.Collections.Generic.Dictionary<string, __TypeIdentGen__cr06pj98f5b8__> RelatedDocuments;
+    public System.Collections.Generic.Dictionary<string, __TypeIdentGen__cr0gpqmjfrc0__> RelatedDocuments;
 }
 
 /// <summary>
@@ -1180,7 +1181,7 @@ public class InitializeResult
     /// 
     /// @since 3.15.0
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj98npnp__ ServerInfo;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmjo9b0__ ServerInfo;
 }
 
 /// <summary>
@@ -1216,9 +1217,9 @@ public class DidChangeConfigurationParams
 public class DidChangeConfigurationRegistrationOptions
 {
     /// <summary>
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj98rbtz__ Section;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmjrr5l__ Section;
 }
 
 /// <summary>
@@ -1492,9 +1493,9 @@ public class CompletionItem
     /// <summary>
     /// A human-readable string that represents a doc-comment.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj995x66__ Documentation;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmk5qgt__ Documentation;
     /// <summary>
     /// Indicates if this item is deprecated.
     /// @deprecated Use `tags` instead.
@@ -1573,9 +1574,9 @@ public class CompletionItem
     /// 
     /// @since 3.16.0 additional type `InsertReplaceEdit`
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj99cayk__ TextEdit;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmkc9p1__ TextEdit;
     /// <summary>
     /// The edit text used if the completion item is part of a CompletionList and
     /// CompletionList defines an item default for the text edit range.
@@ -1646,7 +1647,7 @@ public class CompletionList
     /// 
     /// @since 3.17.0
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj99ib1y__ ItemDefaults;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmkj4j2__ ItemDefaults;
     /// <summary>
     /// The completion items.
     /// </summary>
@@ -1679,9 +1680,9 @@ public class Hover
     /// <summary>
     /// The hover's content
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public __TypeIdentGen__cr06pj99ofn9__ Contents;
+    public __TypeIdentGen__cr0gpqmkpi7a__ Contents;
     /// <summary>
     /// An optional range inside the text document that is used to
     /// visualize the hover, e.g. by changing the background color.
@@ -2025,7 +2026,7 @@ public class CodeAction
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9a7481__ Disabled;
+    public /*TOpt*/__TypeIdentGen__cr0gpqml9kz5__ Disabled;
     /// <summary>
     /// The workspace edit this code action performs.
     /// </summary>
@@ -2085,9 +2086,9 @@ public class WorkspaceSymbol
     /// 
     /// See SymbolInformation#location for more details.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public __TypeIdentGen__cr06pj9aavpa__ Location;
+    public __TypeIdentGen__cr0gpqmldepv__ Location;
     /// <summary>
     /// A data entry field that is preserved on a workspace symbol between a
     /// workspace symbol request and a workspace symbol resolve request.
@@ -2499,9 +2500,9 @@ public class CancelParams
     /// <summary>
     /// The request id to cancel.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public __TypeIdentGen__cr06pj9azugw__ Id;
+    public __TypeIdentGen__cr0gpqmm31ay__ Id;
 }
 
 public class ProgressParams
@@ -2782,15 +2783,15 @@ public class SemanticTokensOptions
     /// Server supports providing semantic tokens for a specific range
     /// of a document.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9bqbci__ Range;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmmfpn0__ Range;
     /// <summary>
     /// Server supports providing semantic tokens for a full document.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9buc6s__ Full;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmmmg7u__ Full;
 }
 
 /// <summary>
@@ -2848,9 +2849,9 @@ public class TextDocumentEdit
     /// @since 3.16.0 - support for AnnotatedTextEdit. This is guarded using a
     /// client capability.
     /// 
-    /// Every object in the array has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// Every object in the array has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public __TypeIdentGen__cr06pj9byz0m__[] Edits;
+    public __TypeIdentGen__cr0gpqmn0hml__[] Edits;
 }
 
 /// <summary>
@@ -3114,9 +3115,9 @@ public class InlayHintLabelPart
     /// the client capability `inlayHint.resolveSupport` clients might resolve
     /// this property late using the resolve request.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9cda11__ Tooltip;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmnf456__ Tooltip;
     /// <summary>
     /// An optional source code location that represents this
     /// label part.
@@ -3208,9 +3209,9 @@ public class RelatedFullDocumentDiagnosticReport
     /// 
     /// @since 3.17.0
     /// 
-    /// Every object in the map has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// Every object in the map has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/System.Collections.Generic.Dictionary<string, __TypeIdentGen__cr06pj9cijp8__> RelatedDocuments;
+    public /*TOpt*/System.Collections.Generic.Dictionary<string, __TypeIdentGen__cr0gpqmnl4kc__> RelatedDocuments;
 }
 
 /// <summary>
@@ -3230,9 +3231,9 @@ public class RelatedUnchangedDocumentDiagnosticReport
     /// 
     /// @since 3.17.0
     /// 
-    /// Every object in the map has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// Every object in the map has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/System.Collections.Generic.Dictionary<string, __TypeIdentGen__cr06pj9ckxb9__> RelatedDocuments;
+    public /*TOpt*/System.Collections.Generic.Dictionary<string, __TypeIdentGen__cr0gpqmnnmqy__> RelatedDocuments;
 }
 
 /// <summary>
@@ -3419,7 +3420,7 @@ public class NotebookDocumentChangeEvent
     /// <summary>
     /// Changes to cells
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9curxe__ Cells;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmnxeli__ Cells;
 }
 
 /// <summary>
@@ -3484,13 +3485,14 @@ public class _InitializeParams
     /// Is `null` if the process has not been started by another process.
     /// If the parent process is not alive then the server should exit.
     /// </summary>
-    public /*TOr1*/int? ProcessId;
+    public /*TOr1*/int?
+     ProcessId;
     /// <summary>
     /// Information about the client
     /// 
     /// @since 3.15.0
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9d2kbw__ ClientInfo;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmo4ori__ ClientInfo;
     /// <summary>
     /// The locale the client is currently showing the user interface
     /// in. This must not necessarily be the locale of the operating
@@ -3508,7 +3510,8 @@ public class _InitializeParams
     /// 
     /// @deprecated in favour of rootUri.
     /// </summary>
-    public /*TOpt*//*TOr1*/string? RootPath;
+    public /*TOpt*//*TOr1*/string?
+     RootPath;
     /// <summary>
     /// The rootUri of the workspace. Is null if no
     /// folder is open. If both `rootPath` and `rootUri` are set
@@ -3516,7 +3519,8 @@ public class _InitializeParams
     /// 
     /// @deprecated in favour of workspaceFolders.
     /// </summary>
-    public /*TOr1*//*TOpt*/string RootUri;
+    public /*TOr1*//*TOpt*/string
+     RootUri;
     /// <summary>
     /// The capabilities provided by the client (editor or tool)
     /// </summary>
@@ -3542,7 +3546,8 @@ public class WorkspaceFoldersInitializeParams
     /// 
     /// @since 3.6.0
     /// </summary>
-    public /*TOpt*//*TOr1*//*TOpt*/WorkspaceFolder[] WorkspaceFolders;
+    public /*TOpt*//*TOr1*//*TOpt*/WorkspaceFolder[]
+     WorkspaceFolders;
 }
 
 /// <summary>
@@ -3568,17 +3573,17 @@ public class ServerCapabilities
     /// defining each notification or for backwards compatibility the
     /// TextDocumentSyncKind number.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9d9buv__ TextDocumentSync;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmob8kp__ TextDocumentSync;
     /// <summary>
     /// Defines how notebook documents are synced.
     /// 
     /// @since 3.17.0
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9db0uy__ NotebookDocumentSync;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmocyyu__ NotebookDocumentSync;
     /// <summary>
     /// The server provides completion support.
     /// </summary>
@@ -3586,9 +3591,9 @@ public class ServerCapabilities
     /// <summary>
     /// The server provides hover support.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9ddp5p__ HoverProvider;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmofsyb__ HoverProvider;
     /// <summary>
     /// The server provides signature help support.
     /// </summary>
@@ -3596,53 +3601,53 @@ public class ServerCapabilities
     /// <summary>
     /// The server provides Goto Declaration support.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9dge26__ DeclarationProvider;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmoimaq__ DeclarationProvider;
     /// <summary>
     /// The server provides goto definition support.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9dj24y__ DefinitionProvider;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmolbwf__ DefinitionProvider;
     /// <summary>
     /// The server provides Goto Type Definition support.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9dl2l1__ TypeDefinitionProvider;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmondfb__ TypeDefinitionProvider;
     /// <summary>
     /// The server provides Goto Implementation support.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9dnta2__ ImplementationProvider;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmoq6b1__ ImplementationProvider;
     /// <summary>
     /// The server provides find references support.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9dqh4m__ ReferencesProvider;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmosv1j__ ReferencesProvider;
     /// <summary>
     /// The server provides document highlight support.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9dsj1o__ DocumentHighlightProvider;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmouvqg__ DocumentHighlightProvider;
     /// <summary>
     /// The server provides document symbol support.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9dusmw__ DocumentSymbolProvider;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmowvc9__ DocumentSymbolProvider;
     /// <summary>
     /// The server provides code actions. CodeActionOptions may only be
     /// specified if the client states that it supports
     /// `codeActionLiteralSupport` in its initial `initialize` request.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9dx1en__ CodeActionProvider;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmoyynk__ CodeActionProvider;
     /// <summary>
     /// The server provides code lens.
     /// </summary>
@@ -3654,27 +3659,27 @@ public class ServerCapabilities
     /// <summary>
     /// The server provides color provider support.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9e0h7x__ ColorProvider;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmp2j0k__ ColorProvider;
     /// <summary>
     /// The server provides workspace symbol support.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9e30df__ WorkspaceSymbolProvider;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmp589s__ WorkspaceSymbolProvider;
     /// <summary>
     /// The server provides document formatting.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9e50jz__ DocumentFormattingProvider;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmp7blw__ DocumentFormattingProvider;
     /// <summary>
     /// The server provides document range formatting.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9e70mp__ DocumentRangeFormattingProvider;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmp9fel__ DocumentRangeFormattingProvider;
     /// <summary>
     /// The server provides document formatting on typing.
     /// </summary>
@@ -3684,21 +3689,21 @@ public class ServerCapabilities
     /// specified if the client states that it supports
     /// `prepareSupport` in its initial `initialize` request.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9e9uqy__ RenameProvider;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmpc8de__ RenameProvider;
     /// <summary>
     /// The server provides folding provider support.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9ebv0n__ FoldingRangeProvider;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmpe8tc__ FoldingRangeProvider;
     /// <summary>
     /// The server provides selection range support.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9eel2u__ SelectionRangeProvider;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmph0iv__ SelectionRangeProvider;
     /// <summary>
     /// The server provides execute command support.
     /// </summary>
@@ -3708,69 +3713,69 @@ public class ServerCapabilities
     /// 
     /// @since 3.16.0
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9ei3tu__ CallHierarchyProvider;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmpkke0__ CallHierarchyProvider;
     /// <summary>
     /// The server provides linked editing range support.
     /// 
     /// @since 3.16.0
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9ekpnd__ LinkedEditingRangeProvider;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmpnhsi__ LinkedEditingRangeProvider;
     /// <summary>
     /// The server provides semantic tokens support.
     /// 
     /// @since 3.16.0
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9entcw__ SemanticTokensProvider;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmpqr63__ SemanticTokensProvider;
     /// <summary>
     /// The server provides moniker support.
     /// 
     /// @since 3.16.0
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9eptq4__ MonikerProvider;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmpt9n4__ MonikerProvider;
     /// <summary>
     /// The server provides type hierarchy support.
     /// 
     /// @since 3.17.0
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9esega__ TypeHierarchyProvider;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmpw7q3__ TypeHierarchyProvider;
     /// <summary>
     /// The server provides inline values.
     /// 
     /// @since 3.17.0
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9eva4b__ InlineValueProvider;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmpz2vh__ InlineValueProvider;
     /// <summary>
     /// The server provides inlay hints.
     /// 
     /// @since 3.17.0
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9exvke__ InlayHintProvider;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmq1t2y__ InlayHintProvider;
     /// <summary>
     /// The server has support for pull model diagnostics.
     /// 
     /// @since 3.17.0
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9f0rns__ DiagnosticProvider;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmq4mkk__ DiagnosticProvider;
     /// <summary>
     /// Workspace specific server capabilities.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9f2zyc__ Workspace;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmq6qou__ Workspace;
     /// <summary>
     /// Experimental server capabilities.
     /// </summary>
@@ -3849,9 +3854,9 @@ public class Diagnostic
     /// <summary>
     /// The diagnostic's code, which usually appear in the user interface.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9f99sz__ Code;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmqd35a__ Code;
     /// <summary>
     /// An optional property to describe the error code.
     /// Requires the code field (above) to be present/not null.
@@ -3984,7 +3989,7 @@ public class CompletionOptions
     /// 
     /// @since 3.17.0
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9fj3el__ CompletionItem;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmqn43s__ CompletionItem;
 }
 
 /// <summary>
@@ -4044,9 +4049,9 @@ public class SignatureInformation
     /// The human-readable doc-comment of this signature. Will be shown
     /// in the UI but can be omitted.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9fmwpe__ Documentation;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmqqzyc__ Documentation;
     /// <summary>
     /// The parameters of this signature.
     /// </summary>
@@ -4369,7 +4374,8 @@ public class OptionalVersionedTextDocumentIdentifier
     /// `null` to indicate that the version is unknown and the content on disk is the
     /// truth (as specified with document content ownership).
     /// </summary>
-    public /*TOr1*/int? Version;
+    public /*TOr1*/int?
+     Version;
 }
 
 /// <summary>
@@ -4400,7 +4406,7 @@ public class ResourceOperation
     /// 
     /// @since 3.16.0
     /// </summary>
-    public ChangeAnnotationIdentifier? AnnotationId;
+    public string? AnnotationId;
 }
 
 /// <summary>
@@ -4494,7 +4500,8 @@ public class WorkspaceFullDocumentDiagnosticReport
     /// The version number for which the diagnostics are reported.
     /// If the document is not marked as open `null` can be provided.
     /// </summary>
-    public /*TOr1*/int? Version;
+    public /*TOr1*/int?
+     Version;
 }
 
 /// <summary>
@@ -4513,7 +4520,8 @@ public class WorkspaceUnchangedDocumentDiagnosticReport
     /// The version number for which the diagnostics are reported.
     /// If the document is not marked as open `null` can be provided.
     /// </summary>
-    public /*TOr1*/int? Version;
+    public /*TOr1*/int?
+     Version;
 }
 
 /// <summary>
@@ -4632,9 +4640,9 @@ public class TextDocumentSyncOptions
     /// If present save notifications are sent to the server. If omitted the notification should not be
     /// sent.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9h9cb3__ Save;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmryo50__ Save;
 }
 
 /// <summary>
@@ -4657,7 +4665,7 @@ public class NotebookDocumentSyncOptions
     /// <summary>
     /// The notebooks to be synced
     /// </summary>
-    public __TypeIdentGen__cr06pj9hch5d__[] NotebookSelector;
+    public __TypeIdentGen__cr0gpqms0pt6__[] NotebookSelector;
     /// <summary>
     /// Whether save notification should be forwarded to
     /// the server. Will only be honored if mode === `notebook`.
@@ -4691,9 +4699,9 @@ public class WorkspaceFoldersServerCapabilities
     /// side. The ID can be used to unregister for these events
     /// using the `client/unregisterCapability` request.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9hhsgv__ ChangeNotifications;
+    public /*TOpt*/__TypeIdentGen__cr0gpqms60d1__ ChangeNotifications;
 }
 
 /// <summary>
@@ -4775,16 +4783,16 @@ public class ParameterInformation
     /// *Note*: a label of type string should be a substring of its containing signature label.
     /// Its intended use case is to highlight the parameter label part in the `SignatureInformation.label`.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public __TypeIdentGen__cr06pj9hojua__ Label;
+    public __TypeIdentGen__cr0gpqmsqlue__ Label;
     /// <summary>
     /// The human-readable doc-comment of this parameter. Will be shown
     /// in the UI but can be omitted.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9hspmy__ Documentation;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmsuydg__ Documentation;
 }
 
 /// <summary>
@@ -4801,9 +4809,9 @@ public class NotebookCellTextDocumentFilter
     /// value is provided it matches against the
     /// notebook type. '*' matches every notebook.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public __TypeIdentGen__cr06pj9hujfv__ Notebook;
+    public __TypeIdentGen__cr0gpqmswv4d__ Notebook;
     /// <summary>
     /// A language id like `python`.
     /// 
@@ -5141,7 +5149,7 @@ public class GeneralClientCapabilities
     /// 
     /// @since 3.17.0
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9iwej7__ StaleRequestSupport;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmu2jfu__ StaleRequestSupport;
     /// <summary>
     /// Client capabilities specific to regular expressions.
     /// 
@@ -5190,9 +5198,9 @@ public class RelativePattern
     /// A workspace folder or a base URI to which this pattern will be matched
     /// against relatively.
     /// 
-    /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public __TypeIdentGen__cr06pj9j0vs1__ BaseUri;
+    public __TypeIdentGen__cr0gpqmu5u0y__ BaseUri;
     /// <summary>
     /// The actual glob pattern;
     /// </summary>
@@ -5235,7 +5243,7 @@ public class WorkspaceEditClientCapabilities
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9j583s__ ChangeAnnotationSupport;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmuac1r__ ChangeAnnotationSupport;
 }
 
 public class DidChangeConfigurationClientCapabilities
@@ -5275,14 +5283,14 @@ public class WorkspaceSymbolClientCapabilities
     /// <summary>
     /// Specific capabilities for the `SymbolKind` in the `workspace/symbol` request.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9j9ttq__ SymbolKind;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmuf16w__ SymbolKind;
     /// <summary>
     /// The client supports tags on `SymbolInformation`.
     /// Clients supporting tags have to handle unknown tags gracefully.
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9jb5ws__ TagSupport;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmugccp__ TagSupport;
     /// <summary>
     /// The client support partial workspace symbols. The client will send the
     /// request `workspaceSymbol/resolve` to the server to resolve additional
@@ -5290,7 +5298,7 @@ public class WorkspaceSymbolClientCapabilities
     /// 
     /// @since 3.17.0
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9jc4mq__ ResolveSupport;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmuha1m__ ResolveSupport;
 }
 
 /// <summary>
@@ -5470,8 +5478,8 @@ public class CompletionClientCapabilities
     /// The client supports the following `CompletionItem` specific
     /// capabilities.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9jpz0a__ CompletionItem;
-    public /*TOpt*/__TypeIdentGen__cr06pj9jyiuq__ CompletionItemKind;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmuzztp__ CompletionItem;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmvdsa9__ CompletionItemKind;
     /// <summary>
     /// Defines how the client handles whitespace and indentation
     /// when accepting a completion item that uses multi line
@@ -5491,7 +5499,7 @@ public class CompletionClientCapabilities
     /// 
     /// @since 3.17.0
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9k0wh1__ CompletionList;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmvgu7i__ CompletionList;
 }
 
 public class HoverClientCapabilities
@@ -5520,7 +5528,7 @@ public class SignatureHelpClientCapabilities
     /// The client supports the following `SignatureInformation`
     /// specific properties.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9k4pai__ SignatureInformation;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmvlt2s__ SignatureInformation;
     /// <summary>
     /// The client supports to send additional context information for a
     /// `textDocument/signatureHelp` request. A client that opts into
@@ -5639,7 +5647,7 @@ public class DocumentSymbolClientCapabilities
     /// Specific capabilities for the `SymbolKind` in the
     /// `textDocument/documentSymbol` request.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9khyie__ SymbolKind;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmw4a1y__ SymbolKind;
     /// <summary>
     /// The client supports hierarchical document symbols.
     /// </summary>
@@ -5651,7 +5659,7 @@ public class DocumentSymbolClientCapabilities
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9kk2t5__ TagSupport;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmw6z1q__ TagSupport;
     /// <summary>
     /// The client supports an additional label presented in the UI when
     /// registering a document symbol provider.
@@ -5677,7 +5685,7 @@ public class CodeActionClientCapabilities
     /// 
     /// @since 3.8.0
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9kmo9j__ CodeActionLiteralSupport;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmwanhm__ CodeActionLiteralSupport;
     /// <summary>
     /// Whether code action supports the `isPreferred` property.
     /// 
@@ -5704,7 +5712,7 @@ public class CodeActionClientCapabilities
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9kq6fk__ ResolveSupport;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmwfzn3__ ResolveSupport;
     /// <summary>
     /// Whether the client honors the change annotations in
     /// text edits and resource operations returned via the
@@ -5848,13 +5856,13 @@ public class FoldingRangeClientCapabilities
     /// 
     /// @since 3.17.0
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9l371r__ FoldingRangeKind;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmwwrx7__ FoldingRangeKind;
     /// <summary>
     /// Specific options for the folding range.
     /// 
     /// @since 3.17.0
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9l4i0y__ FoldingRange;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmwy8i7__ FoldingRange;
 }
 
 public class SelectionRangeClientCapabilities
@@ -5882,7 +5890,7 @@ public class PublishDiagnosticsClientCapabilities
     /// 
     /// @since 3.15.0
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9l7kgq__ TagSupport;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmx2647__ TagSupport;
     /// <summary>
     /// Whether the client interprets the version property of the
     /// `textDocument/publishDiagnostics` notification's parameter.
@@ -5940,7 +5948,7 @@ public class SemanticTokensClientCapabilities
     /// range provider the client might not render a minimap correctly or might
     /// even decide to not show any semantic tokens at all.
     /// </summary>
-    public __TypeIdentGen__cr06pj9lc6ij__ Requests;
+    public __TypeIdentGen__cr0gpqmxaqua__ Requests;
     /// <summary>
     /// The token types that the client supports.
     /// </summary>
@@ -6056,7 +6064,7 @@ public class InlayHintClientCapabilities
     /// Indicates which properties a client can resolve lazily on an inlay
     /// hint.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9ly058__ ResolveSupport;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmxzdh0__ ResolveSupport;
 }
 
 /// <summary>
@@ -6106,7 +6114,7 @@ public class ShowMessageRequestClientCapabilities
     /// <summary>
     /// Capabilities specific to the `MessageActionItem` type.
     /// </summary>
-    public /*TOpt*/__TypeIdentGen__cr06pj9m9a5c__ MessageActionItem;
+    public /*TOpt*/__TypeIdentGen__cr0gpqmy6jj2__ MessageActionItem;
 }
 
 /// <summary>

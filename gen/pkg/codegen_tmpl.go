@@ -69,7 +69,7 @@ func (it *GenMain) doType(t GenType, tmplName string) (ret string) {
 	tmpl := it.gen.tmpl(tmplName, "")
 	if ret = it.gen.tmplExec(nil, tmpl, bag); strings.Contains(ret, bag.TypeIdentGen) {
 		ret = strings.ReplaceAll(ret, bag.TypeIdentGen, t.NameSuggestion(true))
-		it.gen.tracked.namedAnonTypeRenders = append(it.gen.tracked.namedAnonTypeRenders, ret)
+		it.gen.tracked.namedAnonDeclRenders = append(it.gen.tracked.namedAnonDeclRenders, ret)
 		ret = bag.TypeIdentGen
 	}
 	return

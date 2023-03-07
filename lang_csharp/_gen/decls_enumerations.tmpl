@@ -1,8 +1,9 @@
-{{- with $main := . -}}
-{{- range .Items -}}
-{{- with $enum := . -}}
+{{- $main := . -}}
 
-{{- if eq $enum.Type "string" }}
+{{- range .Decls -}}
+{{- $enum := . -}}
+
+{{- if ($main.IsTypeKindOf $enum.Type "string") }}
 {{ .DoDocComments $main -}}
 public static class {{ $enum.Name }} {
     {{- range .Enumerants }}
@@ -20,6 +21,4 @@ public enum {{ $enum.Name }} {
 }
 {{ end }}
 
-{{- end -}}
-{{- end -}}
 {{- end -}}
