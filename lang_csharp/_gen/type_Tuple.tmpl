@@ -1,0 +1,11 @@
+{{- with $bag := . -}}
+{{- with $member_types := $bag.Type -}}
+
+public class {{ $bag.IdentGen }} {
+    {{- range $i, $mt := $member_types }}
+    public {{ $bag.Main.DoType $mt }} {{$mt.NameSuggestion true}}{{$i}};
+    {{- end -}}
+}
+
+{{- end -}}
+{{- end -}}

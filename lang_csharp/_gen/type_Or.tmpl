@@ -1,18 +1,14 @@
 {{- with $bag := . -}}
 {{- with $member_types := $bag.Type.NonNull -}}
 
-{{- if eq (len $member_types) 1 -}}
-{{ $bag.Main.DoTypeOptional (index $member_types 0) true }}
-{{- else -}}
 public abstract record {{ $bag.IdentGen }}
 {
     private {{ $bag.IdentGen }}() { }
 
 {{- range $member_types -}}
     public sealed record {{.NameSuggestion true}}({{ $bag.Main.DoTypeOptional . true }} {{.NameSuggestion true}}) : {{ $bag.IdentGen }};
-{{ end }}
+{{ end -}}
 }
-{{- end }}
 
 {{- end -}}
 {{- end -}}

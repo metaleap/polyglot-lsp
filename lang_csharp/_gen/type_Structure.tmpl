@@ -1,8 +1,8 @@
 {{- with $bag := . -}}
 public class {{ $bag.IdentGen }} {
-    {{- range $bag.Type.Properties -}}
-    {{ .DoDocComments $bag.Main }}
+    {{ range $bag.Type.Properties -}}
+    {{ .DoDocComments $bag.Main -}}
     public {{ $bag.Main.DoTypeOptional .Type ($bag.Main.If .HasConstVal false .Optional) }} {{ .NameUp }};
-    {{- end -}}
+    {{ end -}}
 }
 {{- end }}

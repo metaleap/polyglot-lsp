@@ -20,7 +20,7 @@
     "Dict": {},
     "PostGenTools": {
         "Format": {
-            "Disabled":true,
+            "Disabled": false,
             "Cmd": "dotnet format whitespace {dir} --folder",
             "Env": {
                 "DOTNET_CLI_TELEMETRY_OPTOUT": "1"
@@ -28,7 +28,7 @@
         },
         "Check": [
             {
-                "Disabled":true,
+                "Disabled": false,
                 "Cmd": "dotnet build {pkg_file_path} --nologo -o {trash_dir}/{pkg_file_name}",
                 "Env": {
                     "DOTNET_CLI_TELEMETRY_OPTOUT": "1"
