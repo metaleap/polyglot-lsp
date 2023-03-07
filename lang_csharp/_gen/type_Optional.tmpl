@@ -9,7 +9,7 @@
         ($bag.Main.IsTypeKindOr $bag.Type)
         ($bag.Main.IsTypeKindStructure $bag.Type)
   -}}
-    {{- $bag.Main.DoType $bag.Type -}}
+    /*TOpt*/{{- $bag.Main.DoType $bag.Type -}}
 {{- else if eq $tyStr "string"  -}}
     string?
 {{- else if eq $tyStr "integer"  -}}

@@ -2,12 +2,7 @@
 namespace lsp;
 
 
-public abstract record DocumentSelectorOrNull
-{
-    private DocumentSelectorOrNull() { }
-    public sealed record DocumentSelector(DocumentSelector DocumentSelector) : DocumentSelectorOrNull;
-}
-
+/*TOr*/
 public abstract record TextDocumentEditOrCreateFileOrRenameFileOrDeleteFile
 {
     private TextDocumentEditOrCreateFileOrRenameFileOrDeleteFile() { }
@@ -17,13 +12,15 @@ public abstract record TextDocumentEditOrCreateFileOrRenameFileOrDeleteFile
     public sealed record DeleteFile(DeleteFile? DeleteFile) : TextDocumentEditOrCreateFileOrRenameFileOrDeleteFile;
 }
 
+/*TOr*/
 public abstract record StringOrInlayHintLabelParts
 {
     private StringOrInlayHintLabelParts() { }
     public sealed record String(string? String) : StringOrInlayHintLabelParts;
-    public sealed record InlayHintLabelParts(InlayHintLabelPart[] InlayHintLabelParts) : StringOrInlayHintLabelParts;
+    public sealed record InlayHintLabelParts(/*TOpt*/InlayHintLabelPart[] InlayHintLabelParts) : StringOrInlayHintLabelParts;
 }
 
+/*TOr*/
 public abstract record StringOrMarkupContent
 {
     private StringOrMarkupContent() { }
@@ -31,6 +28,7 @@ public abstract record StringOrMarkupContent
     public sealed record MarkupContent(MarkupContent? MarkupContent) : StringOrMarkupContent;
 }
 
+/*TOr*/
 public abstract record FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport
 {
     private FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport() { }
@@ -38,6 +36,7 @@ public abstract record FullDocumentDiagnosticReportOrUnchangedDocumentDiagnostic
     public sealed record UnchangedDocumentDiagnosticReport(UnchangedDocumentDiagnosticReport? UnchangedDocumentDiagnosticReport) : FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport;
 }
 
+/*TStruc*/
 public class NameVersion
 {
     /// <summary>
@@ -51,13 +50,15 @@ public class NameVersion
 }
 
 
+/*TOr*/
 public abstract record StringOrStrings
 {
     private StringOrStrings() { }
     public sealed record String(string? String) : StringOrStrings;
-    public sealed record Strings(string[] Strings) : StringOrStrings;
+    public sealed record Strings(/*TOpt*/string[] Strings) : StringOrStrings;
 }
 
+/*TOr*/
 public abstract record StringOrMarkupContent
 {
     private StringOrMarkupContent() { }
@@ -65,6 +66,7 @@ public abstract record StringOrMarkupContent
     public sealed record MarkupContent(MarkupContent? MarkupContent) : StringOrMarkupContent;
 }
 
+/*TOr*/
 public abstract record TextEditOrInsertReplaceEdit
 {
     private TextEditOrInsertReplaceEdit() { }
@@ -72,6 +74,7 @@ public abstract record TextEditOrInsertReplaceEdit
     public sealed record InsertReplaceEdit(InsertReplaceEdit? InsertReplaceEdit) : TextEditOrInsertReplaceEdit;
 }
 
+/*TStruc*/
 public class InsertReplace
 {
     public Range Insert;
@@ -79,13 +82,15 @@ public class InsertReplace
 }
 
 
+/*TOr*/
 public abstract record RangeOrInsertReplace
 {
     private RangeOrInsertReplace() { }
     public sealed record Range(Range? Range) : RangeOrInsertReplace;
-    public sealed record InsertReplace(InsertReplace InsertReplace) : RangeOrInsertReplace;
+    public sealed record InsertReplace(/*TOpt*/__TypeIdentGen__cr06pj99kwku__ InsertReplace) : RangeOrInsertReplace;
 }
 
+/*TStruc*/
 public class CommitCharactersEditRangeInsertTextFormatInsertTextModeData
 {
     /// <summary>
@@ -93,7 +98,7 @@ public class CommitCharactersEditRangeInsertTextFormatInsertTextModeData
     /// 
     /// @since 3.17.0
     /// </summary>
-    public string[] CommitCharacters;
+    public /*TOpt*/string[] CommitCharacters;
     /// <summary>
     /// A default edit range.
     /// 
@@ -101,36 +106,38 @@ public class CommitCharactersEditRangeInsertTextFormatInsertTextModeData
     /// 
     /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
     /// </summary>
-    public RangeOrInsertReplace EditRange;
+    public /*TOpt*/__TypeIdentGen__cr06pj99jgwa__ EditRange;
     /// <summary>
     /// A default insert text format.
     /// 
     /// @since 3.17.0
     /// </summary>
-    public InsertTextFormat InsertTextFormat;
+    public /*TOpt*/InsertTextFormat InsertTextFormat;
     /// <summary>
     /// A default insert text mode.
     /// 
     /// @since 3.17.0
     /// </summary>
-    public InsertTextMode InsertTextMode;
+    public /*TOpt*/InsertTextMode InsertTextMode;
     /// <summary>
     /// A default data value.
     /// 
     /// @since 3.17.0
     /// </summary>
-    public LSPAny Data;
+    public /*TOpt*/LSPAny Data;
 }
 
 
+/*TOr*/
 public abstract record MarkupContentOrMarkedStringOrMarkedStrings
 {
     private MarkupContentOrMarkedStringOrMarkedStrings() { }
     public sealed record MarkupContent(MarkupContent? MarkupContent) : MarkupContentOrMarkedStringOrMarkedStrings;
-    public sealed record MarkedString(MarkedString MarkedString) : MarkupContentOrMarkedStringOrMarkedStrings;
-    public sealed record MarkedStrings(MarkedString[] MarkedStrings) : MarkupContentOrMarkedStringOrMarkedStrings;
+    public sealed record MarkedString(/*TOpt*/MarkedString MarkedString) : MarkupContentOrMarkedStringOrMarkedStrings;
+    public sealed record MarkedStrings(/*TOpt*/MarkedString[] MarkedStrings) : MarkupContentOrMarkedStringOrMarkedStrings;
 }
 
+/*TStruc*/
 public class Reason
 {
     /// <summary>
@@ -142,19 +149,22 @@ public class Reason
 }
 
 
+/*TStruc*/
 public class Uri
 {
     public string Uri;
 }
 
 
+/*TOr*/
 public abstract record LocationOrUri
 {
     private LocationOrUri() { }
     public sealed record Location(Location? Location) : LocationOrUri;
-    public sealed record Uri(Uri Uri) : LocationOrUri;
+    public sealed record Uri(/*TOpt*/__TypeIdentGen__cr06pj9ac2y7__ Uri) : LocationOrUri;
 }
 
+/*TOr*/
 public abstract record IntegerOrString
 {
     private IntegerOrString() { }
@@ -162,13 +172,15 @@ public abstract record IntegerOrString
     public sealed record String(string? String) : IntegerOrString;
 }
 
+/*TOr*/
 public abstract record BooleanOrAnyByString
 {
     private BooleanOrAnyByString() { }
     public sealed record Boolean(bool? Boolean) : BooleanOrAnyByString;
-    public sealed record AnyByString(System.Collections.Generic.Dictionary<string, object> AnyByString) : BooleanOrAnyByString;
+    public sealed record AnyByString(/*TOpt*/System.Collections.Generic.Dictionary<string, object> AnyByString) : BooleanOrAnyByString;
 }
 
+/*TStruc*/
 public class Delta
 {
     /// <summary>
@@ -178,13 +190,15 @@ public class Delta
 }
 
 
+/*TOr*/
 public abstract record BooleanOrDelta
 {
     private BooleanOrDelta() { }
     public sealed record Boolean(bool? Boolean) : BooleanOrDelta;
-    public sealed record Delta(Delta Delta) : BooleanOrDelta;
+    public sealed record Delta(/*TOpt*/__TypeIdentGen__cr06pj9bvire__ Delta) : BooleanOrDelta;
 }
 
+/*TOr*/
 public abstract record TextEditOrAnnotatedTextEdit
 {
     private TextEditOrAnnotatedTextEdit() { }
@@ -192,6 +206,7 @@ public abstract record TextEditOrAnnotatedTextEdit
     public sealed record AnnotatedTextEdit(AnnotatedTextEdit? AnnotatedTextEdit) : TextEditOrAnnotatedTextEdit;
 }
 
+/*TOr*/
 public abstract record StringOrMarkupContent
 {
     private StringOrMarkupContent() { }
@@ -199,6 +214,7 @@ public abstract record StringOrMarkupContent
     public sealed record MarkupContent(MarkupContent? MarkupContent) : StringOrMarkupContent;
 }
 
+/*TOr*/
 public abstract record FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport
 {
     private FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport() { }
@@ -206,6 +222,7 @@ public abstract record FullDocumentDiagnosticReportOrUnchangedDocumentDiagnostic
     public sealed record UnchangedDocumentDiagnosticReport(UnchangedDocumentDiagnosticReport? UnchangedDocumentDiagnosticReport) : FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport;
 }
 
+/*TOr*/
 public abstract record FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport
 {
     private FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport() { }
@@ -213,6 +230,7 @@ public abstract record FullDocumentDiagnosticReportOrUnchangedDocumentDiagnostic
     public sealed record UnchangedDocumentDiagnosticReport(UnchangedDocumentDiagnosticReport? UnchangedDocumentDiagnosticReport) : FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport;
 }
 
+/*TStruc*/
 public class ArrayDidOpenDidClose
 {
     /// <summary>
@@ -222,14 +240,15 @@ public class ArrayDidOpenDidClose
     /// <summary>
     /// Additional opened cell text documents.
     /// </summary>
-    public TextDocumentItem[] DidOpen;
+    public /*TOpt*/TextDocumentItem[] DidOpen;
     /// <summary>
     /// Additional closed cell text documents.
     /// </summary>
-    public TextDocumentIdentifier[] DidClose;
+    public /*TOpt*/TextDocumentIdentifier[] DidClose;
 }
 
 
+/*TStruc*/
 public class DocumentChanges
 {
     public VersionedTextDocumentIdentifier Document;
@@ -237,31 +256,27 @@ public class DocumentChanges
 }
 
 
+/*TStruc*/
 public class StructureDataTextContent
 {
     /// <summary>
     /// Changes to the cell structure to add or
     /// remove cells.
     /// </summary>
-    public ArrayDidOpenDidClose Structure;
+    public /*TOpt*/__TypeIdentGen__cr06pj9cve5v__ Structure;
     /// <summary>
     /// Changes to notebook cells properties like its
     /// kind, execution summary or metadata.
     /// </summary>
-    public NotebookCell[] Data;
+    public /*TOpt*/NotebookCell[] Data;
     /// <summary>
     /// Changes to the text content of notebook cells.
     /// </summary>
-    public DocumentChanges[] TextContent;
+    public /*TOpt*/__TypeIdentGen__cr06pj9cxq98__[] TextContent;
 }
 
 
-public abstract record IntegerOrNull
-{
-    private IntegerOrNull() { }
-    public sealed record Integer(int? Integer) : IntegerOrNull;
-}
-
+/*TStruc*/
 public class NameVersion
 {
     /// <summary>
@@ -275,31 +290,15 @@ public class NameVersion
 }
 
 
-public abstract record StringOrNull
-{
-    private StringOrNull() { }
-    public sealed record String(string? String) : StringOrNull;
-}
-
-public abstract record DocumentUriOrNull
-{
-    private DocumentUriOrNull() { }
-    public sealed record DocumentUri(string DocumentUri) : DocumentUriOrNull;
-}
-
-public abstract record WorkspaceFoldersOrNull
-{
-    private WorkspaceFoldersOrNull() { }
-    public sealed record WorkspaceFolders(WorkspaceFolder[] WorkspaceFolders) : WorkspaceFoldersOrNull;
-}
-
+/*TOr*/
 public abstract record TextDocumentSyncOptionsOrTextDocumentSyncKind
 {
     private TextDocumentSyncOptionsOrTextDocumentSyncKind() { }
     public sealed record TextDocumentSyncOptions(TextDocumentSyncOptions? TextDocumentSyncOptions) : TextDocumentSyncOptionsOrTextDocumentSyncKind;
-    public sealed record TextDocumentSyncKind(TextDocumentSyncKind TextDocumentSyncKind) : TextDocumentSyncOptionsOrTextDocumentSyncKind;
+    public sealed record TextDocumentSyncKind(/*TOpt*/TextDocumentSyncKind TextDocumentSyncKind) : TextDocumentSyncOptionsOrTextDocumentSyncKind;
 }
 
+/*TOr*/
 public abstract record NotebookDocumentSyncOptionsOrNotebookDocumentSyncRegistrationOptions
 {
     private NotebookDocumentSyncOptionsOrNotebookDocumentSyncRegistrationOptions() { }
@@ -307,6 +306,7 @@ public abstract record NotebookDocumentSyncOptionsOrNotebookDocumentSyncRegistra
     public sealed record NotebookDocumentSyncRegistrationOptions(NotebookDocumentSyncRegistrationOptions? NotebookDocumentSyncRegistrationOptions) : NotebookDocumentSyncOptionsOrNotebookDocumentSyncRegistrationOptions;
 }
 
+/*TOr*/
 public abstract record BooleanOrHoverOptions
 {
     private BooleanOrHoverOptions() { }
@@ -314,6 +314,7 @@ public abstract record BooleanOrHoverOptions
     public sealed record HoverOptions(HoverOptions? HoverOptions) : BooleanOrHoverOptions;
 }
 
+/*TOr*/
 public abstract record BooleanOrDeclarationOptionsOrDeclarationRegistrationOptions
 {
     private BooleanOrDeclarationOptionsOrDeclarationRegistrationOptions() { }
@@ -322,6 +323,7 @@ public abstract record BooleanOrDeclarationOptionsOrDeclarationRegistrationOptio
     public sealed record DeclarationRegistrationOptions(DeclarationRegistrationOptions? DeclarationRegistrationOptions) : BooleanOrDeclarationOptionsOrDeclarationRegistrationOptions;
 }
 
+/*TOr*/
 public abstract record BooleanOrDefinitionOptions
 {
     private BooleanOrDefinitionOptions() { }
@@ -329,6 +331,7 @@ public abstract record BooleanOrDefinitionOptions
     public sealed record DefinitionOptions(DefinitionOptions? DefinitionOptions) : BooleanOrDefinitionOptions;
 }
 
+/*TOr*/
 public abstract record BooleanOrTypeDefinitionOptionsOrTypeDefinitionRegistrationOptions
 {
     private BooleanOrTypeDefinitionOptionsOrTypeDefinitionRegistrationOptions() { }
@@ -337,6 +340,7 @@ public abstract record BooleanOrTypeDefinitionOptionsOrTypeDefinitionRegistratio
     public sealed record TypeDefinitionRegistrationOptions(TypeDefinitionRegistrationOptions? TypeDefinitionRegistrationOptions) : BooleanOrTypeDefinitionOptionsOrTypeDefinitionRegistrationOptions;
 }
 
+/*TOr*/
 public abstract record BooleanOrImplementationOptionsOrImplementationRegistrationOptions
 {
     private BooleanOrImplementationOptionsOrImplementationRegistrationOptions() { }
@@ -345,6 +349,7 @@ public abstract record BooleanOrImplementationOptionsOrImplementationRegistratio
     public sealed record ImplementationRegistrationOptions(ImplementationRegistrationOptions? ImplementationRegistrationOptions) : BooleanOrImplementationOptionsOrImplementationRegistrationOptions;
 }
 
+/*TOr*/
 public abstract record BooleanOrReferenceOptions
 {
     private BooleanOrReferenceOptions() { }
@@ -352,6 +357,7 @@ public abstract record BooleanOrReferenceOptions
     public sealed record ReferenceOptions(ReferenceOptions? ReferenceOptions) : BooleanOrReferenceOptions;
 }
 
+/*TOr*/
 public abstract record BooleanOrDocumentHighlightOptions
 {
     private BooleanOrDocumentHighlightOptions() { }
@@ -359,6 +365,7 @@ public abstract record BooleanOrDocumentHighlightOptions
     public sealed record DocumentHighlightOptions(DocumentHighlightOptions? DocumentHighlightOptions) : BooleanOrDocumentHighlightOptions;
 }
 
+/*TOr*/
 public abstract record BooleanOrDocumentSymbolOptions
 {
     private BooleanOrDocumentSymbolOptions() { }
@@ -366,6 +373,7 @@ public abstract record BooleanOrDocumentSymbolOptions
     public sealed record DocumentSymbolOptions(DocumentSymbolOptions? DocumentSymbolOptions) : BooleanOrDocumentSymbolOptions;
 }
 
+/*TOr*/
 public abstract record BooleanOrCodeActionOptions
 {
     private BooleanOrCodeActionOptions() { }
@@ -373,6 +381,7 @@ public abstract record BooleanOrCodeActionOptions
     public sealed record CodeActionOptions(CodeActionOptions? CodeActionOptions) : BooleanOrCodeActionOptions;
 }
 
+/*TOr*/
 public abstract record BooleanOrDocumentColorOptionsOrDocumentColorRegistrationOptions
 {
     private BooleanOrDocumentColorOptionsOrDocumentColorRegistrationOptions() { }
@@ -381,6 +390,7 @@ public abstract record BooleanOrDocumentColorOptionsOrDocumentColorRegistrationO
     public sealed record DocumentColorRegistrationOptions(DocumentColorRegistrationOptions? DocumentColorRegistrationOptions) : BooleanOrDocumentColorOptionsOrDocumentColorRegistrationOptions;
 }
 
+/*TOr*/
 public abstract record BooleanOrWorkspaceSymbolOptions
 {
     private BooleanOrWorkspaceSymbolOptions() { }
@@ -388,6 +398,7 @@ public abstract record BooleanOrWorkspaceSymbolOptions
     public sealed record WorkspaceSymbolOptions(WorkspaceSymbolOptions? WorkspaceSymbolOptions) : BooleanOrWorkspaceSymbolOptions;
 }
 
+/*TOr*/
 public abstract record BooleanOrDocumentFormattingOptions
 {
     private BooleanOrDocumentFormattingOptions() { }
@@ -395,6 +406,7 @@ public abstract record BooleanOrDocumentFormattingOptions
     public sealed record DocumentFormattingOptions(DocumentFormattingOptions? DocumentFormattingOptions) : BooleanOrDocumentFormattingOptions;
 }
 
+/*TOr*/
 public abstract record BooleanOrDocumentRangeFormattingOptions
 {
     private BooleanOrDocumentRangeFormattingOptions() { }
@@ -402,6 +414,7 @@ public abstract record BooleanOrDocumentRangeFormattingOptions
     public sealed record DocumentRangeFormattingOptions(DocumentRangeFormattingOptions? DocumentRangeFormattingOptions) : BooleanOrDocumentRangeFormattingOptions;
 }
 
+/*TOr*/
 public abstract record BooleanOrRenameOptions
 {
     private BooleanOrRenameOptions() { }
@@ -409,6 +422,7 @@ public abstract record BooleanOrRenameOptions
     public sealed record RenameOptions(RenameOptions? RenameOptions) : BooleanOrRenameOptions;
 }
 
+/*TOr*/
 public abstract record BooleanOrFoldingRangeOptionsOrFoldingRangeRegistrationOptions
 {
     private BooleanOrFoldingRangeOptionsOrFoldingRangeRegistrationOptions() { }
@@ -417,6 +431,7 @@ public abstract record BooleanOrFoldingRangeOptionsOrFoldingRangeRegistrationOpt
     public sealed record FoldingRangeRegistrationOptions(FoldingRangeRegistrationOptions? FoldingRangeRegistrationOptions) : BooleanOrFoldingRangeOptionsOrFoldingRangeRegistrationOptions;
 }
 
+/*TOr*/
 public abstract record BooleanOrSelectionRangeOptionsOrSelectionRangeRegistrationOptions
 {
     private BooleanOrSelectionRangeOptionsOrSelectionRangeRegistrationOptions() { }
@@ -425,6 +440,7 @@ public abstract record BooleanOrSelectionRangeOptionsOrSelectionRangeRegistratio
     public sealed record SelectionRangeRegistrationOptions(SelectionRangeRegistrationOptions? SelectionRangeRegistrationOptions) : BooleanOrSelectionRangeOptionsOrSelectionRangeRegistrationOptions;
 }
 
+/*TOr*/
 public abstract record BooleanOrCallHierarchyOptionsOrCallHierarchyRegistrationOptions
 {
     private BooleanOrCallHierarchyOptionsOrCallHierarchyRegistrationOptions() { }
@@ -433,6 +449,7 @@ public abstract record BooleanOrCallHierarchyOptionsOrCallHierarchyRegistrationO
     public sealed record CallHierarchyRegistrationOptions(CallHierarchyRegistrationOptions? CallHierarchyRegistrationOptions) : BooleanOrCallHierarchyOptionsOrCallHierarchyRegistrationOptions;
 }
 
+/*TOr*/
 public abstract record BooleanOrLinkedEditingRangeOptionsOrLinkedEditingRangeRegistrationOptions
 {
     private BooleanOrLinkedEditingRangeOptionsOrLinkedEditingRangeRegistrationOptions() { }
@@ -441,6 +458,7 @@ public abstract record BooleanOrLinkedEditingRangeOptionsOrLinkedEditingRangeReg
     public sealed record LinkedEditingRangeRegistrationOptions(LinkedEditingRangeRegistrationOptions? LinkedEditingRangeRegistrationOptions) : BooleanOrLinkedEditingRangeOptionsOrLinkedEditingRangeRegistrationOptions;
 }
 
+/*TOr*/
 public abstract record SemanticTokensOptionsOrSemanticTokensRegistrationOptions
 {
     private SemanticTokensOptionsOrSemanticTokensRegistrationOptions() { }
@@ -448,6 +466,7 @@ public abstract record SemanticTokensOptionsOrSemanticTokensRegistrationOptions
     public sealed record SemanticTokensRegistrationOptions(SemanticTokensRegistrationOptions? SemanticTokensRegistrationOptions) : SemanticTokensOptionsOrSemanticTokensRegistrationOptions;
 }
 
+/*TOr*/
 public abstract record BooleanOrMonikerOptionsOrMonikerRegistrationOptions
 {
     private BooleanOrMonikerOptionsOrMonikerRegistrationOptions() { }
@@ -456,6 +475,7 @@ public abstract record BooleanOrMonikerOptionsOrMonikerRegistrationOptions
     public sealed record MonikerRegistrationOptions(MonikerRegistrationOptions? MonikerRegistrationOptions) : BooleanOrMonikerOptionsOrMonikerRegistrationOptions;
 }
 
+/*TOr*/
 public abstract record BooleanOrTypeHierarchyOptionsOrTypeHierarchyRegistrationOptions
 {
     private BooleanOrTypeHierarchyOptionsOrTypeHierarchyRegistrationOptions() { }
@@ -464,6 +484,7 @@ public abstract record BooleanOrTypeHierarchyOptionsOrTypeHierarchyRegistrationO
     public sealed record TypeHierarchyRegistrationOptions(TypeHierarchyRegistrationOptions? TypeHierarchyRegistrationOptions) : BooleanOrTypeHierarchyOptionsOrTypeHierarchyRegistrationOptions;
 }
 
+/*TOr*/
 public abstract record BooleanOrInlineValueOptionsOrInlineValueRegistrationOptions
 {
     private BooleanOrInlineValueOptionsOrInlineValueRegistrationOptions() { }
@@ -472,6 +493,7 @@ public abstract record BooleanOrInlineValueOptionsOrInlineValueRegistrationOptio
     public sealed record InlineValueRegistrationOptions(InlineValueRegistrationOptions? InlineValueRegistrationOptions) : BooleanOrInlineValueOptionsOrInlineValueRegistrationOptions;
 }
 
+/*TOr*/
 public abstract record BooleanOrInlayHintOptionsOrInlayHintRegistrationOptions
 {
     private BooleanOrInlayHintOptionsOrInlayHintRegistrationOptions() { }
@@ -480,6 +502,7 @@ public abstract record BooleanOrInlayHintOptionsOrInlayHintRegistrationOptions
     public sealed record InlayHintRegistrationOptions(InlayHintRegistrationOptions? InlayHintRegistrationOptions) : BooleanOrInlayHintOptionsOrInlayHintRegistrationOptions;
 }
 
+/*TOr*/
 public abstract record DiagnosticOptionsOrDiagnosticRegistrationOptions
 {
     private DiagnosticOptionsOrDiagnosticRegistrationOptions() { }
@@ -487,6 +510,7 @@ public abstract record DiagnosticOptionsOrDiagnosticRegistrationOptions
     public sealed record DiagnosticRegistrationOptions(DiagnosticRegistrationOptions? DiagnosticRegistrationOptions) : DiagnosticOptionsOrDiagnosticRegistrationOptions;
 }
 
+/*TStruc*/
 public class WorkspaceFoldersFileOperations
 {
     /// <summary>
@@ -504,6 +528,7 @@ public class WorkspaceFoldersFileOperations
 }
 
 
+/*TOr*/
 public abstract record IntegerOrString
 {
     private IntegerOrString() { }
@@ -511,6 +536,7 @@ public abstract record IntegerOrString
     public sealed record String(string? String) : IntegerOrString;
 }
 
+/*TStruc*/
 public class LabelDetailsSupport
 {
     /// <summary>
@@ -524,6 +550,7 @@ public class LabelDetailsSupport
 }
 
 
+/*TOr*/
 public abstract record StringOrMarkupContent
 {
     private StringOrMarkupContent() { }
@@ -531,24 +558,7 @@ public abstract record StringOrMarkupContent
     public sealed record MarkupContent(MarkupContent? MarkupContent) : StringOrMarkupContent;
 }
 
-public abstract record IntegerOrNull
-{
-    private IntegerOrNull() { }
-    public sealed record Integer(int? Integer) : IntegerOrNull;
-}
-
-public abstract record IntegerOrNull
-{
-    private IntegerOrNull() { }
-    public sealed record Integer(int? Integer) : IntegerOrNull;
-}
-
-public abstract record IntegerOrNull
-{
-    private IntegerOrNull() { }
-    public sealed record Integer(int? Integer) : IntegerOrNull;
-}
-
+/*TOr*/
 public abstract record BooleanOrSaveOptions
 {
     private BooleanOrSaveOptions() { }
@@ -556,19 +566,22 @@ public abstract record BooleanOrSaveOptions
     public sealed record SaveOptions(SaveOptions? SaveOptions) : BooleanOrSaveOptions;
 }
 
+/*TOr*/
 public abstract record StringOrNotebookDocumentFilter
 {
     private StringOrNotebookDocumentFilter() { }
     public sealed record String(string? String) : StringOrNotebookDocumentFilter;
-    public sealed record NotebookDocumentFilter(NotebookDocumentFilter NotebookDocumentFilter) : StringOrNotebookDocumentFilter;
+    public sealed record NotebookDocumentFilter(/*TOpt*/NotebookDocumentFilter NotebookDocumentFilter) : StringOrNotebookDocumentFilter;
 }
 
+/*TStruc*/
 public class Language
 {
     public string Language;
 }
 
 
+/*TStruc*/
 public class NotebookCells
 {
     /// <summary>
@@ -578,14 +591,15 @@ public class NotebookCells
     /// 
     /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
     /// </summary>
-    public StringOrNotebookDocumentFilter Notebook;
+    public /*TOpt*/__TypeIdentGen__cr06pj9hd3hs__ Notebook;
     /// <summary>
     /// The cells of the matching notebook to be synced.
     /// </summary>
-    public Language[] Cells;
+    public /*TOpt*/__TypeIdentGen__cr06pj9hf18j__[] Cells;
 }
 
 
+/*TOr*/
 public abstract record StringOrBoolean
 {
     private StringOrBoolean() { }
@@ -593,19 +607,22 @@ public abstract record StringOrBoolean
     public sealed record Boolean(bool? Boolean) : StringOrBoolean;
 }
 
+/*TTup*/
 public class UintegerWithUinteger
 {
     public uint Uinteger0;
     public uint Uinteger1;
 }
 
+/*TOr*/
 public abstract record StringOrUintegerWithUinteger
 {
     private StringOrUintegerWithUinteger() { }
     public sealed record String(string? String) : StringOrUintegerWithUinteger;
-    public sealed record UintegerWithUinteger(UintegerWithUinteger? UintegerWithUinteger) : StringOrUintegerWithUinteger;
+    public sealed record UintegerWithUinteger(__TypeIdentGen__cr06pj9hq21m__? UintegerWithUinteger) : StringOrUintegerWithUinteger;
 }
 
+/*TOr*/
 public abstract record StringOrMarkupContent
 {
     private StringOrMarkupContent() { }
@@ -613,13 +630,15 @@ public abstract record StringOrMarkupContent
     public sealed record MarkupContent(MarkupContent? MarkupContent) : StringOrMarkupContent;
 }
 
+/*TOr*/
 public abstract record StringOrNotebookDocumentFilter
 {
     private StringOrNotebookDocumentFilter() { }
     public sealed record String(string? String) : StringOrNotebookDocumentFilter;
-    public sealed record NotebookDocumentFilter(NotebookDocumentFilter NotebookDocumentFilter) : StringOrNotebookDocumentFilter;
+    public sealed record NotebookDocumentFilter(/*TOpt*/NotebookDocumentFilter NotebookDocumentFilter) : StringOrNotebookDocumentFilter;
 }
 
+/*TStruc*/
 public class CancelRetryOnContentModified
 {
     /// <summary>
@@ -635,13 +654,15 @@ public class CancelRetryOnContentModified
 }
 
 
+/*TOr*/
 public abstract record WorkspaceFolderOrURI
 {
     private WorkspaceFolderOrURI() { }
     public sealed record WorkspaceFolder(WorkspaceFolder? WorkspaceFolder) : WorkspaceFolderOrURI;
-    public sealed record URI(string URI) : WorkspaceFolderOrURI;
+    public sealed record URI(/*TOpt*/string URI) : WorkspaceFolderOrURI;
 }
 
+/*TStruc*/
 public class GroupsOnLabel
 {
     /// <summary>
@@ -653,6 +674,7 @@ public class GroupsOnLabel
 }
 
 
+/*TStruc*/
 public class ValueSet
 {
     /// <summary>
@@ -665,10 +687,11 @@ public class ValueSet
     /// the symbol kinds from `File` to `Array` as defined in
     /// the initial version of the protocol.
     /// </summary>
-    public SymbolKind[] ValueSet;
+    public /*TOpt*/SymbolKind[] ValueSet;
 }
 
 
+/*TStruc*/
 public class ValueSet
 {
     /// <summary>
@@ -678,6 +701,7 @@ public class ValueSet
 }
 
 
+/*TStruc*/
 public class Properties
 {
     /// <summary>
@@ -688,6 +712,7 @@ public class Properties
 }
 
 
+/*TStruc*/
 public class ValueSet
 {
     /// <summary>
@@ -697,6 +722,7 @@ public class ValueSet
 }
 
 
+/*TStruc*/
 public class Properties
 {
     /// <summary>
@@ -706,12 +732,14 @@ public class Properties
 }
 
 
+/*TStruc*/
 public class ValueSet
 {
     public InsertTextMode[] ValueSet;
 }
 
 
+/*TStruc*/
 public class SnippetSupportCommitCharactersSupportDocumentationFormatDeprecatedSupportPreselectSupportTagSupportInsertReplaceSupportResolveSupportInsertTextModeSupportLabelDetailsSupport
 {
     /// <summary>
@@ -731,7 +759,7 @@ public class SnippetSupportCommitCharactersSupportDocumentationFormatDeprecatedS
     /// Client supports the following content formats for the documentation
     /// property. The order describes the preferred format of the client.
     /// </summary>
-    public MarkupKind[] DocumentationFormat;
+    public /*TOpt*/MarkupKind[] DocumentationFormat;
     /// <summary>
     /// Client supports the deprecated property on a completion item.
     /// </summary>
@@ -748,7 +776,7 @@ public class SnippetSupportCommitCharactersSupportDocumentationFormatDeprecatedS
     /// 
     /// @since 3.15.0
     /// </summary>
-    public ValueSet TagSupport;
+    public /*TOpt*/__TypeIdentGen__cr06pj9ju0cn__ TagSupport;
     /// <summary>
     /// Client support insert replace edit to control different behavior if a
     /// completion item is inserted in the text or should replace text.
@@ -763,7 +791,7 @@ public class SnippetSupportCommitCharactersSupportDocumentationFormatDeprecatedS
     /// 
     /// @since 3.16.0
     /// </summary>
-    public Properties ResolveSupport;
+    public /*TOpt*/__TypeIdentGen__cr06pj9jvqzs__ ResolveSupport;
     /// <summary>
     /// The client supports the `insertTextMode` property on
     /// a completion item to override the whitespace handling mode
@@ -771,7 +799,7 @@ public class SnippetSupportCommitCharactersSupportDocumentationFormatDeprecatedS
     /// 
     /// @since 3.16.0
     /// </summary>
-    public ValueSet InsertTextModeSupport;
+    public /*TOpt*/__TypeIdentGen__cr06pj9jwpeu__ InsertTextModeSupport;
     /// <summary>
     /// The client has support for completion item label
     /// details (see also `CompletionItemLabelDetails`).
@@ -782,6 +810,7 @@ public class SnippetSupportCommitCharactersSupportDocumentationFormatDeprecatedS
 }
 
 
+/*TStruc*/
 public class ValueSet
 {
     /// <summary>
@@ -794,10 +823,11 @@ public class ValueSet
     /// the completion items kinds from `Text` to `Reference` as defined in
     /// the initial version of the protocol.
     /// </summary>
-    public CompletionItemKind[] ValueSet;
+    public /*TOpt*/CompletionItemKind[] ValueSet;
 }
 
 
+/*TStruc*/
 public class ItemDefaults
 {
     /// <summary>
@@ -810,10 +840,11 @@ public class ItemDefaults
     /// 
     /// @since 3.17.0
     /// </summary>
-    public string[] ItemDefaults;
+    public /*TOpt*/string[] ItemDefaults;
 }
 
 
+/*TStruc*/
 public class LabelOffsetSupport
 {
     /// <summary>
@@ -826,17 +857,18 @@ public class LabelOffsetSupport
 }
 
 
+/*TStruc*/
 public class DocumentationFormatParameterInformationActiveParameterSupport
 {
     /// <summary>
     /// Client supports the following content formats for the documentation
     /// property. The order describes the preferred format of the client.
     /// </summary>
-    public MarkupKind[] DocumentationFormat;
+    public /*TOpt*/MarkupKind[] DocumentationFormat;
     /// <summary>
     /// Client capabilities specific to parameter information.
     /// </summary>
-    public LabelOffsetSupport ParameterInformation;
+    public /*TOpt*/__TypeIdentGen__cr06pj9k5v2h__ ParameterInformation;
     /// <summary>
     /// The client supports the `activeParameter` property on `SignatureInformation`
     /// literal.
@@ -847,6 +879,7 @@ public class DocumentationFormatParameterInformationActiveParameterSupport
 }
 
 
+/*TStruc*/
 public class ValueSet
 {
     /// <summary>
@@ -859,10 +892,11 @@ public class ValueSet
     /// the symbol kinds from `File` to `Array` as defined in
     /// the initial version of the protocol.
     /// </summary>
-    public SymbolKind[] ValueSet;
+    public /*TOpt*/SymbolKind[] ValueSet;
 }
 
 
+/*TStruc*/
 public class ValueSet
 {
     /// <summary>
@@ -872,6 +906,7 @@ public class ValueSet
 }
 
 
+/*TStruc*/
 public class ValueSet
 {
     /// <summary>
@@ -884,16 +919,18 @@ public class ValueSet
 }
 
 
+/*TStruc*/
 public class CodeActionKind
 {
     /// <summary>
     /// The code action kind is support with the following value
     /// set.
     /// </summary>
-    public ValueSet CodeActionKind;
+    public __TypeIdentGen__cr06pj9kmxbs__ CodeActionKind;
 }
 
 
+/*TStruc*/
 public class Properties
 {
     /// <summary>
@@ -903,6 +940,7 @@ public class Properties
 }
 
 
+/*TStruc*/
 public class ValueSet
 {
     /// <summary>
@@ -911,10 +949,11 @@ public class ValueSet
     /// handle values outside its set gracefully and falls back
     /// to a default value when unknown.
     /// </summary>
-    public FoldingRangeKind[] ValueSet;
+    public /*TOpt*/FoldingRangeKind[] ValueSet;
 }
 
 
+/*TStruc*/
 public class CollapsedText
 {
     /// <summary>
@@ -927,6 +966,7 @@ public class CollapsedText
 }
 
 
+/*TStruc*/
 public class ValueSet
 {
     /// <summary>
@@ -936,13 +976,15 @@ public class ValueSet
 }
 
 
+/*TOr*/
 public abstract record BooleanOrAnyByString
 {
     private BooleanOrAnyByString() { }
     public sealed record Boolean(bool? Boolean) : BooleanOrAnyByString;
-    public sealed record AnyByString(System.Collections.Generic.Dictionary<string, object> AnyByString) : BooleanOrAnyByString;
+    public sealed record AnyByString(/*TOpt*/System.Collections.Generic.Dictionary<string, object> AnyByString) : BooleanOrAnyByString;
 }
 
+/*TStruc*/
 public class Delta
 {
     /// <summary>
@@ -953,13 +995,15 @@ public class Delta
 }
 
 
+/*TOr*/
 public abstract record BooleanOrDelta
 {
     private BooleanOrDelta() { }
     public sealed record Boolean(bool? Boolean) : BooleanOrDelta;
-    public sealed record Delta(Delta Delta) : BooleanOrDelta;
+    public sealed record Delta(/*TOpt*/__TypeIdentGen__cr06pj9lga5x__ Delta) : BooleanOrDelta;
 }
 
+/*TStruc*/
 public class RangeFull
 {
     /// <summary>
@@ -968,17 +1012,18 @@ public class RangeFull
     /// 
     /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
     /// </summary>
-    public BooleanOrAnyByString Range;
+    public /*TOpt*/__TypeIdentGen__cr06pj9lcu9k__ Range;
     /// <summary>
     /// The client will send the `textDocument/semanticTokens/full` request if
     /// the server provides a corresponding handler.
     /// 
     /// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
     /// </summary>
-    public BooleanOrDelta Full;
+    public /*TOpt*/__TypeIdentGen__cr06pj9lf28z__ Full;
 }
 
 
+/*TStruc*/
 public class Properties
 {
     /// <summary>
@@ -988,6 +1033,7 @@ public class Properties
 }
 
 
+/*TStruc*/
 public class AdditionalPropertiesSupport
 {
     /// <summary>

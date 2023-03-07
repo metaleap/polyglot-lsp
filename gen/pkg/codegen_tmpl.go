@@ -2,8 +2,10 @@ package glot
 
 import (
 	"bytes"
+	"strconv"
 	"strings"
 	"text/template"
+	"time"
 )
 
 var tmpls = map[string]struct {
@@ -59,16 +61,16 @@ func (it *GenMain) DoTypeOptional(t GenType, optional bool) string {
 
 func (it *GenMain) doType(t GenType, tmplName string) (ret string) {
 	bag := struct {
-		Main     *GenMain
-		Type     GenType
-		IdentGen string
-	}{it, t, t.NameSuggestion(true)}
+		Main         *GenMain
+		Type         GenType
+		TypeIdentGen string
+	}{it, t, "__TypeIdentGen__" + strconv.FormatInt(time.Now().UnixNano(), 36) + "__"}
 
-	tmpl, src := it.gen.tmplSrc(tmplName, "")
-	gen_ident := strings.Contains(src, ".IdentGen")
-	if ret = it.gen.tmplExec(nil, tmpl, bag); gen_ident {
+	tmpl := it.gen.tmpl(tmplName, "")
+	if ret = it.gen.tmplExec(nil, tmpl, bag); strings.Contains(ret, bag.TypeIdentGen) {
+		ret = strings.ReplaceAll(ret, bag.TypeIdentGen, t.NameSuggestion(true))
 		it.gen.tracked.namedAnonTypeRenders = append(it.gen.tracked.namedAnonTypeRenders, ret)
-		ret = bag.IdentGen
+		ret = bag.TypeIdentGen
 	}
 	return
 }
@@ -86,17 +88,35 @@ func (it *GenMain) IsStructTypeName(name string) bool {
 	return it.gen.tracked.decls.structures[name] != nil
 }
 
-func (it *GenMain) IsTypeKindArray(t GenType) bool {
-	return isTypeKind[GenTypeArray](it.gen, t)
+func (it *GenMain) IsTypeKindOfArray(t GenType) bool { return isGenTypeOf[GenTypeArray](it.gen, t) }
+func (it *GenMain) IsTypeKindOfMap(t GenType) bool   { return isGenTypeOf[GenTypeMap](it.gen, t) }
+func (it *GenMain) IsTypeKindOfAnd(t GenType) bool   { return isGenTypeOf[GenTypeAnd](it.gen, t) }
+func (it *GenMain) IsTypeKindOfOr(t GenType) bool    { return isGenTypeOf[GenTypeOr](it.gen, t) }
+func (it *GenMain) IsTypeKindOfTuple(t GenType) bool { return isGenTypeOf[GenTypeTuple](it.gen, t) }
+func (it *GenMain) IsTypeKindOfStructure(t GenType) bool {
+	return isGenTypeOf[*GenTypeStructure](it.gen, t)
 }
-func (it *GenMain) IsTypeKindMap(t GenType) bool {
-	return isTypeKind[GenTypeMap](it.gen, t)
-}
-func (it *GenMain) IsTypeKindStructure(t GenType) bool {
-	return isTypeKind[*GenTypeStructure](it.gen, t)
-}
-func (it *GenMain) IsTypeKindOr(t GenType) bool {
-	return isTypeKind[GenTypeOr](it.gen, t)
+func (it *GenMain) IsTypeKindOf(t GenType, s string) (ret bool) {
+	var ref string
+	switch t := t.(type) {
+	case GenTypeBaseType:
+		ret = (string(t) == s)
+	case GenTypeReference:
+		ref, ret = string(t), (string(t) == s)
+	case GenTypeEnumeration:
+		ref, ret = string(t), (string(t) == s)
+	case GenTypeMapKey:
+		ref, ret = string(t), (string(t) == s)
+	}
+	if (!ret) && ref != "" {
+		if decl := it.gen.tracked.decls.typeAliases[ref]; decl != nil {
+			return it.IsTypeKindOf(decl.Type, s)
+		}
+		if decl := it.gen.tracked.decls.enumerations[ref]; decl != nil {
+			return it.IsTypeKindOf(decl.Type, s)
+		}
+	}
+	return
 }
 
 func (it *Gen) tmpl(tmplName string, fallbackSrc string) (ret *template.Template) {

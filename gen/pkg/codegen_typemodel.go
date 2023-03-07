@@ -290,11 +290,11 @@ func (it *Gen) EnsureTypeTracked(t GenType) GenType {
 	return t
 }
 
-func isTypeKind[T GenType](it *Gen, t GenType) (is bool) {
+func isGenTypeOf[T GenType](it *Gen, t GenType) (is bool) {
 	if _, is = t.(T); !is {
 		if tref, isref := t.(GenTypeReference); isref {
 			if alias := it.tracked.decls.typeAliases[string(tref)]; alias != nil {
-				is = isTypeKind[T](it, alias.Type)
+				is = isGenTypeOf[T](it, alias.Type)
 			}
 		}
 	}

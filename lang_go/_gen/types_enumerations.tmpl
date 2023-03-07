@@ -1,6 +1,7 @@
-{{- with $main := . }}
+{{- $main := . }}
+
 {{- range .Items }}
-{{- with $enum := . }}
+{{- $enum := . }}
 
 {{ .DoDocComments $main }}
 type {{ $enum.Name }} {{ $main.DoType $enum.Type }}
@@ -21,6 +22,4 @@ func (it {{ $enum.Name }}) String() string {
 	return ""
 }
 
-{{- end }}
-{{- end }}
 {{- end }}

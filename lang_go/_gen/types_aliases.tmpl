@@ -1,18 +1,15 @@
-{{- with $main := . }}
+{{- $main := . }}
+
 {{- range .Items }}
-{{- with $alias := . }}
-{{- with $alias_kind := printf "%s" $alias.Type }}
+{{- $alias := . }}
 
 {{ $alias.DoDocComments $main }}
-{{ if (eq $alias_kind "string") -}}
+{{ if ($main.IsTypeKindOf $alias.Type "string") -}}
 type {{ $alias.Name }} = String
-{{ else if or ($main.IsTypeKindStructure $alias.Type) ($main.IsTypeKindOr $alias.Type) -}}
+{{ else if or ($main.IsTypeKindOfStructure $alias.Type) ($main.IsTypeKindOfOr $alias.Type) -}}
 type {{ $alias.Name }} {{ $main.DoType $alias.Type }}
 {{ else -}}
 type {{ $alias.Name }} = {{ $main.DoType $alias.Type }}
 {{ end -}}
 
-{{- end }}
-{{- end }}
-{{- end }}
 {{- end }}

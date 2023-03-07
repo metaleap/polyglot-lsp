@@ -166,7 +166,7 @@ func ensureDocHintUnionType(base *GenBase, t GenType, prefix string) {
 			if base.docHintUnionsEnsured = true; len(base.DocLines) > 0 {
 				base.DocLines = append(base.DocLines, "")
 			}
-			base.DocLines = append(base.DocLines, prefix+"\"OneOf\" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.")
+			base.DocLines = append(base.DocLines, prefix+"\"OneOf\" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.")
 		}
 	case *GenTypeStructure:
 		t.ensureDocHintUnionType()

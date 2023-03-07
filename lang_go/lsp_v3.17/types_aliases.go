@@ -8,10 +8,10 @@ package lsp
 // Servers should prefer returning `DefinitionLink` over `Definition` if supported
 // by the client.
 //
-// "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-type Definition struct {
-	Location  *Location
-	Locations []Location
+// "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+type Definition /*TOr*/ struct {
+	Location/*TOpt*/ *Location
+	Locations/*TOpt*/ []Location
 }
 
 // Information about where a symbol is defined.
@@ -31,23 +31,23 @@ type LSPArray = []LSPAny
 // optional as well.
 // @since 3.17.0
 //
-// "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-type LSPAny struct {
-	LSPObject LSPObject
-	LSPArray  LSPArray
-	String    *String
-	Integer   *Integer
-	Uinteger  *Uinteger
-	Decimal   *Decimal
-	Boolean   *Boolean
+// "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+type LSPAny /*TOr*/ struct {
+	LSPObject/*TOpt*/ LSPObject
+	LSPArray/*TOpt*/ LSPArray
+	String/*TOpt*/ *String
+	Integer/*TOpt*/ *Integer
+	Uinteger/*TOpt*/ *Uinteger
+	Decimal/*TOpt*/ *Decimal
+	Boolean/*TOpt*/ *Boolean
 }
 
 // The declaration of a symbol representation as one or many `Location`.
 //
-// "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-type Declaration struct {
-	Location  *Location
-	Locations []Location
+// "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+type Declaration /*TOr*/ struct {
+	Location/*TOpt*/ *Location
+	Locations/*TOpt*/ []Location
 }
 
 // Information about where a symbol is declared.
@@ -67,11 +67,11 @@ type DeclarationLink = LocationLink
 //
 // @since 3.17.0
 //
-// "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-type InlineValue struct {
-	InlineValueText                  *InlineValueText
-	InlineValueVariableLookup        *InlineValueVariableLookup
-	InlineValueEvaluatableExpression *InlineValueEvaluatableExpression
+// "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+type InlineValue /*TOr*/ struct {
+	InlineValueText/*TOpt*/ *InlineValueText
+	InlineValueVariableLookup/*TOpt*/ *InlineValueVariableLookup
+	InlineValueEvaluatableExpression/*TOpt*/ *InlineValueEvaluatableExpression
 }
 
 // The result of a document diagnostic pull request. A report can
@@ -82,21 +82,21 @@ type InlineValue struct {
 //
 // @since 3.17.0
 //
-// "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-type DocumentDiagnosticReport struct {
-	RelatedFullDocumentDiagnosticReport      *RelatedFullDocumentDiagnosticReport
-	RelatedUnchangedDocumentDiagnosticReport *RelatedUnchangedDocumentDiagnosticReport
+// "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+type DocumentDiagnosticReport /*TOr*/ struct {
+	RelatedFullDocumentDiagnosticReport/*TOpt*/ *RelatedFullDocumentDiagnosticReport
+	RelatedUnchangedDocumentDiagnosticReport/*TOpt*/ *RelatedUnchangedDocumentDiagnosticReport
 }
 
-// "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-type PrepareRenameResult struct {
-	Range            *Range
-	RangePlaceholder *struct {
+// "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+type PrepareRenameResult /*TOr*/ struct {
+	Range/*TOpt*/ *Range
+	RangePlaceholder/*TOpt*/ * /*TStruc*/ struct {
 		Range       Range
 		Placeholder string
 	}
 
-	DefaultBehavior *struct {
+	DefaultBehavior/*TOpt*/ * /*TStruc*/ struct {
 		DefaultBehavior bool
 	}
 }
@@ -108,10 +108,10 @@ type PrepareRenameResult struct {
 // The use of a string as a document filter is deprecated @since 3.16.0.
 type DocumentSelector = []DocumentFilter
 
-// "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-type ProgressToken struct {
-	Integer *Integer
-	String  *String
+// "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+type ProgressToken /*TOr*/ struct {
+	Integer/*TOpt*/ *Integer
+	String/*TOpt*/ *String
 }
 
 // An identifier to refer to a change annotation stored with a workspace edit.
@@ -121,29 +121,29 @@ type ChangeAnnotationIdentifier = String
 //
 // @since 3.17.0
 //
-// "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-type WorkspaceDocumentDiagnosticReport struct {
-	WorkspaceFullDocumentDiagnosticReport      *WorkspaceFullDocumentDiagnosticReport
-	WorkspaceUnchangedDocumentDiagnosticReport *WorkspaceUnchangedDocumentDiagnosticReport
+// "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+type WorkspaceDocumentDiagnosticReport /*TOr*/ struct {
+	WorkspaceFullDocumentDiagnosticReport/*TOpt*/ *WorkspaceFullDocumentDiagnosticReport
+	WorkspaceUnchangedDocumentDiagnosticReport/*TOpt*/ *WorkspaceUnchangedDocumentDiagnosticReport
 }
 
 // An event describing a change to a text document. If only a text is provided
 // it is considered to be the full content of the document.
 //
-// "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-type TextDocumentContentChangeEvent struct {
-	RangeRangeLengthText *struct {
+// "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+type TextDocumentContentChangeEvent /*TOr*/ struct {
+	RangeRangeLengthText/*TOpt*/ * /*TStruc*/ struct {
 		// The range of the document that changed.
 		Range Range
 		// The optional length of the range that got replaced.
 		//
 		// @deprecated use range instead.
-		RangeLength *Uinteger
+		RangeLength/*TOpt*/ *Uinteger
 		// The new text for the provided range.
 		Text string
 	}
 
-	Text *struct {
+	Text/*TOpt*/ * /*TStruc*/ struct {
 		// The new text of the whole document.
 		Text string
 	}
@@ -162,10 +162,10 @@ type TextDocumentContentChangeEvent struct {
 // Note that markdown strings will be sanitized - that means html will be escaped.
 // @deprecated use MarkupContent instead.
 //
-// "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-type MarkedString struct {
-	String        *String
-	LanguageValue *struct {
+// "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+type MarkedString /*TOr*/ struct {
+	String/*TOpt*/ *String
+	LanguageValue/*TOpt*/ * /*TStruc*/ struct {
 		Language string
 		Value    string
 	}
@@ -176,10 +176,10 @@ type MarkedString struct {
 //
 // @since 3.17.0 - proposed support for NotebookCellTextDocumentFilter.
 //
-// "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-type DocumentFilter struct {
-	TextDocumentFilter             *TextDocumentFilter
-	NotebookCellTextDocumentFilter *NotebookCellTextDocumentFilter
+// "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+type DocumentFilter /*TOr*/ struct {
+	TextDocumentFilter/*TOpt*/ *TextDocumentFilter
+	NotebookCellTextDocumentFilter/*TOpt*/ *NotebookCellTextDocumentFilter
 }
 
 // LSP object definition.
@@ -190,10 +190,10 @@ type LSPObject = map[string]LSPAny
 //
 // @since 3.17.0
 //
-// "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-type GlobPattern struct {
-	Pattern         *Pattern
-	RelativePattern *RelativePattern
+// "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+type GlobPattern /*TOr*/ struct {
+	Pattern/*TOpt*/ *String
+	RelativePattern/*TOpt*/ *RelativePattern
 }
 
 // A document filter denotes a document by different properties like
@@ -212,13 +212,13 @@ type GlobPattern struct {
 // @sample A language filter that applies to all package.json paths: `{ language: 'json', pattern: '**package.json' }`
 //
 // @since 3.17.0
-type TextDocumentFilter struct {
+type TextDocumentFilter /*TStruc*/ struct {
 	// A language id, like `typescript`.
-	Language *String
+	Language/*TOpt*/ *String
 	// A Uri `Uri.scheme`, like `file` or `untitled`.
-	Scheme *String
+	Scheme/*TOpt*/ *String
 	// A glob pattern, like `*.{ts,js}`.
-	Pattern *String
+	Pattern/*TOpt*/ *String
 }
 
 // A notebook document filter denotes a notebook document by
@@ -226,13 +226,13 @@ type TextDocumentFilter struct {
 // against the notebook's URI (same as with documents)
 //
 // @since 3.17.0
-type NotebookDocumentFilter struct {
+type NotebookDocumentFilter /*TStruc*/ struct {
 	// The type of the enclosing notebook.
-	NotebookType *String
+	NotebookType/*TOpt*/ *String
 	// A Uri `Uri.scheme`, like `file` or `untitled`.
-	Scheme *String
+	Scheme/*TOpt*/ *String
 	// A glob pattern.
-	Pattern *String
+	Pattern/*TOpt*/ *String
 }
 
 // The glob pattern to watch relative to the base path. Glob patterns can have the following syntax:

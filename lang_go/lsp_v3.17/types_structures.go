@@ -89,20 +89,20 @@ type ColorPresentation struct {
 	// An `TextEdit` which is applied to a document when selecting
 	// this presentation for the color.  When `falsy` the `ColorPresentation.label`
 	// is used.
-	TextEdit *TextEdit
+	TextEdit/*TOpt*/ *TextEdit
 	// An optional array of additional `TextEdit` that are applied when
 	// selecting this color presentation. Edits must not overlap with the main `ColorPresentation.textEdit` nor with themselves.
-	AdditionalTextEdits []TextEdit
+	AdditionalTextEdits/*TOpt*/ []TextEdit
 }
 type WorkDoneProgressOptions struct {
-	WorkDoneProgress *Boolean
+	WorkDoneProgress /*TOpt*/ *Boolean
 }
 
 // General text document registration options.
 type TextDocumentRegistrationOptions struct {
 	// A document selector to identify the scope of the registration. If set to null
 	// the document selector provided on the client side will be used.
-	DocumentSelector DocumentSelector
+	DocumentSelector /*TOr*/ /*TOpt*/ DocumentSelector
 }
 
 // Parameters for a `FoldingRangeRequest`.
@@ -120,22 +120,22 @@ type FoldingRange struct {
 	// To be valid, the end must be zero or larger and smaller than the number of lines in the document.
 	StartLine uint
 	// The zero-based character offset from where the folded range starts. If not defined, defaults to the length of the start line.
-	StartCharacter *Uinteger
+	StartCharacter/*TOpt*/ *Uinteger
 	// The zero-based end line of the range to fold. The folded area ends with the line's last character.
 	// To be valid, the end must be zero or larger and smaller than the number of lines in the document.
 	EndLine uint
 	// The zero-based character offset before the folded range ends. If not defined, defaults to the length of the end line.
-	EndCharacter *Uinteger
+	EndCharacter/*TOpt*/ *Uinteger
 	// Describes the kind of the folding range such as `comment' or 'region'. The kind
 	// is used to categorize folding ranges and used by commands like 'Fold all comments'.
 	// See `FoldingRangeKind` for an enumeration of standardized kinds.
-	Kind FoldingRangeKind
+	Kind/*TOpt*/ FoldingRangeKind
 	// The text that the client should show when the specified range is
 	// collapsed. If not defined or not supported by the client, a default
 	// will be chosen by the client.
 	//
 	// @since 3.17.0
-	CollapsedText *String
+	CollapsedText/*TOpt*/ *String
 }
 type FoldingRangeRegistrationOptions struct {
 	TextDocumentRegistrationOptions
@@ -169,7 +169,7 @@ type SelectionRange struct {
 	// The `Range` of this selection range.
 	Range Range
 	// The parent selection range containing this range. Therefore `parent.range` must contain `this.range`.
-	Parent *SelectionRange
+	Parent/*TOpt*/ *SelectionRange
 }
 type SelectionRangeRegistrationOptions struct {
 	SelectionRangeOptions
@@ -203,9 +203,9 @@ type CallHierarchyItem struct {
 	// The kind of this item.
 	Kind SymbolKind
 	// Tags for this item.
-	Tags []SymbolTag
+	Tags/*TOpt*/ []SymbolTag
 	// More detail for this item, e.g. the signature of a function.
-	Detail *String
+	Detail/*TOpt*/ *String
 	// The resource identifier of this item.
 	Uri DocumentURI
 	// The range enclosing this symbol not including leading/trailing whitespace but everything else, e.g. comments and code.
@@ -215,7 +215,7 @@ type CallHierarchyItem struct {
 	SelectionRange Range
 	// A data entry field that is preserved between a call hierarchy prepare and
 	// incoming calls or outgoing calls requests.
-	Data LSPAny
+	Data/*TOpt*/ LSPAny
 }
 
 // Call hierarchy options used during static or dynamic registration.
@@ -282,7 +282,7 @@ type SemanticTokens struct {
 	// the client will include the result id in the next semantic token request.
 	// A server can then instead of computing all semantic tokens again simply
 	// send a delta.
-	ResultId *String
+	ResultId/*TOpt*/ *String
 	// The actual tokens.
 	Data []uint
 }
@@ -312,7 +312,7 @@ type SemanticTokensDeltaParams struct {
 
 // @since 3.16.0
 type SemanticTokensDelta struct {
-	ResultId *String
+	ResultId/*TOpt*/ *String
 	// The semantic token edits to transform a previous result into a new result.
 	Edits []SemanticTokensEdit
 }
@@ -341,17 +341,17 @@ type ShowDocumentParams struct {
 	// Indicates to show the resource in an external program.
 	// To show for example `https://code.visualstudio.com/`
 	// in the default WEB browser set `external` to `true`.
-	External *Boolean
+	External/*TOpt*/ *Boolean
 	// An optional property to indicate whether the editor
 	// showing the document should take focus or not.
 	// Clients might ignore this property if an external
 	// program is started.
-	TakeFocus *Boolean
+	TakeFocus/*TOpt*/ *Boolean
 	// An optional selection range if the document is a text
 	// document. Clients might ignore the property if an
 	// external program is started or the file is not a text
 	// file.
-	Selection *Range
+	Selection/*TOpt*/ *Range
 }
 
 // The result of a showDocument request.
@@ -376,7 +376,7 @@ type LinkedEditingRanges struct {
 	// An optional word pattern (regular expression) that describes valid contents for
 	// the given ranges. If no pattern is provided, the client configuration's word
 	// pattern will be used.
-	WordPattern *String
+	WordPattern/*TOpt*/ *String
 }
 type LinkedEditingRangeRegistrationOptions struct {
 	TextDocumentRegistrationOptions
@@ -407,7 +407,7 @@ type CreateFilesParams struct {
 // the client capability: `workspace.workspaceEdit.failureHandling`
 type WorkspaceEdit struct {
 	// Holds changes to existing resources.
-	Changes map[DocumentURI][]TextEdit
+	Changes/*TOpt*/ map[DocumentURI][]TextEdit
 	// Depending on the client capability `workspace.workspaceEdit.resourceOperations` document changes
 	// are either an array of `TextDocumentEdit`s to express changes to n different text documents
 	// where each text document edit addresses a specific version of a text document. Or it can contain
@@ -419,20 +419,21 @@ type WorkspaceEdit struct {
 	// If a client neither supports `documentChanges` nor `workspace.workspaceEdit.resourceOperations` then
 	// only plain `TextEdit`s using the `changes` property are supported.
 	//
-	// Every object in the array has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	DocumentChanges []struct {
-		TextDocumentEdit *TextDocumentEdit
-		CreateFile       *CreateFile
-		RenameFile       *RenameFile
-		DeleteFile       *DeleteFile
+	// Every object in the array has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	DocumentChanges/*TOpt*/ [] /*TOr*/ struct {
+		TextDocumentEdit/*TOpt*/ *TextDocumentEdit
+		CreateFile/*TOpt*/ *CreateFile
+		RenameFile/*TOpt*/ *RenameFile
+		DeleteFile/*TOpt*/ *DeleteFile
 	}
+
 	// A map of change annotations that can be referenced in `AnnotatedTextEdit`s or create, rename and
 	// delete file / folder operations.
 	//
 	// Whether clients honor this property depends on the client capability `workspace.changeAnnotationSupport`.
 	//
 	// @since 3.16.0
-	ChangeAnnotations map[ChangeAnnotationIdentifier]ChangeAnnotation
+	ChangeAnnotations/*TOpt*/ map[ChangeAnnotationIdentifier]ChangeAnnotation
 }
 
 // The options to register for file operations.
@@ -479,7 +480,7 @@ type Moniker struct {
 	// The scope in which the moniker is unique
 	Unique UniquenessLevel
 	// The moniker kind if known.
-	Kind MonikerKind
+	Kind/*TOpt*/ MonikerKind
 }
 type MonikerRegistrationOptions struct {
 	TextDocumentRegistrationOptions
@@ -501,9 +502,9 @@ type TypeHierarchyItem struct {
 	// The kind of this item.
 	Kind SymbolKind
 	// Tags for this item.
-	Tags []SymbolTag
+	Tags/*TOpt*/ []SymbolTag
 	// More detail for this item, e.g. the signature of a function.
-	Detail *String
+	Detail/*TOpt*/ *String
 	// The resource identifier of this item.
 	Uri DocumentURI
 	// The range enclosing this symbol not including leading/trailing whitespace
@@ -517,7 +518,7 @@ type TypeHierarchyItem struct {
 	// supertypes or subtypes requests. It could also be used to identify the
 	// type hierarchy in the server, helping improve the performance on
 	// resolving supertypes and subtypes.
-	Data LSPAny
+	Data/*TOpt*/ LSPAny
 }
 
 // Type hierarchy options used during static or dynamic registration.
@@ -592,42 +593,44 @@ type InlayHint struct {
 	//
 	// *Note* that neither the string nor the label part can be empty.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	Label struct {
-		String              *String
-		InlayHintLabelParts []InlayHintLabelPart
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	Label/*TOr*/ struct {
+		String/*TOpt*/ *String
+		InlayHintLabelParts/*TOpt*/ []InlayHintLabelPart
 	}
+
 	// The kind of this hint. Can be omitted in which case the client
 	// should fall back to a reasonable default.
-	Kind InlayHintKind
+	Kind/*TOpt*/ InlayHintKind
 	// Optional text edits that are performed when accepting this inlay hint.
 	//
 	// *Note* that edits are expected to change the document so that the inlay
 	// hint (or its nearest variant) is now part of the document and the inlay
 	// hint itself is now obsolete.
-	TextEdits []TextEdit
+	TextEdits/*TOpt*/ []TextEdit
 	// The tooltip text when you hover over this item.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	Tooltip struct {
-		String        *String
-		MarkupContent *MarkupContent
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	Tooltip/*TOpt*/ /*TOr*/ struct {
+		String/*TOpt*/ *String
+		MarkupContent/*TOpt*/ *MarkupContent
 	}
+
 	// Render padding before the hint.
 	//
 	// Note: Padding should use the editor's background color, not the
 	// background color of the hint itself. That means padding can be used
 	// to visually align/separate an inlay hint.
-	PaddingLeft *Boolean
+	PaddingLeft/*TOpt*/ *Boolean
 	// Render padding after the hint.
 	//
 	// Note: Padding should use the editor's background color, not the
 	// background color of the hint itself. That means padding can be used
 	// to visually align/separate an inlay hint.
-	PaddingRight *Boolean
+	PaddingRight/*TOpt*/ *Boolean
 	// A data entry field that is preserved on an inlay hint between
 	// a `textDocument/inlayHint` and a `inlayHint/resolve` request.
-	Data LSPAny
+	Data/*TOpt*/ LSPAny
 }
 
 // Inlay hint options used during static or dynamic registration.
@@ -648,19 +651,19 @@ type DocumentDiagnosticParams struct {
 	// The text document.
 	TextDocument TextDocumentIdentifier
 	// The additional identifier  provided during registration.
-	Identifier *String
+	Identifier/*TOpt*/ *String
 	// The result id of a previous response if provided.
-	PreviousResultId *String
+	PreviousResultId/*TOpt*/ *String
 }
 
 // A partial result for a document diagnostic report.
 //
 // @since 3.17.0
 type DocumentDiagnosticReportPartialResult struct {
-	// Every object in the map has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	RelatedDocuments map[DocumentURI]struct {
-		FullDocumentDiagnosticReport      *FullDocumentDiagnosticReport
-		UnchangedDocumentDiagnosticReport *UnchangedDocumentDiagnosticReport
+	// Every object in the map has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	RelatedDocuments map[DocumentURI] /*TOr*/ struct {
+		FullDocumentDiagnosticReport/*TOpt*/ *FullDocumentDiagnosticReport
+		UnchangedDocumentDiagnosticReport/*TOpt*/ *UnchangedDocumentDiagnosticReport
 	}
 }
 
@@ -687,7 +690,7 @@ type WorkspaceDiagnosticParams struct {
 	WorkDoneProgressParams
 	PartialResultParams
 	// The additional identifier provided during registration.
-	Identifier *String
+	Identifier/*TOpt*/ *String
 	// The currently known diagnostic reports with their
 	// previous result ids.
 	PreviousResultIds []PreviousResultId
@@ -779,11 +782,11 @@ type InitializeResult struct {
 	// Information about the server.
 	//
 	// @since 3.15.0
-	ServerInfo *struct {
+	ServerInfo/*TOpt*/ * /*TStruc*/ struct {
 		// The name of the server as defined by the server.
 		Name string
 		// The server's version as defined by the server.
-		Version *String
+		Version/*TOpt*/ *String
 	}
 }
 
@@ -805,10 +808,10 @@ type DidChangeConfigurationParams struct {
 	Settings LSPAny
 }
 type DidChangeConfigurationRegistrationOptions struct {
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	Section struct {
-		String  *String
-		Strings []string
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	Section /*TOpt*/ /*TOr*/ struct {
+		String/*TOpt*/ *String
+		Strings/*TOpt*/ []string
 	}
 }
 
@@ -825,7 +828,7 @@ type ShowMessageRequestParams struct {
 	// The actual message.
 	Message string
 	// The message action items to present.
-	Actions []MessageActionItem
+	Actions/*TOpt*/ []MessageActionItem
 }
 type MessageActionItem struct {
 	// A short title like 'Retry', 'Open Log' etc.
@@ -885,7 +888,7 @@ type DidSaveTextDocumentParams struct {
 	TextDocument TextDocumentIdentifier
 	// Optional the content when saved. Depends on the includeText value
 	// when the save notification was requested.
-	Text *String
+	Text/*TOpt*/ *String
 }
 
 // Save registration options.
@@ -931,7 +934,7 @@ type PublishDiagnosticsParams struct {
 	// Optional the version number of the document the diagnostics are published for.
 	//
 	// @since 3.15.0
-	Version *Integer
+	Version/*TOpt*/ *Integer
 	// An array of diagnostic information items.
 	Diagnostics []Diagnostic
 }
@@ -943,7 +946,7 @@ type CompletionParams struct {
 	PartialResultParams
 	// The completion context. This is only available it the client specifies
 	// to send this using the client capability `textDocument.completion.contextSupport === true`
-	Context *CompletionContext
+	Context/*TOpt*/ *CompletionContext
 }
 
 // A completion item represents a text snippet that is
@@ -960,41 +963,42 @@ type CompletionItem struct {
 	// Additional details for the label
 	//
 	// @since 3.17.0
-	LabelDetails *CompletionItemLabelDetails
+	LabelDetails/*TOpt*/ *CompletionItemLabelDetails
 	// The kind of this completion item. Based of the kind
 	// an icon is chosen by the editor.
-	Kind CompletionItemKind
+	Kind/*TOpt*/ CompletionItemKind
 	// Tags for this completion item.
 	//
 	// @since 3.15.0
-	Tags []CompletionItemTag
+	Tags/*TOpt*/ []CompletionItemTag
 	// A human-readable string with additional information
 	// about this item, like type or symbol information.
-	Detail *String
+	Detail/*TOpt*/ *String
 	// A human-readable string that represents a doc-comment.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	Documentation struct {
-		String        *String
-		MarkupContent *MarkupContent
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	Documentation/*TOpt*/ /*TOr*/ struct {
+		String/*TOpt*/ *String
+		MarkupContent/*TOpt*/ *MarkupContent
 	}
+
 	// Indicates if this item is deprecated.
 	// @deprecated Use `tags` instead.
-	Deprecated *Boolean
+	Deprecated/*TOpt*/ *Boolean
 	// Select this item when showing.
 	//
 	// *Note* that only one completion item can be selected and that the
 	// tool / client decides which item that is. The rule is that the *first*
 	// item of those that match best is selected.
-	Preselect *Boolean
+	Preselect/*TOpt*/ *Boolean
 	// A string that should be used when comparing this item
 	// with other items. When `falsy` the `CompletionItem.label`
 	// is used.
-	SortText *String
+	SortText/*TOpt*/ *String
 	// A string that should be used when filtering a set of
 	// completion items. When `falsy` the `CompletionItem.label`
 	// is used.
-	FilterText *String
+	FilterText/*TOpt*/ *String
 	// A string that should be inserted into a document when selecting
 	// this completion. When `falsy` the `CompletionItem.label`
 	// is used.
@@ -1006,20 +1010,20 @@ type CompletionItem struct {
 	// `console` is provided it will only insert `sole`. Therefore it is
 	// recommended to use `textEdit` instead since it avoids additional client
 	// side interpretation.
-	InsertText *String
+	InsertText/*TOpt*/ *String
 	// The format of the insert text. The format applies to both the
 	// `insertText` property and the `newText` property of a provided
 	// `textEdit`. If omitted defaults to `InsertTextFormat.PlainText`.
 	//
 	// Please note that the insertTextFormat doesn't apply to
 	// `additionalTextEdits`.
-	InsertTextFormat InsertTextFormat
+	InsertTextFormat/*TOpt*/ InsertTextFormat
 	// How whitespace and indentation is handled during completion
 	// item insertion. If not provided the clients default value depends on
 	// the `textDocument.completion.insertTextMode` client capability.
 	//
 	// @since 3.16.0
-	InsertTextMode InsertTextMode
+	InsertTextMode/*TOpt*/ InsertTextMode
 	// An `TextEdit` which is applied to a document when selecting
 	// this completion. When an edit is provided the value of
 	// `CompletionItem.insertText` is ignored.
@@ -1041,11 +1045,12 @@ type CompletionItem struct {
 	//
 	// @since 3.16.0 additional type `InsertReplaceEdit`
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	TextEdit struct {
-		TextEdit          *TextEdit
-		InsertReplaceEdit *InsertReplaceEdit
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	TextEdit/*TOpt*/ /*TOr*/ struct {
+		TextEdit/*TOpt*/ *TextEdit
+		InsertReplaceEdit/*TOpt*/ *InsertReplaceEdit
 	}
+
 	// The edit text used if the completion item is part of a CompletionList and
 	// CompletionList defines an item default for the text edit range.
 	//
@@ -1056,7 +1061,7 @@ type CompletionItem struct {
 	// property is used as a text.
 	//
 	// @since 3.17.0
-	TextEditText *String
+	TextEditText/*TOpt*/ *String
 	// An optional array of additional `TextEdit` that are applied when
 	// selecting this completion. Edits must not overlap (including the same insert position)
 	// with the main `CompletionItem.textEdit` nor with themselves.
@@ -1064,18 +1069,18 @@ type CompletionItem struct {
 	// Additional text edits should be used to change text unrelated to the current cursor position
 	// (for example adding an import statement at the top of the file if the completion item will
 	// insert an unqualified type).
-	AdditionalTextEdits []TextEdit
+	AdditionalTextEdits/*TOpt*/ []TextEdit
 	// An optional set of characters that when pressed while this completion is active will accept it first and
 	// then type that character. *Note* that all commit characters should have `length=1` and that superfluous
 	// characters will be ignored.
-	CommitCharacters []string
+	CommitCharacters/*TOpt*/ []string
 	// An optional `Command` that is executed *after* inserting this completion. *Note* that
 	// additional modifications to the current document should be described with the
 	// `CompletionItem.additionalTextEdits`-property.
-	Command *Command
+	Command/*TOpt*/ *Command
 	// A data entry field that is preserved on a completion item between a
 	// `CompletionRequest` and a `CompletionResolveRequest`.
-	Data LSPAny
+	Data/*TOpt*/ LSPAny
 }
 
 // Represents a collection of `CompletionItem` to be presented
@@ -1099,35 +1104,36 @@ type CompletionList struct {
 	// capability.
 	//
 	// @since 3.17.0
-	ItemDefaults *struct {
+	ItemDefaults/*TOpt*/ * /*TStruc*/ struct {
 		// A default commit character set.
 		//
 		// @since 3.17.0
-		CommitCharacters []string
+		CommitCharacters/*TOpt*/ []string
 		// A default edit range.
 		//
 		// @since 3.17.0
 		//
-		// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-		EditRange struct {
-			Range         *Range
-			InsertReplace *struct {
+		// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+		EditRange/*TOpt*/ /*TOr*/ struct {
+			Range/*TOpt*/ *Range
+			InsertReplace/*TOpt*/ * /*TStruc*/ struct {
 				Insert  Range
 				Replace Range
 			}
 		}
+
 		// A default insert text format.
 		//
 		// @since 3.17.0
-		InsertTextFormat InsertTextFormat
+		InsertTextFormat/*TOpt*/ InsertTextFormat
 		// A default insert text mode.
 		//
 		// @since 3.17.0
-		InsertTextMode InsertTextMode
+		InsertTextMode/*TOpt*/ InsertTextMode
 		// A default data value.
 		//
 		// @since 3.17.0
-		Data LSPAny
+		Data/*TOpt*/ LSPAny
 	}
 
 	// The completion items.
@@ -1150,15 +1156,16 @@ type HoverParams struct {
 type Hover struct {
 	// The hover's content
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	Contents struct {
-		MarkupContent *MarkupContent
-		MarkedString  MarkedString
-		MarkedStrings []MarkedString
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	Contents/*TOr*/ struct {
+		MarkupContent/*TOpt*/ *MarkupContent
+		MarkedString/*TOpt*/ MarkedString
+		MarkedStrings/*TOpt*/ []MarkedString
 	}
+
 	// An optional range inside the text document that is used to
 	// visualize the hover, e.g. by changing the background color.
-	Range *Range
+	Range/*TOpt*/ *Range
 }
 
 // Registration options for a `HoverRequest`.
@@ -1175,7 +1182,7 @@ type SignatureHelpParams struct {
 	// to send this using the client capability `textDocument.signatureHelp.contextSupport === true`
 	//
 	// @since 3.15.0
-	Context *SignatureHelpContext
+	Context/*TOpt*/ *SignatureHelpContext
 }
 
 // Signature help represents the signature of something
@@ -1193,7 +1200,7 @@ type SignatureHelp struct {
 	//
 	// In future version of the protocol this property might become
 	// mandatory to better express this.
-	ActiveSignature *Uinteger
+	ActiveSignature/*TOpt*/ *Uinteger
 	// The active parameter of the active signature. If omitted or the value
 	// lies outside the range of `signatures[activeSignature].parameters`
 	// defaults to 0 if the active signature has parameters. If
@@ -1201,7 +1208,7 @@ type SignatureHelp struct {
 	// In future version of the protocol this property might become
 	// mandatory to better express the active parameter if the
 	// active signature does have any.
-	ActiveParameter *Uinteger
+	ActiveParameter/*TOpt*/ *Uinteger
 }
 
 // Registration options for a `SignatureHelpRequest`.
@@ -1251,7 +1258,7 @@ type DocumentHighlight struct {
 	// The range this highlight applies to.
 	Range Range
 	// The highlight kind, default is `DocumentHighlightKind.Text`.
-	Kind DocumentHighlightKind
+	Kind/*TOpt*/ DocumentHighlightKind
 }
 
 // Registration options for a `DocumentHighlightRequest`.
@@ -1275,7 +1282,7 @@ type SymbolInformation struct {
 	// Indicates if this symbol is deprecated.
 	//
 	// @deprecated Use tags instead
-	Deprecated *Boolean
+	Deprecated/*TOpt*/ *Boolean
 	// The location of this symbol. The location's range is used by a tool
 	// to reveal the location in the editor. If the symbol is selected in the
 	// tool the range's start information is used to position the cursor. So
@@ -1297,17 +1304,17 @@ type DocumentSymbol struct {
 	// an empty string or a string only consisting of white spaces.
 	Name string
 	// More detail for this symbol, e.g the signature of a function.
-	Detail *String
+	Detail/*TOpt*/ *String
 	// The kind of this symbol.
 	Kind SymbolKind
 	// Tags for this document symbol.
 	//
 	// @since 3.16.0
-	Tags []SymbolTag
+	Tags/*TOpt*/ []SymbolTag
 	// Indicates if this symbol is deprecated.
 	//
 	// @deprecated Use tags instead
-	Deprecated *Boolean
+	Deprecated/*TOpt*/ *Boolean
 	// The range enclosing this symbol not including leading/trailing whitespace but everything else
 	// like comments. This information is typically used to determine if the clients cursor is
 	// inside the symbol to reveal in the symbol in the UI.
@@ -1316,7 +1323,7 @@ type DocumentSymbol struct {
 	// Must be contained by the `range`.
 	SelectionRange Range
 	// Children of this symbol, e.g. properties of a class.
-	Children []DocumentSymbol
+	Children/*TOpt*/ []DocumentSymbol
 }
 
 // Registration options for a `DocumentSymbolRequest`.
@@ -1348,7 +1355,7 @@ type Command struct {
 	Command string
 	// Arguments that the command handler should be
 	// invoked with.
-	Arguments []LSPAny
+	Arguments/*TOpt*/ []LSPAny
 }
 
 // A code action represents a change that can be performed in code, e.g. to fix a problem or
@@ -1361,9 +1368,9 @@ type CodeAction struct {
 	// The kind of the code action.
 	//
 	// Used to filter code actions.
-	Kind CodeActionKind
+	Kind/*TOpt*/ CodeActionKind
 	// The diagnostics that this code action resolves.
-	Diagnostics []Diagnostic
+	Diagnostics/*TOpt*/ []Diagnostic
 	// Marks this as a preferred action. Preferred actions are used by the `auto fix` command and can be targeted
 	// by keybindings.
 	//
@@ -1371,7 +1378,7 @@ type CodeAction struct {
 	// A refactoring should be marked preferred if it is the most reasonable choice of actions to take.
 	//
 	// @since 3.15.0
-	IsPreferred *Boolean
+	IsPreferred/*TOpt*/ *Boolean
 	// Marks that the code action cannot currently be applied.
 	//
 	// Clients should follow the following guidelines regarding disabled code actions:
@@ -1387,7 +1394,7 @@ type CodeAction struct {
 	//     error message with `reason` in the editor.
 	//
 	// @since 3.16.0
-	Disabled *struct {
+	Disabled/*TOpt*/ * /*TStruc*/ struct {
 		// Human readable description of why the code action is currently disabled.
 		//
 		// This is displayed in the code actions UI.
@@ -1395,16 +1402,16 @@ type CodeAction struct {
 	}
 
 	// The workspace edit this code action performs.
-	Edit *WorkspaceEdit
+	Edit/*TOpt*/ *WorkspaceEdit
 	// A command this code action executes. If a code action
 	// provides an edit and a command, first the edit is
 	// executed and then the command.
-	Command *Command
+	Command/*TOpt*/ *Command
 	// A data entry field that is preserved on a code action between
 	// a `textDocument/codeAction` and a `codeAction/resolve` request.
 	//
 	// @since 3.16.0
-	Data LSPAny
+	Data/*TOpt*/ LSPAny
 }
 
 // Registration options for a `CodeActionRequest`.
@@ -1435,16 +1442,17 @@ type WorkspaceSymbol struct {
 	//
 	// See SymbolInformation#location for more details.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	Location struct {
-		Location *Location
-		Uri      *struct {
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	Location/*TOr*/ struct {
+		Location/*TOpt*/ *Location
+		Uri/*TOpt*/ * /*TStruc*/ struct {
 			Uri DocumentURI
 		}
 	}
+
 	// A data entry field that is preserved on a workspace symbol between a
 	// workspace symbol request and a workspace symbol resolve request.
-	Data LSPAny
+	Data/*TOpt*/ LSPAny
 }
 
 // Registration options for a `WorkspaceSymbolRequest`.
@@ -1469,11 +1477,11 @@ type CodeLens struct {
 	// The range in which this code lens is valid. Should only span a single line.
 	Range Range
 	// The command this code lens represents.
-	Command *Command
+	Command/*TOpt*/ *Command
 	// A data entry field that is preserved on a code lens item between
 	// a `CodeLensRequest` and a [CodeLensResolveRequest]
 	// (#CodeLensResolveRequest)
-	Data LSPAny
+	Data/*TOpt*/ LSPAny
 }
 
 // Registration options for a `CodeLensRequest`.
@@ -1496,7 +1504,7 @@ type DocumentLink struct {
 	// The range this link applies to.
 	Range Range
 	// The uri this link points to. If missing a resolve request is sent later.
-	Target *String
+	Target/*TOpt*/ *String
 	// The tooltip text when you hover over this link.
 	//
 	// If a tooltip is provided, is will be displayed in a string that includes instructions on how to
@@ -1504,10 +1512,10 @@ type DocumentLink struct {
 	// user settings, and localization.
 	//
 	// @since 3.15.0
-	Tooltip *String
+	Tooltip/*TOpt*/ *String
 	// A data entry field that is preserved on a document link between a
 	// DocumentLinkRequest and a DocumentLinkResolveRequest.
-	Data LSPAny
+	Data/*TOpt*/ LSPAny
 }
 
 // Registration options for a `DocumentLinkRequest`.
@@ -1600,7 +1608,7 @@ type ExecuteCommandParams struct {
 	// The identifier of the actual command handler.
 	Command string
 	// Arguments that the command should be invoked with.
-	Arguments []LSPAny
+	Arguments/*TOpt*/ []LSPAny
 }
 
 // Registration options for a `ExecuteCommandRequest`.
@@ -1613,7 +1621,7 @@ type ApplyWorkspaceEditParams struct {
 	// An optional label of the workspace edit. This label is
 	// presented in the user interface for example on an undo
 	// stack to undo the workspace edit.
-	Label *String
+	Label/*TOpt*/ *String
 	// The edits to apply.
 	Edit WorkspaceEdit
 }
@@ -1627,11 +1635,11 @@ type ApplyWorkspaceEditResult struct {
 	// An optional textual description for why the edit was not applied.
 	// This may be used by the server for diagnostic logging or to provide
 	// a suitable error for a request that triggered the edit.
-	FailureReason *String
+	FailureReason/*TOpt*/ *String
 	// Depending on the client's failure handling strategy `failedChange` might
 	// contain the index of the change that failed. This property is only available
 	// if the client signals a `failureHandlingStrategy` in its client capabilities.
-	FailedChange *Uinteger
+	FailedChange/*TOpt*/ *Uinteger
 }
 type WorkDoneProgressBegin struct {
 	// The value is always "begin".
@@ -1645,20 +1653,20 @@ type WorkDoneProgressBegin struct {
 	// Controls if a cancel button should show to allow the user to cancel the
 	// long running operation. Clients that don't support cancellation are allowed
 	// to ignore the setting.
-	Cancellable *Boolean
+	Cancellable/*TOpt*/ *Boolean
 	// Optional, more detailed associated progress message. Contains
 	// complementary information to the `title`.
 	//
 	// Examples: "3/25 files", "project/src/module2", "node_modules/some_dep".
 	// If unset, the previous progress message (if any) is still valid.
-	Message *String
+	Message/*TOpt*/ *String
 	// Optional progress percentage to display (value 100 is considered 100%).
 	// If not provided infinite progress is assumed and clients are allowed
 	// to ignore the `percentage` value in subsequent in report notifications.
 	//
 	// The value should be steadily rising. Clients are free to ignore values
 	// that are not following this rule. The value range is [0, 100].
-	Percentage *Uinteger
+	Percentage/*TOpt*/ *Uinteger
 }
 type WorkDoneProgressReport struct {
 	// The value is always "report".
@@ -1668,20 +1676,20 @@ type WorkDoneProgressReport struct {
 	//
 	// Clients that don't support cancellation or don't support controlling the button's
 	// enablement state are allowed to ignore the property.
-	Cancellable *Boolean
+	Cancellable/*TOpt*/ *Boolean
 	// Optional, more detailed associated progress message. Contains
 	// complementary information to the `title`.
 	//
 	// Examples: "3/25 files", "project/src/module2", "node_modules/some_dep".
 	// If unset, the previous progress message (if any) is still valid.
-	Message *String
+	Message/*TOpt*/ *String
 	// Optional progress percentage to display (value 100 is considered 100%).
 	// If not provided infinite progress is assumed and clients are allowed
 	// to ignore the `percentage` value in subsequent in report notifications.
 	//
 	// The value should be steadily rising. Clients are free to ignore values
 	// that are not following this rule. The value range is [0, 100]
-	Percentage *Uinteger
+	Percentage/*TOpt*/ *Uinteger
 }
 type WorkDoneProgressEnd struct {
 	// The value is always "end".
@@ -1689,22 +1697,22 @@ type WorkDoneProgressEnd struct {
 	Kind string
 	// Optional, a final message indicating to for example indicate the outcome
 	// of the operation.
-	Message *String
+	Message/*TOpt*/ *String
 }
 type SetTraceParams struct {
 	Value TraceValues
 }
 type LogTraceParams struct {
 	Message string
-	Verbose *String
+	Verbose/*TOpt*/ *String
 }
 type CancelParams struct {
 	// The request id to cancel.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	Id struct {
-		Integer *Integer
-		String  *String
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	Id /*TOr*/ struct {
+		Integer/*TOpt*/ *Integer
+		String/*TOpt*/ *String
 	}
 }
 type ProgressParams struct {
@@ -1724,12 +1732,12 @@ type TextDocumentPositionParams struct {
 }
 type WorkDoneProgressParams struct {
 	// An optional token that a server can use to report work done progress.
-	WorkDoneToken ProgressToken
+	WorkDoneToken /*TOpt*/ ProgressToken
 }
 type PartialResultParams struct {
 	// An optional token that a server can use to report partial results (e.g. streaming) to
 	// the client.
-	PartialResultToken ProgressToken
+	PartialResultToken /*TOpt*/ ProgressToken
 }
 
 // Represents the connection of two locations. Provides additional metadata over normal `Location`,
@@ -1739,7 +1747,7 @@ type LocationLink struct {
 	//
 	// Used as the underlined span for mouse interaction. Defaults to the word range at
 	// the definition position.
-	OriginSelectionRange *Range
+	OriginSelectionRange/*TOpt*/ *Range
 	// The target resource identifier of this link.
 	TargetUri DocumentURI
 	// The full target range of this link. If the target for example is a symbol then target range is the
@@ -1779,7 +1787,7 @@ type ImplementationOptions struct {
 type StaticRegistrationOptions struct {
 	// The id used to register the request. The id can be used to deregister
 	// the request again. See also Registration#id.
-	Id *String
+	Id /*TOpt*/ *String
 }
 type TypeDefinitionOptions struct {
 	WorkDoneProgressOptions
@@ -1794,9 +1802,9 @@ type WorkspaceFoldersChangeEvent struct {
 }
 type ConfigurationItem struct {
 	// The scope to get the configuration section for.
-	ScopeUri *String
+	ScopeUri/*TOpt*/ *String
 	// The configuration section asked for.
-	Section *String
+	Section/*TOpt*/ *String
 }
 
 // A literal to identify a text document in the client.
@@ -1887,19 +1895,20 @@ type SemanticTokensOptions struct {
 	// Server supports providing semantic tokens for a specific range
 	// of a document.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	Range struct {
-		Boolean     *Boolean
-		AnyByString map[string]any
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	Range/*TOpt*/ /*TOr*/ struct {
+		Boolean/*TOpt*/ *Boolean
+		AnyByString/*TOpt*/ map[string]any
 	}
+
 	// Server supports providing semantic tokens for a full document.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	Full struct {
-		Boolean *Boolean
-		Delta   *struct {
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	Full/*TOpt*/ /*TOr*/ struct {
+		Boolean/*TOpt*/ *Boolean
+		Delta/*TOpt*/ * /*TStruc*/ struct {
 			// The server supports deltas for full documents.
-			Delta *Boolean
+			Delta /*TOpt*/ *Boolean
 		}
 	}
 }
@@ -1911,7 +1920,7 @@ type SemanticTokensEdit struct {
 	// The count of elements to remove.
 	DeleteCount uint
 	// The elements to insert.
-	Data []uint
+	Data/*TOpt*/ []uint
 }
 type LinkedEditingRangeOptions struct {
 	WorkDoneProgressOptions
@@ -1937,10 +1946,10 @@ type TextDocumentEdit struct {
 	// @since 3.16.0 - support for AnnotatedTextEdit. This is guarded using a
 	// client capability.
 	//
-	// Every object in the array has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	Edits []struct {
-		TextEdit          *TextEdit
-		AnnotatedTextEdit *AnnotatedTextEdit
+	// Every object in the array has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	Edits [] /*TOr*/ struct {
+		TextEdit/*TOpt*/ *TextEdit
+		AnnotatedTextEdit/*TOpt*/ *AnnotatedTextEdit
 	}
 }
 
@@ -1954,7 +1963,7 @@ type CreateFile struct {
 	// The resource to create.
 	Uri DocumentURI
 	// Additional options
-	Options *CreateFileOptions
+	Options/*TOpt*/ *CreateFileOptions
 }
 
 // Rename file operation
@@ -1969,7 +1978,7 @@ type RenameFile struct {
 	// The new location.
 	NewUri DocumentURI
 	// Rename options.
-	Options *RenameFileOptions
+	Options/*TOpt*/ *RenameFileOptions
 }
 
 // Delete file operation
@@ -1982,7 +1991,7 @@ type DeleteFile struct {
 	// The file to delete.
 	Uri DocumentURI
 	// Delete options.
-	Options *DeleteFileOptions
+	Options/*TOpt*/ *DeleteFileOptions
 }
 
 // Additional information that describes document changes.
@@ -1994,10 +2003,10 @@ type ChangeAnnotation struct {
 	Label string
 	// A flag which indicates that user confirmation is needed
 	// before applying the change.
-	NeedsConfirmation *Boolean
+	NeedsConfirmation/*TOpt*/ *Boolean
 	// A human-readable string which is rendered less prominent in
 	// the user interface.
-	Description *String
+	Description/*TOpt*/ *String
 }
 
 // A filter to describe in which file operation requests or notifications
@@ -2006,7 +2015,7 @@ type ChangeAnnotation struct {
 // @since 3.16.0
 type FileOperationFilter struct {
 	// A Uri scheme like `file` or `untitled`.
-	Scheme *String
+	Scheme/*TOpt*/ *String
 	// The actual file operation pattern.
 	Pattern FileOperationPattern
 }
@@ -2068,7 +2077,7 @@ type InlineValueVariableLookup struct {
 	// The range is used to extract the variable name from the underlying document.
 	Range Range
 	// If specified the name of the variable to look up.
-	VariableName *String
+	VariableName/*TOpt*/ *String
 	// How to perform the lookup.
 	CaseSensitiveLookup bool
 }
@@ -2083,7 +2092,7 @@ type InlineValueEvaluatableExpression struct {
 	// The range is used to extract the evaluatable expression from the underlying document.
 	Range Range
 	// If specified the expression overrides the extracted expression.
-	Expression *String
+	Expression/*TOpt*/ *String
 }
 
 // Inline value options used during static registration.
@@ -2104,11 +2113,12 @@ type InlayHintLabelPart struct {
 	// the client capability `inlayHint.resolveSupport` clients might resolve
 	// this property late using the resolve request.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	Tooltip struct {
-		String        *String
-		MarkupContent *MarkupContent
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	Tooltip/*TOpt*/ /*TOr*/ struct {
+		String/*TOpt*/ *String
+		MarkupContent/*TOpt*/ *MarkupContent
 	}
+
 	// An optional source code location that represents this
 	// label part.
 	//
@@ -2120,12 +2130,12 @@ type InlayHintLabelPart struct {
 	//
 	// Depending on the client capability `inlayHint.resolveSupport` clients
 	// might resolve this property late using the resolve request.
-	Location *Location
+	Location/*TOpt*/ *Location
 	// An optional command for this label part.
 	//
 	// Depending on the client capability `inlayHint.resolveSupport` clients
 	// might resolve this property late using the resolve request.
-	Command *Command
+	Command/*TOpt*/ *Command
 }
 
 // A `MarkupContent` literal represents a string value which content is interpreted base on its
@@ -2166,7 +2176,7 @@ type InlayHintOptions struct {
 	WorkDoneProgressOptions
 	// The server provides support to resolve additional
 	// information for an inlay hint item.
-	ResolveProvider *Boolean
+	ResolveProvider/*TOpt*/ *Boolean
 }
 
 // A full diagnostic report with a set of related documents.
@@ -2182,10 +2192,10 @@ type RelatedFullDocumentDiagnosticReport struct {
 	//
 	// @since 3.17.0
 	//
-	// Every object in the map has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	RelatedDocuments map[DocumentURI]struct {
-		FullDocumentDiagnosticReport      *FullDocumentDiagnosticReport
-		UnchangedDocumentDiagnosticReport *UnchangedDocumentDiagnosticReport
+	// Every object in the map has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	RelatedDocuments/*TOpt*/ map[DocumentURI] /*TOr*/ struct {
+		FullDocumentDiagnosticReport/*TOpt*/ *FullDocumentDiagnosticReport
+		UnchangedDocumentDiagnosticReport/*TOpt*/ *UnchangedDocumentDiagnosticReport
 	}
 }
 
@@ -2202,10 +2212,10 @@ type RelatedUnchangedDocumentDiagnosticReport struct {
 	//
 	// @since 3.17.0
 	//
-	// Every object in the map has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	RelatedDocuments map[DocumentURI]struct {
-		FullDocumentDiagnosticReport      *FullDocumentDiagnosticReport
-		UnchangedDocumentDiagnosticReport *UnchangedDocumentDiagnosticReport
+	// Every object in the map has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	RelatedDocuments/*TOpt*/ map[DocumentURI] /*TOr*/ struct {
+		FullDocumentDiagnosticReport/*TOpt*/ *FullDocumentDiagnosticReport
+		UnchangedDocumentDiagnosticReport/*TOpt*/ *UnchangedDocumentDiagnosticReport
 	}
 }
 
@@ -2220,7 +2230,7 @@ type FullDocumentDiagnosticReport struct {
 	// An optional result id. If provided it will
 	// be sent on the next diagnostic request for the
 	// same document.
-	ResultId *String
+	ResultId/*TOpt*/ *String
 	// The actual items.
 	Items []Diagnostic
 }
@@ -2249,7 +2259,7 @@ type DiagnosticOptions struct {
 	WorkDoneProgressOptions
 	// An optional identifier under which the diagnostics are
 	// managed by the client.
-	Identifier *String
+	Identifier/*TOpt*/ *String
 	// Whether the language has inter file dependencies meaning that
 	// editing code in one file can result in a different diagnostic
 	// set in another file. Inter file dependencies are common for
@@ -2285,7 +2295,7 @@ type NotebookDocument struct {
 	// document.
 	//
 	// Note: should always be an object literal (e.g. LSPObject)
-	Metadata LSPObject
+	Metadata/*TOpt*/ LSPObject
 	// The cells of a notebook.
 	Cells []NotebookCell
 }
@@ -2321,25 +2331,25 @@ type NotebookDocumentChangeEvent struct {
 	// The changed meta data if any.
 	//
 	// Note: should always be an object literal (e.g. LSPObject)
-	Metadata LSPObject
+	Metadata/*TOpt*/ LSPObject
 	// Changes to cells
-	Cells *struct {
+	Cells/*TOpt*/ * /*TStruc*/ struct {
 		// Changes to the cell structure to add or
 		// remove cells.
-		Structure *struct {
+		Structure/*TOpt*/ * /*TStruc*/ struct {
 			// The change to the cell array.
 			Array NotebookCellArrayChange
 			// Additional opened cell text documents.
-			DidOpen []TextDocumentItem
+			DidOpen/*TOpt*/ []TextDocumentItem
 			// Additional closed cell text documents.
-			DidClose []TextDocumentIdentifier
+			DidClose/*TOpt*/ []TextDocumentIdentifier
 		}
 
 		// Changes to notebook cells properties like its
 		// kind, execution summary or metadata.
-		Data []NotebookCell
+		Data/*TOpt*/ []NotebookCell
 		// Changes to the text content of notebook cells.
-		TextContent []struct {
+		TextContent/*TOpt*/ [] /*TStruc*/ struct {
 			Document VersionedTextDocumentIdentifier
 			Changes  []TextDocumentContentChangeEvent
 		}
@@ -2362,7 +2372,7 @@ type Registration struct {
 	// The method / capability to register for.
 	Method string
 	// Options necessary for the registration.
-	RegisterOptions LSPAny
+	RegisterOptions/*TOpt*/ LSPAny
 }
 
 // General parameters to unregister a request or notification.
@@ -2382,15 +2392,16 @@ type _InitializeParams struct {
 	//
 	// Is `null` if the process has not been started by another process.
 	// If the parent process is not alive then the server should exit.
-	ProcessId *Integer
+	ProcessId/*TOr*/ /*TOpt*/ *Integer
+
 	// Information about the client
 	//
 	// @since 3.15.0
-	ClientInfo *struct {
+	ClientInfo/*TOpt*/ * /*TStruc*/ struct {
 		// The name of the client as defined by the client.
 		Name string
 		// The client's version as defined by the client.
-		Version *String
+		Version/*TOpt*/ *String
 	}
 
 	// The locale the client is currently showing the user interface
@@ -2401,24 +2412,26 @@ type _InitializeParams struct {
 	// (See https://en.wikipedia.org/wiki/IETF_language_tag)
 	//
 	// @since 3.16.0
-	Locale *String
+	Locale/*TOpt*/ *String
 	// The rootPath of the workspace. Is null
 	// if no folder is open.
 	//
 	// @deprecated in favour of rootUri.
-	RootPath *String
+	RootPath/*TOpt*/ /*TOr*/ /*TOpt*/ *String
+
 	// The rootUri of the workspace. Is null if no
 	// folder is open. If both `rootPath` and `rootUri` are set
 	// `rootUri` wins.
 	//
 	// @deprecated in favour of workspaceFolders.
-	RootUri DocumentURI
+	RootUri/*TOr*/ /*TOpt*/ *DocumentURI
+
 	// The capabilities provided by the client (editor or tool)
 	Capabilities ClientCapabilities
 	// User provided initialization options.
-	InitializationOptions LSPAny
+	InitializationOptions/*TOpt*/ LSPAny
 	// The initial trace setting. If omitted trace is disabled ('off').
-	Trace TraceValues
+	Trace/*TOpt*/ TraceValues
 }
 type WorkspaceFoldersInitializeParams struct {
 	// The workspace folders configured in the client when the server starts.
@@ -2428,7 +2441,7 @@ type WorkspaceFoldersInitializeParams struct {
 	// configured.
 	//
 	// @since 3.6.0
-	WorkspaceFolders []WorkspaceFolder
+	WorkspaceFolders /*TOpt*/ /*TOr*/ /*TOpt*/ []WorkspaceFolder
 }
 
 // Defines the capabilities provided by a language
@@ -2443,251 +2456,277 @@ type ServerCapabilities struct {
 	// If omitted it defaults to 'utf-16'.
 	//
 	// @since 3.17.0
-	PositionEncoding PositionEncodingKind
+	PositionEncoding/*TOpt*/ PositionEncodingKind
 	// Defines how text documents are synced. Is either a detailed structure
 	// defining each notification or for backwards compatibility the
 	// TextDocumentSyncKind number.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	TextDocumentSync struct {
-		TextDocumentSyncOptions *TextDocumentSyncOptions
-		TextDocumentSyncKind    TextDocumentSyncKind
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	TextDocumentSync/*TOpt*/ /*TOr*/ struct {
+		TextDocumentSyncOptions/*TOpt*/ *TextDocumentSyncOptions
+		TextDocumentSyncKind/*TOpt*/ TextDocumentSyncKind
 	}
+
 	// Defines how notebook documents are synced.
 	//
 	// @since 3.17.0
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	NotebookDocumentSync struct {
-		NotebookDocumentSyncOptions             *NotebookDocumentSyncOptions
-		NotebookDocumentSyncRegistrationOptions *NotebookDocumentSyncRegistrationOptions
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	NotebookDocumentSync/*TOpt*/ /*TOr*/ struct {
+		NotebookDocumentSyncOptions/*TOpt*/ *NotebookDocumentSyncOptions
+		NotebookDocumentSyncRegistrationOptions/*TOpt*/ *NotebookDocumentSyncRegistrationOptions
 	}
+
 	// The server provides completion support.
-	CompletionProvider *CompletionOptions
+	CompletionProvider/*TOpt*/ *CompletionOptions
 	// The server provides hover support.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	HoverProvider struct {
-		Boolean      *Boolean
-		HoverOptions *HoverOptions
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	HoverProvider/*TOpt*/ /*TOr*/ struct {
+		Boolean/*TOpt*/ *Boolean
+		HoverOptions/*TOpt*/ *HoverOptions
 	}
+
 	// The server provides signature help support.
-	SignatureHelpProvider *SignatureHelpOptions
+	SignatureHelpProvider/*TOpt*/ *SignatureHelpOptions
 	// The server provides Goto Declaration support.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	DeclarationProvider struct {
-		Boolean                        *Boolean
-		DeclarationOptions             *DeclarationOptions
-		DeclarationRegistrationOptions *DeclarationRegistrationOptions
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	DeclarationProvider/*TOpt*/ /*TOr*/ struct {
+		Boolean/*TOpt*/ *Boolean
+		DeclarationOptions/*TOpt*/ *DeclarationOptions
+		DeclarationRegistrationOptions/*TOpt*/ *DeclarationRegistrationOptions
 	}
+
 	// The server provides goto definition support.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	DefinitionProvider struct {
-		Boolean           *Boolean
-		DefinitionOptions *DefinitionOptions
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	DefinitionProvider/*TOpt*/ /*TOr*/ struct {
+		Boolean/*TOpt*/ *Boolean
+		DefinitionOptions/*TOpt*/ *DefinitionOptions
 	}
+
 	// The server provides Goto Type Definition support.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	TypeDefinitionProvider struct {
-		Boolean                           *Boolean
-		TypeDefinitionOptions             *TypeDefinitionOptions
-		TypeDefinitionRegistrationOptions *TypeDefinitionRegistrationOptions
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	TypeDefinitionProvider/*TOpt*/ /*TOr*/ struct {
+		Boolean/*TOpt*/ *Boolean
+		TypeDefinitionOptions/*TOpt*/ *TypeDefinitionOptions
+		TypeDefinitionRegistrationOptions/*TOpt*/ *TypeDefinitionRegistrationOptions
 	}
+
 	// The server provides Goto Implementation support.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	ImplementationProvider struct {
-		Boolean                           *Boolean
-		ImplementationOptions             *ImplementationOptions
-		ImplementationRegistrationOptions *ImplementationRegistrationOptions
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	ImplementationProvider/*TOpt*/ /*TOr*/ struct {
+		Boolean/*TOpt*/ *Boolean
+		ImplementationOptions/*TOpt*/ *ImplementationOptions
+		ImplementationRegistrationOptions/*TOpt*/ *ImplementationRegistrationOptions
 	}
+
 	// The server provides find references support.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	ReferencesProvider struct {
-		Boolean          *Boolean
-		ReferenceOptions *ReferenceOptions
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	ReferencesProvider/*TOpt*/ /*TOr*/ struct {
+		Boolean/*TOpt*/ *Boolean
+		ReferenceOptions/*TOpt*/ *ReferenceOptions
 	}
+
 	// The server provides document highlight support.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	DocumentHighlightProvider struct {
-		Boolean                  *Boolean
-		DocumentHighlightOptions *DocumentHighlightOptions
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	DocumentHighlightProvider/*TOpt*/ /*TOr*/ struct {
+		Boolean/*TOpt*/ *Boolean
+		DocumentHighlightOptions/*TOpt*/ *DocumentHighlightOptions
 	}
+
 	// The server provides document symbol support.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	DocumentSymbolProvider struct {
-		Boolean               *Boolean
-		DocumentSymbolOptions *DocumentSymbolOptions
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	DocumentSymbolProvider/*TOpt*/ /*TOr*/ struct {
+		Boolean/*TOpt*/ *Boolean
+		DocumentSymbolOptions/*TOpt*/ *DocumentSymbolOptions
 	}
+
 	// The server provides code actions. CodeActionOptions may only be
 	// specified if the client states that it supports
 	// `codeActionLiteralSupport` in its initial `initialize` request.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	CodeActionProvider struct {
-		Boolean           *Boolean
-		CodeActionOptions *CodeActionOptions
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	CodeActionProvider/*TOpt*/ /*TOr*/ struct {
+		Boolean/*TOpt*/ *Boolean
+		CodeActionOptions/*TOpt*/ *CodeActionOptions
 	}
+
 	// The server provides code lens.
-	CodeLensProvider *CodeLensOptions
+	CodeLensProvider/*TOpt*/ *CodeLensOptions
 	// The server provides document link support.
-	DocumentLinkProvider *DocumentLinkOptions
+	DocumentLinkProvider/*TOpt*/ *DocumentLinkOptions
 	// The server provides color provider support.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	ColorProvider struct {
-		Boolean                          *Boolean
-		DocumentColorOptions             *DocumentColorOptions
-		DocumentColorRegistrationOptions *DocumentColorRegistrationOptions
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	ColorProvider/*TOpt*/ /*TOr*/ struct {
+		Boolean/*TOpt*/ *Boolean
+		DocumentColorOptions/*TOpt*/ *DocumentColorOptions
+		DocumentColorRegistrationOptions/*TOpt*/ *DocumentColorRegistrationOptions
 	}
+
 	// The server provides workspace symbol support.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	WorkspaceSymbolProvider struct {
-		Boolean                *Boolean
-		WorkspaceSymbolOptions *WorkspaceSymbolOptions
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	WorkspaceSymbolProvider/*TOpt*/ /*TOr*/ struct {
+		Boolean/*TOpt*/ *Boolean
+		WorkspaceSymbolOptions/*TOpt*/ *WorkspaceSymbolOptions
 	}
+
 	// The server provides document formatting.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	DocumentFormattingProvider struct {
-		Boolean                   *Boolean
-		DocumentFormattingOptions *DocumentFormattingOptions
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	DocumentFormattingProvider/*TOpt*/ /*TOr*/ struct {
+		Boolean/*TOpt*/ *Boolean
+		DocumentFormattingOptions/*TOpt*/ *DocumentFormattingOptions
 	}
+
 	// The server provides document range formatting.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	DocumentRangeFormattingProvider struct {
-		Boolean                        *Boolean
-		DocumentRangeFormattingOptions *DocumentRangeFormattingOptions
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	DocumentRangeFormattingProvider/*TOpt*/ /*TOr*/ struct {
+		Boolean/*TOpt*/ *Boolean
+		DocumentRangeFormattingOptions/*TOpt*/ *DocumentRangeFormattingOptions
 	}
+
 	// The server provides document formatting on typing.
-	DocumentOnTypeFormattingProvider *DocumentOnTypeFormattingOptions
+	DocumentOnTypeFormattingProvider/*TOpt*/ *DocumentOnTypeFormattingOptions
 	// The server provides rename support. RenameOptions may only be
 	// specified if the client states that it supports
 	// `prepareSupport` in its initial `initialize` request.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	RenameProvider struct {
-		Boolean       *Boolean
-		RenameOptions *RenameOptions
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	RenameProvider/*TOpt*/ /*TOr*/ struct {
+		Boolean/*TOpt*/ *Boolean
+		RenameOptions/*TOpt*/ *RenameOptions
 	}
+
 	// The server provides folding provider support.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	FoldingRangeProvider struct {
-		Boolean                         *Boolean
-		FoldingRangeOptions             *FoldingRangeOptions
-		FoldingRangeRegistrationOptions *FoldingRangeRegistrationOptions
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	FoldingRangeProvider/*TOpt*/ /*TOr*/ struct {
+		Boolean/*TOpt*/ *Boolean
+		FoldingRangeOptions/*TOpt*/ *FoldingRangeOptions
+		FoldingRangeRegistrationOptions/*TOpt*/ *FoldingRangeRegistrationOptions
 	}
+
 	// The server provides selection range support.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	SelectionRangeProvider struct {
-		Boolean                           *Boolean
-		SelectionRangeOptions             *SelectionRangeOptions
-		SelectionRangeRegistrationOptions *SelectionRangeRegistrationOptions
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	SelectionRangeProvider/*TOpt*/ /*TOr*/ struct {
+		Boolean/*TOpt*/ *Boolean
+		SelectionRangeOptions/*TOpt*/ *SelectionRangeOptions
+		SelectionRangeRegistrationOptions/*TOpt*/ *SelectionRangeRegistrationOptions
 	}
+
 	// The server provides execute command support.
-	ExecuteCommandProvider *ExecuteCommandOptions
+	ExecuteCommandProvider/*TOpt*/ *ExecuteCommandOptions
 	// The server provides call hierarchy support.
 	//
 	// @since 3.16.0
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	CallHierarchyProvider struct {
-		Boolean                          *Boolean
-		CallHierarchyOptions             *CallHierarchyOptions
-		CallHierarchyRegistrationOptions *CallHierarchyRegistrationOptions
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	CallHierarchyProvider/*TOpt*/ /*TOr*/ struct {
+		Boolean/*TOpt*/ *Boolean
+		CallHierarchyOptions/*TOpt*/ *CallHierarchyOptions
+		CallHierarchyRegistrationOptions/*TOpt*/ *CallHierarchyRegistrationOptions
 	}
+
 	// The server provides linked editing range support.
 	//
 	// @since 3.16.0
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	LinkedEditingRangeProvider struct {
-		Boolean                               *Boolean
-		LinkedEditingRangeOptions             *LinkedEditingRangeOptions
-		LinkedEditingRangeRegistrationOptions *LinkedEditingRangeRegistrationOptions
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	LinkedEditingRangeProvider/*TOpt*/ /*TOr*/ struct {
+		Boolean/*TOpt*/ *Boolean
+		LinkedEditingRangeOptions/*TOpt*/ *LinkedEditingRangeOptions
+		LinkedEditingRangeRegistrationOptions/*TOpt*/ *LinkedEditingRangeRegistrationOptions
 	}
+
 	// The server provides semantic tokens support.
 	//
 	// @since 3.16.0
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	SemanticTokensProvider struct {
-		SemanticTokensOptions             *SemanticTokensOptions
-		SemanticTokensRegistrationOptions *SemanticTokensRegistrationOptions
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	SemanticTokensProvider/*TOpt*/ /*TOr*/ struct {
+		SemanticTokensOptions/*TOpt*/ *SemanticTokensOptions
+		SemanticTokensRegistrationOptions/*TOpt*/ *SemanticTokensRegistrationOptions
 	}
+
 	// The server provides moniker support.
 	//
 	// @since 3.16.0
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	MonikerProvider struct {
-		Boolean                    *Boolean
-		MonikerOptions             *MonikerOptions
-		MonikerRegistrationOptions *MonikerRegistrationOptions
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	MonikerProvider/*TOpt*/ /*TOr*/ struct {
+		Boolean/*TOpt*/ *Boolean
+		MonikerOptions/*TOpt*/ *MonikerOptions
+		MonikerRegistrationOptions/*TOpt*/ *MonikerRegistrationOptions
 	}
+
 	// The server provides type hierarchy support.
 	//
 	// @since 3.17.0
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	TypeHierarchyProvider struct {
-		Boolean                          *Boolean
-		TypeHierarchyOptions             *TypeHierarchyOptions
-		TypeHierarchyRegistrationOptions *TypeHierarchyRegistrationOptions
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	TypeHierarchyProvider/*TOpt*/ /*TOr*/ struct {
+		Boolean/*TOpt*/ *Boolean
+		TypeHierarchyOptions/*TOpt*/ *TypeHierarchyOptions
+		TypeHierarchyRegistrationOptions/*TOpt*/ *TypeHierarchyRegistrationOptions
 	}
+
 	// The server provides inline values.
 	//
 	// @since 3.17.0
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	InlineValueProvider struct {
-		Boolean                        *Boolean
-		InlineValueOptions             *InlineValueOptions
-		InlineValueRegistrationOptions *InlineValueRegistrationOptions
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	InlineValueProvider/*TOpt*/ /*TOr*/ struct {
+		Boolean/*TOpt*/ *Boolean
+		InlineValueOptions/*TOpt*/ *InlineValueOptions
+		InlineValueRegistrationOptions/*TOpt*/ *InlineValueRegistrationOptions
 	}
+
 	// The server provides inlay hints.
 	//
 	// @since 3.17.0
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	InlayHintProvider struct {
-		Boolean                      *Boolean
-		InlayHintOptions             *InlayHintOptions
-		InlayHintRegistrationOptions *InlayHintRegistrationOptions
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	InlayHintProvider/*TOpt*/ /*TOr*/ struct {
+		Boolean/*TOpt*/ *Boolean
+		InlayHintOptions/*TOpt*/ *InlayHintOptions
+		InlayHintRegistrationOptions/*TOpt*/ *InlayHintRegistrationOptions
 	}
+
 	// The server has support for pull model diagnostics.
 	//
 	// @since 3.17.0
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	DiagnosticProvider struct {
-		DiagnosticOptions             *DiagnosticOptions
-		DiagnosticRegistrationOptions *DiagnosticRegistrationOptions
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	DiagnosticProvider/*TOpt*/ /*TOr*/ struct {
+		DiagnosticOptions/*TOpt*/ *DiagnosticOptions
+		DiagnosticRegistrationOptions/*TOpt*/ *DiagnosticRegistrationOptions
 	}
+
 	// Workspace specific server capabilities.
-	Workspace *struct {
+	Workspace/*TOpt*/ * /*TStruc*/ struct {
 		// The server supports workspace folder.
 		//
 		// @since 3.6.0
-		WorkspaceFolders *WorkspaceFoldersServerCapabilities
+		WorkspaceFolders/*TOpt*/ *WorkspaceFoldersServerCapabilities
 		// The server is interested in notifications/requests for operations on files.
 		//
 		// @since 3.16.0
-		FileOperations *FileOperationOptions
+		FileOperations/*TOpt*/ *FileOperationOptions
 	}
 
 	// Experimental server capabilities.
-	Experimental LSPAny
+	Experimental/*TOpt*/ LSPAny
 }
 
 // A text document identifier to denote a specific version of a text document.
@@ -2700,7 +2739,7 @@ type VersionedTextDocumentIdentifier struct {
 // Save options.
 type SaveOptions struct {
 	// The client is supposed to include the content on save.
-	IncludeText *Boolean
+	IncludeText /*TOpt*/ *Boolean
 }
 
 // An event describing a file change.
@@ -2718,7 +2757,7 @@ type FileSystemWatcher struct {
 	// The kind of events of interest. If omitted it defaults
 	// to WatchKind.Create | WatchKind.Change | WatchKind.Delete
 	// which is 7.
-	Kind WatchKind
+	Kind/*TOpt*/ WatchKind
 }
 
 // Represents a diagnostic, such as a compiler error or warning. Diagnostic objects
@@ -2728,37 +2767,38 @@ type Diagnostic struct {
 	Range Range
 	// The diagnostic's severity. Can be omitted. If omitted it is up to the
 	// client to interpret diagnostics as error, warning, info or hint.
-	Severity DiagnosticSeverity
+	Severity/*TOpt*/ DiagnosticSeverity
 	// The diagnostic's code, which usually appear in the user interface.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	Code struct {
-		Integer *Integer
-		String  *String
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	Code/*TOpt*/ /*TOr*/ struct {
+		Integer/*TOpt*/ *Integer
+		String/*TOpt*/ *String
 	}
+
 	// An optional property to describe the error code.
 	// Requires the code field (above) to be present/not null.
 	//
 	// @since 3.16.0
-	CodeDescription *CodeDescription
+	CodeDescription/*TOpt*/ *CodeDescription
 	// A human-readable string describing the source of this
 	// diagnostic, e.g. 'typescript' or 'super lint'. It usually
 	// appears in the user interface.
-	Source *String
+	Source/*TOpt*/ *String
 	// The diagnostic's message. It usually appears in the user interface
 	Message string
 	// Additional metadata about the diagnostic.
 	//
 	// @since 3.15.0
-	Tags []DiagnosticTag
+	Tags/*TOpt*/ []DiagnosticTag
 	// An array of related diagnostic information, e.g. when symbol-names within
 	// a scope collide all definitions can be marked via this property.
-	RelatedInformation []DiagnosticRelatedInformation
+	RelatedInformation/*TOpt*/ []DiagnosticRelatedInformation
 	// A data entry field that is preserved between a `textDocument/publishDiagnostics`
 	// notification and `textDocument/codeAction` request.
 	//
 	// @since 3.16.0
-	Data LSPAny
+	Data/*TOpt*/ LSPAny
 }
 
 // Contains additional information about the context in which a completion request is triggered.
@@ -2767,7 +2807,7 @@ type CompletionContext struct {
 	TriggerKind CompletionTriggerKind
 	// The trigger character (a single character) that has trigger code complete.
 	// Is undefined if `triggerKind !== CompletionTriggerKind.TriggerCharacter`
-	TriggerCharacter *String
+	TriggerCharacter/*TOpt*/ *String
 }
 
 // Additional details for a completion item label.
@@ -2776,10 +2816,10 @@ type CompletionContext struct {
 type CompletionItemLabelDetails struct {
 	// An optional string which is rendered less prominently directly after `CompletionItem.label`,
 	// without any spacing. Should be used for function signatures and type annotations.
-	Detail *String
+	Detail/*TOpt*/ *String
 	// An optional string which is rendered less prominently after `CompletionItem.detail`. Should be used
 	// for fully qualified names and file paths.
-	Description *String
+	Description/*TOpt*/ *String
 }
 
 // A special text edit to provide an insert and a replace operation.
@@ -2805,7 +2845,7 @@ type CompletionOptions struct {
 	//
 	// If code complete should automatically be trigger on characters not being valid inside
 	// an identifier (for example `.` in JavaScript) list them in `triggerCharacters`.
-	TriggerCharacters []string
+	TriggerCharacters/*TOpt*/ []string
 	// The list of all possible characters that commit a completion. This field can be used
 	// if clients don't support individual commit characters per completion item. See
 	// `ClientCapabilities.textDocument.completion.completionItem.commitCharactersSupport`
@@ -2814,21 +2854,21 @@ type CompletionOptions struct {
 	// completion item the ones on the completion item win.
 	//
 	// @since 3.2.0
-	AllCommitCharacters []string
+	AllCommitCharacters/*TOpt*/ []string
 	// The server provides support to resolve additional
 	// information for a completion item.
-	ResolveProvider *Boolean
+	ResolveProvider/*TOpt*/ *Boolean
 	// The server supports the following `CompletionItem` specific
 	// capabilities.
 	//
 	// @since 3.17.0
-	CompletionItem *struct {
+	CompletionItem/*TOpt*/ * /*TStruc*/ struct {
 		// The server has support for completion item label
 		// details (see also `CompletionItemLabelDetails`) when
 		// receiving a completion item in a resolve call.
 		//
 		// @since 3.17.0
-		LabelDetailsSupport *Boolean
+		LabelDetailsSupport /*TOpt*/ *Boolean
 	}
 }
 
@@ -2846,7 +2886,7 @@ type SignatureHelpContext struct {
 	// Character that caused signature help to be triggered.
 	//
 	// This is undefined when `triggerKind !== SignatureHelpTriggerKind.TriggerCharacter`
-	TriggerCharacter *String
+	TriggerCharacter/*TOpt*/ *String
 	// `true` if signature help was already showing when it was triggered.
 	//
 	// Retriggers occurs when the signature help is already active and can be caused by actions such as
@@ -2856,7 +2896,7 @@ type SignatureHelpContext struct {
 	//
 	// The `activeSignatureHelp` has its `SignatureHelp.activeSignature` field updated based on
 	// the user navigating through available signatures.
-	ActiveSignatureHelp *SignatureHelp
+	ActiveSignatureHelp/*TOpt*/ *SignatureHelp
 }
 
 // Represents the signature of something callable. A signature
@@ -2869,33 +2909,34 @@ type SignatureInformation struct {
 	// The human-readable doc-comment of this signature. Will be shown
 	// in the UI but can be omitted.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	Documentation struct {
-		String        *String
-		MarkupContent *MarkupContent
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	Documentation/*TOpt*/ /*TOr*/ struct {
+		String/*TOpt*/ *String
+		MarkupContent/*TOpt*/ *MarkupContent
 	}
+
 	// The parameters of this signature.
-	Parameters []ParameterInformation
+	Parameters/*TOpt*/ []ParameterInformation
 	// The index of the active parameter.
 	//
 	// If provided, this is used in place of `SignatureHelp.activeParameter`.
 	//
 	// @since 3.16.0
-	ActiveParameter *Uinteger
+	ActiveParameter/*TOpt*/ *Uinteger
 }
 
 // Server Capabilities for a `SignatureHelpRequest`.
 type SignatureHelpOptions struct {
 	WorkDoneProgressOptions
 	// List of characters that trigger signature help automatically.
-	TriggerCharacters []string
+	TriggerCharacters/*TOpt*/ []string
 	// List of characters that re-trigger signature help.
 	//
 	// These trigger characters are only active when signature help is already showing. All trigger characters
 	// are also counted as re-trigger characters.
 	//
 	// @since 3.15.0
-	RetriggerCharacters []string
+	RetriggerCharacters/*TOpt*/ []string
 }
 
 // Server Capabilities for a `DefinitionRequest`.
@@ -2929,12 +2970,12 @@ type BaseSymbolInformation struct {
 	// Tags for this symbol.
 	//
 	// @since 3.16.0
-	Tags []SymbolTag
+	Tags/*TOpt*/ []SymbolTag
 	// The name of the symbol containing this symbol. This information is for
 	// user interface purposes (e.g. to render a qualifier in the user interface
 	// if necessary). It can't be used to re-infer a hierarchy for the document
 	// symbols.
-	ContainerName *String
+	ContainerName/*TOpt*/ *String
 }
 
 // Provider options for a `DocumentSymbolRequest`.
@@ -2944,7 +2985,7 @@ type DocumentSymbolOptions struct {
 	// are shown for the same document.
 	//
 	// @since 3.16.0
-	Label *String
+	Label/*TOpt*/ *String
 }
 
 // Contains additional diagnostic information about the context in which
@@ -2960,11 +3001,11 @@ type CodeActionContext struct {
 	//
 	// Actions not of this kind are filtered out by the client before being shown. So servers
 	// can omit computing them.
-	Only []CodeActionKind
+	Only/*TOpt*/ []CodeActionKind
 	// The reason why code actions were requested.
 	//
 	// @since 3.17.0
-	TriggerKind CodeActionTriggerKind
+	TriggerKind/*TOpt*/ CodeActionTriggerKind
 }
 
 // Provider options for a `CodeActionRequest`.
@@ -2974,12 +3015,12 @@ type CodeActionOptions struct {
 	//
 	// The list of kinds may be generic, such as `CodeActionKind.Refactor`, or the server
 	// may list out every specific kind they provide.
-	CodeActionKinds []CodeActionKind
+	CodeActionKinds/*TOpt*/ []CodeActionKind
 	// The server provides support to resolve additional
 	// information for a code action.
 	//
 	// @since 3.16.0
-	ResolveProvider *Boolean
+	ResolveProvider/*TOpt*/ *Boolean
 }
 
 // Server capabilities for a `WorkspaceSymbolRequest`.
@@ -2989,21 +3030,21 @@ type WorkspaceSymbolOptions struct {
 	// information for a workspace symbol.
 	//
 	// @since 3.17.0
-	ResolveProvider *Boolean
+	ResolveProvider/*TOpt*/ *Boolean
 }
 
 // Code Lens provider options of a `CodeLensRequest`.
 type CodeLensOptions struct {
 	WorkDoneProgressOptions
 	// Code lens has a resolve provider as well.
-	ResolveProvider *Boolean
+	ResolveProvider/*TOpt*/ *Boolean
 }
 
 // Provider options for a `DocumentLinkRequest`.
 type DocumentLinkOptions struct {
 	WorkDoneProgressOptions
 	// Document links have a resolve provider as well.
-	ResolveProvider *Boolean
+	ResolveProvider/*TOpt*/ *Boolean
 }
 
 // Value-object describing what options formatting should use.
@@ -3015,15 +3056,15 @@ type FormattingOptions struct {
 	// Trim trailing whitespace on a line.
 	//
 	// @since 3.15.0
-	TrimTrailingWhitespace *Boolean
+	TrimTrailingWhitespace/*TOpt*/ *Boolean
 	// Insert a newline character at the end of the file if one does not exist.
 	//
 	// @since 3.15.0
-	InsertFinalNewline *Boolean
+	InsertFinalNewline/*TOpt*/ *Boolean
 	// Trim all newlines after the final newline at the end of the file.
 	//
 	// @since 3.15.0
-	TrimFinalNewlines *Boolean
+	TrimFinalNewlines/*TOpt*/ *Boolean
 }
 
 // Provider options for a `DocumentFormattingRequest`.
@@ -3041,7 +3082,7 @@ type DocumentOnTypeFormattingOptions struct {
 	// A character on which formatting should be triggered, like `{`.
 	FirstTriggerCharacter string
 	// More trigger characters.
-	MoreTriggerCharacter []string
+	MoreTriggerCharacter/*TOpt*/ []string
 }
 
 // Provider options for a `RenameRequest`.
@@ -3050,7 +3091,7 @@ type RenameOptions struct {
 	// Renames should be checked and tested before being executed.
 	//
 	// @since version 3.12.0
-	PrepareProvider *Boolean
+	PrepareProvider/*TOpt*/ *Boolean
 }
 
 // The server capabilities of a `ExecuteCommandRequest`.
@@ -3076,7 +3117,7 @@ type OptionalVersionedTextDocumentIdentifier struct {
 	// (the server has not received an open notification before) the server can send
 	// `null` to indicate that the version is unknown and the content on disk is the
 	// truth (as specified with document content ownership).
-	Version *Integer
+	Version/*TOr*/ /*TOpt*/ *Integer
 }
 
 // A special text edit with an additional change annotation.
@@ -3095,31 +3136,31 @@ type ResourceOperation struct {
 	// An optional annotation identifier describing the operation.
 	//
 	// @since 3.16.0
-	AnnotationId *ChangeAnnotationIdentifier
+	AnnotationId/*TOpt*/ *String
 }
 
 // Options to create a file.
 type CreateFileOptions struct {
 	// Overwrite existing file. Overwrite wins over `ignoreIfExists`
-	Overwrite *Boolean
+	Overwrite/*TOpt*/ *Boolean
 	// Ignore if exists.
-	IgnoreIfExists *Boolean
+	IgnoreIfExists/*TOpt*/ *Boolean
 }
 
 // Rename file options
 type RenameFileOptions struct {
 	// Overwrite target if existing. Overwrite wins over `ignoreIfExists`
-	Overwrite *Boolean
+	Overwrite/*TOpt*/ *Boolean
 	// Ignores if target exists.
-	IgnoreIfExists *Boolean
+	IgnoreIfExists/*TOpt*/ *Boolean
 }
 
 // Delete file options
 type DeleteFileOptions struct {
 	// Delete the content recursively if a folder is denoted.
-	Recursive *Boolean
+	Recursive/*TOpt*/ *Boolean
 	// Ignore the operation if the file doesn't exist.
-	IgnoreIfNotExists *Boolean
+	IgnoreIfNotExists/*TOpt*/ *Boolean
 }
 
 // A pattern to describe in which file operation requests or notifications
@@ -3138,9 +3179,9 @@ type FileOperationPattern struct {
 	// Whether to match files or folders with this pattern.
 	//
 	// Matches both if undefined.
-	Matches FileOperationPatternKind
+	Matches/*TOpt*/ FileOperationPatternKind
 	// Additional options used during matching.
-	Options *FileOperationPatternOptions
+	Options/*TOpt*/ *FileOperationPatternOptions
 }
 
 // A full document diagnostic report for a workspace diagnostic result.
@@ -3152,7 +3193,7 @@ type WorkspaceFullDocumentDiagnosticReport struct {
 	Uri DocumentURI
 	// The version number for which the diagnostics are reported.
 	// If the document is not marked as open `null` can be provided.
-	Version *Integer
+	Version/*TOr*/ /*TOpt*/ *Integer
 }
 
 // An unchanged document diagnostic report for a workspace diagnostic result.
@@ -3164,7 +3205,7 @@ type WorkspaceUnchangedDocumentDiagnosticReport struct {
 	Uri DocumentURI
 	// The version number for which the diagnostics are reported.
 	// If the document is not marked as open `null` can be provided.
-	Version *Integer
+	Version/*TOr*/ /*TOpt*/ *Integer
 }
 
 // A notebook cell.
@@ -3183,10 +3224,10 @@ type NotebookCell struct {
 	// Additional metadata stored with the cell.
 	//
 	// Note: should always be an object literal (e.g. LSPObject)
-	Metadata LSPObject
+	Metadata/*TOpt*/ LSPObject
 	// Additional execution summary information
 	// if supported by the client.
-	ExecutionSummary *ExecutionSummary
+	ExecutionSummary/*TOpt*/ *ExecutionSummary
 }
 
 // A change describing how to move a `NotebookCell`
@@ -3199,48 +3240,48 @@ type NotebookCellArrayChange struct {
 	// The deleted cells
 	DeleteCount uint
 	// The new cells, if any
-	Cells []NotebookCell
+	Cells/*TOpt*/ []NotebookCell
 }
 
 // Defines the capabilities provided by the client.
 type ClientCapabilities struct {
 	// Workspace specific client capabilities.
-	Workspace *WorkspaceClientCapabilities
+	Workspace/*TOpt*/ *WorkspaceClientCapabilities
 	// Text document specific client capabilities.
-	TextDocument *TextDocumentClientCapabilities
+	TextDocument/*TOpt*/ *TextDocumentClientCapabilities
 	// Capabilities specific to the notebook document support.
 	//
 	// @since 3.17.0
-	NotebookDocument *NotebookDocumentClientCapabilities
+	NotebookDocument/*TOpt*/ *NotebookDocumentClientCapabilities
 	// Window specific client capabilities.
-	Window *WindowClientCapabilities
+	Window/*TOpt*/ *WindowClientCapabilities
 	// General client capabilities.
 	//
 	// @since 3.16.0
-	General *GeneralClientCapabilities
+	General/*TOpt*/ *GeneralClientCapabilities
 	// Experimental client capabilities.
-	Experimental LSPAny
+	Experimental/*TOpt*/ LSPAny
 }
 type TextDocumentSyncOptions struct {
 	// Open and close notifications are sent to the server. If omitted open close notification should not
 	// be sent.
-	OpenClose *Boolean
+	OpenClose/*TOpt*/ *Boolean
 	// Change notifications are sent to the server. See TextDocumentSyncKind.None, TextDocumentSyncKind.Full
 	// and TextDocumentSyncKind.Incremental. If omitted it defaults to TextDocumentSyncKind.None.
-	Change TextDocumentSyncKind
+	Change/*TOpt*/ TextDocumentSyncKind
 	// If present will save notifications are sent to the server. If omitted the notification should not be
 	// sent.
-	WillSave *Boolean
+	WillSave/*TOpt*/ *Boolean
 	// If present will save wait until requests are sent to the server. If omitted the request should not be
 	// sent.
-	WillSaveWaitUntil *Boolean
+	WillSaveWaitUntil/*TOpt*/ *Boolean
 	// If present save notifications are sent to the server. If omitted the notification should not be
 	// sent.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	Save struct {
-		Boolean     *Boolean
-		SaveOptions *SaveOptions
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	Save/*TOpt*/ /*TOr*/ struct {
+		Boolean/*TOpt*/ *Boolean
+		SaveOptions/*TOpt*/ *SaveOptions
 	}
 }
 
@@ -3259,25 +3300,26 @@ type TextDocumentSyncOptions struct {
 // @since 3.17.0
 type NotebookDocumentSyncOptions struct {
 	// The notebooks to be synced
-	NotebookSelector []struct {
+	NotebookSelector [] /*TStruc*/ struct {
 		// The notebook to be synced If a string
 		// value is provided it matches against the
 		// notebook type. '*' matches every notebook.
 		//
-		// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-		Notebook struct {
-			String                 *String
-			NotebookDocumentFilter *NotebookDocumentFilter
+		// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+		Notebook/*TOpt*/ /*TOr*/ struct {
+			String/*TOpt*/ *String
+			NotebookDocumentFilter/*TOpt*/ *NotebookDocumentFilter
 		}
+
 		// The cells of the matching notebook to be synced.
-		Cells []struct {
+		Cells/*TOpt*/ [] /*TStruc*/ struct {
 			Language string
 		}
 	}
 
 	// Whether save notification should be forwarded to
 	// the server. Will only be honored if mode === `notebook`.
-	Save *Boolean
+	Save/*TOpt*/ *Boolean
 }
 
 // Registration options specific to a notebook.
@@ -3289,7 +3331,7 @@ type NotebookDocumentSyncRegistrationOptions struct {
 }
 type WorkspaceFoldersServerCapabilities struct {
 	// The server has support for workspace folders
-	Supported *Boolean
+	Supported/*TOpt*/ *Boolean
 	// Whether the server wants to receive workspace folder
 	// change notifications.
 	//
@@ -3298,10 +3340,10 @@ type WorkspaceFoldersServerCapabilities struct {
 	// side. The ID can be used to unregister for these events
 	// using the `client/unregisterCapability` request.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	ChangeNotifications struct {
-		String  *String
-		Boolean *Boolean
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	ChangeNotifications/*TOpt*/ /*TOr*/ struct {
+		String/*TOpt*/ *String
+		Boolean/*TOpt*/ *Boolean
 	}
 }
 
@@ -3310,17 +3352,17 @@ type WorkspaceFoldersServerCapabilities struct {
 // @since 3.16.0
 type FileOperationOptions struct {
 	// The server is interested in receiving didCreateFiles notifications.
-	DidCreate *FileOperationRegistrationOptions
+	DidCreate/*TOpt*/ *FileOperationRegistrationOptions
 	// The server is interested in receiving willCreateFiles requests.
-	WillCreate *FileOperationRegistrationOptions
+	WillCreate/*TOpt*/ *FileOperationRegistrationOptions
 	// The server is interested in receiving didRenameFiles notifications.
-	DidRename *FileOperationRegistrationOptions
+	DidRename/*TOpt*/ *FileOperationRegistrationOptions
 	// The server is interested in receiving willRenameFiles requests.
-	WillRename *FileOperationRegistrationOptions
+	WillRename/*TOpt*/ *FileOperationRegistrationOptions
 	// The server is interested in receiving didDeleteFiles file notifications.
-	DidDelete *FileOperationRegistrationOptions
+	DidDelete/*TOpt*/ *FileOperationRegistrationOptions
 	// The server is interested in receiving willDeleteFiles file requests.
-	WillDelete *FileOperationRegistrationOptions
+	WillDelete/*TOpt*/ *FileOperationRegistrationOptions
 }
 
 // Structure to capture a description for an error code.
@@ -3353,21 +3395,22 @@ type ParameterInformation struct {
 	// *Note*: a label of type string should be a substring of its containing signature label.
 	// Its intended use case is to highlight the parameter label part in the `SignatureInformation.label`.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	Label struct {
-		String               *String
-		UintegerWithUinteger *struct {
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	Label/*TOr*/ struct {
+		String/*TOpt*/ *String
+		UintegerWithUinteger/*TOpt*/ * /*TTup*/ struct {
 			Uinteger0 uint
 			Uinteger1 uint
 		}
 	}
+
 	// The human-readable doc-comment of this parameter. Will be shown
 	// in the UI but can be omitted.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	Documentation struct {
-		String        *String
-		MarkupContent *MarkupContent
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	Documentation/*TOpt*/ /*TOr*/ struct {
+		String/*TOpt*/ *String
+		MarkupContent/*TOpt*/ *MarkupContent
 	}
 }
 
@@ -3381,16 +3424,17 @@ type NotebookCellTextDocumentFilter struct {
 	// value is provided it matches against the
 	// notebook type. '*' matches every notebook.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	Notebook struct {
-		String                 *String
-		NotebookDocumentFilter *NotebookDocumentFilter
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	Notebook/*TOr*/ struct {
+		String/*TOpt*/ *String
+		NotebookDocumentFilter/*TOpt*/ *NotebookDocumentFilter
 	}
+
 	// A language id like `python`.
 	//
 	// Will be matched against the language id of the
 	// notebook cell document. '*' matches every language.
-	Language *String
+	Language/*TOpt*/ *String
 }
 
 // Matching options for the file operation pattern.
@@ -3398,7 +3442,7 @@ type NotebookCellTextDocumentFilter struct {
 // @since 3.16.0
 type FileOperationPatternOptions struct {
 	// The pattern should be matched ignoring casing.
-	IgnoreCase *Boolean
+	IgnoreCase /*TOpt*/ *Boolean
 }
 type ExecutionSummary struct {
 	// A strict monotonically increasing value
@@ -3407,7 +3451,7 @@ type ExecutionSummary struct {
 	ExecutionOrder uint
 	// Whether the execution was successful or
 	// not if known by the client.
-	Success *Boolean
+	Success/*TOpt*/ *Boolean
 }
 
 // Workspace specific client capabilities.
@@ -3415,147 +3459,147 @@ type WorkspaceClientCapabilities struct {
 	// The client supports applying batch edits
 	// to the workspace by supporting the request
 	// 'workspace/applyEdit'
-	ApplyEdit *Boolean
+	ApplyEdit/*TOpt*/ *Boolean
 	// Capabilities specific to `WorkspaceEdit`s.
-	WorkspaceEdit *WorkspaceEditClientCapabilities
+	WorkspaceEdit/*TOpt*/ *WorkspaceEditClientCapabilities
 	// Capabilities specific to the `workspace/didChangeConfiguration` notification.
-	DidChangeConfiguration *DidChangeConfigurationClientCapabilities
+	DidChangeConfiguration/*TOpt*/ *DidChangeConfigurationClientCapabilities
 	// Capabilities specific to the `workspace/didChangeWatchedFiles` notification.
-	DidChangeWatchedFiles *DidChangeWatchedFilesClientCapabilities
+	DidChangeWatchedFiles/*TOpt*/ *DidChangeWatchedFilesClientCapabilities
 	// Capabilities specific to the `workspace/symbol` request.
-	Symbol *WorkspaceSymbolClientCapabilities
+	Symbol/*TOpt*/ *WorkspaceSymbolClientCapabilities
 	// Capabilities specific to the `workspace/executeCommand` request.
-	ExecuteCommand *ExecuteCommandClientCapabilities
+	ExecuteCommand/*TOpt*/ *ExecuteCommandClientCapabilities
 	// The client has support for workspace folders.
 	//
 	// @since 3.6.0
-	WorkspaceFolders *Boolean
+	WorkspaceFolders/*TOpt*/ *Boolean
 	// The client supports `workspace/configuration` requests.
 	//
 	// @since 3.6.0
-	Configuration *Boolean
+	Configuration/*TOpt*/ *Boolean
 	// Capabilities specific to the semantic token requests scoped to the
 	// workspace.
 	//
 	// @since 3.16.0.
-	SemanticTokens *SemanticTokensWorkspaceClientCapabilities
+	SemanticTokens/*TOpt*/ *SemanticTokensWorkspaceClientCapabilities
 	// Capabilities specific to the code lens requests scoped to the
 	// workspace.
 	//
 	// @since 3.16.0.
-	CodeLens *CodeLensWorkspaceClientCapabilities
+	CodeLens/*TOpt*/ *CodeLensWorkspaceClientCapabilities
 	// The client has support for file notifications/requests for user operations on files.
 	//
 	// Since 3.16.0
-	FileOperations *FileOperationClientCapabilities
+	FileOperations/*TOpt*/ *FileOperationClientCapabilities
 	// Capabilities specific to the inline values requests scoped to the
 	// workspace.
 	//
 	// @since 3.17.0.
-	InlineValue *InlineValueWorkspaceClientCapabilities
+	InlineValue/*TOpt*/ *InlineValueWorkspaceClientCapabilities
 	// Capabilities specific to the inlay hint requests scoped to the
 	// workspace.
 	//
 	// @since 3.17.0.
-	InlayHint *InlayHintWorkspaceClientCapabilities
+	InlayHint/*TOpt*/ *InlayHintWorkspaceClientCapabilities
 	// Capabilities specific to the diagnostic requests scoped to the
 	// workspace.
 	//
 	// @since 3.17.0.
-	Diagnostics *DiagnosticWorkspaceClientCapabilities
+	Diagnostics/*TOpt*/ *DiagnosticWorkspaceClientCapabilities
 }
 
 // Text document specific client capabilities.
 type TextDocumentClientCapabilities struct {
 	// Defines which synchronization capabilities the client supports.
-	Synchronization *TextDocumentSyncClientCapabilities
+	Synchronization/*TOpt*/ *TextDocumentSyncClientCapabilities
 	// Capabilities specific to the `textDocument/completion` request.
-	Completion *CompletionClientCapabilities
+	Completion/*TOpt*/ *CompletionClientCapabilities
 	// Capabilities specific to the `textDocument/hover` request.
-	Hover *HoverClientCapabilities
+	Hover/*TOpt*/ *HoverClientCapabilities
 	// Capabilities specific to the `textDocument/signatureHelp` request.
-	SignatureHelp *SignatureHelpClientCapabilities
+	SignatureHelp/*TOpt*/ *SignatureHelpClientCapabilities
 	// Capabilities specific to the `textDocument/declaration` request.
 	//
 	// @since 3.14.0
-	Declaration *DeclarationClientCapabilities
+	Declaration/*TOpt*/ *DeclarationClientCapabilities
 	// Capabilities specific to the `textDocument/definition` request.
-	Definition *DefinitionClientCapabilities
+	Definition/*TOpt*/ *DefinitionClientCapabilities
 	// Capabilities specific to the `textDocument/typeDefinition` request.
 	//
 	// @since 3.6.0
-	TypeDefinition *TypeDefinitionClientCapabilities
+	TypeDefinition/*TOpt*/ *TypeDefinitionClientCapabilities
 	// Capabilities specific to the `textDocument/implementation` request.
 	//
 	// @since 3.6.0
-	Implementation *ImplementationClientCapabilities
+	Implementation/*TOpt*/ *ImplementationClientCapabilities
 	// Capabilities specific to the `textDocument/references` request.
-	References *ReferenceClientCapabilities
+	References/*TOpt*/ *ReferenceClientCapabilities
 	// Capabilities specific to the `textDocument/documentHighlight` request.
-	DocumentHighlight *DocumentHighlightClientCapabilities
+	DocumentHighlight/*TOpt*/ *DocumentHighlightClientCapabilities
 	// Capabilities specific to the `textDocument/documentSymbol` request.
-	DocumentSymbol *DocumentSymbolClientCapabilities
+	DocumentSymbol/*TOpt*/ *DocumentSymbolClientCapabilities
 	// Capabilities specific to the `textDocument/codeAction` request.
-	CodeAction *CodeActionClientCapabilities
+	CodeAction/*TOpt*/ *CodeActionClientCapabilities
 	// Capabilities specific to the `textDocument/codeLens` request.
-	CodeLens *CodeLensClientCapabilities
+	CodeLens/*TOpt*/ *CodeLensClientCapabilities
 	// Capabilities specific to the `textDocument/documentLink` request.
-	DocumentLink *DocumentLinkClientCapabilities
+	DocumentLink/*TOpt*/ *DocumentLinkClientCapabilities
 	// Capabilities specific to the `textDocument/documentColor` and the
 	// `textDocument/colorPresentation` request.
 	//
 	// @since 3.6.0
-	ColorProvider *DocumentColorClientCapabilities
+	ColorProvider/*TOpt*/ *DocumentColorClientCapabilities
 	// Capabilities specific to the `textDocument/formatting` request.
-	Formatting *DocumentFormattingClientCapabilities
+	Formatting/*TOpt*/ *DocumentFormattingClientCapabilities
 	// Capabilities specific to the `textDocument/rangeFormatting` request.
-	RangeFormatting *DocumentRangeFormattingClientCapabilities
+	RangeFormatting/*TOpt*/ *DocumentRangeFormattingClientCapabilities
 	// Capabilities specific to the `textDocument/onTypeFormatting` request.
-	OnTypeFormatting *DocumentOnTypeFormattingClientCapabilities
+	OnTypeFormatting/*TOpt*/ *DocumentOnTypeFormattingClientCapabilities
 	// Capabilities specific to the `textDocument/rename` request.
-	Rename *RenameClientCapabilities
+	Rename/*TOpt*/ *RenameClientCapabilities
 	// Capabilities specific to the `textDocument/foldingRange` request.
 	//
 	// @since 3.10.0
-	FoldingRange *FoldingRangeClientCapabilities
+	FoldingRange/*TOpt*/ *FoldingRangeClientCapabilities
 	// Capabilities specific to the `textDocument/selectionRange` request.
 	//
 	// @since 3.15.0
-	SelectionRange *SelectionRangeClientCapabilities
+	SelectionRange/*TOpt*/ *SelectionRangeClientCapabilities
 	// Capabilities specific to the `textDocument/publishDiagnostics` notification.
-	PublishDiagnostics *PublishDiagnosticsClientCapabilities
+	PublishDiagnostics/*TOpt*/ *PublishDiagnosticsClientCapabilities
 	// Capabilities specific to the various call hierarchy requests.
 	//
 	// @since 3.16.0
-	CallHierarchy *CallHierarchyClientCapabilities
+	CallHierarchy/*TOpt*/ *CallHierarchyClientCapabilities
 	// Capabilities specific to the various semantic token request.
 	//
 	// @since 3.16.0
-	SemanticTokens *SemanticTokensClientCapabilities
+	SemanticTokens/*TOpt*/ *SemanticTokensClientCapabilities
 	// Capabilities specific to the `textDocument/linkedEditingRange` request.
 	//
 	// @since 3.16.0
-	LinkedEditingRange *LinkedEditingRangeClientCapabilities
+	LinkedEditingRange/*TOpt*/ *LinkedEditingRangeClientCapabilities
 	// Client capabilities specific to the `textDocument/moniker` request.
 	//
 	// @since 3.16.0
-	Moniker *MonikerClientCapabilities
+	Moniker/*TOpt*/ *MonikerClientCapabilities
 	// Capabilities specific to the various type hierarchy requests.
 	//
 	// @since 3.17.0
-	TypeHierarchy *TypeHierarchyClientCapabilities
+	TypeHierarchy/*TOpt*/ *TypeHierarchyClientCapabilities
 	// Capabilities specific to the `textDocument/inlineValue` request.
 	//
 	// @since 3.17.0
-	InlineValue *InlineValueClientCapabilities
+	InlineValue/*TOpt*/ *InlineValueClientCapabilities
 	// Capabilities specific to the `textDocument/inlayHint` request.
 	//
 	// @since 3.17.0
-	InlayHint *InlayHintClientCapabilities
+	InlayHint/*TOpt*/ *InlayHintClientCapabilities
 	// Capabilities specific to the diagnostic pull model.
 	//
 	// @since 3.17.0
-	Diagnostic *DiagnosticClientCapabilities
+	Diagnostic/*TOpt*/ *DiagnosticClientCapabilities
 }
 
 // Capabilities specific to the notebook document support.
@@ -3577,15 +3621,15 @@ type WindowClientCapabilities struct {
 	// capabilities.
 	//
 	// @since 3.15.0
-	WorkDoneProgress *Boolean
+	WorkDoneProgress/*TOpt*/ *Boolean
 	// Capabilities specific to the showMessage request.
 	//
 	// @since 3.16.0
-	ShowMessage *ShowMessageRequestClientCapabilities
+	ShowMessage/*TOpt*/ *ShowMessageRequestClientCapabilities
 	// Capabilities specific to the showDocument request.
 	//
 	// @since 3.16.0
-	ShowDocument *ShowDocumentClientCapabilities
+	ShowDocument/*TOpt*/ *ShowDocumentClientCapabilities
 }
 
 // General client capabilities.
@@ -3598,7 +3642,7 @@ type GeneralClientCapabilities struct {
 	// anymore since the information is outdated).
 	//
 	// @since 3.17.0
-	StaleRequestSupport *struct {
+	StaleRequestSupport/*TOpt*/ * /*TStruc*/ struct {
 		// The client will actively cancel the request.
 		Cancel bool
 		// The list of requests for which the client
@@ -3610,11 +3654,11 @@ type GeneralClientCapabilities struct {
 	// Client capabilities specific to regular expressions.
 	//
 	// @since 3.16.0
-	RegularExpressions *RegularExpressionsClientCapabilities
+	RegularExpressions/*TOpt*/ *RegularExpressionsClientCapabilities
 	// Client capabilities specific to the client's markdown parser.
 	//
 	// @since 3.16.0
-	Markdown *MarkdownClientCapabilities
+	Markdown/*TOpt*/ *MarkdownClientCapabilities
 	// The position encodings supported by the client. Client and server
 	// have to agree on the same position encoding to ensure that offsets
 	// (e.g. character position in a line) are interpreted the same on both
@@ -3633,7 +3677,7 @@ type GeneralClientCapabilities struct {
 	// side.
 	//
 	// @since 3.17.0
-	PositionEncodings []PositionEncodingKind
+	PositionEncodings/*TOpt*/ []PositionEncodingKind
 }
 
 // A relative pattern is a helper to construct glob patterns that are matched
@@ -3645,27 +3689,28 @@ type RelativePattern struct {
 	// A workspace folder or a base URI to which this pattern will be matched
 	// against relatively.
 	//
-	// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-	BaseUri struct {
-		WorkspaceFolder *WorkspaceFolder
-		URI             URI
+	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+	BaseUri/*TOr*/ struct {
+		WorkspaceFolder/*TOpt*/ *WorkspaceFolder
+		URI/*TOpt*/ *URI
 	}
+
 	// The actual glob pattern;
 	Pattern Pattern
 }
 type WorkspaceEditClientCapabilities struct {
 	// The client supports versioned document changes in `WorkspaceEdit`s
-	DocumentChanges *Boolean
+	DocumentChanges/*TOpt*/ *Boolean
 	// The resource operations the client supports. Clients should at least
 	// support 'create', 'rename' and 'delete' files and folders.
 	//
 	// @since 3.13.0
-	ResourceOperations []ResourceOperationKind
+	ResourceOperations/*TOpt*/ []ResourceOperationKind
 	// The failure handling strategy of a client if applying the workspace edit
 	// fails.
 	//
 	// @since 3.13.0
-	FailureHandling FailureHandlingKind
+	FailureHandling/*TOpt*/ FailureHandlingKind
 	// Whether the client normalizes line endings to the client specific
 	// setting.
 	// If set to `true` the client will normalize line ending characters
@@ -3673,40 +3718,40 @@ type WorkspaceEditClientCapabilities struct {
 	// character.
 	//
 	// @since 3.16.0
-	NormalizesLineEndings *Boolean
+	NormalizesLineEndings/*TOpt*/ *Boolean
 	// Whether the client in general supports change annotations on text edits,
 	// create file, rename file and delete file changes.
 	//
 	// @since 3.16.0
-	ChangeAnnotationSupport *struct {
+	ChangeAnnotationSupport/*TOpt*/ * /*TStruc*/ struct {
 		// Whether the client groups edits with equal labels into tree nodes,
 		// for instance all edits labelled with "Changes in Strings" would
 		// be a tree node.
-		GroupsOnLabel *Boolean
+		GroupsOnLabel /*TOpt*/ *Boolean
 	}
 }
 type DidChangeConfigurationClientCapabilities struct {
 	// Did change configuration notification supports dynamic registration.
-	DynamicRegistration *Boolean
+	DynamicRegistration /*TOpt*/ *Boolean
 }
 type DidChangeWatchedFilesClientCapabilities struct {
 	// Did change watched files notification supports dynamic registration. Please note
 	// that the current protocol doesn't support static configuration for file changes
 	// from the server side.
-	DynamicRegistration *Boolean
+	DynamicRegistration/*TOpt*/ *Boolean
 	// Whether the client has support for ` RelativePattern relative pattern`
 	// or not.
 	//
 	// @since 3.17.0
-	RelativePatternSupport *Boolean
+	RelativePatternSupport/*TOpt*/ *Boolean
 }
 
 // Client capabilities for a `WorkspaceSymbolRequest`.
 type WorkspaceSymbolClientCapabilities struct {
 	// Symbol request supports dynamic registration.
-	DynamicRegistration *Boolean
+	DynamicRegistration/*TOpt*/ *Boolean
 	// Specific capabilities for the `SymbolKind` in the `workspace/symbol` request.
-	SymbolKind *struct {
+	SymbolKind/*TOpt*/ * /*TStruc*/ struct {
 		// The symbol kind values the client supports. When this
 		// property exists the client also guarantees that it will
 		// handle values outside its set gracefully and falls back
@@ -3715,14 +3760,14 @@ type WorkspaceSymbolClientCapabilities struct {
 		// If this property is not present the client only supports
 		// the symbol kinds from `File` to `Array` as defined in
 		// the initial version of the protocol.
-		ValueSet []SymbolKind
+		ValueSet /*TOpt*/ []SymbolKind
 	}
 
 	// The client supports tags on `SymbolInformation`.
 	// Clients supporting tags have to handle unknown tags gracefully.
 	//
 	// @since 3.16.0
-	TagSupport *struct {
+	TagSupport/*TOpt*/ * /*TStruc*/ struct {
 		// The tags supported by the client.
 		ValueSet []SymbolTag
 	}
@@ -3732,7 +3777,7 @@ type WorkspaceSymbolClientCapabilities struct {
 	// properties.
 	//
 	// @since 3.17.0
-	ResolveSupport *struct {
+	ResolveSupport/*TOpt*/ * /*TStruc*/ struct {
 		// The properties that a client can resolve lazily. Usually
 		// `location.range`
 		Properties []string
@@ -3742,7 +3787,7 @@ type WorkspaceSymbolClientCapabilities struct {
 // The client capabilities of a `ExecuteCommandRequest`.
 type ExecuteCommandClientCapabilities struct {
 	// Execute command supports dynamic registration.
-	DynamicRegistration *Boolean
+	DynamicRegistration /*TOpt*/ *Boolean
 }
 
 // @since 3.16.0
@@ -3754,7 +3799,7 @@ type SemanticTokensWorkspaceClientCapabilities struct {
 	// semantic tokens currently shown. It should be used with absolute care
 	// and is useful for situation where a server for example detects a project
 	// wide change that requires such a calculation.
-	RefreshSupport *Boolean
+	RefreshSupport /*TOpt*/ *Boolean
 }
 
 // @since 3.16.0
@@ -3766,7 +3811,7 @@ type CodeLensWorkspaceClientCapabilities struct {
 	// code lenses currently shown. It should be used with absolute care and is
 	// useful for situation where a server for example detect a project wide
 	// change that requires such a calculation.
-	RefreshSupport *Boolean
+	RefreshSupport /*TOpt*/ *Boolean
 }
 
 // Capabilities relating to events from file operations by the user in the client.
@@ -3777,19 +3822,19 @@ type CodeLensWorkspaceClientCapabilities struct {
 // @since 3.16.0
 type FileOperationClientCapabilities struct {
 	// Whether the client supports dynamic registration for file requests/notifications.
-	DynamicRegistration *Boolean
+	DynamicRegistration/*TOpt*/ *Boolean
 	// The client has support for sending didCreateFiles notifications.
-	DidCreate *Boolean
+	DidCreate/*TOpt*/ *Boolean
 	// The client has support for sending willCreateFiles requests.
-	WillCreate *Boolean
+	WillCreate/*TOpt*/ *Boolean
 	// The client has support for sending didRenameFiles notifications.
-	DidRename *Boolean
+	DidRename/*TOpt*/ *Boolean
 	// The client has support for sending willRenameFiles requests.
-	WillRename *Boolean
+	WillRename/*TOpt*/ *Boolean
 	// The client has support for sending didDeleteFiles notifications.
-	DidDelete *Boolean
+	DidDelete/*TOpt*/ *Boolean
 	// The client has support for sending willDeleteFiles requests.
-	WillDelete *Boolean
+	WillDelete/*TOpt*/ *Boolean
 }
 
 // Client workspace capabilities specific to inline values.
@@ -3803,7 +3848,7 @@ type InlineValueWorkspaceClientCapabilities struct {
 	// inline values currently shown. It should be used with absolute care and is
 	// useful for situation where a server for example detects a project wide
 	// change that requires such a calculation.
-	RefreshSupport *Boolean
+	RefreshSupport /*TOpt*/ *Boolean
 }
 
 // Client workspace capabilities specific to inlay hints.
@@ -3817,7 +3862,7 @@ type InlayHintWorkspaceClientCapabilities struct {
 	// inlay hints currently shown. It should be used with absolute care and
 	// is useful for situation where a server for example detects a project wide
 	// change that requires such a calculation.
-	RefreshSupport *Boolean
+	RefreshSupport /*TOpt*/ *Boolean
 }
 
 // Workspace client capabilities specific to diagnostic pull requests.
@@ -3831,51 +3876,51 @@ type DiagnosticWorkspaceClientCapabilities struct {
 	// pulled diagnostics currently shown. It should be used with absolute care and
 	// is useful for situation where a server for example detects a project wide
 	// change that requires such a calculation.
-	RefreshSupport *Boolean
+	RefreshSupport /*TOpt*/ *Boolean
 }
 type TextDocumentSyncClientCapabilities struct {
 	// Whether text document synchronization supports dynamic registration.
-	DynamicRegistration *Boolean
+	DynamicRegistration/*TOpt*/ *Boolean
 	// The client supports sending will save notifications.
-	WillSave *Boolean
+	WillSave/*TOpt*/ *Boolean
 	// The client supports sending a will save request and
 	// waits for a response providing text edits which will
 	// be applied to the document before it is saved.
-	WillSaveWaitUntil *Boolean
+	WillSaveWaitUntil/*TOpt*/ *Boolean
 	// The client supports did save notifications.
-	DidSave *Boolean
+	DidSave/*TOpt*/ *Boolean
 }
 
 // Completion client capabilities
 type CompletionClientCapabilities struct {
 	// Whether completion supports dynamic registration.
-	DynamicRegistration *Boolean
+	DynamicRegistration/*TOpt*/ *Boolean
 	// The client supports the following `CompletionItem` specific
 	// capabilities.
-	CompletionItem *struct {
+	CompletionItem/*TOpt*/ * /*TStruc*/ struct {
 		// Client supports snippets as insert text.
 		//
 		// A snippet can define tab stops and placeholders with `$1`, `$2`
 		// and `${3:foo}`. `$0` defines the final tab stop, it defaults to
 		// the end of the snippet. Placeholders with equal identifiers are linked,
 		// that is typing in one will update others too.
-		SnippetSupport *Boolean
+		SnippetSupport/*TOpt*/ *Boolean
 		// Client supports commit characters on a completion item.
-		CommitCharactersSupport *Boolean
+		CommitCharactersSupport/*TOpt*/ *Boolean
 		// Client supports the following content formats for the documentation
 		// property. The order describes the preferred format of the client.
-		DocumentationFormat []MarkupKind
+		DocumentationFormat/*TOpt*/ []MarkupKind
 		// Client supports the deprecated property on a completion item.
-		DeprecatedSupport *Boolean
+		DeprecatedSupport/*TOpt*/ *Boolean
 		// Client supports the preselect property on a completion item.
-		PreselectSupport *Boolean
+		PreselectSupport/*TOpt*/ *Boolean
 		// Client supports the tag property on a completion item. Clients supporting
 		// tags have to handle unknown tags gracefully. Clients especially need to
 		// preserve unknown tags when sending a completion item back to the server in
 		// a resolve call.
 		//
 		// @since 3.15.0
-		TagSupport *struct {
+		TagSupport/*TOpt*/ * /*TStruc*/ struct {
 			// The tags supported by the client.
 			ValueSet []CompletionItemTag
 		}
@@ -3884,13 +3929,13 @@ type CompletionClientCapabilities struct {
 		// completion item is inserted in the text or should replace text.
 		//
 		// @since 3.16.0
-		InsertReplaceSupport *Boolean
+		InsertReplaceSupport/*TOpt*/ *Boolean
 		// Indicates which properties a client can resolve lazily on a completion
 		// item. Before version 3.16.0 only the predefined properties `documentation`
 		// and `details` could be resolved lazily.
 		//
 		// @since 3.16.0
-		ResolveSupport *struct {
+		ResolveSupport/*TOpt*/ * /*TStruc*/ struct {
 			// The properties that a client can resolve lazily.
 			Properties []string
 		}
@@ -3900,7 +3945,7 @@ type CompletionClientCapabilities struct {
 		// as defined by the client (see `insertTextMode`).
 		//
 		// @since 3.16.0
-		InsertTextModeSupport *struct {
+		InsertTextModeSupport/*TOpt*/ * /*TStruc*/ struct {
 			ValueSet []InsertTextMode
 		}
 
@@ -3908,10 +3953,10 @@ type CompletionClientCapabilities struct {
 		// details (see also `CompletionItemLabelDetails`).
 		//
 		// @since 3.17.0
-		LabelDetailsSupport *Boolean
+		LabelDetailsSupport/*TOpt*/ *Boolean
 	}
 
-	CompletionItemKind *struct {
+	CompletionItemKind/*TOpt*/ * /*TStruc*/ struct {
 		// The completion item kind values the client supports. When this
 		// property exists the client also guarantees that it will
 		// handle values outside its set gracefully and falls back
@@ -3920,7 +3965,7 @@ type CompletionClientCapabilities struct {
 		// If this property is not present the client only supports
 		// the completion items kinds from `Text` to `Reference` as defined in
 		// the initial version of the protocol.
-		ValueSet []CompletionItemKind
+		ValueSet /*TOpt*/ []CompletionItemKind
 	}
 
 	// Defines how the client handles whitespace and indentation
@@ -3928,15 +3973,15 @@ type CompletionClientCapabilities struct {
 	// text in either `insertText` or `textEdit`.
 	//
 	// @since 3.17.0
-	InsertTextMode InsertTextMode
+	InsertTextMode/*TOpt*/ InsertTextMode
 	// The client supports to send additional context information for a
 	// `textDocument/completion` request.
-	ContextSupport *Boolean
+	ContextSupport/*TOpt*/ *Boolean
 	// The client supports the following `CompletionList` specific
 	// capabilities.
 	//
 	// @since 3.17.0
-	CompletionList *struct {
+	CompletionList/*TOpt*/ * /*TStruc*/ struct {
 		// The client supports the following itemDefaults on
 		// a completion list.
 		//
@@ -3945,41 +3990,41 @@ type CompletionClientCapabilities struct {
 		// no properties are supported.
 		//
 		// @since 3.17.0
-		ItemDefaults []string
+		ItemDefaults /*TOpt*/ []string
 	}
 }
 type HoverClientCapabilities struct {
 	// Whether hover supports dynamic registration.
-	DynamicRegistration *Boolean
+	DynamicRegistration/*TOpt*/ *Boolean
 	// Client supports the following content formats for the content
 	// property. The order describes the preferred format of the client.
-	ContentFormat []MarkupKind
+	ContentFormat/*TOpt*/ []MarkupKind
 }
 
 // Client Capabilities for a `SignatureHelpRequest`.
 type SignatureHelpClientCapabilities struct {
 	// Whether signature help supports dynamic registration.
-	DynamicRegistration *Boolean
+	DynamicRegistration/*TOpt*/ *Boolean
 	// The client supports the following `SignatureInformation`
 	// specific properties.
-	SignatureInformation *struct {
+	SignatureInformation/*TOpt*/ * /*TStruc*/ struct {
 		// Client supports the following content formats for the documentation
 		// property. The order describes the preferred format of the client.
-		DocumentationFormat []MarkupKind
+		DocumentationFormat/*TOpt*/ []MarkupKind
 		// Client capabilities specific to parameter information.
-		ParameterInformation *struct {
+		ParameterInformation/*TOpt*/ * /*TStruc*/ struct {
 			// The client supports processing label offsets instead of a
 			// simple label string.
 			//
 			// @since 3.14.0
-			LabelOffsetSupport *Boolean
+			LabelOffsetSupport /*TOpt*/ *Boolean
 		}
 
 		// The client supports the `activeParameter` property on `SignatureInformation`
 		// literal.
 		//
 		// @since 3.16.0
-		ActiveParameterSupport *Boolean
+		ActiveParameterSupport/*TOpt*/ *Boolean
 	}
 
 	// The client supports to send additional context information for a
@@ -3988,7 +4033,7 @@ type SignatureHelpClientCapabilities struct {
 	// `SignatureHelpOptions`.
 	//
 	// @since 3.15.0
-	ContextSupport *Boolean
+	ContextSupport/*TOpt*/ *Boolean
 }
 
 // @since 3.14.0
@@ -3996,19 +4041,19 @@ type DeclarationClientCapabilities struct {
 	// Whether declaration supports dynamic registration. If this is set to `true`
 	// the client supports the new `DeclarationRegistrationOptions` return value
 	// for the corresponding server capability as well.
-	DynamicRegistration *Boolean
+	DynamicRegistration/*TOpt*/ *Boolean
 	// The client supports additional metadata in the form of declaration links.
-	LinkSupport *Boolean
+	LinkSupport/*TOpt*/ *Boolean
 }
 
 // Client Capabilities for a `DefinitionRequest`.
 type DefinitionClientCapabilities struct {
 	// Whether definition supports dynamic registration.
-	DynamicRegistration *Boolean
+	DynamicRegistration/*TOpt*/ *Boolean
 	// The client supports additional metadata in the form of definition links.
 	//
 	// @since 3.14.0
-	LinkSupport *Boolean
+	LinkSupport/*TOpt*/ *Boolean
 }
 
 // Since 3.6.0
@@ -4016,11 +4061,11 @@ type TypeDefinitionClientCapabilities struct {
 	// Whether implementation supports dynamic registration. If this is set to `true`
 	// the client supports the new `TypeDefinitionRegistrationOptions` return value
 	// for the corresponding server capability as well.
-	DynamicRegistration *Boolean
+	DynamicRegistration/*TOpt*/ *Boolean
 	// The client supports additional metadata in the form of definition links.
 	//
 	// Since 3.14.0
-	LinkSupport *Boolean
+	LinkSupport/*TOpt*/ *Boolean
 }
 
 // @since 3.6.0
@@ -4028,32 +4073,32 @@ type ImplementationClientCapabilities struct {
 	// Whether implementation supports dynamic registration. If this is set to `true`
 	// the client supports the new `ImplementationRegistrationOptions` return value
 	// for the corresponding server capability as well.
-	DynamicRegistration *Boolean
+	DynamicRegistration/*TOpt*/ *Boolean
 	// The client supports additional metadata in the form of definition links.
 	//
 	// @since 3.14.0
-	LinkSupport *Boolean
+	LinkSupport/*TOpt*/ *Boolean
 }
 
 // Client Capabilities for a `ReferencesRequest`.
 type ReferenceClientCapabilities struct {
 	// Whether references supports dynamic registration.
-	DynamicRegistration *Boolean
+	DynamicRegistration /*TOpt*/ *Boolean
 }
 
 // Client Capabilities for a `DocumentHighlightRequest`.
 type DocumentHighlightClientCapabilities struct {
 	// Whether document highlight supports dynamic registration.
-	DynamicRegistration *Boolean
+	DynamicRegistration /*TOpt*/ *Boolean
 }
 
 // Client Capabilities for a `DocumentSymbolRequest`.
 type DocumentSymbolClientCapabilities struct {
 	// Whether document symbol supports dynamic registration.
-	DynamicRegistration *Boolean
+	DynamicRegistration/*TOpt*/ *Boolean
 	// Specific capabilities for the `SymbolKind` in the
 	// `textDocument/documentSymbol` request.
-	SymbolKind *struct {
+	SymbolKind/*TOpt*/ * /*TStruc*/ struct {
 		// The symbol kind values the client supports. When this
 		// property exists the client also guarantees that it will
 		// handle values outside its set gracefully and falls back
@@ -4062,17 +4107,17 @@ type DocumentSymbolClientCapabilities struct {
 		// If this property is not present the client only supports
 		// the symbol kinds from `File` to `Array` as defined in
 		// the initial version of the protocol.
-		ValueSet []SymbolKind
+		ValueSet /*TOpt*/ []SymbolKind
 	}
 
 	// The client supports hierarchical document symbols.
-	HierarchicalDocumentSymbolSupport *Boolean
+	HierarchicalDocumentSymbolSupport/*TOpt*/ *Boolean
 	// The client supports tags on `SymbolInformation`. Tags are supported on
 	// `DocumentSymbol` if `hierarchicalDocumentSymbolSupport` is set to true.
 	// Clients supporting tags have to handle unknown tags gracefully.
 	//
 	// @since 3.16.0
-	TagSupport *struct {
+	TagSupport/*TOpt*/ * /*TStruc*/ struct {
 		// The tags supported by the client.
 		ValueSet []SymbolTag
 	}
@@ -4081,22 +4126,22 @@ type DocumentSymbolClientCapabilities struct {
 	// registering a document symbol provider.
 	//
 	// @since 3.16.0
-	LabelSupport *Boolean
+	LabelSupport/*TOpt*/ *Boolean
 }
 
 // The Client Capabilities of a `CodeActionRequest`.
 type CodeActionClientCapabilities struct {
 	// Whether code action supports dynamic registration.
-	DynamicRegistration *Boolean
+	DynamicRegistration/*TOpt*/ *Boolean
 	// The client support code action literals of type `CodeAction` as a valid
 	// response of the `textDocument/codeAction` request. If the property is not
 	// set the request can only return `Command` literals.
 	//
 	// @since 3.8.0
-	CodeActionLiteralSupport *struct {
+	CodeActionLiteralSupport/*TOpt*/ * /*TStruc*/ struct {
 		// The code action kind is support with the following value
 		// set.
-		CodeActionKind struct {
+		CodeActionKind /*TStruc*/ struct {
 			// The code action kind values the client supports. When this
 			// property exists the client also guarantees that it will
 			// handle values outside its set gracefully and falls back
@@ -4108,22 +4153,22 @@ type CodeActionClientCapabilities struct {
 	// Whether code action supports the `isPreferred` property.
 	//
 	// @since 3.15.0
-	IsPreferredSupport *Boolean
+	IsPreferredSupport/*TOpt*/ *Boolean
 	// Whether code action supports the `disabled` property.
 	//
 	// @since 3.16.0
-	DisabledSupport *Boolean
+	DisabledSupport/*TOpt*/ *Boolean
 	// Whether code action supports the `data` property which is
 	// preserved between a `textDocument/codeAction` and a
 	// `codeAction/resolve` request.
 	//
 	// @since 3.16.0
-	DataSupport *Boolean
+	DataSupport/*TOpt*/ *Boolean
 	// Whether the client supports resolving additional code action
 	// properties via a separate `codeAction/resolve` request.
 	//
 	// @since 3.16.0
-	ResolveSupport *struct {
+	ResolveSupport/*TOpt*/ * /*TStruc*/ struct {
 		// The properties that a client can resolve lazily.
 		Properties []string
 	}
@@ -4135,63 +4180,63 @@ type CodeActionClientCapabilities struct {
 	// for confirmation.
 	//
 	// @since 3.16.0
-	HonorsChangeAnnotations *Boolean
+	HonorsChangeAnnotations/*TOpt*/ *Boolean
 }
 
 // The client capabilities  of a `CodeLensRequest`.
 type CodeLensClientCapabilities struct {
 	// Whether code lens supports dynamic registration.
-	DynamicRegistration *Boolean
+	DynamicRegistration /*TOpt*/ *Boolean
 }
 
 // The client capabilities of a `DocumentLinkRequest`.
 type DocumentLinkClientCapabilities struct {
 	// Whether document link supports dynamic registration.
-	DynamicRegistration *Boolean
+	DynamicRegistration/*TOpt*/ *Boolean
 	// Whether the client supports the `tooltip` property on `DocumentLink`.
 	//
 	// @since 3.15.0
-	TooltipSupport *Boolean
+	TooltipSupport/*TOpt*/ *Boolean
 }
 type DocumentColorClientCapabilities struct {
 	// Whether implementation supports dynamic registration. If this is set to `true`
 	// the client supports the new `DocumentColorRegistrationOptions` return value
 	// for the corresponding server capability as well.
-	DynamicRegistration *Boolean
+	DynamicRegistration /*TOpt*/ *Boolean
 }
 
 // Client capabilities of a `DocumentFormattingRequest`.
 type DocumentFormattingClientCapabilities struct {
 	// Whether formatting supports dynamic registration.
-	DynamicRegistration *Boolean
+	DynamicRegistration /*TOpt*/ *Boolean
 }
 
 // Client capabilities of a `DocumentRangeFormattingRequest`.
 type DocumentRangeFormattingClientCapabilities struct {
 	// Whether range formatting supports dynamic registration.
-	DynamicRegistration *Boolean
+	DynamicRegistration /*TOpt*/ *Boolean
 }
 
 // Client capabilities of a `DocumentOnTypeFormattingRequest`.
 type DocumentOnTypeFormattingClientCapabilities struct {
 	// Whether on type formatting supports dynamic registration.
-	DynamicRegistration *Boolean
+	DynamicRegistration /*TOpt*/ *Boolean
 }
 type RenameClientCapabilities struct {
 	// Whether rename supports dynamic registration.
-	DynamicRegistration *Boolean
+	DynamicRegistration/*TOpt*/ *Boolean
 	// Client supports testing for validity of rename operations
 	// before execution.
 	//
 	// @since 3.12.0
-	PrepareSupport *Boolean
+	PrepareSupport/*TOpt*/ *Boolean
 	// Client supports the default behavior result.
 	//
 	// The value indicates the default behavior used by the
 	// client.
 	//
 	// @since 3.16.0
-	PrepareSupportDefaultBehavior PrepareSupportDefaultBehavior
+	PrepareSupportDefaultBehavior/*TOpt*/ PrepareSupportDefaultBehavior
 	// Whether the client honors the change annotations in
 	// text edits and resource operations returned via the
 	// rename request's workspace edit by for example presenting
@@ -4199,60 +4244,60 @@ type RenameClientCapabilities struct {
 	// for confirmation.
 	//
 	// @since 3.16.0
-	HonorsChangeAnnotations *Boolean
+	HonorsChangeAnnotations/*TOpt*/ *Boolean
 }
 type FoldingRangeClientCapabilities struct {
 	// Whether implementation supports dynamic registration for folding range
 	// providers. If this is set to `true` the client supports the new
 	// `FoldingRangeRegistrationOptions` return value for the corresponding
 	// server capability as well.
-	DynamicRegistration *Boolean
+	DynamicRegistration/*TOpt*/ *Boolean
 	// The maximum number of folding ranges that the client prefers to receive
 	// per document. The value serves as a hint, servers are free to follow the
 	// limit.
-	RangeLimit *Uinteger
+	RangeLimit/*TOpt*/ *Uinteger
 	// If set, the client signals that it only supports folding complete lines.
 	// If set, client will ignore specified `startCharacter` and `endCharacter`
 	// properties in a FoldingRange.
-	LineFoldingOnly *Boolean
+	LineFoldingOnly/*TOpt*/ *Boolean
 	// Specific options for the folding range kind.
 	//
 	// @since 3.17.0
-	FoldingRangeKind *struct {
+	FoldingRangeKind/*TOpt*/ * /*TStruc*/ struct {
 		// The folding range kind values the client supports. When this
 		// property exists the client also guarantees that it will
 		// handle values outside its set gracefully and falls back
 		// to a default value when unknown.
-		ValueSet []FoldingRangeKind
+		ValueSet /*TOpt*/ []FoldingRangeKind
 	}
 
 	// Specific options for the folding range.
 	//
 	// @since 3.17.0
-	FoldingRange *struct {
+	FoldingRange/*TOpt*/ * /*TStruc*/ struct {
 		// If set, the client signals that it supports setting collapsedText on
 		// folding ranges to display custom labels instead of the default text.
 		//
 		// @since 3.17.0
-		CollapsedText *Boolean
+		CollapsedText /*TOpt*/ *Boolean
 	}
 }
 type SelectionRangeClientCapabilities struct {
 	// Whether implementation supports dynamic registration for selection range providers. If this is set to `true`
 	// the client supports the new `SelectionRangeRegistrationOptions` return value for the corresponding server
 	// capability as well.
-	DynamicRegistration *Boolean
+	DynamicRegistration /*TOpt*/ *Boolean
 }
 
 // The publish diagnostic client capabilities.
 type PublishDiagnosticsClientCapabilities struct {
 	// Whether the clients accepts diagnostics with related information.
-	RelatedInformation *Boolean
+	RelatedInformation/*TOpt*/ *Boolean
 	// Client supports the tag property to provide meta data about a diagnostic.
 	// Clients supporting tags have to handle unknown tags gracefully.
 	//
 	// @since 3.15.0
-	TagSupport *struct {
+	TagSupport/*TOpt*/ * /*TStruc*/ struct {
 		// The tags supported by the client.
 		ValueSet []DiagnosticTag
 	}
@@ -4261,17 +4306,17 @@ type PublishDiagnosticsClientCapabilities struct {
 	// `textDocument/publishDiagnostics` notification's parameter.
 	//
 	// @since 3.15.0
-	VersionSupport *Boolean
+	VersionSupport/*TOpt*/ *Boolean
 	// Client supports a codeDescription property
 	//
 	// @since 3.16.0
-	CodeDescriptionSupport *Boolean
+	CodeDescriptionSupport/*TOpt*/ *Boolean
 	// Whether code action supports the `data` property which is
 	// preserved between a `textDocument/publishDiagnostics` and
 	// `textDocument/codeAction` request.
 	//
 	// @since 3.16.0
-	DataSupport *Boolean
+	DataSupport/*TOpt*/ *Boolean
 }
 
 // @since 3.16.0
@@ -4279,7 +4324,7 @@ type CallHierarchyClientCapabilities struct {
 	// Whether implementation supports dynamic registration. If this is set to `true`
 	// the client supports the new `(TextDocumentRegistrationOptions & StaticRegistrationOptions)`
 	// return value for the corresponding server capability as well.
-	DynamicRegistration *Boolean
+	DynamicRegistration /*TOpt*/ *Boolean
 }
 
 // @since 3.16.0
@@ -4287,7 +4332,7 @@ type SemanticTokensClientCapabilities struct {
 	// Whether implementation supports dynamic registration. If this is set to `true`
 	// the client supports the new `(TextDocumentRegistrationOptions & StaticRegistrationOptions)`
 	// return value for the corresponding server capability as well.
-	DynamicRegistration *Boolean
+	DynamicRegistration/*TOpt*/ *Boolean
 	// Which requests the client supports and might send to the server
 	// depending on the server's capability. Please note that clients might not
 	// show semantic tokens or degrade some of the user experience if a range
@@ -4296,25 +4341,26 @@ type SemanticTokensClientCapabilities struct {
 	// `request.range` are both set to true but the server only provides a
 	// range provider the client might not render a minimap correctly or might
 	// even decide to not show any semantic tokens at all.
-	Requests struct {
+	Requests/*TStruc*/ struct {
 		// The client will send the `textDocument/semanticTokens/range` request if
 		// the server provides a corresponding handler.
 		//
-		// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-		Range struct {
-			Boolean     *Boolean
-			AnyByString map[string]any
+		// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+		Range/*TOpt*/ /*TOr*/ struct {
+			Boolean/*TOpt*/ *Boolean
+			AnyByString/*TOpt*/ map[string]any
 		}
+
 		// The client will send the `textDocument/semanticTokens/full` request if
 		// the server provides a corresponding handler.
 		//
-		// This object has "OneOf" union-type semantics: only at-most one field in it is ever set, all others will be null/undefined/nil/empty/etc.
-		Full struct {
-			Boolean *Boolean
-			Delta   *struct {
+		// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+		Full/*TOpt*/ /*TOr*/ struct {
+			Boolean/*TOpt*/ *Boolean
+			Delta/*TOpt*/ * /*TStruc*/ struct {
 				// The client will send the `textDocument/semanticTokens/full/delta` request if
 				// the server provides a corresponding handler.
-				Delta *Boolean
+				Delta /*TOpt*/ *Boolean
 			}
 		}
 	}
@@ -4326,16 +4372,16 @@ type SemanticTokensClientCapabilities struct {
 	// The token formats the clients supports.
 	Formats []TokenFormat
 	// Whether the client supports tokens that can overlap each other.
-	OverlappingTokenSupport *Boolean
+	OverlappingTokenSupport/*TOpt*/ *Boolean
 	// Whether the client supports tokens that can span multiple lines.
-	MultilineTokenSupport *Boolean
+	MultilineTokenSupport/*TOpt*/ *Boolean
 	// Whether the client allows the server to actively cancel a
 	// semantic token request, e.g. supports returning
 	// LSPErrorCodes.ServerCancelled. If a server does the client
 	// needs to retrigger the request.
 	//
 	// @since 3.17.0
-	ServerCancelSupport *Boolean
+	ServerCancelSupport/*TOpt*/ *Boolean
 	// Whether the client uses semantic tokens to augment existing
 	// syntax tokens. If set to `true` client side created syntax
 	// tokens and semantic tokens are both used for colorization. If
@@ -4346,7 +4392,7 @@ type SemanticTokensClientCapabilities struct {
 	// specified.
 	//
 	// @since 3.17.0
-	AugmentsSyntaxTokens *Boolean
+	AugmentsSyntaxTokens/*TOpt*/ *Boolean
 }
 
 // Client capabilities for the linked editing range request.
@@ -4356,7 +4402,7 @@ type LinkedEditingRangeClientCapabilities struct {
 	// Whether implementation supports dynamic registration. If this is set to `true`
 	// the client supports the new `(TextDocumentRegistrationOptions & StaticRegistrationOptions)`
 	// return value for the corresponding server capability as well.
-	DynamicRegistration *Boolean
+	DynamicRegistration /*TOpt*/ *Boolean
 }
 
 // Client capabilities specific to the moniker request.
@@ -4366,7 +4412,7 @@ type MonikerClientCapabilities struct {
 	// Whether moniker supports dynamic registration. If this is set to `true`
 	// the client supports the new `MonikerRegistrationOptions` return value
 	// for the corresponding server capability as well.
-	DynamicRegistration *Boolean
+	DynamicRegistration /*TOpt*/ *Boolean
 }
 
 // @since 3.17.0
@@ -4374,7 +4420,7 @@ type TypeHierarchyClientCapabilities struct {
 	// Whether implementation supports dynamic registration. If this is set to `true`
 	// the client supports the new `(TextDocumentRegistrationOptions & StaticRegistrationOptions)`
 	// return value for the corresponding server capability as well.
-	DynamicRegistration *Boolean
+	DynamicRegistration /*TOpt*/ *Boolean
 }
 
 // Client capabilities specific to inline values.
@@ -4382,7 +4428,7 @@ type TypeHierarchyClientCapabilities struct {
 // @since 3.17.0
 type InlineValueClientCapabilities struct {
 	// Whether implementation supports dynamic registration for inline value providers.
-	DynamicRegistration *Boolean
+	DynamicRegistration /*TOpt*/ *Boolean
 }
 
 // Inlay hint client capabilities.
@@ -4390,10 +4436,10 @@ type InlineValueClientCapabilities struct {
 // @since 3.17.0
 type InlayHintClientCapabilities struct {
 	// Whether inlay hints support dynamic registration.
-	DynamicRegistration *Boolean
+	DynamicRegistration/*TOpt*/ *Boolean
 	// Indicates which properties a client can resolve lazily on an inlay
 	// hint.
-	ResolveSupport *struct {
+	ResolveSupport/*TOpt*/ * /*TStruc*/ struct {
 		// The properties that a client can resolve lazily.
 		Properties []string
 	}
@@ -4406,9 +4452,9 @@ type DiagnosticClientCapabilities struct {
 	// Whether implementation supports dynamic registration. If this is set to `true`
 	// the client supports the new `(TextDocumentRegistrationOptions & StaticRegistrationOptions)`
 	// return value for the corresponding server capability as well.
-	DynamicRegistration *Boolean
+	DynamicRegistration/*TOpt*/ *Boolean
 	// Whether the clients supports related documents for document diagnostic pulls.
-	RelatedDocumentSupport *Boolean
+	RelatedDocumentSupport/*TOpt*/ *Boolean
 }
 
 // Notebook specific client capabilities.
@@ -4419,19 +4465,19 @@ type NotebookDocumentSyncClientCapabilities struct {
 	// set to `true` the client supports the new
 	// `(TextDocumentRegistrationOptions & StaticRegistrationOptions)`
 	// return value for the corresponding server capability as well.
-	DynamicRegistration *Boolean
+	DynamicRegistration/*TOpt*/ *Boolean
 	// The client supports sending execution summary data per cell.
-	ExecutionSummarySupport *Boolean
+	ExecutionSummarySupport/*TOpt*/ *Boolean
 }
 
 // Show message request client capabilities
 type ShowMessageRequestClientCapabilities struct {
 	// Capabilities specific to the `MessageActionItem` type.
-	MessageActionItem *struct {
+	MessageActionItem /*TOpt*/ * /*TStruc*/ struct {
 		// Whether the client supports additional attributes which
 		// are preserved and send back to the server in the
 		// request's response.
-		AdditionalPropertiesSupport *Boolean
+		AdditionalPropertiesSupport /*TOpt*/ *Boolean
 	}
 }
 
@@ -4451,7 +4497,7 @@ type RegularExpressionsClientCapabilities struct {
 	// The engine's name.
 	Engine string
 	// The engine's version.
-	Version *String
+	Version/*TOpt*/ *String
 }
 
 // Client capabilities specific to the used markdown parser.
@@ -4461,10 +4507,10 @@ type MarkdownClientCapabilities struct {
 	// The name of the parser.
 	Parser string
 	// The version of the parser.
-	Version *String
+	Version/*TOpt*/ *String
 	// A list of HTML tags that the client allows / supports in
 	// Markdown.
 	//
 	// @since 3.17.0
-	AllowedTags []string
+	AllowedTags/*TOpt*/ []string
 }

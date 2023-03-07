@@ -1,27 +1,23 @@
-{{- with $bag := . -}}
-{{- with $tyStr := printf "%s" $bag.Type -}}
+{{- $bag := . -}}
+{{- $tyStr := printf "%s" $bag.Type -}}
 
 {{- if or
-        (eq $tyStr "DocumentUri" "URI")
         ($bag.Main.IsEnumTypeName $tyStr)
-        ($bag.Main.IsTypeKindArray $bag.Type)
-        ($bag.Main.IsTypeKindMap $bag.Type)
-        ($bag.Main.IsTypeKindOr $bag.Type)
+        ($bag.Main.IsTypeKindOfArray $bag.Type)
+        ($bag.Main.IsTypeKindOfMap $bag.Type)
+        ($bag.Main.IsTypeKindOfOr $bag.Type)
   -}}
-    {{- $bag.Main.DoType $bag.Type -}}
-{{- else if eq $tyStr "string"  -}}
-    *String
-{{- else if eq $tyStr "integer"  -}}
-    *Integer
-{{- else if eq $tyStr "uinteger"  -}}
-    *Uinteger
-{{- else if eq $tyStr "decimal"  -}}
-    *Decimal
-{{- else if eq $tyStr "boolean"  -}}
-    *Boolean
+    /*TOpt*/ {{- $bag.Main.DoType $bag.Type -}}
+{{- else if ($bag.Main.IsTypeKindOf $bag.Type "string")  -}}
+    /*TOpt*/ *String
+{{- else if ($bag.Main.IsTypeKindOf $bag.Type "integer")  -}}
+    /*TOpt*/ *Integer
+{{- else if ($bag.Main.IsTypeKindOf $bag.Type "uinteger")  -}}
+    /*TOpt*/ *Uinteger
+{{- else if ($bag.Main.IsTypeKindOf $bag.Type "decimal")  -}}
+    /*TOpt*/ *Decimal
+{{- else if ($bag.Main.IsTypeKindOf $bag.Type "boolean")  -}}
+    /*TOpt*/ *Boolean
 {{- else -}}
-    *{{- $bag.Main.DoType $bag.Type -}}
-{{- end -}}
-
-{{- end -}}
+    /*TOpt*/ *{{- $bag.Main.DoType $bag.Type -}}
 {{- end -}}
