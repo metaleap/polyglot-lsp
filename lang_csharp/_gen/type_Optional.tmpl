@@ -11,15 +11,15 @@
   -}}
     /*TOpt*/{{- $bag.Main.DoType $bag.Type -}}
 {{- else if ($bag.Main.IsTypeKindOf $bag.Type "string") -}}
-    string?
+    /*TOpt*/string?
 {{- else if ($bag.Main.IsTypeKindOf $bag.Type "integer") -}}
-    int?
+    /*TOpt*/int?
 {{- else if ($bag.Main.IsTypeKindOf $bag.Type "uinteger") -}}
-    uint?
+    /*TOpt*/uint?
 {{- else if ($bag.Main.IsTypeKindOf $bag.Type "decimal") -}}
-    double?
+    /*TOpt*/double?
 {{- else if ($bag.Main.IsTypeKindOf $bag.Type "boolean") -}}
-    bool?
+    /*TOpt*/bool?
 {{- else -}}
-    {{- $bag.Main.DoType $bag.Type -}}?
+    /*TOpt*/{{- $bag.Main.DoType $bag.Type -}}?
 {{- end -}}

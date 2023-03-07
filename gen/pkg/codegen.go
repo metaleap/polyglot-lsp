@@ -15,7 +15,7 @@ type Gen struct {
 	filePathLang string // lang_foo/lang_foo.json
 	tracked      struct {
 		types                map[string]GenType
-		namedAnonDeclRenders []string
+		namedAnonDeclRenders map[string]string
 		decls                struct {
 			enumerations map[string]*GenEnumeration
 			structures   map[string]*GenStructure
@@ -49,10 +49,11 @@ type GenLang struct { // the contents of your lang_foo/lang_foo.json
 		Format *GenLangCmd  // eg "go fmt %in" etc
 		Check  []GenLangCmd // compiler, type-checker, parser or other linter. `%in` for absolute path of generated pkg-dir
 	}
-	PostGenCleanUp  []string // eg ["obj"]
-	Dict            map[string]string
-	BaseTypeMapping map[string]string
-	Tmpls           map[string]string
+	PostGenCleanUp                    []string // eg ["obj"]
+	Dict                              map[string]string
+	BaseTypeMapping                   map[string]string
+	Tmpls                             map[string]string
+	AllowLowerCaseGeneratedTypeIdents bool
 }
 
 type Source interface {
@@ -63,7 +64,7 @@ type Source interface {
 
 func (it *Gen) Generate(source Source) {
 	it.Main.gen = it
-	it.tracked.types, it.tracked.decls.enumerations, it.tracked.decls.structures, it.tracked.decls.typeAliases = map[string]GenType{}, map[string]*GenEnumeration{}, map[string]*GenStructure{}, map[string]*GenAlias{}
+	it.tracked.types, it.tracked.namedAnonDeclRenders, it.tracked.decls.enumerations, it.tracked.decls.structures, it.tracked.decls.typeAliases = map[string]GenType{}, map[string]string{}, map[string]*GenEnumeration{}, map[string]*GenStructure{}, map[string]*GenAlias{}
 	it.dirPathLang = "../lang_" + it.LangIdent
 	it.dirPathSrc = it.dirPathLang + "/_gen"
 	it.dirPathDst = it.dirPathLang + "/" + it.Main.GenIdent + "_v" + it.Main.GenVer
@@ -132,7 +133,7 @@ func (it *Gen) genMainDecls(buf *bytes.Buffer, fileName string, decls []any) {
 
 func (it *Gen) genNamedAnonDecls(buf *bytes.Buffer) {
 	tmpl := it.tmpl("decls", "")
-	it.Main.Decls = toAnys(it.tracked.namedAnonDeclRenders)
+	it.Main.Decls = toAnys(MapValues(it.tracked.namedAnonDeclRenders))
 	it.tmplExec(buf, tmpl, nil)
 	it.toCodeFile(buf, "decls")
 }

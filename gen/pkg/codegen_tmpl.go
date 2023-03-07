@@ -68,9 +68,13 @@ func (it *GenMain) doType(t GenType, tmplName string) (ret string) {
 
 	tmpl := it.gen.tmpl(tmplName, "")
 	if ret = it.gen.tmplExec(nil, tmpl, bag); strings.Contains(ret, bag.TypeIdentGen) {
-		ret = strings.ReplaceAll(ret, bag.TypeIdentGen, t.NameSuggestion(true))
-		it.gen.tracked.namedAnonDeclRenders = append(it.gen.tracked.namedAnonDeclRenders, ret)
-		ret = bag.TypeIdentGen
+		ident := t.NameSuggestion(!it.Lang.AllowLowerCaseGeneratedTypeIdents)
+		for it.gen.tracked.namedAnonDeclRenders[ident] != "" && it.gen.tracked.namedAnonDeclRenders[ident] != ret {
+			ident = ident + "_"
+		}
+		ret = strings.ReplaceAll(ret, bag.TypeIdentGen, ident)
+		it.gen.tracked.namedAnonDeclRenders[ident] = ret
+		ret = ident
 	}
 	return
 }

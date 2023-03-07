@@ -49,7 +49,7 @@ func (it *GenBase) base() *GenBase { return it }
 
 type GenType interface {
 	fmt.Stringer
-	NameSuggestion(bool) string
+	NameSuggestion(up bool) string
 	key() string
 	kind() string
 }
@@ -172,9 +172,10 @@ func (it *GenTypeStructure) NameSuggestion(up bool) string {
 	if len(it.Properties) == 0 {
 		return If(up, "Void", "void")
 	}
+	up0 := If(up, Up0, self[string])
 	return strings.Join(Map(it.Properties, func(p GenStructureProperty) string {
-		return If(up, Up0, self[string])(p.Name)
-	}), "")
+		return up0(p.Name)
+	}), "_")
 }
 func (it *GenTypeStructure) String() string { return genTypeString(it) }
 func (it *GenTypeStructure) kind() string   { return "Structure" }

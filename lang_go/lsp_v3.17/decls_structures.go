@@ -1139,7 +1139,7 @@ type CompletionList struct {
 		// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
 		EditRange/*TOpt*/ /*TOr*/ struct {
 			Range/*TOpt*/ *Range
-			InsertReplace/*TOpt*/ * /*TStruc*/ struct {
+			Insert_Replace/*TOpt*/ * /*TStruc*/ struct {
 				Insert  Range
 				Replace Range
 			}

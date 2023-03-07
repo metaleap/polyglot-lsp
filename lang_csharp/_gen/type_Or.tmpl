@@ -1,15 +1,15 @@
 {{- $bag := . -}}
+{{- $ident := $bag.TypeIdentGen -}}
 {{- $member_types := $bag.Type.NonNull -}}
 
 {{- if eq (len $member_types) 1 -}}
-/*TOr1*/{{ $bag.Main.DoTypeOptional (index $member_types 0) true }}
+/*TOr1*/{{- $bag.Main.DoTypeOptional (index $member_types 0) true -}}
 {{- else -}}
-/*TOr*/public abstract record {{ $bag.TypeIdentGen }}
+/*TOr*/public abstract record {{ $ident -}}
 {
-    private {{ $bag.TypeIdentGen }}() { }
-
-{{- range $member_types -}}
-    public sealed record {{.NameSuggestion true}}({{ $bag.Main.DoTypeOptional . true }} {{.NameSuggestion true}}) : {{ $bag.TypeIdentGen }};
+    private {{ $ident }}() { }
+{{ range $member_types -}}
+    public sealed record {{.NameSuggestion true}}({{ $bag.Main.DoTypeOptional . true }} {{.NameSuggestion true}}) : {{ $ident }};
 {{ end -}}
 }
-{{- end }}
+{{- end -}}

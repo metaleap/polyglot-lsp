@@ -59,6 +59,24 @@ func MapIdx[T any, R any](list []T, convert func(T, int) R) (ret []R) {
 	return
 }
 
+func MapKeys[K comparable, V any](m map[K]V) (ret []K) {
+	ret = make([]K, len(m))
+	idx := 0
+	for k := range m {
+		idx, ret[idx] = idx+1, k
+	}
+	return
+}
+
+func MapValues[K comparable, V any](m map[K]V) (ret []V) {
+	ret = make([]V, len(m))
+	idx := 0
+	for _, v := range m {
+		idx, ret[idx] = idx+1, v
+	}
+	return
+}
+
 func Replace[T comparable](list []T, repl map[T]T) (ret []T) {
 	ret = Copy(list)
 	for i, item := range ret {
