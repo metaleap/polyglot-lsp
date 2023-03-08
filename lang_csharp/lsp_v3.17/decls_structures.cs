@@ -1,6 +1,26 @@
 /// <summary>Language Server Protocol (LSP) v3.17 SDK for C#: auto-generated via github.com/metaleap/polyglot-vsx-and-lsp/gen/cmd/gen_lsp</summary>
 namespace lsp;
 
+using Definition = LocationOrLocations;
+using DefinitionLink = LocationLink;
+using Declaration = LocationOrLocations;
+using DeclarationLink = LocationLink;
+using InlineValue = InlineValueTextOrInlineValueVariableLookupOrInlineValueEvaluatableExpression;
+using DocumentDiagnosticReport = RelatedFullDocumentDiagnosticReportOrRelatedUnchangedDocumentDiagnosticReport;
+using PrepareRenameResult = RangeOrRangeWithPlaceholderStringOrDefaultBehaviorBoolean;
+using ProgressToken = IntegerOrString;
+using ChangeAnnotationIdentifier = System.String;
+using WorkspaceDocumentDiagnosticReport = WorkspaceFullDocumentDiagnosticReportOrWorkspaceUnchangedDocumentDiagnosticReport;
+using TextDocumentContentChangeEvent = RangeWithRangeLengthUintegerWithTextStringOrTextString;
+using MarkedString = StringOrLanguageStringWithValueString;
+using DocumentFilter = TextDocumentFilterOrNotebookCellTextDocumentFilter;
+using LSPObject = System.Collections.Generic.Dictionary<System.String, LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull>;
+using GlobPattern = PatternOrRelativePattern;
+using TextDocumentFilter = LanguageStringWithSchemeStringWithPatternString;
+using NotebookDocumentFilter = NotebookTypeStringWithSchemeStringWithPatternString;
+using Pattern = System.String;
+using LSPAny = LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull;
+
 
 
 public class ImplementationParams
@@ -16,7 +36,7 @@ public class ImplementationParams
 /// </summary>
 public class Location
 {
-    public string Uri;
+    public System.String Uri;
     public Range Range;
 }
 
@@ -49,12 +69,12 @@ public class WorkspaceFolder
     /// <summary>
     /// The associated URI for this workspace folder.
     /// </summary>
-    public string Uri;
+    public System.String Uri;
     /// <summary>
     /// The name of the workspace folder. Used to refer to this
     /// workspace folder in the user interface.
     /// </summary>
-    public string Name;
+    public System.String Name;
 }
 
 /// <summary>
@@ -139,7 +159,7 @@ public class ColorPresentation
     /// picker header. By default this is also the text that is inserted when selecting
     /// this color presentation.
     /// </summary>
-    public string Label;
+    public System.String Label;
     /// <summary>
     /// An <c>TextEdit</c> which is applied to a document when selecting
     /// this presentation for the color.  When `falsy` the <c>ColorPresentation.label</c>
@@ -155,7 +175,7 @@ public class ColorPresentation
 
 public class WorkDoneProgressOptions
 {
-    public /*TOpt*/bool? WorkDoneProgress;
+    public /*TOpt*/System.Boolean? WorkDoneProgress;
 }
 
 /// <summary>
@@ -167,7 +187,7 @@ public class TextDocumentRegistrationOptions
     /// A document selector to identify the scope of the registration. If set to null
     /// the document selector provided on the client side will be used.
     /// </summary>
-    public /*TOr1*//*TOpt*/DocumentSelector DocumentSelector;
+    public /*TOr1*//*TOpt*/DocumentFilter[] DocumentSelector;
 }
 
 /// <summary>
@@ -193,20 +213,20 @@ public class FoldingRange
     /// The zero-based start line of the range to fold. The folded area starts after the line's last character.
     /// To be valid, the end must be zero or larger and smaller than the number of lines in the document.
     /// </summary>
-    public uint StartLine;
+    public System.UInt64 StartLine;
     /// <summary>
     /// The zero-based character offset from where the folded range starts. If not defined, defaults to the length of the start line.
     /// </summary>
-    public /*TOpt*/uint? StartCharacter;
+    public /*TOpt*/System.UInt64? StartCharacter;
     /// <summary>
     /// The zero-based end line of the range to fold. The folded area ends with the line's last character.
     /// To be valid, the end must be zero or larger and smaller than the number of lines in the document.
     /// </summary>
-    public uint EndLine;
+    public System.UInt64 EndLine;
     /// <summary>
     /// The zero-based character offset before the folded range ends. If not defined, defaults to the length of the end line.
     /// </summary>
-    public /*TOpt*/uint? EndCharacter;
+    public /*TOpt*/System.UInt64? EndCharacter;
     /// <summary>
     /// Describes the kind of the folding range such as `comment' or 'region'. The kind
     /// is used to categorize folding ranges and used by commands like 'Fold all comments'.
@@ -220,7 +240,7 @@ public class FoldingRange
     /// 
     /// @since 3.17.0
     /// </summary>
-    public /*TOpt*/string? CollapsedText;
+    public /*TOpt*/System.String? CollapsedText;
 }
 
 public class FoldingRangeRegistrationOptions
@@ -322,7 +342,7 @@ public class CallHierarchyItem
     /// <summary>
     /// The name of this item.
     /// </summary>
-    public string Name;
+    public System.String Name;
     /// <summary>
     /// The kind of this item.
     /// </summary>
@@ -334,11 +354,11 @@ public class CallHierarchyItem
     /// <summary>
     /// More detail for this item, e.g. the signature of a function.
     /// </summary>
-    public /*TOpt*/string? Detail;
+    public /*TOpt*/System.String? Detail;
     /// <summary>
     /// The resource identifier of this item.
     /// </summary>
-    public string Uri;
+    public System.String Uri;
     /// <summary>
     /// The range enclosing this symbol not including leading/trailing whitespace but everything else, e.g. comments and code.
     /// </summary>
@@ -352,7 +372,7 @@ public class CallHierarchyItem
     /// A data entry field that is preserved between a call hierarchy prepare and
     /// incoming calls or outgoing calls requests.
     /// </summary>
-    public /*TOpt*/LSPAny Data;
+    public /*TOpt*/LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull Data;
 }
 
 /// <summary>
@@ -452,11 +472,11 @@ public class SemanticTokens
     /// A server can then instead of computing all semantic tokens again simply
     /// send a delta.
     /// </summary>
-    public /*TOpt*/string? ResultId;
+    public /*TOpt*/System.String? ResultId;
     /// <summary>
     /// The actual tokens.
     /// </summary>
-    public uint[] Data;
+    public System.UInt64[] Data;
 }
 
 /// <summary>
@@ -464,7 +484,7 @@ public class SemanticTokens
 /// </summary>
 public class SemanticTokensPartialResult
 {
-    public uint[] Data;
+    public System.UInt64[] Data;
 }
 
 /// <summary>
@@ -492,7 +512,7 @@ public class SemanticTokensDeltaParams
     /// The result id of a previous response. The result Id can either point to a full response
     /// or a delta response depending on what was received last.
     /// </summary>
-    public string PreviousResultId;
+    public System.String PreviousResultId;
 }
 
 /// <summary>
@@ -500,7 +520,7 @@ public class SemanticTokensDeltaParams
 /// </summary>
 public class SemanticTokensDelta
 {
-    public /*TOpt*/string? ResultId;
+    public /*TOpt*/System.String? ResultId;
     /// <summary>
     /// The semantic token edits to transform a previous result into a new result.
     /// </summary>
@@ -542,20 +562,20 @@ public class ShowDocumentParams
     /// <summary>
     /// The document uri to show.
     /// </summary>
-    public string Uri;
+    public System.String Uri;
     /// <summary>
     /// Indicates to show the resource in an external program.
     /// To show for example `https://code.visualstudio.com/`
     /// in the default WEB browser set `external` to `true`.
     /// </summary>
-    public /*TOpt*/bool? External;
+    public /*TOpt*/System.Boolean? External;
     /// <summary>
     /// An optional property to indicate whether the editor
     /// showing the document should take focus or not.
     /// Clients might ignore this property if an external
     /// program is started.
     /// </summary>
-    public /*TOpt*/bool? TakeFocus;
+    public /*TOpt*/System.Boolean? TakeFocus;
     /// <summary>
     /// An optional selection range if the document is a text
     /// document. Clients might ignore the property if an
@@ -575,7 +595,7 @@ public class ShowDocumentResult
     /// <summary>
     /// A boolean indicating if the show was successful.
     /// </summary>
-    public bool Success;
+    public System.Boolean Success;
 }
 
 public class LinkedEditingRangeParams
@@ -601,7 +621,7 @@ public class LinkedEditingRanges
     /// the given ranges. If no pattern is provided, the client configuration's word
     /// pattern will be used.
     /// </summary>
-    public /*TOpt*/string? WordPattern;
+    public /*TOpt*/System.String? WordPattern;
 }
 
 public class LinkedEditingRangeRegistrationOptions
@@ -644,7 +664,7 @@ public class WorkspaceEdit
     /// <summary>
     /// Holds changes to existing resources.
     /// </summary>
-    public /*TOpt*/System.Collections.Generic.Dictionary<string, TextEdit[]> Changes;
+    public /*TOpt*/System.Collections.Generic.Dictionary<System.String, TextEdit[]> Changes;
     /// <summary>
     /// Depending on the client capability `workspace.workspaceEdit.resourceOperations` document changes
     /// are either an array of `TextDocumentEdit`s to express changes to n different text documents
@@ -730,12 +750,12 @@ public class Moniker
     /// <summary>
     /// The scheme of the moniker. For example tsc or .Net
     /// </summary>
-    public string Scheme;
+    public System.String Scheme;
     /// <summary>
     /// The identifier of the moniker. The value is opaque in LSIF however
     /// schema owners are allowed to define the structure if they want.
     /// </summary>
-    public string Identifier;
+    public System.String Identifier;
     /// <summary>
     /// The scope in which the moniker is unique
     /// </summary>
@@ -771,7 +791,7 @@ public class TypeHierarchyItem
     /// <summary>
     /// The name of this item.
     /// </summary>
-    public string Name;
+    public System.String Name;
     /// <summary>
     /// The kind of this item.
     /// </summary>
@@ -783,11 +803,11 @@ public class TypeHierarchyItem
     /// <summary>
     /// More detail for this item, e.g. the signature of a function.
     /// </summary>
-    public /*TOpt*/string? Detail;
+    public /*TOpt*/System.String? Detail;
     /// <summary>
     /// The resource identifier of this item.
     /// </summary>
-    public string Uri;
+    public System.String Uri;
     /// <summary>
     /// The range enclosing this symbol not including leading/trailing whitespace
     /// but everything else, e.g. comments and code.
@@ -805,7 +825,7 @@ public class TypeHierarchyItem
     /// type hierarchy in the server, helping improve the performance on
     /// resolving supertypes and subtypes.
     /// </summary>
-    public /*TOpt*/LSPAny Data;
+    public /*TOpt*/LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull Data;
 }
 
 /// <summary>
@@ -943,7 +963,7 @@ public class InlayHint
     /// background color of the hint itself. That means padding can be used
     /// to visually align/separate an inlay hint.
     /// </summary>
-    public /*TOpt*/bool? PaddingLeft;
+    public /*TOpt*/System.Boolean? PaddingLeft;
     /// <summary>
     /// Render padding after the hint.
     /// 
@@ -951,12 +971,12 @@ public class InlayHint
     /// background color of the hint itself. That means padding can be used
     /// to visually align/separate an inlay hint.
     /// </summary>
-    public /*TOpt*/bool? PaddingRight;
+    public /*TOpt*/System.Boolean? PaddingRight;
     /// <summary>
     /// A data entry field that is preserved on an inlay hint between
     /// a `textDocument/inlayHint` and a `inlayHint/resolve` request.
     /// </summary>
-    public /*TOpt*/LSPAny Data;
+    public /*TOpt*/LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull Data;
 }
 
 /// <summary>
@@ -987,11 +1007,11 @@ public class DocumentDiagnosticParams
     /// <summary>
     /// The additional identifier  provided during registration.
     /// </summary>
-    public /*TOpt*/string? Identifier;
+    public /*TOpt*/System.String? Identifier;
     /// <summary>
     /// The result id of a previous response if provided.
     /// </summary>
-    public /*TOpt*/string? PreviousResultId;
+    public /*TOpt*/System.String? PreviousResultId;
 }
 
 /// <summary>
@@ -1004,7 +1024,7 @@ public class DocumentDiagnosticReportPartialResult
     /// <summary>
     /// Every object in the map has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public System.Collections.Generic.Dictionary<string, FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport> RelatedDocuments;
+    public System.Collections.Generic.Dictionary<System.String, FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport> RelatedDocuments;
 }
 
 /// <summary>
@@ -1014,7 +1034,7 @@ public class DocumentDiagnosticReportPartialResult
 /// </summary>
 public class DiagnosticServerCancellationData
 {
-    public bool RetriggerRequest;
+    public System.Boolean RetriggerRequest;
 }
 
 /// <summary>
@@ -1041,7 +1061,7 @@ public class WorkspaceDiagnosticParams
     /// <summary>
     /// The additional identifier provided during registration.
     /// </summary>
-    public /*TOpt*/string? Identifier;
+    public /*TOpt*/System.String? Identifier;
     /// <summary>
     /// The currently known diagnostic reports with their
     /// previous result ids.
@@ -1195,7 +1215,7 @@ public class InitializeError
     /// (2) user selects retry or cancel
     /// (3) if user selected retry the initialize method is sent again.
     /// </summary>
-    public bool Retry;
+    public System.Boolean Retry;
 }
 
 public class InitializedParams
@@ -1210,7 +1230,7 @@ public class DidChangeConfigurationParams
     /// <summary>
     /// The actual changed settings
     /// </summary>
-    public LSPAny Settings;
+    public LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull Settings;
 }
 
 public class DidChangeConfigurationRegistrationOptions
@@ -1233,7 +1253,7 @@ public class ShowMessageParams
     /// <summary>
     /// The actual message.
     /// </summary>
-    public string Message;
+    public System.String Message;
 }
 
 public class ShowMessageRequestParams
@@ -1245,7 +1265,7 @@ public class ShowMessageRequestParams
     /// <summary>
     /// The actual message.
     /// </summary>
-    public string Message;
+    public System.String Message;
     /// <summary>
     /// The message action items to present.
     /// </summary>
@@ -1257,7 +1277,7 @@ public class MessageActionItem
     /// <summary>
     /// A short title like 'Retry', 'Open Log' etc.
     /// </summary>
-    public string Title;
+    public System.String Title;
 }
 
 /// <summary>
@@ -1272,7 +1292,7 @@ public class LogMessageParams
     /// <summary>
     /// The actual message.
     /// </summary>
-    public string Message;
+    public System.String Message;
 }
 
 /// <summary>
@@ -1349,7 +1369,7 @@ public class DidSaveTextDocumentParams
     /// Optional the content when saved. Depends on the includeText value
     /// when the save notification was requested.
     /// </summary>
-    public /*TOpt*/string? Text;
+    public /*TOpt*/System.String? Text;
 }
 
 /// <summary>
@@ -1390,7 +1410,7 @@ public class TextEdit
     /// The string to be inserted. For delete operations use an
     /// empty string.
     /// </summary>
-    public string NewText;
+    public System.String NewText;
 }
 
 /// <summary>
@@ -1423,13 +1443,13 @@ public class PublishDiagnosticsParams
     /// <summary>
     /// The URI for which diagnostic information is reported.
     /// </summary>
-    public string Uri;
+    public System.String Uri;
     /// <summary>
     /// Optional the version number of the document the diagnostics are published for.
     /// 
     /// @since 3.15.0
     /// </summary>
-    public /*TOpt*/int? Version;
+    public /*TOpt*/System.Int64? Version;
     /// <summary>
     /// An array of diagnostic information items.
     /// </summary>
@@ -1466,7 +1486,7 @@ public class CompletionItem
     /// If label details are provided the label itself should
     /// be an unqualified name of the completion item.
     /// </summary>
-    public string Label;
+    public System.String Label;
     /// <summary>
     /// Additional details for the label
     /// 
@@ -1488,7 +1508,7 @@ public class CompletionItem
     /// A human-readable string with additional information
     /// about this item, like type or symbol information.
     /// </summary>
-    public /*TOpt*/string? Detail;
+    public /*TOpt*/System.String? Detail;
     /// <summary>
     /// A human-readable string that represents a doc-comment.
     /// 
@@ -1499,7 +1519,7 @@ public class CompletionItem
     /// Indicates if this item is deprecated.
     /// @deprecated Use `tags` instead.
     /// </summary>
-    public /*TOpt*/bool? Deprecated;
+    public /*TOpt*/System.Boolean? Deprecated;
     /// <summary>
     /// Select this item when showing.
     /// 
@@ -1507,19 +1527,19 @@ public class CompletionItem
     /// tool / client decides which item that is. The rule is that the *first*
     /// item of those that match best is selected.
     /// </summary>
-    public /*TOpt*/bool? Preselect;
+    public /*TOpt*/System.Boolean? Preselect;
     /// <summary>
     /// A string that should be used when comparing this item
     /// with other items. When `falsy` the <c>CompletionItem.label</c>
     /// is used.
     /// </summary>
-    public /*TOpt*/string? SortText;
+    public /*TOpt*/System.String? SortText;
     /// <summary>
     /// A string that should be used when filtering a set of
     /// completion items. When `falsy` the <c>CompletionItem.label</c>
     /// is used.
     /// </summary>
-    public /*TOpt*/string? FilterText;
+    public /*TOpt*/System.String? FilterText;
     /// <summary>
     /// A string that should be inserted into a document when selecting
     /// this completion. When `falsy` the <c>CompletionItem.label</c>
@@ -1533,7 +1553,7 @@ public class CompletionItem
     /// recommended to use `textEdit` instead since it avoids additional client
     /// side interpretation.
     /// </summary>
-    public /*TOpt*/string? InsertText;
+    public /*TOpt*/System.String? InsertText;
     /// <summary>
     /// The format of the insert text. The format applies to both the
     /// `insertText` property and the `newText` property of a provided
@@ -1588,7 +1608,7 @@ public class CompletionItem
     /// 
     /// @since 3.17.0
     /// </summary>
-    public /*TOpt*/string? TextEditText;
+    public /*TOpt*/System.String? TextEditText;
     /// <summary>
     /// An optional array of additional <c>TextEdit</c> that are applied when
     /// selecting this completion. Edits must not overlap (including the same insert position)
@@ -1604,7 +1624,7 @@ public class CompletionItem
     /// then type that character. *Note* that all commit characters should have `length=1` and that superfluous
     /// characters will be ignored.
     /// </summary>
-    public /*TOpt*/string[] CommitCharacters;
+    public /*TOpt*/System.String[] CommitCharacters;
     /// <summary>
     /// An optional <c>Command</c> that is executed *after* inserting this completion. *Note* that
     /// additional modifications to the current document should be described with the
@@ -1615,7 +1635,7 @@ public class CompletionItem
     /// A data entry field that is preserved on a completion item between a
     /// <c>CompletionRequest</c> and a <c>CompletionResolveRequest</c>.
     /// </summary>
-    public /*TOpt*/LSPAny Data;
+    public /*TOpt*/LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull Data;
 }
 
 /// <summary>
@@ -1630,7 +1650,7 @@ public class CompletionList
     /// Recomputed lists have all their items replaced (not appended) in the
     /// incomplete completion sessions.
     /// </summary>
-    public bool IsIncomplete;
+    public System.Boolean IsIncomplete;
     /// <summary>
     /// In many cases the items of an actual completion result share the same
     /// value for properties like `commitCharacters` or the range of a text
@@ -1736,7 +1756,7 @@ public class SignatureHelp
     /// In future version of the protocol this property might become
     /// mandatory to better express this.
     /// </summary>
-    public /*TOpt*/uint? ActiveSignature;
+    public /*TOpt*/System.UInt64? ActiveSignature;
     /// <summary>
     /// The active parameter of the active signature. If omitted or the value
     /// lies outside the range of `signatures[activeSignature].parameters`
@@ -1746,7 +1766,7 @@ public class SignatureHelp
     /// mandatory to better express the active parameter if the
     /// active signature does have any.
     /// </summary>
-    public /*TOpt*/uint? ActiveParameter;
+    public /*TOpt*/System.UInt64? ActiveParameter;
 }
 
 /// <summary>
@@ -1858,7 +1878,7 @@ public class SymbolInformation
     /// 
     /// @deprecated Use tags instead
     /// </summary>
-    public /*TOpt*/bool? Deprecated;
+    public /*TOpt*/System.Boolean? Deprecated;
     /// <summary>
     /// The location of this symbol. The location's range is used by a tool
     /// to reveal the location in the editor. If the symbol is selected in the
@@ -1885,11 +1905,11 @@ public class DocumentSymbol
     /// The name of this symbol. Will be displayed in the user interface and therefore must not be
     /// an empty string or a string only consisting of white spaces.
     /// </summary>
-    public string Name;
+    public System.String Name;
     /// <summary>
     /// More detail for this symbol, e.g the signature of a function.
     /// </summary>
-    public /*TOpt*/string? Detail;
+    public /*TOpt*/System.String? Detail;
     /// <summary>
     /// The kind of this symbol.
     /// </summary>
@@ -1905,7 +1925,7 @@ public class DocumentSymbol
     /// 
     /// @deprecated Use tags instead
     /// </summary>
-    public /*TOpt*/bool? Deprecated;
+    public /*TOpt*/System.Boolean? Deprecated;
     /// <summary>
     /// The range enclosing this symbol not including leading/trailing whitespace but everything else
     /// like comments. This information is typically used to determine if the clients cursor is
@@ -1964,16 +1984,16 @@ public class Command
     /// <summary>
     /// Title of the command, like `save`.
     /// </summary>
-    public string Title;
+    public System.String Title;
     /// <summary>
     /// The identifier of the actual command handler.
     /// </summary>
-    public string Command;
+    public System.String Command_;
     /// <summary>
     /// Arguments that the command handler should be
     /// invoked with.
     /// </summary>
-    public /*TOpt*/LSPAny[] Arguments;
+    public /*TOpt*/LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull[] Arguments;
 }
 
 /// <summary>
@@ -1987,7 +2007,7 @@ public class CodeAction
     /// <summary>
     /// A short, human-readable, title for this code action.
     /// </summary>
-    public string Title;
+    public System.String Title;
     /// <summary>
     /// The kind of the code action.
     /// 
@@ -2007,7 +2027,7 @@ public class CodeAction
     /// 
     /// @since 3.15.0
     /// </summary>
-    public /*TOpt*/bool? IsPreferred;
+    public /*TOpt*/System.Boolean? IsPreferred;
     /// <summary>
     /// Marks that the code action cannot currently be applied.
     /// 
@@ -2042,7 +2062,7 @@ public class CodeAction
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/LSPAny Data;
+    public /*TOpt*/LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull Data;
 }
 
 /// <summary>
@@ -2065,7 +2085,7 @@ public class WorkspaceSymbolParams
     /// A query string to filter symbols by. Clients may send an empty
     /// string here to request all symbols.
     /// </summary>
-    public string Query;
+    public System.String Query;
 }
 
 /// <summary>
@@ -2092,7 +2112,7 @@ public class WorkspaceSymbol
     /// A data entry field that is preserved on a workspace symbol between a
     /// workspace symbol request and a workspace symbol resolve request.
     /// </summary>
-    public /*TOpt*/LSPAny Data;
+    public /*TOpt*/LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull Data;
 }
 
 /// <summary>
@@ -2138,7 +2158,7 @@ public class CodeLens
     /// a <c>CodeLensRequest</c> and a [CodeLensResolveRequest]
     /// (#CodeLensResolveRequest)
     /// </summary>
-    public /*TOpt*/LSPAny Data;
+    public /*TOpt*/LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull Data;
 }
 
 /// <summary>
@@ -2176,7 +2196,7 @@ public class DocumentLink
     /// <summary>
     /// The uri this link points to. If missing a resolve request is sent later.
     /// </summary>
-    public /*TOpt*/string? Target;
+    public /*TOpt*/System.String? Target;
     /// <summary>
     /// The tooltip text when you hover over this link.
     /// 
@@ -2186,12 +2206,12 @@ public class DocumentLink
     /// 
     /// @since 3.15.0
     /// </summary>
-    public /*TOpt*/string? Tooltip;
+    public /*TOpt*/System.String? Tooltip;
     /// <summary>
     /// A data entry field that is preserved on a document link between a
     /// DocumentLinkRequest and a DocumentLinkResolveRequest.
     /// </summary>
-    public /*TOpt*/LSPAny Data;
+    public /*TOpt*/LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull Data;
 }
 
 /// <summary>
@@ -2278,7 +2298,7 @@ public class DocumentOnTypeFormattingParams
     /// got inserted into the document since the client could auto insert
     /// characters as well (e.g. like automatic brace completion).
     /// </summary>
-    public string Ch;
+    public System.String Ch;
     /// <summary>
     /// The formatting options.
     /// </summary>
@@ -2313,7 +2333,7 @@ public class RenameParams
     /// request must return a <c>ResponseError</c> with an
     /// appropriate message set.
     /// </summary>
-    public string NewName;
+    public System.String NewName;
 }
 
 /// <summary>
@@ -2340,11 +2360,11 @@ public class ExecuteCommandParams
     /// <summary>
     /// The identifier of the actual command handler.
     /// </summary>
-    public string Command;
+    public System.String Command;
     /// <summary>
     /// Arguments that the command should be invoked with.
     /// </summary>
-    public /*TOpt*/LSPAny[] Arguments;
+    public /*TOpt*/LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull[] Arguments;
 }
 
 /// <summary>
@@ -2365,7 +2385,7 @@ public class ApplyWorkspaceEditParams
     /// presented in the user interface for example on an undo
     /// stack to undo the workspace edit.
     /// </summary>
-    public /*TOpt*/string? Label;
+    public /*TOpt*/System.String? Label;
     /// <summary>
     /// The edits to apply.
     /// </summary>
@@ -2382,19 +2402,19 @@ public class ApplyWorkspaceEditResult
     /// <summary>
     /// Indicates whether the edit was applied or not.
     /// </summary>
-    public bool Applied;
+    public System.Boolean Applied;
     /// <summary>
     /// An optional textual description for why the edit was not applied.
     /// This may be used by the server for diagnostic logging or to provide
     /// a suitable error for a request that triggered the edit.
     /// </summary>
-    public /*TOpt*/string? FailureReason;
+    public /*TOpt*/System.String? FailureReason;
     /// <summary>
     /// Depending on the client's failure handling strategy `failedChange` might
     /// contain the index of the change that failed. This property is only available
     /// if the client signals a `failureHandlingStrategy` in its client capabilities.
     /// </summary>
-    public /*TOpt*/uint? FailedChange;
+    public /*TOpt*/System.UInt64? FailedChange;
 }
 
 public class WorkDoneProgressBegin
@@ -2403,20 +2423,20 @@ public class WorkDoneProgressBegin
     /// The value is always "begin". 
     /// The value is always "begin". 
     /// </summary>
-    public string Kind;
+    public System.String Kind;
     /// <summary>
     /// Mandatory title of the progress operation. Used to briefly inform about
     /// the kind of operation being performed.
     /// 
     /// Examples: "Indexing" or "Linking dependencies".
     /// </summary>
-    public string Title;
+    public System.String Title;
     /// <summary>
     /// Controls if a cancel button should show to allow the user to cancel the
     /// long running operation. Clients that don't support cancellation are allowed
     /// to ignore the setting.
     /// </summary>
-    public /*TOpt*/bool? Cancellable;
+    public /*TOpt*/System.Boolean? Cancellable;
     /// <summary>
     /// Optional, more detailed associated progress message. Contains
     /// complementary information to the `title`.
@@ -2424,7 +2444,7 @@ public class WorkDoneProgressBegin
     /// Examples: "3/25 files", "project/src/module2", "node_modules/some_dep".
     /// If unset, the previous progress message (if any) is still valid.
     /// </summary>
-    public /*TOpt*/string? Message;
+    public /*TOpt*/System.String? Message;
     /// <summary>
     /// Optional progress percentage to display (value 100 is considered 100%).
     /// If not provided infinite progress is assumed and clients are allowed
@@ -2433,7 +2453,7 @@ public class WorkDoneProgressBegin
     /// The value should be steadily rising. Clients are free to ignore values
     /// that are not following this rule. The value range is [0, 100].
     /// </summary>
-    public /*TOpt*/uint? Percentage;
+    public /*TOpt*/System.UInt64? Percentage;
 }
 
 public class WorkDoneProgressReport
@@ -2442,14 +2462,14 @@ public class WorkDoneProgressReport
     /// The value is always "report". 
     /// The value is always "report". 
     /// </summary>
-    public string Kind;
+    public System.String Kind;
     /// <summary>
     /// Controls enablement state of a cancel button.
     /// 
     /// Clients that don't support cancellation or don't support controlling the button's
     /// enablement state are allowed to ignore the property.
     /// </summary>
-    public /*TOpt*/bool? Cancellable;
+    public /*TOpt*/System.Boolean? Cancellable;
     /// <summary>
     /// Optional, more detailed associated progress message. Contains
     /// complementary information to the `title`.
@@ -2457,7 +2477,7 @@ public class WorkDoneProgressReport
     /// Examples: "3/25 files", "project/src/module2", "node_modules/some_dep".
     /// If unset, the previous progress message (if any) is still valid.
     /// </summary>
-    public /*TOpt*/string? Message;
+    public /*TOpt*/System.String? Message;
     /// <summary>
     /// Optional progress percentage to display (value 100 is considered 100%).
     /// If not provided infinite progress is assumed and clients are allowed
@@ -2466,7 +2486,7 @@ public class WorkDoneProgressReport
     /// The value should be steadily rising. Clients are free to ignore values
     /// that are not following this rule. The value range is [0, 100]
     /// </summary>
-    public /*TOpt*/uint? Percentage;
+    public /*TOpt*/System.UInt64? Percentage;
 }
 
 public class WorkDoneProgressEnd
@@ -2475,12 +2495,12 @@ public class WorkDoneProgressEnd
     /// The value is always "end". 
     /// The value is always "end". 
     /// </summary>
-    public string Kind;
+    public System.String Kind;
     /// <summary>
     /// Optional, a final message indicating to for example indicate the outcome
     /// of the operation.
     /// </summary>
-    public /*TOpt*/string? Message;
+    public /*TOpt*/System.String? Message;
 }
 
 public class SetTraceParams
@@ -2490,8 +2510,8 @@ public class SetTraceParams
 
 public class LogTraceParams
 {
-    public string Message;
-    public /*TOpt*/string? Verbose;
+    public System.String Message;
+    public /*TOpt*/System.String? Verbose;
 }
 
 public class CancelParams
@@ -2513,7 +2533,7 @@ public class ProgressParams
     /// <summary>
     /// The progress data.
     /// </summary>
-    public LSPAny Value;
+    public LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull Value;
 }
 
 /// <summary>
@@ -2565,7 +2585,7 @@ public class LocationLink
     /// <summary>
     /// The target resource identifier of this link.
     /// </summary>
-    public string TargetUri;
+    public System.String TargetUri;
     /// <summary>
     /// The full target range of this link. If the target for example is a symbol then target range is the
     /// range enclosing this symbol not including leading/trailing whitespace but everything else
@@ -2619,7 +2639,7 @@ public class StaticRegistrationOptions
     /// The id used to register the request. The id can be used to deregister
     /// the request again. See also Registration#id.
     /// </summary>
-    public /*TOpt*/string? Id;
+    public /*TOpt*/System.String? Id;
 }
 
 public class TypeDefinitionOptions
@@ -2647,11 +2667,11 @@ public class ConfigurationItem
     /// <summary>
     /// The scope to get the configuration section for.
     /// </summary>
-    public /*TOpt*/string? ScopeUri;
+    public /*TOpt*/System.String? ScopeUri;
     /// <summary>
     /// The configuration section asked for.
     /// </summary>
-    public /*TOpt*/string? Section;
+    public /*TOpt*/System.String? Section;
 }
 
 /// <summary>
@@ -2662,7 +2682,7 @@ public class TextDocumentIdentifier
     /// <summary>
     /// The text document's uri.
     /// </summary>
-    public string Uri;
+    public System.String Uri;
 }
 
 /// <summary>
@@ -2673,19 +2693,19 @@ public class Color
     /// <summary>
     /// The red component of this color in the range [0-1].
     /// </summary>
-    public double Red;
+    public System.Double Red;
     /// <summary>
     /// The green component of this color in the range [0-1].
     /// </summary>
-    public double Green;
+    public System.Double Green;
     /// <summary>
     /// The blue component of this color in the range [0-1].
     /// </summary>
-    public double Blue;
+    public System.Double Blue;
     /// <summary>
     /// The alpha component of this color in the range [0-1].
     /// </summary>
-    public double Alpha;
+    public System.Double Alpha;
 }
 
 public class DocumentColorOptions
@@ -2740,7 +2760,7 @@ public class Position
     /// If a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.
     /// If a line number is negative, it defaults to 0.
     /// </summary>
-    public uint Line;
+    public System.UInt64 Line;
     /// <summary>
     /// Character offset on a line in a document (zero-based).
     /// 
@@ -2750,7 +2770,7 @@ public class Position
     /// If the character value is greater than the line length it defaults back to the
     /// line length.
     /// </summary>
-    public uint Character;
+    public System.UInt64 Character;
 }
 
 public class SelectionRangeOptions
@@ -2801,15 +2821,15 @@ public class SemanticTokensEdit
     /// <summary>
     /// The start offset of the edit.
     /// </summary>
-    public uint Start;
+    public System.UInt64 Start;
     /// <summary>
     /// The count of elements to remove.
     /// </summary>
-    public uint DeleteCount;
+    public System.UInt64 DeleteCount;
     /// <summary>
     /// The elements to insert.
     /// </summary>
-    public /*TOpt*/uint[] Data;
+    public /*TOpt*/System.UInt64[] Data;
 }
 
 public class LinkedEditingRangeOptions
@@ -2827,7 +2847,7 @@ public class FileCreate
     /// <summary>
     /// A file:// URI for the location of the file/folder being created.
     /// </summary>
-    public string Uri;
+    public System.String Uri;
 }
 
 /// <summary>
@@ -2864,11 +2884,11 @@ public class CreateFile
     /// The value is always "create". 
     /// The value is always "create". 
     /// </summary>
-    public string Kind;
+    public System.String Kind;
     /// <summary>
     /// The resource to create.
     /// </summary>
-    public string Uri;
+    public System.String Uri;
     /// <summary>
     /// Additional options
     /// </summary>
@@ -2886,15 +2906,15 @@ public class RenameFile
     /// The value is always "rename". 
     /// The value is always "rename". 
     /// </summary>
-    public string Kind;
+    public System.String Kind;
     /// <summary>
     /// The old (existing) location.
     /// </summary>
-    public string OldUri;
+    public System.String OldUri;
     /// <summary>
     /// The new location.
     /// </summary>
-    public string NewUri;
+    public System.String NewUri;
     /// <summary>
     /// Rename options.
     /// </summary>
@@ -2912,11 +2932,11 @@ public class DeleteFile
     /// The value is always "delete". 
     /// The value is always "delete". 
     /// </summary>
-    public string Kind;
+    public System.String Kind;
     /// <summary>
     /// The file to delete.
     /// </summary>
-    public string Uri;
+    public System.String Uri;
     /// <summary>
     /// Delete options.
     /// </summary>
@@ -2934,17 +2954,17 @@ public class ChangeAnnotation
     /// A human-readable string describing the actual change. The string
     /// is rendered prominent in the user interface.
     /// </summary>
-    public string Label;
+    public System.String Label;
     /// <summary>
     /// A flag which indicates that user confirmation is needed
     /// before applying the change.
     /// </summary>
-    public /*TOpt*/bool? NeedsConfirmation;
+    public /*TOpt*/System.Boolean? NeedsConfirmation;
     /// <summary>
     /// A human-readable string which is rendered less prominent in
     /// the user interface.
     /// </summary>
-    public /*TOpt*/string? Description;
+    public /*TOpt*/System.String? Description;
 }
 
 /// <summary>
@@ -2958,7 +2978,7 @@ public class FileOperationFilter
     /// <summary>
     /// A Uri scheme like `file` or `untitled`.
     /// </summary>
-    public /*TOpt*/string? Scheme;
+    public /*TOpt*/System.String? Scheme;
     /// <summary>
     /// The actual file operation pattern.
     /// </summary>
@@ -2975,11 +2995,11 @@ public class FileRename
     /// <summary>
     /// A file:// URI for the original location of the file/folder being renamed.
     /// </summary>
-    public string OldUri;
+    public System.String OldUri;
     /// <summary>
     /// A file:// URI for the new location of the file/folder being renamed.
     /// </summary>
-    public string NewUri;
+    public System.String NewUri;
 }
 
 /// <summary>
@@ -2992,7 +3012,7 @@ public class FileDelete
     /// <summary>
     /// A file:// URI for the location of the file/folder being deleted.
     /// </summary>
-    public string Uri;
+    public System.String Uri;
 }
 
 public class MonikerOptions
@@ -3018,7 +3038,7 @@ public class InlineValueContext
     /// <summary>
     /// The stack frame (as a DAP Id) where the execution has stopped.
     /// </summary>
-    public int FrameId;
+    public System.Int64 FrameId;
     /// <summary>
     /// The document range where execution has stopped.
     /// Typically the end position of the range denotes the line where the inline values are shown.
@@ -3040,7 +3060,7 @@ public class InlineValueText
     /// <summary>
     /// The text of the inline value.
     /// </summary>
-    public string Text;
+    public System.String Text;
 }
 
 /// <summary>
@@ -3060,11 +3080,11 @@ public class InlineValueVariableLookup
     /// <summary>
     /// If specified the name of the variable to look up.
     /// </summary>
-    public /*TOpt*/string? VariableName;
+    public /*TOpt*/System.String? VariableName;
     /// <summary>
     /// How to perform the lookup.
     /// </summary>
-    public bool CaseSensitiveLookup;
+    public System.Boolean CaseSensitiveLookup;
 }
 
 /// <summary>
@@ -3084,7 +3104,7 @@ public class InlineValueEvaluatableExpression
     /// <summary>
     /// If specified the expression overrides the extracted expression.
     /// </summary>
-    public /*TOpt*/string? Expression;
+    public /*TOpt*/System.String? Expression;
 }
 
 /// <summary>
@@ -3108,7 +3128,7 @@ public class InlayHintLabelPart
     /// <summary>
     /// The value of this label part.
     /// </summary>
-    public string Value;
+    public System.String Value;
     /// <summary>
     /// The tooltip text when you hover over this label part. Depending on
     /// the client capability `inlayHint.resolveSupport` clients might resolve
@@ -3173,7 +3193,7 @@ public class MarkupContent
     /// <summary>
     /// The content itself
     /// </summary>
-    public string Value;
+    public System.String Value;
 }
 
 /// <summary>
@@ -3188,7 +3208,7 @@ public class InlayHintOptions
     /// The server provides support to resolve additional
     /// information for an inlay hint item.
     /// </summary>
-    public /*TOpt*/bool? ResolveProvider;
+    public /*TOpt*/System.Boolean? ResolveProvider;
 }
 
 /// <summary>
@@ -3210,7 +3230,7 @@ public class RelatedFullDocumentDiagnosticReport
     /// 
     /// Every object in the map has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/System.Collections.Generic.Dictionary<string, FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport> RelatedDocuments;
+    public /*TOpt*/System.Collections.Generic.Dictionary<System.String, FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport> RelatedDocuments;
 }
 
 /// <summary>
@@ -3232,7 +3252,7 @@ public class RelatedUnchangedDocumentDiagnosticReport
     /// 
     /// Every object in the map has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
     /// </summary>
-    public /*TOpt*/System.Collections.Generic.Dictionary<string, FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport> RelatedDocuments;
+    public /*TOpt*/System.Collections.Generic.Dictionary<System.String, FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport> RelatedDocuments;
 }
 
 /// <summary>
@@ -3247,13 +3267,13 @@ public class FullDocumentDiagnosticReport
     /// The value is always "full". 
     /// The value is always "full". 
     /// </summary>
-    public string Kind;
+    public System.String Kind;
     /// <summary>
     /// An optional result id. If provided it will
     /// be sent on the next diagnostic request for the
     /// same document.
     /// </summary>
-    public /*TOpt*/string? ResultId;
+    public /*TOpt*/System.String? ResultId;
     /// <summary>
     /// The actual items.
     /// </summary>
@@ -3276,12 +3296,12 @@ public class UnchangedDocumentDiagnosticReport
     /// The value is always "unchanged". 
     /// The value is always "unchanged". 
     /// </summary>
-    public string Kind;
+    public System.String Kind;
     /// <summary>
     /// A result id which will be sent on the next
     /// diagnostic request for the same document.
     /// </summary>
-    public string ResultId;
+    public System.String ResultId;
 }
 
 /// <summary>
@@ -3296,18 +3316,18 @@ public class DiagnosticOptions
     /// An optional identifier under which the diagnostics are
     /// managed by the client.
     /// </summary>
-    public /*TOpt*/string? Identifier;
+    public /*TOpt*/System.String? Identifier;
     /// <summary>
     /// Whether the language has inter file dependencies meaning that
     /// editing code in one file can result in a different diagnostic
     /// set in another file. Inter file dependencies are common for
     /// most programming languages and typically uncommon for linters.
     /// </summary>
-    public bool InterFileDependencies;
+    public System.Boolean InterFileDependencies;
     /// <summary>
     /// The server provides support for workspace diagnostics as well.
     /// </summary>
-    public bool WorkspaceDiagnostics;
+    public System.Boolean WorkspaceDiagnostics;
 }
 
 /// <summary>
@@ -3321,11 +3341,11 @@ public class PreviousResultId
     /// The URI for which the client knowns a
     /// result id.
     /// </summary>
-    public string Uri;
+    public System.String Uri;
     /// <summary>
     /// The value of the previous result id.
     /// </summary>
-    public string Value;
+    public System.String Value;
 }
 
 /// <summary>
@@ -3338,16 +3358,16 @@ public class NotebookDocument
     /// <summary>
     /// The notebook document's uri.
     /// </summary>
-    public string Uri;
+    public System.String Uri;
     /// <summary>
     /// The type of the notebook.
     /// </summary>
-    public string NotebookType;
+    public System.String NotebookType;
     /// <summary>
     /// The version number of this document (it will increase after each
     /// change, including undo/redo).
     /// </summary>
-    public int Version;
+    public System.Int64 Version;
     /// <summary>
     /// Additional metadata stored with the notebook
     /// document.
@@ -3370,20 +3390,20 @@ public class TextDocumentItem
     /// <summary>
     /// The text document's uri.
     /// </summary>
-    public string Uri;
+    public System.String Uri;
     /// <summary>
     /// The text document's language identifier.
     /// </summary>
-    public string LanguageId;
+    public System.String LanguageId;
     /// <summary>
     /// The version number of this document (it will increase after each
     /// change, including undo/redo).
     /// </summary>
-    public int Version;
+    public System.Int64 Version;
     /// <summary>
     /// The content of the opened text document.
     /// </summary>
-    public string Text;
+    public System.String Text;
 }
 
 /// <summary>
@@ -3396,11 +3416,11 @@ public class VersionedNotebookDocumentIdentifier
     /// <summary>
     /// The version number of this notebook document.
     /// </summary>
-    public int Version;
+    public System.Int64 Version;
     /// <summary>
     /// The notebook document's uri.
     /// </summary>
-    public string Uri;
+    public System.String Uri;
 }
 
 /// <summary>
@@ -3432,7 +3452,7 @@ public class NotebookDocumentIdentifier
     /// <summary>
     /// The notebook document's uri.
     /// </summary>
-    public string Uri;
+    public System.String Uri;
 }
 
 /// <summary>
@@ -3444,15 +3464,15 @@ public class Registration
     /// The id used to register the request. The id can be used to deregister
     /// the request again.
     /// </summary>
-    public string Id;
+    public System.String Id;
     /// <summary>
     /// The method / capability to register for.
     /// </summary>
-    public string Method;
+    public System.String Method;
     /// <summary>
     /// Options necessary for the registration.
     /// </summary>
-    public /*TOpt*/LSPAny RegisterOptions;
+    public /*TOpt*/LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull RegisterOptions;
 }
 
 /// <summary>
@@ -3464,11 +3484,11 @@ public class Unregistration
     /// The id used to unregister the request or notification. Usually an id
     /// provided during the register request.
     /// </summary>
-    public string Id;
+    public System.String Id;
     /// <summary>
     /// The method to unregister for.
     /// </summary>
-    public string Method;
+    public System.String Method;
 }
 
 /// <summary>
@@ -3484,7 +3504,7 @@ public class _InitializeParams
     /// Is `null` if the process has not been started by another process.
     /// If the parent process is not alive then the server should exit.
     /// </summary>
-    public /*TOr1*//*TOpt*/int? ProcessId;
+    public /*TOr1*//*TOpt*/System.Int64? ProcessId;
     /// <summary>
     /// Information about the client
     /// 
@@ -3501,14 +3521,14 @@ public class _InitializeParams
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/string? Locale;
+    public /*TOpt*/System.String? Locale;
     /// <summary>
     /// The rootPath of the workspace. Is null
     /// if no folder is open.
     /// 
     /// @deprecated in favour of rootUri.
     /// </summary>
-    public /*TOpt*//*TOr1*//*TOpt*/string? RootPath;
+    public /*TOpt*//*TOr1*//*TOpt*/System.String? RootPath;
     /// <summary>
     /// The rootUri of the workspace. Is null if no
     /// folder is open. If both `rootPath` and `rootUri` are set
@@ -3516,7 +3536,7 @@ public class _InitializeParams
     /// 
     /// @deprecated in favour of workspaceFolders.
     /// </summary>
-    public /*TOr1*//*TOpt*/string RootUri;
+    public /*TOr1*//*TOpt*/System.String RootUri;
     /// <summary>
     /// The capabilities provided by the client (editor or tool)
     /// </summary>
@@ -3524,7 +3544,7 @@ public class _InitializeParams
     /// <summary>
     /// User provided initialization options.
     /// </summary>
-    public /*TOpt*/LSPAny InitializationOptions;
+    public /*TOpt*/LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull InitializationOptions;
     /// <summary>
     /// The initial trace setting. If omitted trace is disabled ('off').
     /// </summary>
@@ -3774,7 +3794,7 @@ public class ServerCapabilities
     /// <summary>
     /// Experimental server capabilities.
     /// </summary>
-    public /*TOpt*/LSPAny Experimental;
+    public /*TOpt*/LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull Experimental;
 }
 
 /// <summary>
@@ -3786,7 +3806,7 @@ public class VersionedTextDocumentIdentifier
     /// <summary>
     /// The version number of this document.
     /// </summary>
-    public int Version;
+    public System.Int64 Version;
 }
 
 /// <summary>
@@ -3797,7 +3817,7 @@ public class SaveOptions
     /// <summary>
     /// The client is supposed to include the content on save.
     /// </summary>
-    public /*TOpt*/bool? IncludeText;
+    public /*TOpt*/System.Boolean? IncludeText;
 }
 
 /// <summary>
@@ -3808,7 +3828,7 @@ public class FileEvent
     /// <summary>
     /// The file's uri.
     /// </summary>
-    public string Uri;
+    public System.String Uri;
     /// <summary>
     /// The change type.
     /// </summary>
@@ -3864,11 +3884,11 @@ public class Diagnostic
     /// diagnostic, e.g. 'typescript' or 'super lint'. It usually
     /// appears in the user interface.
     /// </summary>
-    public /*TOpt*/string? Source;
+    public /*TOpt*/System.String? Source;
     /// <summary>
     /// The diagnostic's message. It usually appears in the user interface
     /// </summary>
-    public string Message;
+    public System.String Message;
     /// <summary>
     /// Additional metadata about the diagnostic.
     /// 
@@ -3886,7 +3906,7 @@ public class Diagnostic
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/LSPAny Data;
+    public /*TOpt*/LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull Data;
 }
 
 /// <summary>
@@ -3902,7 +3922,7 @@ public class CompletionContext
     /// The trigger character (a single character) that has trigger code complete.
     /// Is undefined if `triggerKind !== CompletionTriggerKind.TriggerCharacter`
     /// </summary>
-    public /*TOpt*/string? TriggerCharacter;
+    public /*TOpt*/System.String? TriggerCharacter;
 }
 
 /// <summary>
@@ -3916,12 +3936,12 @@ public class CompletionItemLabelDetails
     /// An optional string which is rendered less prominently directly after <c>CompletionItem.label</c>,
     /// without any spacing. Should be used for function signatures and type annotations.
     /// </summary>
-    public /*TOpt*/string? Detail;
+    public /*TOpt*/System.String? Detail;
     /// <summary>
     /// An optional string which is rendered less prominently after <c>CompletionItem.detail</c>. Should be used
     /// for fully qualified names and file paths.
     /// </summary>
-    public /*TOpt*/string? Description;
+    public /*TOpt*/System.String? Description;
 }
 
 /// <summary>
@@ -3934,7 +3954,7 @@ public class InsertReplaceEdit
     /// <summary>
     /// The string to be inserted.
     /// </summary>
-    public string NewText;
+    public System.String NewText;
     /// <summary>
     /// The range if the insert is requested
     /// </summary>
@@ -3961,7 +3981,7 @@ public class CompletionOptions
     /// If code complete should automatically be trigger on characters not being valid inside
     /// an identifier (for example `.` in JavaScript) list them in `triggerCharacters`.
     /// </summary>
-    public /*TOpt*/string[] TriggerCharacters;
+    public /*TOpt*/System.String[] TriggerCharacters;
     /// <summary>
     /// The list of all possible characters that commit a completion. This field can be used
     /// if clients don't support individual commit characters per completion item. See
@@ -3972,12 +3992,12 @@ public class CompletionOptions
     /// 
     /// @since 3.2.0
     /// </summary>
-    public /*TOpt*/string[] AllCommitCharacters;
+    public /*TOpt*/System.String[] AllCommitCharacters;
     /// <summary>
     /// The server provides support to resolve additional
     /// information for a completion item.
     /// </summary>
-    public /*TOpt*/bool? ResolveProvider;
+    public /*TOpt*/System.Boolean? ResolveProvider;
     /// <summary>
     /// The server supports the following `CompletionItem` specific
     /// capabilities.
@@ -4011,14 +4031,14 @@ public class SignatureHelpContext
     /// 
     /// This is undefined when `triggerKind !== SignatureHelpTriggerKind.TriggerCharacter`
     /// </summary>
-    public /*TOpt*/string? TriggerCharacter;
+    public /*TOpt*/System.String? TriggerCharacter;
     /// <summary>
     /// `true` if signature help was already showing when it was triggered.
     /// 
     /// Retriggers occurs when the signature help is already active and can be caused by actions such as
     /// typing a trigger character, a cursor move, or document content changes.
     /// </summary>
-    public bool IsRetrigger;
+    public System.Boolean IsRetrigger;
     /// <summary>
     /// The currently active `SignatureHelp`.
     /// 
@@ -4039,7 +4059,7 @@ public class SignatureInformation
     /// The label of this signature. Will be shown in
     /// the UI.
     /// </summary>
-    public string Label;
+    public System.String Label;
     /// <summary>
     /// The human-readable doc-comment of this signature. Will be shown
     /// in the UI but can be omitted.
@@ -4058,7 +4078,7 @@ public class SignatureInformation
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/uint? ActiveParameter;
+    public /*TOpt*/System.UInt64? ActiveParameter;
 }
 
 /// <summary>
@@ -4070,7 +4090,7 @@ public class SignatureHelpOptions
     /// <summary>
     /// List of characters that trigger signature help automatically.
     /// </summary>
-    public /*TOpt*/string[] TriggerCharacters;
+    public /*TOpt*/System.String[] TriggerCharacters;
     /// <summary>
     /// List of characters that re-trigger signature help.
     /// 
@@ -4079,7 +4099,7 @@ public class SignatureHelpOptions
     /// 
     /// @since 3.15.0
     /// </summary>
-    public /*TOpt*/string[] RetriggerCharacters;
+    public /*TOpt*/System.String[] RetriggerCharacters;
 }
 
 /// <summary>
@@ -4099,7 +4119,7 @@ public class ReferenceContext
     /// <summary>
     /// Include the declaration of the current symbol.
     /// </summary>
-    public bool IncludeDeclaration;
+    public System.Boolean IncludeDeclaration;
 }
 
 /// <summary>
@@ -4126,7 +4146,7 @@ public class BaseSymbolInformation
     /// <summary>
     /// The name of this symbol.
     /// </summary>
-    public string Name;
+    public System.String Name;
     /// <summary>
     /// The kind of this symbol.
     /// </summary>
@@ -4143,7 +4163,7 @@ public class BaseSymbolInformation
     /// if necessary). It can't be used to re-infer a hierarchy for the document
     /// symbols.
     /// </summary>
-    public /*TOpt*/string? ContainerName;
+    public /*TOpt*/System.String? ContainerName;
 }
 
 /// <summary>
@@ -4158,7 +4178,7 @@ public class DocumentSymbolOptions
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/string? Label;
+    public /*TOpt*/System.String? Label;
 }
 
 /// <summary>
@@ -4209,7 +4229,7 @@ public class CodeActionOptions
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/bool? ResolveProvider;
+    public /*TOpt*/System.Boolean? ResolveProvider;
 }
 
 /// <summary>
@@ -4224,7 +4244,7 @@ public class WorkspaceSymbolOptions
     /// 
     /// @since 3.17.0
     /// </summary>
-    public /*TOpt*/bool? ResolveProvider;
+    public /*TOpt*/System.Boolean? ResolveProvider;
 }
 
 /// <summary>
@@ -4236,7 +4256,7 @@ public class CodeLensOptions
     /// <summary>
     /// Code lens has a resolve provider as well.
     /// </summary>
-    public /*TOpt*/bool? ResolveProvider;
+    public /*TOpt*/System.Boolean? ResolveProvider;
 }
 
 /// <summary>
@@ -4248,7 +4268,7 @@ public class DocumentLinkOptions
     /// <summary>
     /// Document links have a resolve provider as well.
     /// </summary>
-    public /*TOpt*/bool? ResolveProvider;
+    public /*TOpt*/System.Boolean? ResolveProvider;
 }
 
 /// <summary>
@@ -4259,29 +4279,29 @@ public class FormattingOptions
     /// <summary>
     /// Size of a tab in spaces.
     /// </summary>
-    public uint TabSize;
+    public System.UInt64 TabSize;
     /// <summary>
     /// Prefer spaces over tabs.
     /// </summary>
-    public bool InsertSpaces;
+    public System.Boolean InsertSpaces;
     /// <summary>
     /// Trim trailing whitespace on a line.
     /// 
     /// @since 3.15.0
     /// </summary>
-    public /*TOpt*/bool? TrimTrailingWhitespace;
+    public /*TOpt*/System.Boolean? TrimTrailingWhitespace;
     /// <summary>
     /// Insert a newline character at the end of the file if one does not exist.
     /// 
     /// @since 3.15.0
     /// </summary>
-    public /*TOpt*/bool? InsertFinalNewline;
+    public /*TOpt*/System.Boolean? InsertFinalNewline;
     /// <summary>
     /// Trim all newlines after the final newline at the end of the file.
     /// 
     /// @since 3.15.0
     /// </summary>
-    public /*TOpt*/bool? TrimFinalNewlines;
+    public /*TOpt*/System.Boolean? TrimFinalNewlines;
 }
 
 /// <summary>
@@ -4308,11 +4328,11 @@ public class DocumentOnTypeFormattingOptions
     /// <summary>
     /// A character on which formatting should be triggered, like `{`.
     /// </summary>
-    public string FirstTriggerCharacter;
+    public System.String FirstTriggerCharacter;
     /// <summary>
     /// More trigger characters.
     /// </summary>
-    public /*TOpt*/string[] MoreTriggerCharacter;
+    public /*TOpt*/System.String[] MoreTriggerCharacter;
 }
 
 /// <summary>
@@ -4326,7 +4346,7 @@ public class RenameOptions
     /// 
     /// @since version 3.12.0
     /// </summary>
-    public /*TOpt*/bool? PrepareProvider;
+    public /*TOpt*/System.Boolean? PrepareProvider;
 }
 
 /// <summary>
@@ -4338,7 +4358,7 @@ public class ExecuteCommandOptions
     /// <summary>
     /// The commands to be executed on the server
     /// </summary>
-    public string[] Commands;
+    public System.String[] Commands;
 }
 
 /// <summary>
@@ -4349,11 +4369,11 @@ public class SemanticTokensLegend
     /// <summary>
     /// The token types a server uses.
     /// </summary>
-    public string[] TokenTypes;
+    public System.String[] TokenTypes;
     /// <summary>
     /// The token modifiers a server uses.
     /// </summary>
-    public string[] TokenModifiers;
+    public System.String[] TokenModifiers;
 }
 
 /// <summary>
@@ -4369,7 +4389,7 @@ public class OptionalVersionedTextDocumentIdentifier
     /// `null` to indicate that the version is unknown and the content on disk is the
     /// truth (as specified with document content ownership).
     /// </summary>
-    public /*TOr1*//*TOpt*/int? Version;
+    public /*TOr1*//*TOpt*/System.Int64? Version;
 }
 
 /// <summary>
@@ -4394,13 +4414,13 @@ public class ResourceOperation
     /// <summary>
     /// The resource operation kind.
     /// </summary>
-    public string Kind;
+    public System.String Kind;
     /// <summary>
     /// An optional annotation identifier describing the operation.
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/string? AnnotationId;
+    public /*TOpt*/System.String? AnnotationId;
 }
 
 /// <summary>
@@ -4411,11 +4431,11 @@ public class CreateFileOptions
     /// <summary>
     /// Overwrite existing file. Overwrite wins over `ignoreIfExists`
     /// </summary>
-    public /*TOpt*/bool? Overwrite;
+    public /*TOpt*/System.Boolean? Overwrite;
     /// <summary>
     /// Ignore if exists.
     /// </summary>
-    public /*TOpt*/bool? IgnoreIfExists;
+    public /*TOpt*/System.Boolean? IgnoreIfExists;
 }
 
 /// <summary>
@@ -4426,11 +4446,11 @@ public class RenameFileOptions
     /// <summary>
     /// Overwrite target if existing. Overwrite wins over `ignoreIfExists`
     /// </summary>
-    public /*TOpt*/bool? Overwrite;
+    public /*TOpt*/System.Boolean? Overwrite;
     /// <summary>
     /// Ignores if target exists.
     /// </summary>
-    public /*TOpt*/bool? IgnoreIfExists;
+    public /*TOpt*/System.Boolean? IgnoreIfExists;
 }
 
 /// <summary>
@@ -4441,11 +4461,11 @@ public class DeleteFileOptions
     /// <summary>
     /// Delete the content recursively if a folder is denoted.
     /// </summary>
-    public /*TOpt*/bool? Recursive;
+    public /*TOpt*/System.Boolean? Recursive;
     /// <summary>
     /// Ignore the operation if the file doesn't exist.
     /// </summary>
-    public /*TOpt*/bool? IgnoreIfNotExists;
+    public /*TOpt*/System.Boolean? IgnoreIfNotExists;
 }
 
 /// <summary>
@@ -4465,7 +4485,7 @@ public class FileOperationPattern
     /// - `[]` to declare a range of characters to match in a path segment (e.g., `example.[0-9]` to match on `example.0`, `example.1`, …)
     /// - `[!...]` to negate a range of characters to match in a path segment (e.g., `example.[!0-9]` to match on `example.a`, `example.b`, but not `example.0`)
     /// </summary>
-    public string Glob;
+    public System.String Glob;
     /// <summary>
     /// Whether to match files or folders with this pattern.
     /// 
@@ -4489,12 +4509,12 @@ public class WorkspaceFullDocumentDiagnosticReport
     /// <summary>
     /// The URI for which diagnostic information is reported.
     /// </summary>
-    public string Uri;
+    public System.String Uri;
     /// <summary>
     /// The version number for which the diagnostics are reported.
     /// If the document is not marked as open `null` can be provided.
     /// </summary>
-    public /*TOr1*//*TOpt*/int? Version;
+    public /*TOr1*//*TOpt*/System.Int64? Version;
 }
 
 /// <summary>
@@ -4508,12 +4528,12 @@ public class WorkspaceUnchangedDocumentDiagnosticReport
     /// <summary>
     /// The URI for which diagnostic information is reported.
     /// </summary>
-    public string Uri;
+    public System.String Uri;
     /// <summary>
     /// The version number for which the diagnostics are reported.
     /// If the document is not marked as open `null` can be provided.
     /// </summary>
-    public /*TOr1*//*TOpt*/int? Version;
+    public /*TOr1*//*TOpt*/System.Int64? Version;
 }
 
 /// <summary>
@@ -4535,7 +4555,7 @@ public class NotebookCell
     /// The URI of the cell's text document
     /// content.
     /// </summary>
-    public string Document;
+    public System.String Document;
     /// <summary>
     /// Additional metadata stored with the cell.
     /// 
@@ -4560,11 +4580,11 @@ public class NotebookCellArrayChange
     /// <summary>
     /// The start oftest of the cell that changed.
     /// </summary>
-    public uint Start;
+    public System.UInt64 Start;
     /// <summary>
     /// The deleted cells
     /// </summary>
-    public uint DeleteCount;
+    public System.UInt64 DeleteCount;
     /// <summary>
     /// The new cells, if any
     /// </summary>
@@ -4603,7 +4623,7 @@ public class ClientCapabilities
     /// <summary>
     /// Experimental client capabilities.
     /// </summary>
-    public /*TOpt*/LSPAny Experimental;
+    public /*TOpt*/LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull Experimental;
 }
 
 public class TextDocumentSyncOptions
@@ -4612,7 +4632,7 @@ public class TextDocumentSyncOptions
     /// Open and close notifications are sent to the server. If omitted open close notification should not
     /// be sent.
     /// </summary>
-    public /*TOpt*/bool? OpenClose;
+    public /*TOpt*/System.Boolean? OpenClose;
     /// <summary>
     /// Change notifications are sent to the server. See TextDocumentSyncKind.None, TextDocumentSyncKind.Full
     /// and TextDocumentSyncKind.Incremental. If omitted it defaults to TextDocumentSyncKind.None.
@@ -4622,12 +4642,12 @@ public class TextDocumentSyncOptions
     /// If present will save notifications are sent to the server. If omitted the notification should not be
     /// sent.
     /// </summary>
-    public /*TOpt*/bool? WillSave;
+    public /*TOpt*/System.Boolean? WillSave;
     /// <summary>
     /// If present will save wait until requests are sent to the server. If omitted the request should not be
     /// sent.
     /// </summary>
-    public /*TOpt*/bool? WillSaveWaitUntil;
+    public /*TOpt*/System.Boolean? WillSaveWaitUntil;
     /// <summary>
     /// If present save notifications are sent to the server. If omitted the notification should not be
     /// sent.
@@ -4662,7 +4682,7 @@ public class NotebookDocumentSyncOptions
     /// Whether save notification should be forwarded to
     /// the server. Will only be honored if mode === `notebook`.
     /// </summary>
-    public /*TOpt*/bool? Save;
+    public /*TOpt*/System.Boolean? Save;
 }
 
 /// <summary>
@@ -4681,7 +4701,7 @@ public class WorkspaceFoldersServerCapabilities
     /// <summary>
     /// The server has support for workspace folders
     /// </summary>
-    public /*TOpt*/bool? Supported;
+    public /*TOpt*/System.Boolean? Supported;
     /// <summary>
     /// Whether the server wants to receive workspace folder
     /// change notifications.
@@ -4739,7 +4759,7 @@ public class CodeDescription
     /// <summary>
     /// An URI to open with more information about the diagnostic error.
     /// </summary>
-    public string Href;
+    public System.String Href;
 }
 
 /// <summary>
@@ -4756,7 +4776,7 @@ public class DiagnosticRelatedInformation
     /// <summary>
     /// The message of this related diagnostic information.
     /// </summary>
-    public string Message;
+    public System.String Message;
 }
 
 /// <summary>
@@ -4810,7 +4830,7 @@ public class NotebookCellTextDocumentFilter
     /// Will be matched against the language id of the
     /// notebook cell document. '*' matches every language.
     /// </summary>
-    public /*TOpt*/string? Language;
+    public /*TOpt*/System.String? Language;
 }
 
 /// <summary>
@@ -4823,7 +4843,7 @@ public class FileOperationPatternOptions
     /// <summary>
     /// The pattern should be matched ignoring casing.
     /// </summary>
-    public /*TOpt*/bool? IgnoreCase;
+    public /*TOpt*/System.Boolean? IgnoreCase;
 }
 
 public class ExecutionSummary
@@ -4833,12 +4853,12 @@ public class ExecutionSummary
     /// indicating the execution order of a cell
     /// inside a notebook.
     /// </summary>
-    public uint ExecutionOrder;
+    public System.UInt64 ExecutionOrder;
     /// <summary>
     /// Whether the execution was successful or
     /// not if known by the client.
     /// </summary>
-    public /*TOpt*/bool? Success;
+    public /*TOpt*/System.Boolean? Success;
 }
 
 /// <summary>
@@ -4851,7 +4871,7 @@ public class WorkspaceClientCapabilities
     /// to the workspace by supporting the request
     /// 'workspace/applyEdit'
     /// </summary>
-    public /*TOpt*/bool? ApplyEdit;
+    public /*TOpt*/System.Boolean? ApplyEdit;
     /// <summary>
     /// Capabilities specific to `WorkspaceEdit`s.
     /// </summary>
@@ -4877,13 +4897,13 @@ public class WorkspaceClientCapabilities
     /// 
     /// @since 3.6.0
     /// </summary>
-    public /*TOpt*/bool? WorkspaceFolders;
+    public /*TOpt*/System.Boolean? WorkspaceFolders;
     /// <summary>
     /// The client supports `workspace/configuration` requests.
     /// 
     /// @since 3.6.0
     /// </summary>
-    public /*TOpt*/bool? Configuration;
+    public /*TOpt*/System.Boolean? Configuration;
     /// <summary>
     /// Capabilities specific to the semantic token requests scoped to the
     /// workspace.
@@ -5111,7 +5131,7 @@ public class WindowClientCapabilities
     /// 
     /// @since 3.15.0
     /// </summary>
-    public /*TOpt*/bool? WorkDoneProgress;
+    public /*TOpt*/System.Boolean? WorkDoneProgress;
     /// <summary>
     /// Capabilities specific to the showMessage request.
     /// 
@@ -5204,7 +5224,7 @@ public class WorkspaceEditClientCapabilities
     /// <summary>
     /// The client supports versioned document changes in `WorkspaceEdit`s
     /// </summary>
-    public /*TOpt*/bool? DocumentChanges;
+    public /*TOpt*/System.Boolean? DocumentChanges;
     /// <summary>
     /// The resource operations the client supports. Clients should at least
     /// support 'create', 'rename' and 'delete' files and folders.
@@ -5228,7 +5248,7 @@ public class WorkspaceEditClientCapabilities
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/bool? NormalizesLineEndings;
+    public /*TOpt*/System.Boolean? NormalizesLineEndings;
     /// <summary>
     /// Whether the client in general supports change annotations on text edits,
     /// create file, rename file and delete file changes.
@@ -5243,7 +5263,7 @@ public class DidChangeConfigurationClientCapabilities
     /// <summary>
     /// Did change configuration notification supports dynamic registration.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
 }
 
 public class DidChangeWatchedFilesClientCapabilities
@@ -5253,14 +5273,14 @@ public class DidChangeWatchedFilesClientCapabilities
     /// that the current protocol doesn't support static configuration for file changes
     /// from the server side.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
     /// <summary>
     /// Whether the client has support for <c> RelativePattern relative pattern</c>
     /// or not.
     /// 
     /// @since 3.17.0
     /// </summary>
-    public /*TOpt*/bool? RelativePatternSupport;
+    public /*TOpt*/System.Boolean? RelativePatternSupport;
 }
 
 /// <summary>
@@ -5271,7 +5291,7 @@ public class WorkspaceSymbolClientCapabilities
     /// <summary>
     /// Symbol request supports dynamic registration.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
     /// <summary>
     /// Specific capabilities for the `SymbolKind` in the `workspace/symbol` request.
     /// </summary>
@@ -5301,7 +5321,7 @@ public class ExecuteCommandClientCapabilities
     /// <summary>
     /// Execute command supports dynamic registration.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
 }
 
 /// <summary>
@@ -5318,7 +5338,7 @@ public class SemanticTokensWorkspaceClientCapabilities
     /// and is useful for situation where a server for example detects a project
     /// wide change that requires such a calculation.
     /// </summary>
-    public /*TOpt*/bool? RefreshSupport;
+    public /*TOpt*/System.Boolean? RefreshSupport;
 }
 
 /// <summary>
@@ -5335,7 +5355,7 @@ public class CodeLensWorkspaceClientCapabilities
     /// useful for situation where a server for example detect a project wide
     /// change that requires such a calculation.
     /// </summary>
-    public /*TOpt*/bool? RefreshSupport;
+    public /*TOpt*/System.Boolean? RefreshSupport;
 }
 
 /// <summary>
@@ -5351,31 +5371,31 @@ public class FileOperationClientCapabilities
     /// <summary>
     /// Whether the client supports dynamic registration for file requests/notifications.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
     /// <summary>
     /// The client has support for sending didCreateFiles notifications.
     /// </summary>
-    public /*TOpt*/bool? DidCreate;
+    public /*TOpt*/System.Boolean? DidCreate;
     /// <summary>
     /// The client has support for sending willCreateFiles requests.
     /// </summary>
-    public /*TOpt*/bool? WillCreate;
+    public /*TOpt*/System.Boolean? WillCreate;
     /// <summary>
     /// The client has support for sending didRenameFiles notifications.
     /// </summary>
-    public /*TOpt*/bool? DidRename;
+    public /*TOpt*/System.Boolean? DidRename;
     /// <summary>
     /// The client has support for sending willRenameFiles requests.
     /// </summary>
-    public /*TOpt*/bool? WillRename;
+    public /*TOpt*/System.Boolean? WillRename;
     /// <summary>
     /// The client has support for sending didDeleteFiles notifications.
     /// </summary>
-    public /*TOpt*/bool? DidDelete;
+    public /*TOpt*/System.Boolean? DidDelete;
     /// <summary>
     /// The client has support for sending willDeleteFiles requests.
     /// </summary>
-    public /*TOpt*/bool? WillDelete;
+    public /*TOpt*/System.Boolean? WillDelete;
 }
 
 /// <summary>
@@ -5394,7 +5414,7 @@ public class InlineValueWorkspaceClientCapabilities
     /// useful for situation where a server for example detects a project wide
     /// change that requires such a calculation.
     /// </summary>
-    public /*TOpt*/bool? RefreshSupport;
+    public /*TOpt*/System.Boolean? RefreshSupport;
 }
 
 /// <summary>
@@ -5413,7 +5433,7 @@ public class InlayHintWorkspaceClientCapabilities
     /// is useful for situation where a server for example detects a project wide
     /// change that requires such a calculation.
     /// </summary>
-    public /*TOpt*/bool? RefreshSupport;
+    public /*TOpt*/System.Boolean? RefreshSupport;
 }
 
 /// <summary>
@@ -5432,7 +5452,7 @@ public class DiagnosticWorkspaceClientCapabilities
     /// is useful for situation where a server for example detects a project wide
     /// change that requires such a calculation.
     /// </summary>
-    public /*TOpt*/bool? RefreshSupport;
+    public /*TOpt*/System.Boolean? RefreshSupport;
 }
 
 public class TextDocumentSyncClientCapabilities
@@ -5440,21 +5460,21 @@ public class TextDocumentSyncClientCapabilities
     /// <summary>
     /// Whether text document synchronization supports dynamic registration.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
     /// <summary>
     /// The client supports sending will save notifications.
     /// </summary>
-    public /*TOpt*/bool? WillSave;
+    public /*TOpt*/System.Boolean? WillSave;
     /// <summary>
     /// The client supports sending a will save request and
     /// waits for a response providing text edits which will
     /// be applied to the document before it is saved.
     /// </summary>
-    public /*TOpt*/bool? WillSaveWaitUntil;
+    public /*TOpt*/System.Boolean? WillSaveWaitUntil;
     /// <summary>
     /// The client supports did save notifications.
     /// </summary>
-    public /*TOpt*/bool? DidSave;
+    public /*TOpt*/System.Boolean? DidSave;
 }
 
 /// <summary>
@@ -5465,7 +5485,7 @@ public class CompletionClientCapabilities
     /// <summary>
     /// Whether completion supports dynamic registration.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
     /// <summary>
     /// The client supports the following `CompletionItem` specific
     /// capabilities.
@@ -5484,7 +5504,7 @@ public class CompletionClientCapabilities
     /// The client supports to send additional context information for a
     /// `textDocument/completion` request.
     /// </summary>
-    public /*TOpt*/bool? ContextSupport;
+    public /*TOpt*/System.Boolean? ContextSupport;
     /// <summary>
     /// The client supports the following `CompletionList` specific
     /// capabilities.
@@ -5499,7 +5519,7 @@ public class HoverClientCapabilities
     /// <summary>
     /// Whether hover supports dynamic registration.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
     /// <summary>
     /// Client supports the following content formats for the content
     /// property. The order describes the preferred format of the client.
@@ -5515,7 +5535,7 @@ public class SignatureHelpClientCapabilities
     /// <summary>
     /// Whether signature help supports dynamic registration.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
     /// <summary>
     /// The client supports the following `SignatureInformation`
     /// specific properties.
@@ -5529,7 +5549,7 @@ public class SignatureHelpClientCapabilities
     /// 
     /// @since 3.15.0
     /// </summary>
-    public /*TOpt*/bool? ContextSupport;
+    public /*TOpt*/System.Boolean? ContextSupport;
 }
 
 /// <summary>
@@ -5542,11 +5562,11 @@ public class DeclarationClientCapabilities
     /// the client supports the new `DeclarationRegistrationOptions` return value
     /// for the corresponding server capability as well.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
     /// <summary>
     /// The client supports additional metadata in the form of declaration links.
     /// </summary>
-    public /*TOpt*/bool? LinkSupport;
+    public /*TOpt*/System.Boolean? LinkSupport;
 }
 
 /// <summary>
@@ -5557,13 +5577,13 @@ public class DefinitionClientCapabilities
     /// <summary>
     /// Whether definition supports dynamic registration.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
     /// <summary>
     /// The client supports additional metadata in the form of definition links.
     /// 
     /// @since 3.14.0
     /// </summary>
-    public /*TOpt*/bool? LinkSupport;
+    public /*TOpt*/System.Boolean? LinkSupport;
 }
 
 /// <summary>
@@ -5576,13 +5596,13 @@ public class TypeDefinitionClientCapabilities
     /// the client supports the new `TypeDefinitionRegistrationOptions` return value
     /// for the corresponding server capability as well.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
     /// <summary>
     /// The client supports additional metadata in the form of definition links.
     /// 
     /// Since 3.14.0
     /// </summary>
-    public /*TOpt*/bool? LinkSupport;
+    public /*TOpt*/System.Boolean? LinkSupport;
 }
 
 /// <summary>
@@ -5595,13 +5615,13 @@ public class ImplementationClientCapabilities
     /// the client supports the new `ImplementationRegistrationOptions` return value
     /// for the corresponding server capability as well.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
     /// <summary>
     /// The client supports additional metadata in the form of definition links.
     /// 
     /// @since 3.14.0
     /// </summary>
-    public /*TOpt*/bool? LinkSupport;
+    public /*TOpt*/System.Boolean? LinkSupport;
 }
 
 /// <summary>
@@ -5612,7 +5632,7 @@ public class ReferenceClientCapabilities
     /// <summary>
     /// Whether references supports dynamic registration.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
 }
 
 /// <summary>
@@ -5623,7 +5643,7 @@ public class DocumentHighlightClientCapabilities
     /// <summary>
     /// Whether document highlight supports dynamic registration.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
 }
 
 /// <summary>
@@ -5634,7 +5654,7 @@ public class DocumentSymbolClientCapabilities
     /// <summary>
     /// Whether document symbol supports dynamic registration.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
     /// <summary>
     /// Specific capabilities for the `SymbolKind` in the
     /// `textDocument/documentSymbol` request.
@@ -5643,7 +5663,7 @@ public class DocumentSymbolClientCapabilities
     /// <summary>
     /// The client supports hierarchical document symbols.
     /// </summary>
-    public /*TOpt*/bool? HierarchicalDocumentSymbolSupport;
+    public /*TOpt*/System.Boolean? HierarchicalDocumentSymbolSupport;
     /// <summary>
     /// The client supports tags on `SymbolInformation`. Tags are supported on
     /// `DocumentSymbol` if `hierarchicalDocumentSymbolSupport` is set to true.
@@ -5658,7 +5678,7 @@ public class DocumentSymbolClientCapabilities
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/bool? LabelSupport;
+    public /*TOpt*/System.Boolean? LabelSupport;
 }
 
 /// <summary>
@@ -5669,7 +5689,7 @@ public class CodeActionClientCapabilities
     /// <summary>
     /// Whether code action supports dynamic registration.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
     /// <summary>
     /// The client support code action literals of type `CodeAction` as a valid
     /// response of the `textDocument/codeAction` request. If the property is not
@@ -5683,13 +5703,13 @@ public class CodeActionClientCapabilities
     /// 
     /// @since 3.15.0
     /// </summary>
-    public /*TOpt*/bool? IsPreferredSupport;
+    public /*TOpt*/System.Boolean? IsPreferredSupport;
     /// <summary>
     /// Whether code action supports the `disabled` property.
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/bool? DisabledSupport;
+    public /*TOpt*/System.Boolean? DisabledSupport;
     /// <summary>
     /// Whether code action supports the `data` property which is
     /// preserved between a `textDocument/codeAction` and a
@@ -5697,7 +5717,7 @@ public class CodeActionClientCapabilities
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/bool? DataSupport;
+    public /*TOpt*/System.Boolean? DataSupport;
     /// <summary>
     /// Whether the client supports resolving additional code action
     /// properties via a separate `codeAction/resolve` request.
@@ -5714,7 +5734,7 @@ public class CodeActionClientCapabilities
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/bool? HonorsChangeAnnotations;
+    public /*TOpt*/System.Boolean? HonorsChangeAnnotations;
 }
 
 /// <summary>
@@ -5725,7 +5745,7 @@ public class CodeLensClientCapabilities
     /// <summary>
     /// Whether code lens supports dynamic registration.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
 }
 
 /// <summary>
@@ -5736,13 +5756,13 @@ public class DocumentLinkClientCapabilities
     /// <summary>
     /// Whether document link supports dynamic registration.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
     /// <summary>
     /// Whether the client supports the `tooltip` property on `DocumentLink`.
     /// 
     /// @since 3.15.0
     /// </summary>
-    public /*TOpt*/bool? TooltipSupport;
+    public /*TOpt*/System.Boolean? TooltipSupport;
 }
 
 public class DocumentColorClientCapabilities
@@ -5752,7 +5772,7 @@ public class DocumentColorClientCapabilities
     /// the client supports the new `DocumentColorRegistrationOptions` return value
     /// for the corresponding server capability as well.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
 }
 
 /// <summary>
@@ -5763,7 +5783,7 @@ public class DocumentFormattingClientCapabilities
     /// <summary>
     /// Whether formatting supports dynamic registration.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
 }
 
 /// <summary>
@@ -5774,7 +5794,7 @@ public class DocumentRangeFormattingClientCapabilities
     /// <summary>
     /// Whether range formatting supports dynamic registration.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
 }
 
 /// <summary>
@@ -5785,7 +5805,7 @@ public class DocumentOnTypeFormattingClientCapabilities
     /// <summary>
     /// Whether on type formatting supports dynamic registration.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
 }
 
 public class RenameClientCapabilities
@@ -5793,14 +5813,14 @@ public class RenameClientCapabilities
     /// <summary>
     /// Whether rename supports dynamic registration.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
     /// <summary>
     /// Client supports testing for validity of rename operations
     /// before execution.
     /// 
     /// @since 3.12.0
     /// </summary>
-    public /*TOpt*/bool? PrepareSupport;
+    public /*TOpt*/System.Boolean? PrepareSupport;
     /// <summary>
     /// Client supports the default behavior result.
     /// 
@@ -5819,7 +5839,7 @@ public class RenameClientCapabilities
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/bool? HonorsChangeAnnotations;
+    public /*TOpt*/System.Boolean? HonorsChangeAnnotations;
 }
 
 public class FoldingRangeClientCapabilities
@@ -5830,19 +5850,19 @@ public class FoldingRangeClientCapabilities
     /// `FoldingRangeRegistrationOptions` return value for the corresponding
     /// server capability as well.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
     /// <summary>
     /// The maximum number of folding ranges that the client prefers to receive
     /// per document. The value serves as a hint, servers are free to follow the
     /// limit.
     /// </summary>
-    public /*TOpt*/uint? RangeLimit;
+    public /*TOpt*/System.UInt64? RangeLimit;
     /// <summary>
     /// If set, the client signals that it only supports folding complete lines.
     /// If set, client will ignore specified `startCharacter` and `endCharacter`
     /// properties in a FoldingRange.
     /// </summary>
-    public /*TOpt*/bool? LineFoldingOnly;
+    public /*TOpt*/System.Boolean? LineFoldingOnly;
     /// <summary>
     /// Specific options for the folding range kind.
     /// 
@@ -5864,7 +5884,7 @@ public class SelectionRangeClientCapabilities
     /// the client supports the new `SelectionRangeRegistrationOptions` return value for the corresponding server
     /// capability as well.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
 }
 
 /// <summary>
@@ -5875,7 +5895,7 @@ public class PublishDiagnosticsClientCapabilities
     /// <summary>
     /// Whether the clients accepts diagnostics with related information.
     /// </summary>
-    public /*TOpt*/bool? RelatedInformation;
+    public /*TOpt*/System.Boolean? RelatedInformation;
     /// <summary>
     /// Client supports the tag property to provide meta data about a diagnostic.
     /// Clients supporting tags have to handle unknown tags gracefully.
@@ -5889,13 +5909,13 @@ public class PublishDiagnosticsClientCapabilities
     /// 
     /// @since 3.15.0
     /// </summary>
-    public /*TOpt*/bool? VersionSupport;
+    public /*TOpt*/System.Boolean? VersionSupport;
     /// <summary>
     /// Client supports a codeDescription property
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/bool? CodeDescriptionSupport;
+    public /*TOpt*/System.Boolean? CodeDescriptionSupport;
     /// <summary>
     /// Whether code action supports the `data` property which is
     /// preserved between a `textDocument/publishDiagnostics` and
@@ -5903,7 +5923,7 @@ public class PublishDiagnosticsClientCapabilities
     /// 
     /// @since 3.16.0
     /// </summary>
-    public /*TOpt*/bool? DataSupport;
+    public /*TOpt*/System.Boolean? DataSupport;
 }
 
 /// <summary>
@@ -5916,7 +5936,7 @@ public class CallHierarchyClientCapabilities
     /// the client supports the new `(TextDocumentRegistrationOptions & StaticRegistrationOptions)`
     /// return value for the corresponding server capability as well.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
 }
 
 /// <summary>
@@ -5929,7 +5949,7 @@ public class SemanticTokensClientCapabilities
     /// the client supports the new `(TextDocumentRegistrationOptions & StaticRegistrationOptions)`
     /// return value for the corresponding server capability as well.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
     /// <summary>
     /// Which requests the client supports and might send to the server
     /// depending on the server's capability. Please note that clients might not
@@ -5944,11 +5964,11 @@ public class SemanticTokensClientCapabilities
     /// <summary>
     /// The token types that the client supports.
     /// </summary>
-    public string[] TokenTypes;
+    public System.String[] TokenTypes;
     /// <summary>
     /// The token modifiers that the client supports.
     /// </summary>
-    public string[] TokenModifiers;
+    public System.String[] TokenModifiers;
     /// <summary>
     /// The token formats the clients supports.
     /// </summary>
@@ -5956,11 +5976,11 @@ public class SemanticTokensClientCapabilities
     /// <summary>
     /// Whether the client supports tokens that can overlap each other.
     /// </summary>
-    public /*TOpt*/bool? OverlappingTokenSupport;
+    public /*TOpt*/System.Boolean? OverlappingTokenSupport;
     /// <summary>
     /// Whether the client supports tokens that can span multiple lines.
     /// </summary>
-    public /*TOpt*/bool? MultilineTokenSupport;
+    public /*TOpt*/System.Boolean? MultilineTokenSupport;
     /// <summary>
     /// Whether the client allows the server to actively cancel a
     /// semantic token request, e.g. supports returning
@@ -5969,7 +5989,7 @@ public class SemanticTokensClientCapabilities
     /// 
     /// @since 3.17.0
     /// </summary>
-    public /*TOpt*/bool? ServerCancelSupport;
+    public /*TOpt*/System.Boolean? ServerCancelSupport;
     /// <summary>
     /// Whether the client uses semantic tokens to augment existing
     /// syntax tokens. If set to `true` client side created syntax
@@ -5982,7 +6002,7 @@ public class SemanticTokensClientCapabilities
     /// 
     /// @since 3.17.0
     /// </summary>
-    public /*TOpt*/bool? AugmentsSyntaxTokens;
+    public /*TOpt*/System.Boolean? AugmentsSyntaxTokens;
 }
 
 /// <summary>
@@ -5997,7 +6017,7 @@ public class LinkedEditingRangeClientCapabilities
     /// the client supports the new `(TextDocumentRegistrationOptions & StaticRegistrationOptions)`
     /// return value for the corresponding server capability as well.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
 }
 
 /// <summary>
@@ -6012,7 +6032,7 @@ public class MonikerClientCapabilities
     /// the client supports the new `MonikerRegistrationOptions` return value
     /// for the corresponding server capability as well.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
 }
 
 /// <summary>
@@ -6025,7 +6045,7 @@ public class TypeHierarchyClientCapabilities
     /// the client supports the new `(TextDocumentRegistrationOptions & StaticRegistrationOptions)`
     /// return value for the corresponding server capability as well.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
 }
 
 /// <summary>
@@ -6038,7 +6058,7 @@ public class InlineValueClientCapabilities
     /// <summary>
     /// Whether implementation supports dynamic registration for inline value providers.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
 }
 
 /// <summary>
@@ -6051,7 +6071,7 @@ public class InlayHintClientCapabilities
     /// <summary>
     /// Whether inlay hints support dynamic registration.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
     /// <summary>
     /// Indicates which properties a client can resolve lazily on an inlay
     /// hint.
@@ -6071,11 +6091,11 @@ public class DiagnosticClientCapabilities
     /// the client supports the new `(TextDocumentRegistrationOptions & StaticRegistrationOptions)`
     /// return value for the corresponding server capability as well.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
     /// <summary>
     /// Whether the clients supports related documents for document diagnostic pulls.
     /// </summary>
-    public /*TOpt*/bool? RelatedDocumentSupport;
+    public /*TOpt*/System.Boolean? RelatedDocumentSupport;
 }
 
 /// <summary>
@@ -6091,11 +6111,11 @@ public class NotebookDocumentSyncClientCapabilities
     /// `(TextDocumentRegistrationOptions & StaticRegistrationOptions)`
     /// return value for the corresponding server capability as well.
     /// </summary>
-    public /*TOpt*/bool? DynamicRegistration;
+    public /*TOpt*/System.Boolean? DynamicRegistration;
     /// <summary>
     /// The client supports sending execution summary data per cell.
     /// </summary>
-    public /*TOpt*/bool? ExecutionSummarySupport;
+    public /*TOpt*/System.Boolean? ExecutionSummarySupport;
 }
 
 /// <summary>
@@ -6120,7 +6140,7 @@ public class ShowDocumentClientCapabilities
     /// The client has support for the showDocument
     /// request.
     /// </summary>
-    public bool Support;
+    public System.Boolean Support;
 }
 
 /// <summary>
@@ -6133,11 +6153,11 @@ public class RegularExpressionsClientCapabilities
     /// <summary>
     /// The engine's name.
     /// </summary>
-    public string Engine;
+    public System.String Engine;
     /// <summary>
     /// The engine's version.
     /// </summary>
-    public /*TOpt*/string? Version;
+    public /*TOpt*/System.String? Version;
 }
 
 /// <summary>
@@ -6150,16 +6170,16 @@ public class MarkdownClientCapabilities
     /// <summary>
     /// The name of the parser.
     /// </summary>
-    public string Parser;
+    public System.String Parser;
     /// <summary>
     /// The version of the parser.
     /// </summary>
-    public /*TOpt*/string? Version;
+    public /*TOpt*/System.String? Version;
     /// <summary>
     /// A list of HTML tags that the client allows / supports in
     /// Markdown.
     /// 
     /// @since 3.17.0
     /// </summary>
-    public /*TOpt*/string[] AllowedTags;
+    public /*TOpt*/System.String[] AllowedTags;
 }

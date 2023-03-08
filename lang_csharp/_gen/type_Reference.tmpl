@@ -1,7 +1,10 @@
 {{- $bag := . -}}
 {{- $tyStr := printf "%s" $bag.Type -}}
+{{- $rewrite := index $bag.Main.Lang.TypeRefRewrites $tyStr -}}
 {{- if and ($bag.Main.IsEnumTypeName $tyStr) ($bag.Main.IsTypeKindOf $bag.Type "string") -}}
 /*{{- $bag.Type -}}*/string
+{{- else if (eq "" $rewrite) -}}
+{{- $tyStr -}}
 {{- else -}}
-{{- $bag.Type -}}
+{{- $rewrite -}}
 {{- end -}}

@@ -8,7 +8,7 @@ import (
 
 type Gen struct {
 	LangIdent string  // eg. "go" or "cs"
-	Main      GenMain // root "dot" object given to templates `decls_*.tmpl` and `file_*.tmpl`
+	Main      GenMain // root "dot" object given to templates `decls*.tmpl` and `file_*.tmpl`
 
 	source       Source
 	dirPathLang  string // lang_foo
@@ -37,12 +37,12 @@ type GenMain struct {
 	GenVer   string
 	GenIdent string // aka "lsp" or "vsx"
 	PkgName  string // defaults to `GenIdent`
-	Decl     struct {
-		Enums       []*GenEnumeration
-		TypeAliases []*GenAlias
-		Structures  []*GenStructure
+	Decls    struct {
+		Enumerations []*GenEnumeration
+		TypeAliases  []*GenAlias
+		Structures   []*GenStructure
 
-		NamedAnons []string
+		NamedAnonDeclRenders []string
 	}
 	FileContents string
 
@@ -57,9 +57,10 @@ type GenLang struct { // the contents of your lang_foo/lang_foo.json
 		Format *GenLangCmd  // eg "go fmt %in" etc
 		Check  []GenLangCmd // compiler, type-checker, parser or other linter. `%in` for absolute path of generated pkg-dir
 	}
-	PostGenCleanUp                    []string // eg ["obj"]
+	PostGenCleanUp                    []string // eg ["obj","bin"]
 	Dict                              map[string]string
 	BaseTypeMapping                   map[string]string
+	TypeRefRewrites                   map[string]string
 	Tmpls                             map[string]string
 	AllowLowerCaseGeneratedTypeIdents bool
 }
@@ -110,22 +111,22 @@ func (it *Gen) Generate(source Source) {
 }
 
 func (it *Gen) conv() {
-	it.Main.Decl.Enums = it.source.GenEnumerations(it)
-	it.Main.Decl.TypeAliases = it.source.GenTypeAliases(it)
-	it.Main.Decl.Structures = it.source.GenStructures(it)
-	for _, decl := range it.Main.Decl.Enums {
+	it.Main.Decls.Enumerations = it.source.GenEnumerations(it)
+	it.Main.Decls.TypeAliases = it.source.GenTypeAliases(it)
+	it.Main.Decls.Structures = it.source.GenStructures(it)
+	for _, decl := range it.Main.Decls.Enumerations {
 		it.tracked.decls.enumerations[decl.Name] = decl
 		it.tracked.decls.enumerations[decl.NameUp] = decl
 		it.EnsureTypeTracked(decl.Type)
 		ensureDocHintConstVal(decl.Enumerants, func(p GenEnumerant) any { return p.Value })
 	}
-	for _, decl := range it.Main.Decl.TypeAliases {
+	for _, decl := range it.Main.Decls.TypeAliases {
 		it.tracked.decls.typeAliases[decl.Name] = decl
 		it.tracked.decls.typeAliases[decl.NameUp] = decl
 		it.EnsureTypeTracked(decl.Type)
 		ensureDocHintUnionType(&decl.GenBase, decl.Type, "")
 	}
-	for _, decl := range it.Main.Decl.Structures {
+	for _, decl := range it.Main.Decls.Structures {
 		it.tracked.decls.structures[decl.Name] = decl
 		it.tracked.decls.structures[decl.NameUp] = decl
 		it.EnsureTypeTracked(&decl.GenTypeStructure)
@@ -143,8 +144,8 @@ func (it *Gen) genMainDecls(buf *bytes.Buffer, tmplName string) {
 }
 
 func (it *Gen) genNamedAnonDecls(buf *bytes.Buffer) {
+	it.Main.Decls.NamedAnonDeclRenders = MapValues(it.tracked.namedAnonDeclRenders)
 	tmpl := it.tmpl("decls", "")
-	it.Main.Decl.NamedAnons = MapValues(it.tracked.namedAnonDeclRenders)
 	it.tmplExec(buf, tmpl, nil)
 	it.toCodeFile(buf, "decls")
 }

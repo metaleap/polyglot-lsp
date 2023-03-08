@@ -71,13 +71,24 @@ func (it *GenMain) doType(t GenType, tmplName string) (ret string) {
 			ret = strings.ReplaceAll(ret, bag.TypeIdentGen, ident)
 		}
 		it.gen.tracked.namedAnonDeclRenders[ident] = ret
-		ret = it.doType(GenTypeReference(ident), "type_Reference")
+		t = GenTypeReference(ident)
+		ret = it.doType(t, "type_Reference")
+	}
+	if _, is_ref := t.(GenTypeReference); is_ref {
+		for rewrite := it.Lang.TypeRefRewrites[ret]; rewrite != ""; rewrite = it.Lang.TypeRefRewrites[ret] {
+			ret = rewrite
+		}
 	}
 	return
 }
 
 func (it *GenMain) If(b bool, ifTrue any, ifFalse any) any { return If(b, ifTrue, ifFalse) }
 func (it *GenMain) Up0(s string) string                    { return Up0(s) }
+func (it *GenMain) IsIdentAscii(s string) bool {
+	return strings.IndexFunc(s, func(r rune) bool {
+		return !((r >= 'a' && r <= 'z') || (r >= 'A' && r <= 'Z') || (r >= '0' && r <= '9'))
+	}) < 0
+}
 
 func (it *GenMain) IsEnumTypeName(name string) bool {
 	return it.gen.tracked.decls.enumerations[name] != nil

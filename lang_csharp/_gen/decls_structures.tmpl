@@ -1,6 +1,6 @@
 {{- $main := . -}}
 
-{{- range .Decls -}}
+{{- range .Decls.Structures -}}
 {{- $struct := . }}
 
 {{ .DoDocComments $main -}}
@@ -15,7 +15,11 @@ public class {{ $struct.NameUp }} {
 
     {{- range .Properties }}
     {{ .DoDocComments $main -}}
+    {{- if eq .NameUp $struct.NameUp -}}
+    public {{ $main.DoTypeOptional .Type ($main.If .HasConstVal false .Optional) }} {{ .NameUp }}_;
+    {{- else -}}
     public {{ $main.DoTypeOptional .Type ($main.If .HasConstVal false .Optional) }} {{ .NameUp }};
+    {{- end -}}
     {{- end }}
 }
 

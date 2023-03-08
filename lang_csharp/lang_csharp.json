@@ -4,13 +4,18 @@
     "SrcFileExt": ".cs",
     "BaseTypeMapping": {
         "any": "object",
-        "string": "string",
-        "uinteger": "uint",
-        "integer": "int",
-        "boolean": "bool",
-        "decimal": "double",
-        "DocumentUri": "string",
-        "URI": "string"
+        "string": "System.String",
+        "uinteger": "System.UInt64",
+        "integer": "System.Int64",
+        "boolean": "System.Boolean",
+        "decimal": "System.Double",
+        "DocumentUri": "System.String",
+        "URI": "System.String"
+    },
+    "TypeRefRewrites": {
+        "DocumentSelector": "DocumentFilter[]",
+        "LSPArray": "LSPAny[]",
+        "LSPAny":"LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull"
     },
     "Tmpls": {
         "doc_comments_link": "<c>{{index . 0}}</c>",

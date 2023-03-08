@@ -2,14 +2,9 @@ import "net/url"
 
 {{ $main := . -}}
 
-{{- range $main.Decls -}}
-{{- $type := . -}}
-
-{{- $main.DoType $type -}}
-
-{{- end -}}
-
-
+{{- range $main.Decls.NamedAnonDeclRenders }}
+{{ $main.DoType . }}
+{{- end }}
 
 
 type DocumentURI = URI

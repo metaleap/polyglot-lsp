@@ -1,6 +1,6 @@
 {{- $main := . }}
 
-{{- range .Decls }}
+{{- range .Decls.TypeAliases }}
 {{- $alias := . }}
 
 // using {{ $alias.Name }} = {{ $main.DoType $alias.Type }};

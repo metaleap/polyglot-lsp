@@ -1,4 +1,17 @@
 /// <summary>{{ .GenTitle }} v{{.GenVer}} SDK for {{ .Lang.DisplayName }}: auto-generated via {{ .GenRepo }}</summary>
 namespace {{.PkgName}};
 
+{{ $main := . -}}
+{{- range $main.Decls.TypeAliases -}}
+{{- $alias := . -}}
+{{- if eq "" (index $main.Lang.TypeRefRewrites $alias.Name) -}}
+using {{ $alias.Name }} = {{ $main.DoType $alias.Type }};
+{{- end -}}
+{{ end }}
+{{- range $old, $new := $main.Lang.TypeRefRewrites -}}
+{{- if $main.IsIdentAscii $new -}}
+using {{ $old }} = {{ $new }};
+{{- end -}}
+{{ end }}
+
 {{.FileContents}}

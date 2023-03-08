@@ -5,11 +5,9 @@
 {{- if eq (len $member_types) 1 -}}
 /*TOr1*/{{- $bag.Main.DoTypeOptional (index $member_types 0) true -}}
 {{- else -}}
-/*TOr*/public abstract record class {{ $ident -}}
-{
-    private {{ $ident }}() { }
+/*TOr*/public class {{ $ident -}} {
 {{ range $member_types -}}
-    public record class As{{.NameSuggestion true}}({{ $bag.Main.DoTypeOptional . true }} {{.NameSuggestion true}}) : {{ $ident }};
+    public  {{ $bag.Main.DoTypeOptional . true }} {{.NameSuggestion true}};
 {{ end -}}
 }
 {{- end -}}

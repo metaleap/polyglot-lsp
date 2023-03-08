@@ -1,6 +1,6 @@
 {{- $main := . }}
 
-{{- range .Decls }}
+{{- range .Decls.TypeAliases }}
 {{- $alias := . }}
 
 {{ $alias.DoDocComments $main }}

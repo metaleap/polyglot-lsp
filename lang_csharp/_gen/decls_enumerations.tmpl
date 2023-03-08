@@ -1,6 +1,6 @@
 {{- $main := . -}}
 
-{{- range .Decls -}}
+{{- range .Decls.Enumerations -}}
 {{- $enum := . -}}
 
 {{- if ($main.IsTypeKindOf $enum.Type "string") }}

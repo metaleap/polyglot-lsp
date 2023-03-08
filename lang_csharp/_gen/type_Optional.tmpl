@@ -11,15 +11,15 @@
   -}}
     /*TOpt*/{{- $bag.Main.DoType $bag.Type -}}
 {{- else if ($bag.Main.IsTypeKindOf $bag.Type "string") -}}
-    /*TOpt*/string?
+    /*TOpt*/{{ index $bag.Main.Lang.BaseTypeMapping "string" }}?
 {{- else if ($bag.Main.IsTypeKindOf $bag.Type "integer") -}}
-    /*TOpt*/int?
+    /*TOpt*/{{ index $bag.Main.Lang.BaseTypeMapping "integer" }}?
 {{- else if ($bag.Main.IsTypeKindOf $bag.Type "uinteger") -}}
-    /*TOpt*/uint?
+    /*TOpt*/{{ index $bag.Main.Lang.BaseTypeMapping "uinteger" }}?
 {{- else if ($bag.Main.IsTypeKindOf $bag.Type "decimal") -}}
-    /*TOpt*/double?
+    /*TOpt*/{{ index $bag.Main.Lang.BaseTypeMapping "decimal" }}?
 {{- else if ($bag.Main.IsTypeKindOf $bag.Type "boolean") -}}
-    /*TOpt*/bool?
+    /*TOpt*/{{ index $bag.Main.Lang.BaseTypeMapping "boolean" }}?
 {{- else -}}
     /*TOpt*/{{- $bag.Main.DoType $bag.Type -}}?
 {{- end -}}
