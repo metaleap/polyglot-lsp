@@ -17,7 +17,7 @@ func (it *GenLangCmd) ok() bool {
 	return it != nil && !it.Disabled
 }
 
-func (it *GenLangCmd) exec(gen *Gen, repl map[string]string) {
+func (it *GenLangCmd) exec(gen *Gen, repl map[string]string, dontPanic bool) {
 	if repl == nil {
 		repl = map[string]string{}
 	}
@@ -65,6 +65,10 @@ func (it *GenLangCmd) exec(gen *Gen, repl map[string]string) {
 		println(">>>", full_command)
 	}
 	if output, err := cmd.CombinedOutput(); err != nil {
-		panic(err.Error() + ":\n" + string(output))
+		if msg := err.Error() + ":\n" + string(output); dontPanic {
+			println(msg)
+		} else {
+			panic(msg)
+		}
 	}
 }

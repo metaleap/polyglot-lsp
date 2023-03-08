@@ -183,11 +183,11 @@ func (it *Gen) toCodeFile(buf *bytes.Buffer, fileName string) {
 
 	cmd_repl := map[string]string{"{file}": PathAbs(file_path)}
 	if it.Main.Lang.PostGenTools.Format.ok() && it.Main.Lang.PostGenTools.Format.PerFile {
-		it.Main.Lang.PostGenTools.Format.exec(it, cmd_repl)
+		it.Main.Lang.PostGenTools.Format.exec(it, cmd_repl, false)
 	}
 	for _, check := range it.Main.Lang.PostGenTools.Check {
 		if check.ok() && check.PerFile {
-			check.exec(it, cmd_repl)
+			check.exec(it, cmd_repl, false)
 		}
 	}
 }

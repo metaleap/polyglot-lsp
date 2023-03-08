@@ -55,8 +55,9 @@ type GenLang struct { // the contents of your lang_foo/lang_foo.json
 	PkgFile      string // eg "go.mod", "package.json" etc
 	SrcFileExt   string // eg ".go", ".cs" etc
 	PostGenTools struct {
-		Format *GenLangCmd  // eg "go fmt %in" etc
-		Check  []GenLangCmd // compiler, type-checker, parser or other linter. `%in` for absolute path of generated pkg-dir
+		Format  *GenLangCmd
+		Check   []GenLangCmd // compiler, type-checker, parser, linter, etc.
+		CleanUp []GenLangCmd
 	}
 	PostGenCleanUp                    []string // eg ["obj","bin"]
 	Dict                              map[string]string
@@ -92,26 +93,31 @@ func (it *Gen) Generate(source Source) {
 	var buf bytes.Buffer
 	it.genPkgFile(&buf)
 
-	it.conv()
+	it.genMainDecls()
 	for _, tmpl_name := range Dir(it.dirPathSrc, func(entry fs.DirEntry, _ string) (string, bool) {
 		name := entry.Name()
 		return strings.TrimSuffix(name, ".tmpl"), strings.HasPrefix(name, "decls_") && strings.HasSuffix(name, ".tmpl")
 	}) {
-		it.genMainDecls(&buf, tmpl_name)
+		it.genMainDeclsCodeFile(&buf, tmpl_name)
 	}
-	it.genNamedAnonDecls(&buf)
+	it.genNamedAnonDeclsCodeFile(&buf)
 
 	if it.Main.Lang.PostGenTools.Format.ok() && !it.Main.Lang.PostGenTools.Format.PerFile {
-		it.Main.Lang.PostGenTools.Format.exec(it, nil)
+		it.Main.Lang.PostGenTools.Format.exec(it, nil, false)
 	}
 	for _, check := range it.Main.Lang.PostGenTools.Check {
 		if check.ok() && !check.PerFile {
-			check.exec(it, nil)
+			check.exec(it, nil, false)
+		}
+	}
+	for _, cleanUp := range it.Main.Lang.PostGenTools.CleanUp {
+		if cleanUp.ok() && !cleanUp.PerFile {
+			cleanUp.exec(it, nil, true)
 		}
 	}
 }
 
-func (it *Gen) conv() {
+func (it *Gen) genMainDecls() {
 	it.Main.Decls.Enumerations = it.source.GenEnumerations(it)
 	it.Main.Decls.TypeAliases = it.source.GenTypeAliases(it)
 	it.Main.Decls.Structures = it.source.GenStructures(it)
@@ -138,13 +144,13 @@ func (it *Gen) conv() {
 	}
 }
 
-func (it *Gen) genMainDecls(buf *bytes.Buffer, tmplName string) {
+func (it *Gen) genMainDeclsCodeFile(buf *bytes.Buffer, tmplName string) {
 	tmpl := it.tmpl(tmplName, "", true)
 	it.tmplExec(buf, tmpl, nil)
 	it.toCodeFile(buf, tmplName)
 }
 
-func (it *Gen) genNamedAnonDecls(buf *bytes.Buffer) {
+func (it *Gen) genNamedAnonDeclsCodeFile(buf *bytes.Buffer) {
 	const tmpl_name = "decls"
 	if tmpl := it.tmpl(tmpl_name, "", false); tmpl != nil {
 		it.Main.Decls.NamedAnonDeclRenders = MapValues(it.tracked.namedAnonDeclRenders)

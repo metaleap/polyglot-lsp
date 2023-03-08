@@ -15,7 +15,7 @@
     "TypeRefRewrites": {
         "DocumentSelector": "DocumentFilter[]",
         "LSPArray": "LSPAny[]",
-        "LSPAny":"LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull"
+        "LSPAny": "LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull"
     },
     "Tmpls": {
         "doc_comments_link": "<c>{{index . 0}}</c>",
@@ -38,6 +38,12 @@
                 "Env": {
                     "DOTNET_CLI_TELEMETRY_OPTOUT": "1"
                 }
+            }
+        ],
+        "CleanUp": [
+            {
+                "Disabled": false,
+                "Cmd": "killall dotnet"
             }
         ]
     },
