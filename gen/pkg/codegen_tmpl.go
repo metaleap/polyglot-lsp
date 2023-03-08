@@ -42,8 +42,12 @@ func (it *GenMain) DoType(t GenType) string {
 }
 
 func (it *GenMain) DoTypeOptional(t GenType, optional bool) string {
+	return it.doTypeOptional(t, optional, false)
+}
+
+func (it *GenMain) doTypeOptional(t GenType, optional bool, forAlias bool) string {
 	if optional {
-		return it.doType(t, "type_Optional")
+		return it.doType(t, "type_Optional", forAlias)
 	}
 
 	switch t := t.(type) {
@@ -52,12 +56,15 @@ func (it *GenMain) DoTypeOptional(t GenType, optional bool) string {
 			return s
 		}
 		panic("(missing in " + it.gen.filePathLang + ": \"BaseTypeMapping\"{\"" + t.String() + "\":...})")
-	default:
-		return it.doType(t, "type_"+t.kind())
+	case GenTypeReference:
+		if forAlias {
+			return string(t)
+		}
 	}
+	return it.doType(t, "type_"+t.kind(), forAlias)
 }
 
-func (it *GenMain) doType(t GenType, tmplName string) (ret string) {
+func (it *GenMain) doType(t GenType, tmplName string, forAlias bool) (ret string) {
 	bag := struct {
 		Main         *GenMain
 		Type         GenType
@@ -72,13 +79,17 @@ func (it *GenMain) doType(t GenType, tmplName string) (ret string) {
 			ret = strings.ReplaceAll(ret, bag.TypeIdentGen, ident)
 		}
 		it.gen.tracked.namedAnonDeclRenders[ident] = ret
-		ret = it.doType(GenTypeReference(ident), "type_Reference")
+		if forAlias {
+			ret = ident
+		} else {
+			ret = it.doType(GenTypeReference(ident), "type_Reference", forAlias)
+		}
 	}
 	return
 }
 
 func (it *GenMain) DoTypeAlias(typeAliasName GenTypeReference) string {
-	return string(typeAliasName)
+	return it.doTypeOptional(it.gen.tracked.decls.typeAliases[string(typeAliasName)].Type, false, true)
 }
 
 func (it *GenMain) If(b bool, ifTrue any, ifFalse any) any { return If(b, ifTrue, ifFalse) }

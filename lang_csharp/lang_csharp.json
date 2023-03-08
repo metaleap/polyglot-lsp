@@ -39,5 +39,6 @@
     "PostGenCleanUp": [
         "obj",
         "bin"
-    ]
+    ],
+    "InlineTypeAliases": true
 }

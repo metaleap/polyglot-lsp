@@ -54,6 +54,7 @@ type GenLang struct { // the contents of your lang_foo/lang_foo.json
 	BaseTypeMapping                   map[string]string
 	Tmpls                             map[string]string
 	AllowLowerCaseGeneratedTypeIdents bool
+	InlineTypeAliases                 bool
 }
 
 type Source interface {
@@ -100,9 +101,9 @@ func (it *Gen) Generate(source Source) {
 	}
 }
 
-func (it *Gen) genMainDecls(buf *bytes.Buffer, fileName string, decls []any) {
+func (it *Gen) genMainDecls(buf *bytes.Buffer, tmplName string, decls []any) {
 	it.Main.Decls = decls
-	tmpl := it.tmpl(fileName, "")
+	tmpl := it.tmpl(tmplName, "")
 	for _, item := range it.Main.Decls {
 		switch decl := item.(type) {
 		case *GenEnumeration:
@@ -127,8 +128,11 @@ func (it *Gen) genMainDecls(buf *bytes.Buffer, fileName string, decls []any) {
 			panic(decl)
 		}
 	}
+	if tmplName == "decls_aliases" && it.Main.Lang.InlineTypeAliases {
+		return
+	}
 	it.tmplExec(buf, tmpl, nil)
-	it.toCodeFile(buf, fileName)
+	it.toCodeFile(buf, tmplName)
 }
 
 func (it *Gen) genNamedAnonDecls(buf *bytes.Buffer) {
