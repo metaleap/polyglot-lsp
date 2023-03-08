@@ -9,7 +9,7 @@
 {
     private {{ $ident }}() { }
 {{ range $member_types -}}
-    public record class With{{.NameSuggestion true}}({{ $bag.Main.DoTypeOptional . true }} {{.NameSuggestion true}}) : {{ $ident }};
+    public record class As{{.NameSuggestion true}}({{ $bag.Main.DoTypeOptional . true }} {{.NameSuggestion true}}) : {{ $ident }};
 {{ end -}}
 }
 {{- end -}}

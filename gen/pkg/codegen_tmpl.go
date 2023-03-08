@@ -77,6 +77,10 @@ func (it *GenMain) doType(t GenType, tmplName string) (ret string) {
 	return
 }
 
+func (it *GenMain) DoTypeAlias(typeAliasName GenTypeReference) string {
+	return string(typeAliasName)
+}
+
 func (it *GenMain) If(b bool, ifTrue any, ifFalse any) any { return If(b, ifTrue, ifFalse) }
 func (it *GenMain) Up0(s string) string                    { return Up0(s) }
 
