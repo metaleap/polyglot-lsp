@@ -2,8 +2,6 @@
 {{- $tyStr := printf "%s" $bag.Type -}}
 {{- if and ($bag.Main.IsEnumTypeName $tyStr) ($bag.Main.IsTypeKindOf $bag.Type "string") -}}
 /*{{- $bag.Type -}}*/string
-{{- else if ($bag.Main.IsAliasTypeName $tyStr) -}}
-{{- $bag.Main.DoTypeAlias $bag.Type -}}
 {{- else -}}
 {{- $bag.Type -}}
 {{- end -}}

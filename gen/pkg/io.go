@@ -18,13 +18,13 @@ func fsExists(path string, dir bool) bool {
 	return stat != nil && stat.IsDir() == dir
 }
 
-func Dir[T any](dirPath string, maybe func(entry fs.DirEntry, path string) (T, bool)) (ret []T) {
+func Dir[T any](dirPath string, ok func(entry fs.DirEntry, path string) (T, bool)) (ret []T) {
 	entries, err := os.ReadDir(dirPath)
 	if err != nil {
 		panic(err)
 	}
 	for _, entry := range entries {
-		if entry, ok := maybe(entry, dirPath+"/"+entry.Name()); ok {
+		if entry, ok := ok(entry, dirPath+"/"+entry.Name()); ok {
 			ret = append(ret, entry)
 		}
 	}

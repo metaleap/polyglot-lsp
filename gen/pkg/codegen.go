@@ -2,6 +2,7 @@ package glot
 
 import (
 	"bytes"
+	"io/fs"
 	"strings"
 )
 
@@ -9,6 +10,7 @@ type Gen struct {
 	LangIdent string  // eg. "go" or "cs"
 	Main      GenMain // root "dot" object given to templates `decls_*.tmpl` and `file_*.tmpl`
 
+	source       Source
 	dirPathLang  string // lang_foo
 	dirPathSrc   string // lang_foo/_gen
 	dirPathDst   string // lang_foo/{{.GenIdent}}_v{{.GenVer}}
@@ -29,13 +31,19 @@ type Gen struct {
 }
 
 type GenMain struct {
-	Lang         GenLang // the contents of your lang_foo/lang_foo.json
-	GenRepo      string
-	GenTitle     string
-	GenVer       string
-	GenIdent     string // aka "lsp" or "vsx"
-	PkgName      string // defaults to `GenIdent`
-	Decls        []any
+	Lang     GenLang // the contents of your lang_foo/lang_foo.json
+	GenRepo  string
+	GenTitle string
+	GenVer   string
+	GenIdent string // aka "lsp" or "vsx"
+	PkgName  string // defaults to `GenIdent`
+	Decl     struct {
+		Enums       []*GenEnumeration
+		TypeAliases []*GenAlias
+		Structures  []*GenStructure
+
+		NamedAnons []string
+	}
 	FileContents string
 
 	gen *Gen
@@ -54,7 +62,6 @@ type GenLang struct { // the contents of your lang_foo/lang_foo.json
 	BaseTypeMapping                   map[string]string
 	Tmpls                             map[string]string
 	AllowLowerCaseGeneratedTypeIdents bool
-	InlineTypeAliases                 bool
 }
 
 type Source interface {
@@ -64,7 +71,7 @@ type Source interface {
 }
 
 func (it *Gen) Generate(source Source) {
-	it.Main.gen = it
+	it.Main.gen, it.source = it, source
 	it.tracked.types, it.tracked.namedAnonDeclRenders, it.tracked.decls.enumerations, it.tracked.decls.structures, it.tracked.decls.typeAliases = map[string]GenType{}, map[string]string{}, map[string]*GenEnumeration{}, map[string]*GenStructure{}, map[string]*GenAlias{}
 	it.dirPathLang = "../lang_" + it.LangIdent
 	it.dirPathSrc = it.dirPathLang + "/_gen"
@@ -82,12 +89,13 @@ func (it *Gen) Generate(source Source) {
 
 	var buf bytes.Buffer
 	it.genPkgFile(&buf)
-	for _, decls_by_file_name := range []Tup[string, []any]{ // no map here because the ordering of these matters:
-		{"decls_enumerations", toAnys(source.GenEnumerations(it))},
-		{"decls_aliases", toAnys(source.GenTypeAliases(it))},
-		{"decls_structures", toAnys(source.GenStructures(it))},
-	} {
-		it.genMainDecls(&buf, decls_by_file_name.F1, decls_by_file_name.F2)
+
+	it.conv()
+	for _, tmpl_name := range Dir(it.dirPathSrc, func(entry fs.DirEntry, _ string) (string, bool) {
+		name := entry.Name()
+		return strings.TrimSuffix(name, ".tmpl"), strings.HasPrefix(name, "decls_") && strings.HasSuffix(name, ".tmpl")
+	}) {
+		it.genMainDecls(&buf, tmpl_name)
 	}
 	it.genNamedAnonDecls(&buf)
 
@@ -101,43 +109,42 @@ func (it *Gen) Generate(source Source) {
 	}
 }
 
-func (it *Gen) genMainDecls(buf *bytes.Buffer, tmplName string, decls []any) {
-	it.Main.Decls = decls
+func (it *Gen) conv() {
+	it.Main.Decl.Enums = it.source.GenEnumerations(it)
+	it.Main.Decl.TypeAliases = it.source.GenTypeAliases(it)
+	it.Main.Decl.Structures = it.source.GenStructures(it)
+	for _, decl := range it.Main.Decl.Enums {
+		it.tracked.decls.enumerations[decl.Name] = decl
+		it.tracked.decls.enumerations[decl.NameUp] = decl
+		it.EnsureTypeTracked(decl.Type)
+		ensureDocHintConstVal(decl.Enumerants, func(p GenEnumerant) any { return p.Value })
+	}
+	for _, decl := range it.Main.Decl.TypeAliases {
+		it.tracked.decls.typeAliases[decl.Name] = decl
+		it.tracked.decls.typeAliases[decl.NameUp] = decl
+		it.EnsureTypeTracked(decl.Type)
+		ensureDocHintUnionType(&decl.GenBase, decl.Type, "")
+	}
+	for _, decl := range it.Main.Decl.Structures {
+		it.tracked.decls.structures[decl.Name] = decl
+		it.tracked.decls.structures[decl.NameUp] = decl
+		it.EnsureTypeTracked(&decl.GenTypeStructure)
+		it.ensureTypesTracked(decl.Extends)
+		it.ensureTypesTracked(decl.Mixins)
+		ensureDocHintConstVal(decl.Properties, func(p GenStructureProperty) any { return p.ConstVal })
+		decl.ensureDocHintUnionType()
+	}
+}
+
+func (it *Gen) genMainDecls(buf *bytes.Buffer, tmplName string) {
 	tmpl := it.tmpl(tmplName, "")
-	for _, item := range it.Main.Decls {
-		switch decl := item.(type) {
-		case *GenEnumeration:
-			it.tracked.decls.enumerations[decl.Name] = decl
-			it.tracked.decls.enumerations[decl.NameUp] = decl
-			it.EnsureTypeTracked(decl.Type)
-			ensureDocHintConstVal(decl.Enumerants, func(p GenEnumerant) any { return p.Value })
-		case *GenAlias:
-			it.tracked.decls.typeAliases[decl.Name] = decl
-			it.tracked.decls.typeAliases[decl.NameUp] = decl
-			it.EnsureTypeTracked(decl.Type)
-			ensureDocHintUnionType(&decl.GenBase, decl.Type, "")
-		case *GenStructure:
-			it.tracked.decls.structures[decl.Name] = decl
-			it.tracked.decls.structures[decl.NameUp] = decl
-			it.EnsureTypeTracked(&decl.GenTypeStructure)
-			it.ensureTypesTracked(decl.Extends)
-			it.ensureTypesTracked(decl.Mixins)
-			ensureDocHintConstVal(decl.Properties, func(p GenStructureProperty) any { return p.ConstVal })
-			decl.ensureDocHintUnionType()
-		default:
-			panic(decl)
-		}
-	}
-	if tmplName == "decls_aliases" && it.Main.Lang.InlineTypeAliases {
-		return
-	}
 	it.tmplExec(buf, tmpl, nil)
 	it.toCodeFile(buf, tmplName)
 }
 
 func (it *Gen) genNamedAnonDecls(buf *bytes.Buffer) {
 	tmpl := it.tmpl("decls", "")
-	it.Main.Decls = toAnys(MapValues(it.tracked.namedAnonDeclRenders))
+	it.Main.Decl.NamedAnons = MapValues(it.tracked.namedAnonDeclRenders)
 	it.tmplExec(buf, tmpl, nil)
 	it.toCodeFile(buf, "decls")
 }
@@ -193,5 +200,3 @@ func ensureDocHintUnionType(base *GenBase, t GenType, prefix string) {
 		ensureDocHintUnionType(base, t.ElemType, "Every object in the array has ")
 	}
 }
-
-func toAnys[T any](items []T) []any { return Map(items, func(it T) any { return it }) }
