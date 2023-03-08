@@ -22,16 +22,60 @@ using Pattern = System.String;
 using LSPAny = LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull;
 
 
+/*TOr*/
+public class StringOrBoolean
+{
+    public  /*TOpt*/System.String? String;
+    public  /*TOpt*/System.Boolean? Boolean;
+}
+
 /*TStruc*/
-public class ValueSetFoldingRangeKinds
+public class ArrayNotebookCellArrayChangeWithDidOpenTextDocumentItemsWithDidCloseTextDocumentIdentifiers
 {
     /// <summary>
-    /// The folding range kind values the client supports. When this
-    /// property exists the client also guarantees that it will
-    /// handle values outside its set gracefully and falls back
-    /// to a default value when unknown.
+    /// The change to the cell array.
     /// </summary>
-    public /*TOpt*//*FoldingRangeKind*/string[] ValueSet;
+    public NotebookCellArrayChange Array;
+    /// <summary>
+    /// Additional opened cell text documents.
+    /// </summary>
+    public /*TOpt*/TextDocumentItem[] DidOpen;
+    /// <summary>
+    /// Additional closed cell text documents.
+    /// </summary>
+    public /*TOpt*/TextDocumentIdentifier[] DidClose;
+}
+
+
+/*TOr*/
+public class BooleanOrReferenceOptions
+{
+    public  /*TOpt*/System.Boolean? Boolean;
+    public  /*TOpt*/ReferenceOptions? ReferenceOptions;
+}
+
+/*TOr*/
+public class BooleanOrFoldingRangeOptionsOrFoldingRangeRegistrationOptions
+{
+    public  /*TOpt*/System.Boolean? Boolean;
+    public  /*TOpt*/FoldingRangeOptions? FoldingRangeOptions;
+    public  /*TOpt*/FoldingRangeRegistrationOptions? FoldingRangeRegistrationOptions;
+}
+
+/*TOr*/
+public class SemanticTokensOptionsOrSemanticTokensRegistrationOptions
+{
+    public  /*TOpt*/SemanticTokensOptions? SemanticTokensOptions;
+    public  /*TOpt*/SemanticTokensRegistrationOptions? SemanticTokensRegistrationOptions;
+}
+
+/*TStruc*/
+public class PropertiesStrings_
+{
+    /// <summary>
+    /// The properties that a client can resolve lazily.
+    /// </summary>
+    public System.String[] Properties;
 }
 
 
@@ -44,123 +88,59 @@ public class InlineValueTextOrInlineValueVariableLookupOrInlineValueEvaluatableE
 }
 
 /*TOr*/
-public class RangeOrRangeWithPlaceholderStringOrDefaultBehaviorBoolean
+public class BooleanOrImplementationOptionsOrImplementationRegistrationOptions
 {
-    public  /*TOpt*/Range? Range;
-    public  /*TOpt*/RangeWithPlaceholderString RangeWithPlaceholderString;
-    public  /*TOpt*/DefaultBehaviorBoolean DefaultBehaviorBoolean;
+    public  /*TOpt*/System.Boolean? Boolean;
+    public  /*TOpt*/ImplementationOptions? ImplementationOptions;
+    public  /*TOpt*/ImplementationRegistrationOptions? ImplementationRegistrationOptions;
 }
 
 /*TOr*/
-public class BooleanOrDocumentColorOptionsOrDocumentColorRegistrationOptions
+public class BooleanOrInlineValueOptionsOrInlineValueRegistrationOptions
 {
     public  /*TOpt*/System.Boolean? Boolean;
-    public  /*TOpt*/DocumentColorOptions? DocumentColorOptions;
-    public  /*TOpt*/DocumentColorRegistrationOptions? DocumentColorRegistrationOptions;
+    public  /*TOpt*/InlineValueOptions? InlineValueOptions;
+    public  /*TOpt*/InlineValueRegistrationOptions? InlineValueRegistrationOptions;
 }
 
-/*TTup*/
-public class UintegerWithUinteger
+/*TOr*/
+public class DiagnosticOptionsOrDiagnosticRegistrationOptions
 {
-    public System.UInt64 Uinteger0;
-    public System.UInt64 Uinteger1;
+    public  /*TOpt*/DiagnosticOptions? DiagnosticOptions;
+    public  /*TOpt*/DiagnosticRegistrationOptions? DiagnosticRegistrationOptions;
 }
 
+/*TOr*/
+public class BooleanOrDocumentSymbolOptions
+{
+    public  /*TOpt*/System.Boolean? Boolean;
+    public  /*TOpt*/DocumentSymbolOptions? DocumentSymbolOptions;
+}
+
+/*TOr*/
+public class BooleanOrWorkspaceSymbolOptions
+{
+    public  /*TOpt*/System.Boolean? Boolean;
+    public  /*TOpt*/WorkspaceSymbolOptions? WorkspaceSymbolOptions;
+}
+
+/*TOr*/
+public class StringOrNotebookDocumentFilter
+{
+    public  /*TOpt*/System.String? String;
+    public  /*TOpt*/NotebookDocumentFilter NotebookDocumentFilter;
+}
 
 /*TStruc*/
-public class ValueSetCompletionItemKinds
+public class ValueSetCodeActionKinds
 {
     /// <summary>
-    /// The completion item kind values the client supports. When this
+    /// The code action kind values the client supports. When this
     /// property exists the client also guarantees that it will
     /// handle values outside its set gracefully and falls back
     /// to a default value when unknown.
-    /// 
-    /// If this property is not present the client only supports
-    /// the completion items kinds from `Text` to `Reference` as defined in
-    /// the initial version of the protocol.
     /// </summary>
-    public /*TOpt*/CompletionItemKind[] ValueSet;
-}
-
-
-/*TStruc*/
-public class LabelOffsetSupportBoolean
-{
-    /// <summary>
-    /// The client supports processing label offsets instead of a
-    /// simple label string.
-    /// 
-    /// @since 3.14.0
-    /// </summary>
-    public /*TOpt*/System.Boolean? LabelOffsetSupport;
-}
-
-
-/*TStruc*/
-public class CancelBooleanWithRetryOnContentModifiedStrings
-{
-    /// <summary>
-    /// The client will actively cancel the request.
-    /// </summary>
-    public System.Boolean Cancel;
-    /// <summary>
-    /// The list of requests for which the client
-    /// will retry the request if it receives a
-    /// response with error code `ContentModified`
-    /// </summary>
-    public System.String[] RetryOnContentModified;
-}
-
-
-/*TStruc*/
-public class DeltaBoolean
-{
-    /// <summary>
-    /// The server supports deltas for full documents.
-    /// </summary>
-    public /*TOpt*/System.Boolean? Delta;
-}
-
-
-/*TOr*/
-public class BooleanOrCallHierarchyOptionsOrCallHierarchyRegistrationOptions
-{
-    public  /*TOpt*/System.Boolean? Boolean;
-    public  /*TOpt*/CallHierarchyOptions? CallHierarchyOptions;
-    public  /*TOpt*/CallHierarchyRegistrationOptions? CallHierarchyRegistrationOptions;
-}
-
-/*TStruc*/
-public class GroupsOnLabelBoolean
-{
-    /// <summary>
-    /// Whether the client groups edits with equal labels into tree nodes,
-    /// for instance all edits labelled with "Changes in Strings" would
-    /// be a tree node.
-    /// </summary>
-    public /*TOpt*/System.Boolean? GroupsOnLabel;
-}
-
-
-/*TOr*/
-public class BooleanOrDocumentRangeFormattingOptions
-{
-    public  /*TOpt*/System.Boolean? Boolean;
-    public  /*TOpt*/DocumentRangeFormattingOptions? DocumentRangeFormattingOptions;
-}
-
-/*TStruc*/
-public class LanguageString
-{
-    public System.String Language;
-}
-
-
-/*TStruc*/
-public class DefaultBehaviorBoolean
-{
-    public System.Boolean DefaultBehavior;
+    public /*CodeActionKind*/string[] ValueSet;
 }
 
 
@@ -172,57 +152,46 @@ public class LanguageStringWithValueString
 }
 
 
-/*TStruc*/
-public class NameStringWithVersionString
+/*TOr*/
+public class PatternOrRelativePattern
 {
-    /// <summary>
-    /// The name of the server as defined by the server.
-    /// </summary>
-    public System.String Name;
-    /// <summary>
-    /// The server's version as defined by the server.
-    /// </summary>
-    public /*TOpt*/System.String? Version;
+    public  /*TOpt*/System.String? Pattern;
+    public  /*TOpt*/RelativePattern? RelativePattern;
 }
-
 
 /*TOr*/
-public class TextEditOrInsertReplaceEdit
+public class NotebookDocumentSyncOptionsOrNotebookDocumentSyncRegistrationOptions
 {
-    public  /*TOpt*/TextEdit? TextEdit;
-    public  /*TOpt*/InsertReplaceEdit? InsertReplaceEdit;
+    public  /*TOpt*/NotebookDocumentSyncOptions? NotebookDocumentSyncOptions;
+    public  /*TOpt*/NotebookDocumentSyncRegistrationOptions? NotebookDocumentSyncRegistrationOptions;
 }
-
-/*TStruc*/
-public class UriDocumentUri
-{
-    public System.String Uri;
-}
-
 
 /*TOr*/
-public class BooleanOrDocumentSymbolOptions
+public class BooleanOrHoverOptions
 {
     public  /*TOpt*/System.Boolean? Boolean;
-    public  /*TOpt*/DocumentSymbolOptions? DocumentSymbolOptions;
+    public  /*TOpt*/HoverOptions? HoverOptions;
 }
 
 /*TStruc*/
-public class ItemDefaultsStrings
+public class CollapsedTextBoolean
 {
     /// <summary>
-    /// The client supports the following itemDefaults on
-    /// a completion list.
-    /// 
-    /// The value lists the supported property names of the
-    /// `CompletionList.itemDefaults` object. If omitted
-    /// no properties are supported.
+    /// If set, the client signals that it supports setting collapsedText on
+    /// folding ranges to display custom labels instead of the default text.
     /// 
     /// @since 3.17.0
     /// </summary>
-    public /*TOpt*/System.String[] ItemDefaults;
+    public /*TOpt*/System.Boolean? CollapsedText;
 }
 
+
+/*TOr*/
+public class BooleanOrCodeActionOptions
+{
+    public  /*TOpt*/System.Boolean? Boolean;
+    public  /*TOpt*/CodeActionOptions? CodeActionOptions;
+}
 
 /*TOr*/
 public class BooleanOrTypeHierarchyOptionsOrTypeHierarchyRegistrationOptions
@@ -250,122 +219,25 @@ public class WorkspaceFoldersWorkspaceFoldersServerCapabilitiesWithFileOperation
 }
 
 
-/*TOr*/
-public class WorkspaceFullDocumentDiagnosticReportOrWorkspaceUnchangedDocumentDiagnosticReport
-{
-    public  /*TOpt*/WorkspaceFullDocumentDiagnosticReport? WorkspaceFullDocumentDiagnosticReport;
-    public  /*TOpt*/WorkspaceUnchangedDocumentDiagnosticReport? WorkspaceUnchangedDocumentDiagnosticReport;
-}
-
-/*TOr*/
-public class MarkupContentOrMarkedStringOrMarkedStrings
-{
-    public  /*TOpt*/MarkupContent? MarkupContent;
-    public  /*TOpt*/MarkedString MarkedString;
-    public  /*TOpt*/MarkedString[] MarkedStrings;
-}
-
 /*TStruc*/
-public class DocumentVersionedTextDocumentIdentifierWithChangesTextDocumentContentChangeEvents
+public class ValueSetInsertTextModes
 {
-    public VersionedTextDocumentIdentifier Document;
-    public TextDocumentContentChangeEvent[] Changes;
-}
-
-
-/*TOr*/
-public class TextDocumentSyncOptionsOrTextDocumentSyncKind
-{
-    public  /*TOpt*/TextDocumentSyncOptions? TextDocumentSyncOptions;
-    public  /*TOpt*/TextDocumentSyncKind TextDocumentSyncKind;
-}
-
-/*TOr*/
-public class BooleanOrTypeDefinitionOptionsOrTypeDefinitionRegistrationOptions
-{
-    public  /*TOpt*/System.Boolean? Boolean;
-    public  /*TOpt*/TypeDefinitionOptions? TypeDefinitionOptions;
-    public  /*TOpt*/TypeDefinitionRegistrationOptions? TypeDefinitionRegistrationOptions;
-}
-
-/*TOr*/
-public class SemanticTokensOptionsOrSemanticTokensRegistrationOptions
-{
-    public  /*TOpt*/SemanticTokensOptions? SemanticTokensOptions;
-    public  /*TOpt*/SemanticTokensRegistrationOptions? SemanticTokensRegistrationOptions;
-}
-
-/*TStruc*/
-public class PropertiesStrings
-{
-    /// <summary>
-    /// The properties that a client can resolve lazily. Usually
-    /// `location.range`
-    /// </summary>
-    public System.String[] Properties;
+    public InsertTextMode[] ValueSet;
 }
 
 
 /*TStruc*/
-public class PropertiesStrings
+public class DefaultBehaviorBoolean
 {
-    /// <summary>
-    /// The properties that a client can resolve lazily.
-    /// </summary>
-    public System.String[] Properties;
+    public System.Boolean DefaultBehavior;
 }
 
 
 /*TOr*/
-public class BooleanOrLinkedEditingRangeOptionsOrLinkedEditingRangeRegistrationOptions
+public class StringOrInlayHintLabelParts
 {
-    public  /*TOpt*/System.Boolean? Boolean;
-    public  /*TOpt*/LinkedEditingRangeOptions? LinkedEditingRangeOptions;
-    public  /*TOpt*/LinkedEditingRangeRegistrationOptions? LinkedEditingRangeRegistrationOptions;
-}
-
-/*TStruc*/
-public class NotebookStringOrNotebookDocumentFilterWithCellsLanguageStrings
-{
-    /// <summary>
-    /// The notebook to be synced If a string
-    /// value is provided it matches against the
-    /// notebook type. '*' matches every notebook.
-    /// 
-    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-    /// </summary>
-    public /*TOpt*/StringOrNotebookDocumentFilter Notebook;
-    /// <summary>
-    /// The cells of the matching notebook to be synced.
-    /// </summary>
-    public /*TOpt*/LanguageString[] Cells;
-}
-
-
-/*TOr*/
-public class LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull
-{
-    public  /*TOpt*/LSPObject LSPObject;
-    public  /*TOpt*/LSPAny[] LSPArray;
     public  /*TOpt*/System.String? String;
-    public  /*TOpt*/System.Int64? Integer;
-    public  /*TOpt*/System.UInt64? Uinteger;
-    public  /*TOpt*/System.Double? Decimal;
-    public  /*TOpt*/System.Boolean? Boolean;
-}
-
-/*TOr*/
-public class PatternOrRelativePattern
-{
-    public  /*TOpt*/System.String? Pattern;
-    public  /*TOpt*/RelativePattern? RelativePattern;
-}
-
-/*TOr*/
-public class FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport
-{
-    public  /*TOpt*/FullDocumentDiagnosticReport? FullDocumentDiagnosticReport;
-    public  /*TOpt*/UnchangedDocumentDiagnosticReport? UnchangedDocumentDiagnosticReport;
+    public  /*TOpt*/InlayHintLabelPart[] InlayHintLabelParts;
 }
 
 /*TOr*/
@@ -396,45 +268,52 @@ public class StructureArrayNotebookCellArrayChangeWithDidOpenTextDocumentItemsWi
 
 
 /*TStruc*/
-public class NameStringWithVersionString
+public class ItemDefaultsStrings
 {
     /// <summary>
-    /// The name of the client as defined by the client.
-    /// </summary>
-    public System.String Name;
-    /// <summary>
-    /// The client's version as defined by the client.
-    /// </summary>
-    public /*TOpt*/System.String? Version;
-}
-
-
-/*TStruc*/
-public class ValueSetInsertTextModes
-{
-    public InsertTextMode[] ValueSet;
-}
-
-
-/*TStruc*/
-public class CollapsedTextBoolean
-{
-    /// <summary>
-    /// If set, the client signals that it supports setting collapsedText on
-    /// folding ranges to display custom labels instead of the default text.
+    /// The client supports the following itemDefaults on
+    /// a completion list.
+    /// 
+    /// The value lists the supported property names of the
+    /// `CompletionList.itemDefaults` object. If omitted
+    /// no properties are supported.
     /// 
     /// @since 3.17.0
     /// </summary>
-    public /*TOpt*/System.Boolean? CollapsedText;
+    public /*TOpt*/System.String[] ItemDefaults;
+}
+
+
+/*TStruc*/
+public class ValueSetFoldingRangeKinds
+{
+    /// <summary>
+    /// The folding range kind values the client supports. When this
+    /// property exists the client also guarantees that it will
+    /// handle values outside its set gracefully and falls back
+    /// to a default value when unknown.
+    /// </summary>
+    public /*TOpt*//*FoldingRangeKind*/string[] ValueSet;
 }
 
 
 /*TOr*/
-public class WorkspaceFolderOrURI
+public class BooleanOrDocumentFormattingOptions
 {
-    public  /*TOpt*/WorkspaceFolder? WorkspaceFolder;
-    public  /*TOpt*/System.String URI;
+    public  /*TOpt*/System.Boolean? Boolean;
+    public  /*TOpt*/DocumentFormattingOptions? DocumentFormattingOptions;
 }
+
+/*TStruc*/
+public class PropertiesStrings
+{
+    /// <summary>
+    /// The properties that a client can resolve lazily. Usually
+    /// `location.range`
+    /// </summary>
+    public System.String[] Properties;
+}
+
 
 /*TStruc*/
 public class SnippetSupportBooleanWithCommitCharactersSupportBooleanWithDocumentationFormatMarkupKindsWithDeprecatedSupportBooleanWithPreselectSupportBooleanWithTagSupportValueSetCompletionItemTagsWithInsertReplaceSupportBooleanWithResolveSupportPropertiesStringsWithInsertTextModeSupportValueSetInsertTextModesWithLabelDetailsSupportBoolean
@@ -507,18 +386,33 @@ public class SnippetSupportBooleanWithCommitCharactersSupportBooleanWithDocument
 }
 
 
-/*TOr*/
-public class StringOrInlayHintLabelParts
+/*TStruc*/
+public class CodeActionKindValueSetCodeActionKinds
 {
-    public  /*TOpt*/System.String? String;
-    public  /*TOpt*/InlayHintLabelPart[] InlayHintLabelParts;
+    /// <summary>
+    /// The code action kind is support with the following value
+    /// set.
+    /// </summary>
+    public ValueSetCodeActionKinds CodeActionKind;
+}
+
+
+/*TOr*/
+public class WorkspaceFullDocumentDiagnosticReportOrWorkspaceUnchangedDocumentDiagnosticReport
+{
+    public  /*TOpt*/WorkspaceFullDocumentDiagnosticReport? WorkspaceFullDocumentDiagnosticReport;
+    public  /*TOpt*/WorkspaceUnchangedDocumentDiagnosticReport? WorkspaceUnchangedDocumentDiagnosticReport;
 }
 
 /*TStruc*/
-public class InsertRangeWithReplaceRange
+public class ReasonString
 {
-    public Range Insert;
-    public Range Replace;
+    /// <summary>
+    /// Human readable description of why the code action is currently disabled.
+    /// 
+    /// This is displayed in the code actions UI.
+    /// </summary>
+    public System.String Reason;
 }
 
 
@@ -530,146 +424,58 @@ public class TextEditOrAnnotatedTextEdit
 }
 
 /*TStruc*/
-public class ArrayNotebookCellArrayChangeWithDidOpenTextDocumentItemsWithDidCloseTextDocumentIdentifiers
+public class NameStringWithVersionString_
 {
     /// <summary>
-    /// The change to the cell array.
+    /// The name of the client as defined by the client.
     /// </summary>
-    public NotebookCellArrayChange Array;
+    public System.String Name;
     /// <summary>
-    /// Additional opened cell text documents.
+    /// The client's version as defined by the client.
     /// </summary>
-    public /*TOpt*/TextDocumentItem[] DidOpen;
-    /// <summary>
-    /// Additional closed cell text documents.
-    /// </summary>
-    public /*TOpt*/TextDocumentIdentifier[] DidClose;
+    public /*TOpt*/System.String? Version;
 }
 
-
-/*TOr*/
-public class NotebookDocumentSyncOptionsOrNotebookDocumentSyncRegistrationOptions
-{
-    public  /*TOpt*/NotebookDocumentSyncOptions? NotebookDocumentSyncOptions;
-    public  /*TOpt*/NotebookDocumentSyncRegistrationOptions? NotebookDocumentSyncRegistrationOptions;
-}
-
-/*TOr*/
-public class BooleanOrDocumentFormattingOptions
-{
-    public  /*TOpt*/System.Boolean? Boolean;
-    public  /*TOpt*/DocumentFormattingOptions? DocumentFormattingOptions;
-}
 
 /*TStruc*/
-public class RangeBooleanOrAnyByStringWithFullBooleanOrDeltaBoolean
+public class RangeWithRangeLengthUintegerWithTextString
 {
     /// <summary>
-    /// The client will send the `textDocument/semanticTokens/range` request if
-    /// the server provides a corresponding handler.
-    /// 
-    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+    /// The range of the document that changed.
     /// </summary>
-    public /*TOpt*/BooleanOrAnyByString Range;
-    /// <summary>
-    /// The client will send the `textDocument/semanticTokens/full` request if
-    /// the server provides a corresponding handler.
-    /// 
-    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-    /// </summary>
-    public /*TOpt*/BooleanOrDeltaBoolean_ Full;
-}
-
-
-/*TOr*/
-public class BooleanOrDeltaBoolean
-{
-    public  /*TOpt*/System.Boolean? Boolean;
-    public  /*TOpt*/DeltaBoolean_ DeltaBoolean;
-}
-
-/*TOr*/
-public class RelatedFullDocumentDiagnosticReportOrRelatedUnchangedDocumentDiagnosticReport
-{
-    public  /*TOpt*/RelatedFullDocumentDiagnosticReport? RelatedFullDocumentDiagnosticReport;
-    public  /*TOpt*/RelatedUnchangedDocumentDiagnosticReport? RelatedUnchangedDocumentDiagnosticReport;
-}
-
-/*TStruc*/
-public class RangeWithPlaceholderString
-{
     public Range Range;
-    public System.String Placeholder;
+    /// <summary>
+    /// The optional length of the range that got replaced.
+    /// 
+    /// @deprecated use range instead.
+    /// </summary>
+    public /*TOpt*/System.UInt64? RangeLength;
+    /// <summary>
+    /// The new text for the provided range.
+    /// </summary>
+    public System.String Text;
 }
 
 
 /*TOr*/
-public class LocationOrUriDocumentUri
+public class StringOrMarkupContent
 {
-    public  /*TOpt*/Location? Location;
-    public  /*TOpt*/UriDocumentUri UriDocumentUri;
-}
-
-/*TOr*/
-public class BooleanOrInlineValueOptionsOrInlineValueRegistrationOptions
-{
-    public  /*TOpt*/System.Boolean? Boolean;
-    public  /*TOpt*/InlineValueOptions? InlineValueOptions;
-    public  /*TOpt*/InlineValueRegistrationOptions? InlineValueRegistrationOptions;
+    public  /*TOpt*/System.String? String;
+    public  /*TOpt*/MarkupContent? MarkupContent;
 }
 
 /*TStruc*/
-public class LabelDetailsSupportBoolean
+public class LabelOffsetSupportBoolean
 {
     /// <summary>
-    /// The server has support for completion item label
-    /// details (see also `CompletionItemLabelDetails`) when
-    /// receiving a completion item in a resolve call.
+    /// The client supports processing label offsets instead of a
+    /// simple label string.
     /// 
-    /// @since 3.17.0
+    /// @since 3.14.0
     /// </summary>
-    public /*TOpt*/System.Boolean? LabelDetailsSupport;
+    public /*TOpt*/System.Boolean? LabelOffsetSupport;
 }
 
-
-/*TStruc*/
-public class ValueSetSymbolKinds
-{
-    /// <summary>
-    /// The symbol kind values the client supports. When this
-    /// property exists the client also guarantees that it will
-    /// handle values outside its set gracefully and falls back
-    /// to a default value when unknown.
-    /// 
-    /// If this property is not present the client only supports
-    /// the symbol kinds from `File` to `Array` as defined in
-    /// the initial version of the protocol.
-    /// </summary>
-    public /*TOpt*/SymbolKind[] ValueSet;
-}
-
-
-/*TOr*/
-public class BooleanOrHoverOptions
-{
-    public  /*TOpt*/System.Boolean? Boolean;
-    public  /*TOpt*/HoverOptions? HoverOptions;
-}
-
-/*TOr*/
-public class BooleanOrMonikerOptionsOrMonikerRegistrationOptions
-{
-    public  /*TOpt*/System.Boolean? Boolean;
-    public  /*TOpt*/MonikerOptions? MonikerOptions;
-    public  /*TOpt*/MonikerRegistrationOptions? MonikerRegistrationOptions;
-}
-
-/*TOr*/
-public class DiagnosticOptionsOrDiagnosticRegistrationOptions
-{
-    public  /*TOpt*/DiagnosticOptions? DiagnosticOptions;
-    public  /*TOpt*/DiagnosticRegistrationOptions? DiagnosticRegistrationOptions;
-}
 
 /*TStruc*/
 public class DocumentationFormatMarkupKindsWithParameterInformationLabelOffsetSupportBooleanWithActiveParameterSupportBoolean
@@ -694,71 +500,81 @@ public class DocumentationFormatMarkupKindsWithParameterInformationLabelOffsetSu
 
 
 /*TOr*/
-public class StringOrLanguageStringWithValueString
+public class StringOrStrings
 {
     public  /*TOpt*/System.String? String;
-    public  /*TOpt*/LanguageStringWithValueString LanguageStringWithValueString;
+    public  /*TOpt*/System.String[] Strings;
 }
 
 /*TOr*/
-public class BooleanOrDefinitionOptions
+public class BooleanOrCallHierarchyOptionsOrCallHierarchyRegistrationOptions
 {
     public  /*TOpt*/System.Boolean? Boolean;
-    public  /*TOpt*/DefinitionOptions? DefinitionOptions;
+    public  /*TOpt*/CallHierarchyOptions? CallHierarchyOptions;
+    public  /*TOpt*/CallHierarchyRegistrationOptions? CallHierarchyRegistrationOptions;
 }
 
 /*TOr*/
-public class BooleanOrDocumentHighlightOptions
+public class BooleanOrLinkedEditingRangeOptionsOrLinkedEditingRangeRegistrationOptions
 {
     public  /*TOpt*/System.Boolean? Boolean;
-    public  /*TOpt*/DocumentHighlightOptions? DocumentHighlightOptions;
+    public  /*TOpt*/LinkedEditingRangeOptions? LinkedEditingRangeOptions;
+    public  /*TOpt*/LinkedEditingRangeRegistrationOptions? LinkedEditingRangeRegistrationOptions;
+}
+
+/*TOr*/
+public class BooleanOrMonikerOptionsOrMonikerRegistrationOptions
+{
+    public  /*TOpt*/System.Boolean? Boolean;
+    public  /*TOpt*/MonikerOptions? MonikerOptions;
+    public  /*TOpt*/MonikerRegistrationOptions? MonikerRegistrationOptions;
 }
 
 /*TStruc*/
-public class RangeWithRangeLengthUintegerWithTextString
+public class RangeWithPlaceholderString
 {
-    /// <summary>
-    /// The range of the document that changed.
-    /// </summary>
     public Range Range;
-    /// <summary>
-    /// The optional length of the range that got replaced.
-    /// 
-    /// @deprecated use range instead.
-    /// </summary>
-    public /*TOpt*/System.UInt64? RangeLength;
-    /// <summary>
-    /// The new text for the provided range.
-    /// </summary>
-    public System.String Text;
+    public System.String Placeholder;
 }
 
+
+/*TOr*/
+public class RangeOrRangeWithPlaceholderStringOrDefaultBehaviorBoolean
+{
+    public  /*TOpt*/Range? Range;
+    public  /*TOpt*/RangeWithPlaceholderString RangeWithPlaceholderString;
+    public  /*TOpt*/DefaultBehaviorBoolean DefaultBehaviorBoolean;
+}
+
+/*TOr*/
+public class IntegerOrString
+{
+    public  /*TOpt*/System.Int64? Integer;
+    public  /*TOpt*/System.String? String;
+}
+
+/*TOr*/
+public class TextDocumentFilterOrNotebookCellTextDocumentFilter
+{
+    public  /*TOpt*/TextDocumentFilter TextDocumentFilter;
+    public  /*TOpt*/NotebookCellTextDocumentFilter? NotebookCellTextDocumentFilter;
+}
 
 /*TStruc*/
-public class ReasonString
+public class CancelBooleanWithRetryOnContentModifiedStrings
 {
     /// <summary>
-    /// Human readable description of why the code action is currently disabled.
-    /// 
-    /// This is displayed in the code actions UI.
+    /// The client will actively cancel the request.
     /// </summary>
-    public System.String Reason;
+    public System.Boolean Cancel;
+    /// <summary>
+    /// The list of requests for which the client
+    /// will retry the request if it receives a
+    /// response with error code `ContentModified`
+    /// </summary>
+    public System.String[] RetryOnContentModified;
 }
 
-
-/*TOr*/
-public class BooleanOrReferenceOptions
-{
-    public  /*TOpt*/System.Boolean? Boolean;
-    public  /*TOpt*/ReferenceOptions? ReferenceOptions;
-}
-
-/*TOr*/
-public class BooleanOrWorkspaceSymbolOptions
-{
-    public  /*TOpt*/System.Boolean? Boolean;
-    public  /*TOpt*/WorkspaceSymbolOptions? WorkspaceSymbolOptions;
-}
 
 /*TOr*/
 public class BooleanOrSaveOptions
@@ -768,43 +584,41 @@ public class BooleanOrSaveOptions
 }
 
 /*TOr*/
-public class BooleanOrSelectionRangeOptionsOrSelectionRangeRegistrationOptions
+public class WorkspaceFolderOrURI
 {
-    public  /*TOpt*/System.Boolean? Boolean;
-    public  /*TOpt*/SelectionRangeOptions? SelectionRangeOptions;
-    public  /*TOpt*/SelectionRangeRegistrationOptions? SelectionRangeRegistrationOptions;
-}
-
-/*TOr*/
-public class BooleanOrInlayHintOptionsOrInlayHintRegistrationOptions
-{
-    public  /*TOpt*/System.Boolean? Boolean;
-    public  /*TOpt*/InlayHintOptions? InlayHintOptions;
-    public  /*TOpt*/InlayHintRegistrationOptions? InlayHintRegistrationOptions;
+    public  /*TOpt*/WorkspaceFolder? WorkspaceFolder;
+    public  /*TOpt*/System.String URI;
 }
 
 /*TStruc*/
-public class TextString
+public class ValueSetSymbolKinds
 {
     /// <summary>
-    /// The new text of the whole document.
+    /// The symbol kind values the client supports. When this
+    /// property exists the client also guarantees that it will
+    /// handle values outside its set gracefully and falls back
+    /// to a default value when unknown.
+    /// 
+    /// If this property is not present the client only supports
+    /// the symbol kinds from `File` to `Array` as defined in
+    /// the initial version of the protocol.
     /// </summary>
-    public System.String Text;
+    public /*TOpt*/SymbolKind[] ValueSet;
 }
 
 
 /*TOr*/
-public class RangeWithRangeLengthUintegerWithTextStringOrTextString
+public class LocationOrLocations
 {
-    public  /*TOpt*/RangeWithRangeLengthUintegerWithTextString RangeWithRangeLengthUintegerWithTextString;
-    public  /*TOpt*/TextString TextString;
+    public  /*TOpt*/Location? Location;
+    public  /*TOpt*/Location[] Locations;
 }
 
 /*TOr*/
-public class RangeOrInsertRangeWithReplaceRange
+public class FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport
 {
-    public  /*TOpt*/Range? Range;
-    public  /*TOpt*/InsertRangeWithReplaceRange InsertRangeWithReplaceRange;
+    public  /*TOpt*/FullDocumentDiagnosticReport? FullDocumentDiagnosticReport;
+    public  /*TOpt*/UnchangedDocumentDiagnosticReport? UnchangedDocumentDiagnosticReport;
 }
 
 /*TStruc*/
@@ -845,57 +659,35 @@ public class CommitCharactersStringsWithEditRangeRangeOrInsertRangeWithReplaceRa
 }
 
 
-/*TOr*/
-public class BooleanOrCodeActionOptions
-{
-    public  /*TOpt*/System.Boolean? Boolean;
-    public  /*TOpt*/CodeActionOptions? CodeActionOptions;
-}
-
-/*TOr*/
-public class BooleanOrRenameOptions
-{
-    public  /*TOpt*/System.Boolean? Boolean;
-    public  /*TOpt*/RenameOptions? RenameOptions;
-}
-
-/*TStruc*/
-public class ValueSetCodeActionKinds
-{
-    /// <summary>
-    /// The code action kind values the client supports. When this
-    /// property exists the client also guarantees that it will
-    /// handle values outside its set gracefully and falls back
-    /// to a default value when unknown.
-    /// </summary>
-    public /*CodeActionKind*/string[] ValueSet;
-}
-
-
-/*TOr*/
-public class StringOrUintegerWithUinteger
-{
-    public  /*TOpt*/System.String? String;
-    public  /*TOpt*/UintegerWithUinteger? UintegerWithUinteger;
-}
-
 /*TStruc*/
 public class DeltaBoolean
 {
     /// <summary>
-    /// The client will send the `textDocument/semanticTokens/full/delta` request if
-    /// the server provides a corresponding handler.
+    /// The server supports deltas for full documents.
     /// </summary>
     public /*TOpt*/System.Boolean? Delta;
 }
 
 
-/*TOr*/
-public class TextDocumentFilterOrNotebookCellTextDocumentFilter
+/*TStruc*/
+public class RangeBooleanOrAnyByStringWithFullBooleanOrDeltaBoolean
 {
-    public  /*TOpt*/TextDocumentFilter TextDocumentFilter;
-    public  /*TOpt*/NotebookCellTextDocumentFilter? NotebookCellTextDocumentFilter;
+    /// <summary>
+    /// The client will send the `textDocument/semanticTokens/range` request if
+    /// the server provides a corresponding handler.
+    /// 
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+    /// </summary>
+    public /*TOpt*/BooleanOrAnyByString Range;
+    /// <summary>
+    /// The client will send the `textDocument/semanticTokens/full` request if
+    /// the server provides a corresponding handler.
+    /// 
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+    /// </summary>
+    public /*TOpt*/BooleanOrDeltaBoolean_ Full;
 }
+
 
 /*TStruc*/
 public class NotebookTypeStringWithSchemeStringWithPatternString
@@ -915,45 +707,52 @@ public class NotebookTypeStringWithSchemeStringWithPatternString
 }
 
 
-/*TOr*/
-public class TextDocumentEditOrCreateFileOrRenameFileOrDeleteFile
+/*TStruc*/
+public class UriDocumentUri
 {
-    public  /*TOpt*/TextDocumentEdit? TextDocumentEdit;
-    public  /*TOpt*/CreateFile? CreateFile;
-    public  /*TOpt*/RenameFile? RenameFile;
-    public  /*TOpt*/DeleteFile? DeleteFile;
+    public System.String Uri;
 }
 
-/*TOr*/
-public class StringOrMarkupContent
-{
-    public  /*TOpt*/System.String? String;
-    public  /*TOpt*/MarkupContent? MarkupContent;
-}
 
 /*TOr*/
-public class StringOrNotebookDocumentFilter
+public class BooleanOrDocumentRangeFormattingOptions
 {
-    public  /*TOpt*/System.String? String;
-    public  /*TOpt*/NotebookDocumentFilter NotebookDocumentFilter;
-}
-
-/*TOr*/
-public class StringOrBoolean
-{
-    public  /*TOpt*/System.String? String;
     public  /*TOpt*/System.Boolean? Boolean;
+    public  /*TOpt*/DocumentRangeFormattingOptions? DocumentRangeFormattingOptions;
 }
 
 /*TStruc*/
-public class AdditionalPropertiesSupportBoolean
+public class LanguageString
+{
+    public System.String Language;
+}
+
+
+/*TStruc*/
+public class DocumentVersionedTextDocumentIdentifierWithChangesTextDocumentContentChangeEvents
+{
+    public VersionedTextDocumentIdentifier Document;
+    public TextDocumentContentChangeEvent[] Changes;
+}
+
+
+/*TOr*/
+public class BooleanOrTypeDefinitionOptionsOrTypeDefinitionRegistrationOptions
+{
+    public  /*TOpt*/System.Boolean? Boolean;
+    public  /*TOpt*/TypeDefinitionOptions? TypeDefinitionOptions;
+    public  /*TOpt*/TypeDefinitionRegistrationOptions? TypeDefinitionRegistrationOptions;
+}
+
+/*TStruc*/
+public class GroupsOnLabelBoolean
 {
     /// <summary>
-    /// Whether the client supports additional attributes which
-    /// are preserved and send back to the server in the
-    /// request's response.
+    /// Whether the client groups edits with equal labels into tree nodes,
+    /// for instance all edits labelled with "Changes in Strings" would
+    /// be a tree node.
     /// </summary>
-    public /*TOpt*/System.Boolean? AdditionalPropertiesSupport;
+    public /*TOpt*/System.Boolean? GroupsOnLabel;
 }
 
 
@@ -967,22 +766,80 @@ public class ValueSetSymbolTags
 }
 
 
+/*TOr*/
+public class RelatedFullDocumentDiagnosticReportOrRelatedUnchangedDocumentDiagnosticReport
+{
+    public  /*TOpt*/RelatedFullDocumentDiagnosticReport? RelatedFullDocumentDiagnosticReport;
+    public  /*TOpt*/RelatedUnchangedDocumentDiagnosticReport? RelatedUnchangedDocumentDiagnosticReport;
+}
+
 /*TStruc*/
-public class CodeActionKindValueSetCodeActionKinds
+public class NameStringWithVersionString
 {
     /// <summary>
-    /// The code action kind is support with the following value
-    /// set.
+    /// The name of the server as defined by the server.
     /// </summary>
-    public ValueSetCodeActionKinds CodeActionKind;
+    public System.String Name;
+    /// <summary>
+    /// The server's version as defined by the server.
+    /// </summary>
+    public /*TOpt*/System.String? Version;
 }
 
 
 /*TOr*/
-public class IntegerOrString
+public class TextEditOrInsertReplaceEdit
 {
-    public  /*TOpt*/System.Int64? Integer;
+    public  /*TOpt*/TextEdit? TextEdit;
+    public  /*TOpt*/InsertReplaceEdit? InsertReplaceEdit;
+}
+
+/*TStruc*/
+public class InsertRangeWithReplaceRange
+{
+    public Range Insert;
+    public Range Replace;
+}
+
+
+/*TOr*/
+public class LocationOrUriDocumentUri
+{
+    public  /*TOpt*/Location? Location;
+    public  /*TOpt*/UriDocumentUri UriDocumentUri;
+}
+
+/*TOr*/
+public class TextDocumentSyncOptionsOrTextDocumentSyncKind
+{
+    public  /*TOpt*/TextDocumentSyncOptions? TextDocumentSyncOptions;
+    public  /*TOpt*/TextDocumentSyncKind TextDocumentSyncKind;
+}
+
+/*TOr*/
+public class BooleanOrSelectionRangeOptionsOrSelectionRangeRegistrationOptions
+{
+    public  /*TOpt*/System.Boolean? Boolean;
+    public  /*TOpt*/SelectionRangeOptions? SelectionRangeOptions;
+    public  /*TOpt*/SelectionRangeRegistrationOptions? SelectionRangeRegistrationOptions;
+}
+
+/*TStruc*/
+public class DeltaBoolean_
+{
+    /// <summary>
+    /// The client will send the `textDocument/semanticTokens/full/delta` request if
+    /// the server provides a corresponding handler.
+    /// </summary>
+    public /*TOpt*/System.Boolean? Delta;
+}
+
+
+/*TOr*/
+public class StringOrLanguageStringWithValueString
+{
     public  /*TOpt*/System.String? String;
+    public  /*TOpt*/LanguageStringWithValueString LanguageStringWithValueString;
 }
 
 /*TStruc*/
@@ -1004,49 +861,29 @@ public class LanguageStringWithSchemeStringWithPatternString
 
 
 /*TOr*/
-public class StringOrStrings
-{
-    public  /*TOpt*/System.String? String;
-    public  /*TOpt*/System.String[] Strings;
-}
-
-/*TOr*/
 public class BooleanOrDeltaBoolean
 {
     public  /*TOpt*/System.Boolean? Boolean;
     public  /*TOpt*/DeltaBoolean DeltaBoolean;
 }
 
-/*TOr*/
-public class BooleanOrDeclarationOptionsOrDeclarationRegistrationOptions
+/*TStruc*/
+public class NotebookStringOrNotebookDocumentFilterWithCellsLanguageStrings
 {
-    public  /*TOpt*/System.Boolean? Boolean;
-    public  /*TOpt*/DeclarationOptions? DeclarationOptions;
-    public  /*TOpt*/DeclarationRegistrationOptions? DeclarationRegistrationOptions;
+    /// <summary>
+    /// The notebook to be synced If a string
+    /// value is provided it matches against the
+    /// notebook type. '*' matches every notebook.
+    /// 
+    /// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
+    /// </summary>
+    public /*TOpt*/StringOrNotebookDocumentFilter Notebook;
+    /// <summary>
+    /// The cells of the matching notebook to be synced.
+    /// </summary>
+    public /*TOpt*/LanguageString[] Cells;
 }
 
-/*TOr*/
-public class BooleanOrFoldingRangeOptionsOrFoldingRangeRegistrationOptions
-{
-    public  /*TOpt*/System.Boolean? Boolean;
-    public  /*TOpt*/FoldingRangeOptions? FoldingRangeOptions;
-    public  /*TOpt*/FoldingRangeRegistrationOptions? FoldingRangeRegistrationOptions;
-}
-
-/*TOr*/
-public class LocationOrLocations
-{
-    public  /*TOpt*/Location? Location;
-    public  /*TOpt*/Location[] Locations;
-}
-
-/*TOr*/
-public class BooleanOrImplementationOptionsOrImplementationRegistrationOptions
-{
-    public  /*TOpt*/System.Boolean? Boolean;
-    public  /*TOpt*/ImplementationOptions? ImplementationOptions;
-    public  /*TOpt*/ImplementationRegistrationOptions? ImplementationRegistrationOptions;
-}
 
 /*TStruc*/
 public class ValueSetCompletionItemTags
@@ -1057,6 +894,169 @@ public class ValueSetCompletionItemTags
     public CompletionItemTag[] ValueSet;
 }
 
+
+/*TStruc*/
+public class ValueSetCompletionItemKinds
+{
+    /// <summary>
+    /// The completion item kind values the client supports. When this
+    /// property exists the client also guarantees that it will
+    /// handle values outside its set gracefully and falls back
+    /// to a default value when unknown.
+    /// 
+    /// If this property is not present the client only supports
+    /// the completion items kinds from `Text` to `Reference` as defined in
+    /// the initial version of the protocol.
+    /// </summary>
+    public /*TOpt*/CompletionItemKind[] ValueSet;
+}
+
+
+/*TOr*/
+public class LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull
+{
+    public  /*TOpt*/LSPObject LSPObject;
+    public  /*TOpt*/LSPAny[] LSPArray;
+    public  /*TOpt*/System.String? String;
+    public  /*TOpt*/System.Int64? Integer;
+    public  /*TOpt*/System.UInt64? Uinteger;
+    public  /*TOpt*/System.Double? Decimal;
+    public  /*TOpt*/System.Boolean? Boolean;
+}
+
+/*TOr*/
+public class RangeOrInsertRangeWithReplaceRange
+{
+    public  /*TOpt*/Range? Range;
+    public  /*TOpt*/InsertRangeWithReplaceRange InsertRangeWithReplaceRange;
+}
+
+/*TOr*/
+public class BooleanOrDefinitionOptions
+{
+    public  /*TOpt*/System.Boolean? Boolean;
+    public  /*TOpt*/DefinitionOptions? DefinitionOptions;
+}
+
+/*TOr*/
+public class BooleanOrDocumentHighlightOptions
+{
+    public  /*TOpt*/System.Boolean? Boolean;
+    public  /*TOpt*/DocumentHighlightOptions? DocumentHighlightOptions;
+}
+
+/*TOr*/
+public class RangeWithRangeLengthUintegerWithTextStringOrTextString
+{
+    public  /*TOpt*/RangeWithRangeLengthUintegerWithTextString RangeWithRangeLengthUintegerWithTextString;
+    public  /*TOpt*/TextString TextString;
+}
+
+/*TOr*/
+public class MarkupContentOrMarkedStringOrMarkedStrings
+{
+    public  /*TOpt*/MarkupContent? MarkupContent;
+    public  /*TOpt*/MarkedString MarkedString;
+    public  /*TOpt*/MarkedString[] MarkedStrings;
+}
+
+/*TOr*/
+public class BooleanOrRenameOptions
+{
+    public  /*TOpt*/System.Boolean? Boolean;
+    public  /*TOpt*/RenameOptions? RenameOptions;
+}
+
+/*TOr*/
+public class StringOrUintegerWithUinteger
+{
+    public  /*TOpt*/System.String? String;
+    public  /*TOpt*/UintegerWithUinteger? UintegerWithUinteger;
+}
+
+/*TStruc*/
+public class AdditionalPropertiesSupportBoolean
+{
+    /// <summary>
+    /// Whether the client supports additional attributes which
+    /// are preserved and send back to the server in the
+    /// request's response.
+    /// </summary>
+    public /*TOpt*/System.Boolean? AdditionalPropertiesSupport;
+}
+
+
+/*TOr*/
+public class BooleanOrDeclarationOptionsOrDeclarationRegistrationOptions
+{
+    public  /*TOpt*/System.Boolean? Boolean;
+    public  /*TOpt*/DeclarationOptions? DeclarationOptions;
+    public  /*TOpt*/DeclarationRegistrationOptions? DeclarationRegistrationOptions;
+}
+
+/*TOr*/
+public class BooleanOrInlayHintOptionsOrInlayHintRegistrationOptions
+{
+    public  /*TOpt*/System.Boolean? Boolean;
+    public  /*TOpt*/InlayHintOptions? InlayHintOptions;
+    public  /*TOpt*/InlayHintRegistrationOptions? InlayHintRegistrationOptions;
+}
+
+/*TStruc*/
+public class LabelDetailsSupportBoolean
+{
+    /// <summary>
+    /// The server has support for completion item label
+    /// details (see also `CompletionItemLabelDetails`) when
+    /// receiving a completion item in a resolve call.
+    /// 
+    /// @since 3.17.0
+    /// </summary>
+    public /*TOpt*/System.Boolean? LabelDetailsSupport;
+}
+
+
+/*TTup*/
+public class UintegerWithUinteger
+{
+    public System.UInt64 Uinteger0;
+    public System.UInt64 Uinteger1;
+}
+
+
+/*TOr*/
+public class BooleanOrDeltaBoolean_
+{
+    public  /*TOpt*/System.Boolean? Boolean;
+    public  /*TOpt*/DeltaBoolean_ DeltaBoolean;
+}
+
+/*TStruc*/
+public class TextString
+{
+    /// <summary>
+    /// The new text of the whole document.
+    /// </summary>
+    public System.String Text;
+}
+
+
+/*TOr*/
+public class TextDocumentEditOrCreateFileOrRenameFileOrDeleteFile
+{
+    public  /*TOpt*/TextDocumentEdit? TextDocumentEdit;
+    public  /*TOpt*/CreateFile? CreateFile;
+    public  /*TOpt*/RenameFile? RenameFile;
+    public  /*TOpt*/DeleteFile? DeleteFile;
+}
+
+/*TOr*/
+public class BooleanOrDocumentColorOptionsOrDocumentColorRegistrationOptions
+{
+    public  /*TOpt*/System.Boolean? Boolean;
+    public  /*TOpt*/DocumentColorOptions? DocumentColorOptions;
+    public  /*TOpt*/DocumentColorRegistrationOptions? DocumentColorRegistrationOptions;
+}
 
 /*TStruc*/
 public class ValueSetDiagnosticTags

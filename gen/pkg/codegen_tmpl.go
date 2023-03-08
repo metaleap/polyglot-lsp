@@ -28,13 +28,13 @@ func (it *GenBase) DoDocComments(root *GenMain) string {
 					link_strs = append(link_strs, link_strs[0][idx_space+1:])
 					link_strs[0] = link_strs[0][:idx_space]
 				}
-				rendered := root.gen.tmplExec(nil, root.gen.tmpl("doc_comments_link", "`{{index . 0}}`"), link_strs)
+				rendered := root.gen.tmplExec(nil, root.gen.tmpl("doc_comments_link", "`{{index . 0}}`", false), link_strs)
 				doc_lines[i] = doc_line[:idx1] + If(rendered == "", link_strs[0], rendered) + doc_line[idx2+idx1+1:]
 				doc_line = doc_lines[i]
 			}
 		}
 	}
-	return root.gen.tmplExec(nil, root.gen.tmpl("doc_comments", ""), doc_lines)
+	return root.gen.tmplExec(nil, root.gen.tmpl("doc_comments", "", true), doc_lines)
 }
 
 func (it *GenMain) DoType(t GenType) string {
@@ -63,13 +63,15 @@ func (it *GenMain) doType(t GenType, tmplName string) (ret string) {
 		TypeIdentGen string
 	}{it, t, "__TypeIdentGen__" + strconv.FormatInt(time.Now().UnixNano(), 36) + "__"}
 
-	tmpl := it.gen.tmpl(tmplName, "")
+	tmpl := it.gen.tmpl(tmplName, "", true)
 	if ret = it.gen.tmplExec(nil, tmpl, bag); strings.Contains(ret, bag.TypeIdentGen) {
 		ident := t.NameSuggestion(!it.Lang.AllowLowerCaseGeneratedTypeIdents)
-		for ret = strings.ReplaceAll(ret, bag.TypeIdentGen, ident); it.gen.tracked.namedAnonDeclRenders[ident] != "" && it.gen.tracked.namedAnonDeclRenders[ident] != ret; {
+		ret_new := strings.ReplaceAll(ret, bag.TypeIdentGen, ident)
+		for it.gen.tracked.namedAnonDeclRenders[ident] != "" && it.gen.tracked.namedAnonDeclRenders[ident] != ret_new {
 			ident = ident + "_"
-			ret = strings.ReplaceAll(ret, bag.TypeIdentGen, ident)
+			ret_new = strings.ReplaceAll(ret, bag.TypeIdentGen, ident)
 		}
+		ret = ret_new
 		it.gen.tracked.namedAnonDeclRenders[ident] = ret
 		t = GenTypeReference(ident)
 		ret = it.doType(t, "type_Reference")
@@ -131,15 +133,15 @@ func (it *GenMain) IsTypeKindOf(t GenType, s string) (ret bool) {
 	return
 }
 
-func (it *Gen) tmpl(tmplName string, fallbackSrc string) (ret *template.Template) {
-	ret, _ = it.tmplSrc(tmplName, fallbackSrc)
+func (it *Gen) tmpl(tmplName string, fallbackSrc string, must bool) (ret *template.Template) {
+	ret, _ = it.tmplSrc(tmplName, fallbackSrc, must)
 	return
 }
 
-func (it *Gen) tmplSrc(tmplName string, fallbackSrc string) (*template.Template, string) {
+func (it *Gen) tmplSrc(tmplName string, fallbackSrc string, must bool) (*template.Template, string) {
 	file_path := it.dirPathSrc + "/" + tmplName + ".tmpl"
-	tup := tmpls[file_path]
-	if tup.Tmpl == nil {
+	tup, got := tmpls[file_path]
+	if !got {
 		if alt_src := it.Main.Lang.Tmpls[tmplName]; alt_src != "" {
 			fallbackSrc = alt_src
 		}
@@ -148,7 +150,7 @@ func (it *Gen) tmplSrc(tmplName string, fallbackSrc string) (*template.Template,
 		}
 		if tup.Src != "" {
 			tup.Tmpl = template.Must(template.New(tmplName).Parse(tup.Src))
-		} else {
+		} else if must {
 			panic("template '" + tmplName + "' missing: add file '" + it.dirPathSrc + "/" + tmplName + ".tmpl' or add entry Tmpls/" + tmplName + " to " + it.filePathLang)
 		}
 		tmpls[file_path] = tup
@@ -191,7 +193,7 @@ func (it *Gen) toCodeFile(buf *bytes.Buffer, fileName string) {
 }
 
 func (it *Gen) toOutputFile(buf *bytes.Buffer, tmplName string, fileName string) (filePath string) {
-	tmpl := it.tmpl(tmplName, "")
+	tmpl := it.tmpl(tmplName, "", true)
 	it.tmplExec(buf, tmpl, nil)
 	filePath = it.dirPathDst + "/" + fileName
 	FileWrite(filePath, []byte(it.Main.FileContents))

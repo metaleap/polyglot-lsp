@@ -12,8 +12,9 @@ type URI = String
 
 // URL is a convenience `url.Parse(string(it))` call that returns `nil` on error.
 // If you do need the `error`, just use the original `url.Parse` directly.
-func (it URI) URL() (ret *url.URL) {
-    ret, _ = url.Parse(string(it))
+func (it *URI) URL() (ret *url.URL) {
+	if it.IsNone() { return nil }
+    ret, _ = url.Parse(string(*it))
     return
 }
 

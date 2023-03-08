@@ -15,7 +15,8 @@ type Gen struct {
 	dirPathSrc   string // lang_foo/_gen
 	dirPathDst   string // lang_foo/{{.GenIdent}}_v{{.GenVer}}
 	filePathLang string // lang_foo/lang_foo.json
-	tracked      struct {
+
+	tracked struct {
 		types                map[string]GenType
 		namedAnonDeclRenders map[string]string
 		decls                struct {
@@ -138,23 +139,26 @@ func (it *Gen) conv() {
 }
 
 func (it *Gen) genMainDecls(buf *bytes.Buffer, tmplName string) {
-	tmpl := it.tmpl(tmplName, "")
+	tmpl := it.tmpl(tmplName, "", true)
 	it.tmplExec(buf, tmpl, nil)
 	it.toCodeFile(buf, tmplName)
 }
 
 func (it *Gen) genNamedAnonDecls(buf *bytes.Buffer) {
-	it.Main.Decls.NamedAnonDeclRenders = MapValues(it.tracked.namedAnonDeclRenders)
-	tmpl := it.tmpl("decls", "")
-	it.tmplExec(buf, tmpl, nil)
-	it.toCodeFile(buf, "decls")
+	const tmpl_name = "decls"
+	if tmpl := it.tmpl(tmpl_name, "", false); tmpl != nil {
+		it.Main.Decls.NamedAnonDeclRenders = MapValues(it.tracked.namedAnonDeclRenders)
+		it.tmplExec(buf, tmpl, nil)
+		it.toCodeFile(buf, tmpl_name)
+	}
 }
 
 func (it *Gen) genPkgFile(buf *bytes.Buffer) {
-	tmpl := it.tmpl("file_pkg", "")
-	it.tmplExec(buf, tmpl, nil)
-	file_path := it.toOutputFile(buf, "file_pkg", it.Main.Lang.PkgFile)
-	it.tracked.filesGenerated.other = append(it.tracked.filesGenerated.other, file_path)
+	if tmpl := it.tmpl("file_pkg", "", false); tmpl != nil {
+		it.tmplExec(buf, tmpl, nil)
+		file_path := it.toOutputFile(buf, "file_pkg", it.Main.Lang.PkgFile)
+		it.tracked.filesGenerated.other = append(it.tracked.filesGenerated.other, file_path)
+	}
 }
 
 func (it *Gen) postGenCleanUp() {
