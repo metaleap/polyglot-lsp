@@ -3,7 +3,7 @@ package main
 import (
 	"strings"
 
-	glot "polyglot-vsx-and-lsp/pkg"
+	glot "polyglot-lsp/pkg"
 )
 
 func generate(metaModel *MetaModel, ver string, lang string) {
@@ -11,7 +11,7 @@ func generate(metaModel *MetaModel, ver string, lang string) {
 		GenTitle: "Language Server Protocol (LSP)",
 		GenIdent: "lsp",
 		GenVer:   ver,
-		GenRepo:  "github.com/metaleap/polyglot-vsx-and-lsp/gen/cmd/gen_lsp",
+		GenRepo:  "github.com/metaleap/polyglot-lsp/gen/cmd/gen_lsp",
 	}}
 	gen.Generate(metaModel)
 }

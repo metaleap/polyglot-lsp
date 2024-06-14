@@ -1,4 +1,4 @@
-// Language Server Protocol (LSP) v3.17 SDK for Go: auto-generated via github.com/metaleap/polyglot-vsx-and-lsp/gen/cmd/gen_lsp
+// Language Server Protocol (LSP) v3.17 SDK for Go: auto-generated via github.com/metaleap/polyglot-lsp/gen/cmd/gen_lsp
 package lsp
 
 // A set of predefined token types. This set is not fixed
@@ -300,7 +300,7 @@ const LSPErrorCodesServerCancelled LSPErrorCodes = -32802
 // The value is always -32801.
 const LSPErrorCodesContentModified LSPErrorCodes = -32801
 
-// The client has canceled a request and a server as detected
+// The client has canceled a request and a server has detected
 // the cancel.
 // The value is always -32800.
 const LSPErrorCodesRequestCancelled LSPErrorCodes = -32800
@@ -622,7 +622,13 @@ const MessageTypeInfo MessageType = 3
 // The value is always 4.
 const MessageTypeLog MessageType = 4
 
-// String returns "" or "Error" or "Warning" or "Info" or "Log", depending on the value of `it`.
+// A debug message.
+//
+// @since 3.18.0
+// The value is always 5.
+const MessageTypeDebug MessageType = 5
+
+// String returns "" or "Error" or "Warning" or "Info" or "Log" or "Debug", depending on the value of `it`.
 func (it MessageType) String() string {
 	switch it {
 	case MessageTypeError:
@@ -633,6 +639,8 @@ func (it MessageType) String() string {
 		return "Info"
 	case MessageTypeLog:
 		return "Log"
+	case MessageTypeDebug:
+		return "Debug"
 	}
 	return ""
 }
@@ -1098,7 +1106,7 @@ func (it MarkupKind) String() string {
 // @since 3.17.0
 type PositionEncodingKind string
 
-// Character offsets count UTF-8 code units.
+// Character offsets count UTF-8 code units (e.g. bytes).
 // The value is always "utf-8".
 const PositionEncodingKindUTF8 PositionEncodingKind = "utf-8"
 
@@ -1111,7 +1119,7 @@ const PositionEncodingKindUTF16 PositionEncodingKind = "utf-16"
 
 // Character offsets count UTF-32 code units.
 //
-// Implementation note: these are the same as Unicode code points,
+// Implementation note: these are the same as Unicode codepoints,
 // so this `PositionEncodingKind` may also be used for an
 // encoding-agnostic representation of character offsets.
 // The value is always "utf-32".

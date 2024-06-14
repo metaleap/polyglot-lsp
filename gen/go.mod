@@ -1,4 +1,4 @@
-module polyglot-vsx-and-lsp
+module polyglot-lsp
 
 go 1.20
 

@@ -1,4 +1,4 @@
-// Language Server Protocol (LSP) v3.17 SDK for Go: auto-generated via github.com/metaleap/polyglot-vsx-and-lsp/gen/cmd/gen_lsp
+// Language Server Protocol (LSP) v3.17 SDK for Go: auto-generated via github.com/metaleap/polyglot-lsp/gen/cmd/gen_lsp
 package lsp
 
 type ImplementationParams struct {
@@ -344,14 +344,14 @@ type SemanticTokensRangeParams struct {
 	Range Range
 }
 
-// Params to show a document.
+// Params to show a resource in the UI.
 //
 // @since 3.16.0
 type ShowDocumentParams struct {
-	// The document uri to show.
+	// The uri to show.
 	Uri URI
 	// Indicates to show the resource in an external program.
-	// To show for example `https://code.visualstudio.com/`
+	// To show, for example, `https://code.visualstudio.com/`
 	// in the default WEB browser set `external` to `true`.
 	External/*TOpt*/ *Boolean
 	// An optional property to indicate whether the editor
@@ -603,6 +603,9 @@ type InlayHintParams struct {
 // @since 3.17.0
 type InlayHint struct {
 	// The position of this hint.
+	//
+	// If multiple hints have the same position, they will be shown in the order
+	// they appear in the response.
 	Position Position
 	// The label of this hint. A human readable string or an array of
 	// InlayHintLabelPart label parts.
@@ -1502,8 +1505,7 @@ type CodeLens struct {
 	// The command this code lens represents.
 	Command/*TOpt*/ *Command
 	// A data entry field that is preserved on a code lens item between
-	// a `CodeLensRequest` and a [CodeLensResolveRequest]
-	// (#CodeLensResolveRequest)
+	// a `CodeLensRequest` and a `CodeLensResolveRequest`
 	Data/*TOpt*/ LSPAny
 }
 
@@ -1527,7 +1529,7 @@ type DocumentLink struct {
 	// The range this link applies to.
 	Range Range
 	// The uri this link points to. If missing a resolve request is sent later.
-	Target/*TOpt*/ *String
+	Target/*TOpt*/ *URI
 	// The tooltip text when you hover over this link.
 	//
 	// If a tooltip is provided, is will be displayed in a string that includes instructions on how to
@@ -1838,7 +1840,7 @@ type WorkspaceFoldersChangeEvent struct {
 
 type ConfigurationItem struct {
 	// The scope to get the configuration section for.
-	ScopeUri/*TOpt*/ *String
+	ScopeUri/*TOpt*/ *URI
 	// The configuration section asked for.
 	Section/*TOpt*/ *String
 }
@@ -1880,14 +1882,14 @@ type DeclarationOptions struct {
 // offset of b is 3 since `𐐀` is represented using two code units in UTF-16.
 // Since 3.17 clients and servers can agree on a different string encoding
 // representation (e.g. UTF-8). The client announces it's supported encoding
-// via the client capability [`general.positionEncodings`](#clientCapabilities).
+// via the client capability [`general.positionEncodings`](https://microsoft.github.io/language-server-protocol/specifications/specification-current/#clientCapabilities).
 // The value is an array of position encodings the client supports, with
 // decreasing preference (e.g. the encoding at index `0` is the most preferred
 // one). To stay backwards compatible the only mandatory encoding is UTF-16
 // represented via the string `utf-16`. The server can pick one of the
 // encodings offered by the client and signals that encoding back to the
 // client via the initialize result's property
-// [`capabilities.positionEncoding`](#serverCapabilities). If the string value
+// [`capabilities.positionEncoding`](https://microsoft.github.io/language-server-protocol/specifications/specification-current/#serverCapabilities). If the string value
 // `utf-16` is missing from the client's capability `general.positionEncodings`
 // servers can safely assume that the client supports UTF-16. If the server
 // omits the position encoding in its initialize result the encoding defaults

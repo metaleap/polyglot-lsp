@@ -1,4 +1,4 @@
-/// <summary>Language Server Protocol (LSP) v3.17 SDK for C#: auto-generated via github.com/metaleap/polyglot-vsx-and-lsp/gen/cmd/gen_lsp</summary>
+/// <summary>Language Server Protocol (LSP) v3.17 SDK for C#: auto-generated via github.com/metaleap/polyglot-lsp/gen/cmd/gen_lsp</summary>
 namespace lsp;
 
 using Definition = LocationOrLocations;
@@ -271,7 +271,7 @@ public enum LSPErrorCodes
     /// </summary>
     ContentModified = -32801,
     /// <summary>
-    /// The client has canceled a request and a server as detected
+    /// The client has canceled a request and a server has detected
     /// the cancel.
     /// The value is always -32800. 
     /// </summary>
@@ -528,6 +528,13 @@ public enum MessageType
     /// The value is always 4. 
     /// </summary>
     Log = 4,
+    /// <summary>
+    /// A debug message.
+    /// 
+    /// @since 3.18.0
+    /// The value is always 5. 
+    /// </summary>
+    Debug = 5,
 }
 
 /// <summary>
@@ -909,7 +916,7 @@ public static class MarkupKind
 public static class PositionEncodingKind
 {
     /// <summary>
-    /// Character offsets count UTF-8 code units.
+    /// Character offsets count UTF-8 code units (e.g. bytes).
     /// The value is always "utf-8". 
     /// </summary>
     public static readonly string UTF8 = "utf-8";
@@ -924,7 +931,7 @@ public static class PositionEncodingKind
     /// <summary>
     /// Character offsets count UTF-32 code units.
     /// 
-    /// Implementation note: these are the same as Unicode code points,
+    /// Implementation note: these are the same as Unicode codepoints,
     /// so this `PositionEncodingKind` may also be used for an
     /// encoding-agnostic representation of character offsets.
     /// The value is always "utf-32". 

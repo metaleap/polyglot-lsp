@@ -1,4 +1,4 @@
-/// <summary>Language Server Protocol (LSP) v3.17 SDK for C#: auto-generated via github.com/metaleap/polyglot-vsx-and-lsp/gen/cmd/gen_lsp</summary>
+/// <summary>Language Server Protocol (LSP) v3.17 SDK for C#: auto-generated via github.com/metaleap/polyglot-lsp/gen/cmd/gen_lsp</summary>
 namespace lsp;
 
 using Definition = LocationOrLocations;
@@ -553,19 +553,19 @@ public class SemanticTokensRangeParams
 }
 
 /// <summary>
-/// Params to show a document.
+/// Params to show a resource in the UI.
 /// 
 /// @since 3.16.0
 /// </summary>
 public class ShowDocumentParams
 {
     /// <summary>
-    /// The document uri to show.
+    /// The uri to show.
     /// </summary>
     public System.String Uri;
     /// <summary>
     /// Indicates to show the resource in an external program.
-    /// To show for example `https://code.visualstudio.com/`
+    /// To show, for example, `https://code.visualstudio.com/`
     /// in the default WEB browser set `external` to `true`.
     /// </summary>
     public /*TOpt*/System.Boolean? External;
@@ -926,6 +926,9 @@ public class InlayHint
 {
     /// <summary>
     /// The position of this hint.
+    /// 
+    /// If multiple hints have the same position, they will be shown in the order
+    /// they appear in the response.
     /// </summary>
     public Position Position;
     /// <summary>
@@ -2155,8 +2158,7 @@ public class CodeLens
     public /*TOpt*/Command? Command;
     /// <summary>
     /// A data entry field that is preserved on a code lens item between
-    /// a <c>CodeLensRequest</c> and a [CodeLensResolveRequest]
-    /// (#CodeLensResolveRequest)
+    /// a <c>CodeLensRequest</c> and a <c>CodeLensResolveRequest</c>
     /// </summary>
     public /*TOpt*/LSPObjectOrLSPArrayOrStringOrIntegerOrUintegerOrDecimalOrBooleanOrNull Data;
 }
@@ -2196,7 +2198,7 @@ public class DocumentLink
     /// <summary>
     /// The uri this link points to. If missing a resolve request is sent later.
     /// </summary>
-    public /*TOpt*/System.String? Target;
+    public /*TOpt*/System.String Target;
     /// <summary>
     /// The tooltip text when you hover over this link.
     /// 
@@ -2667,7 +2669,7 @@ public class ConfigurationItem
     /// <summary>
     /// The scope to get the configuration section for.
     /// </summary>
-    public /*TOpt*/System.String? ScopeUri;
+    public /*TOpt*/System.String ScopeUri;
     /// <summary>
     /// The configuration section asked for.
     /// </summary>
@@ -2731,14 +2733,14 @@ public class DeclarationOptions
 /// offset of b is 3 since `𐐀` is represented using two code units in UTF-16.
 /// Since 3.17 clients and servers can agree on a different string encoding
 /// representation (e.g. UTF-8). The client announces it's supported encoding
-/// via the client capability [`general.positionEncodings`](#clientCapabilities).
+/// via the client capability [`general.positionEncodings`](https://microsoft.github.io/language-server-protocol/specifications/specification-current/#clientCapabilities).
 /// The value is an array of position encodings the client supports, with
 /// decreasing preference (e.g. the encoding at index `0` is the most preferred
 /// one). To stay backwards compatible the only mandatory encoding is UTF-16
 /// represented via the string `utf-16`. The server can pick one of the
 /// encodings offered by the client and signals that encoding back to the
 /// client via the initialize result's property
-/// [`capabilities.positionEncoding`](#serverCapabilities). If the string value
+/// [`capabilities.positionEncoding`](https://microsoft.github.io/language-server-protocol/specifications/specification-current/#serverCapabilities). If the string value
 /// `utf-16` is missing from the client's capability `general.positionEncodings`
 /// servers can safely assume that the client supports UTF-16. If the server
 /// omits the position encoding in its initialize result the encoding defaults

@@ -36,7 +36,7 @@ type GenMain struct {
 	GenRepo  string
 	GenTitle string
 	GenVer   string
-	GenIdent string // aka "lsp" or "vsx"
+	GenIdent string // for now, only "lsp"
 	PkgName  string // defaults to `GenIdent`
 	Decls    struct {
 		Enumerations []*GenEnumeration

@@ -6,9 +6,9 @@
         "**/.hg/store/**": true,
         "lang_*/**/*": true
     },
-    "search.exclude": {
-        "lang_*/**/*": true
-    },
+    // "search.exclude": {
+    //     "lang_*/**/*": true
+    // },
     "files.exclude": {
         "**/.git": true,
         "**/.svn": true,
@@ -16,6 +16,6 @@
         "**/CVS": true,
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
-        "lang_*": true
+        "lang_*": false
     }
 }

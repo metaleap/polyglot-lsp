@@ -5,7 +5,7 @@ import (
 	"errors"
 	"strconv"
 
-	glot "polyglot-vsx-and-lsp/pkg"
+	glot "polyglot-lsp/pkg"
 )
 
 type MetaModel struct {

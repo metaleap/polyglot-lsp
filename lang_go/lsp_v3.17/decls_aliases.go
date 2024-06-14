@@ -1,4 +1,4 @@
-// Language Server Protocol (LSP) v3.17 SDK for Go: auto-generated via github.com/metaleap/polyglot-vsx-and-lsp/gen/cmd/gen_lsp
+// Language Server Protocol (LSP) v3.17 SDK for Go: auto-generated via github.com/metaleap/polyglot-lsp/gen/cmd/gen_lsp
 package lsp
 
 // The definition of a symbol represented as one or many `Location`.
@@ -217,7 +217,7 @@ type TextDocumentFilter /*TStruc*/ struct {
 	Language/*TOpt*/ *String
 	// A Uri `Uri.scheme`, like `file` or `untitled`.
 	Scheme/*TOpt*/ *String
-	// A glob pattern, like `*.{ts,js}`.
+	// A glob pattern, like **​/*.{ts,js}. See TextDocumentFilter for examples.
 	Pattern/*TOpt*/ *String
 }
 

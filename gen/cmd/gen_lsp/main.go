@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	glot "polyglot-vsx-and-lsp/pkg"
+	glot "polyglot-lsp/pkg"
 )
 
 func main() {

@@ -2,7 +2,7 @@
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <AssemblyTitle>Language Server Protocol (LSP) v3.17 SDK for C#</AssemblyTitle>
-        <AssemblyDescription>Language Server Protocol (LSP) v3.17 SDK for C#: auto-generated via github.com/metaleap/polyglot-vsx-and-lsp/gen/cmd/gen_lsp</AssemblyDescription>
+        <AssemblyDescription>Language Server Protocol (LSP) v3.17 SDK for C#: auto-generated via github.com/metaleap/polyglot-lsp/gen/cmd/gen_lsp</AssemblyDescription>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 </Project>

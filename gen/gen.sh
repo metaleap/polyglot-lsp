@@ -1,2 +1,2 @@
-# usage:   `./gen.sh lsp`   or   `./gen.sh vsx`
+# usage:   `./gen.sh lsp`
 go run ./cmd/gen_$1

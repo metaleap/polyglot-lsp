@@ -6,7 +6,7 @@ import (
 	"os"
 	"testing"
 
-	glot "polyglot-vsx-and-lsp/pkg"
+	glot "polyglot-lsp/pkg"
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
