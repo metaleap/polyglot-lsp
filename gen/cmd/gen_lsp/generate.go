@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"strings"
 
 	glot "polyglot-lsp/pkg"
@@ -14,6 +15,17 @@ func generate(metaModel *MetaModel, ver string, lang string) {
 		GenRepo:  "github.com/metaleap/polyglot-lsp/gen/cmd/gen_lsp",
 	}}
 	gen.Generate(metaModel)
+
+	for _, notif := range metaModel.Notifications {
+		src, _ := json.Marshal(notif)
+		println("\n\n\n\n", string(src))
+	}
+
+	for _, notif := range metaModel.Requests {
+		src, _ := json.Marshal(notif)
+		println("\n\n\n\n", string(src))
+	}
+
 }
 
 func (*MetaModel) toGenBase(it *MMBase) glot.GenBase {

@@ -68,19 +68,19 @@ type MMNotification struct {
 }
 
 type MMMessageBase struct {
-	MessageDirection    MMNotificationMessageDirection `json:"messageDirection"`
-	Method              string                         `json:"method,omitempty"`
-	Params              MMTypes                        `json:"params,omitempty"`
-	RegistrationMethod  string                         `json:"registrationMethod,omitempty"`
-	RegistrationOptions *MMType                        `json:"registrationOptions,omitempty"`
+	MessageDirection    MMMessageDirection `json:"messageDirection"`
+	Method              string             `json:"method,omitempty"`
+	Params              MMTypes            `json:"params,omitempty"`
+	RegistrationMethod  string             `json:"registrationMethod,omitempty"`
+	RegistrationOptions *MMType            `json:"registrationOptions,omitempty"`
 }
 
-type MMNotificationMessageDirection string
+type MMMessageDirection string
 
 const (
-	MMNotificationMessageDirectionBoth           MMNotificationMessageDirection = "both"
-	MMNotificationMessageDirectionClientToServer MMNotificationMessageDirection = "clientToServer"
-	MMNotificationMessageDirectionServerToClient MMNotificationMessageDirection = "serverToClient"
+	MMMessageDirectionBoth           MMMessageDirection = "both"
+	MMMessageDirectionClientToServer MMMessageDirection = "clientToServer"
+	MMMessageDirectionServerToClient MMMessageDirection = "serverToClient"
 )
 
 type MMRequest struct {

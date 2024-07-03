@@ -1,2 +1,1 @@
-# usage:   `./gen.sh lsp`
-go run ./cmd/gen_$1
+go run ./cmd/gen_lsp

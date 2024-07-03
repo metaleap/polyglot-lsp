@@ -3,3 +3,5 @@ go 1.22
 use ./gen
 
 use ./lang_go/lsp_v3.17
+
+use ./dummy

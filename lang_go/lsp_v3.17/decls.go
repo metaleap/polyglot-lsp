@@ -1,7 +1,15 @@
 // Language Server Protocol (LSP) v3.17 SDK for Go: auto-generated via github.com/metaleap/polyglot-lsp/gen/cmd/gen_lsp
 package lsp
 
-import "net/url"
+import (
+	"bufio"
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"net/url"
+	"os"
+	"strconv"
+)
 
 type DocumentURI = URI
 type URI = String
@@ -136,4 +144,75 @@ func (it *Boolean) IfNil(ifNil bool) bool {
 		return ifNil
 	}
 	return bool(*it)
+}
+
+type Server struct {
+	stdout  *bufio.Writer
+	waiters map[string]func()
+}
+
+type jsonRpcError struct {
+	Code    int    `json:"code"`
+	Message string `json:"message"`
+}
+
+func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
+	raw := map[string]any{}
+	if err := json.Unmarshal(jsonRpcMsg, &raw); err != nil {
+		return &jsonRpcError{Code: -32700, Message: err.Error()}
+	}
+	msg_id, msg_method, msg_err_code := fmt.Sprintf("%v", raw["id"]), raw["method"], raw["code"]
+
+	if msg_err_code != nil { // received an error Response
+		println(string(jsonRpcMsg))
+		return nil
+	}
+
+	if msg_method != nil { // msg is an incoming Request or Notification
+
+	} else { // msg is an incoming Response
+		handler := it.waiters[msg_id]
+		delete(it.waiters, msg_id)
+		go handler()
+	}
+
+	return nil
+}
+
+func (it *Server) Serve() error {
+	const buf_cap = 1024 * 1024
+
+	it.stdout = bufio.NewWriterSize(os.Stdout, buf_cap)
+	it.waiters = map[string]func(){}
+
+	stdin := bufio.NewScanner(os.Stdin)
+	stdin.Buffer(make([]byte, buf_cap), buf_cap)
+	stdin.Split(func(data []byte, ateof bool) (advance int, token []byte, err error) {
+		if i_cl1 := bytes.Index(data, []byte("Content-Length: ")); i_cl1 >= 0 {
+			datafromclen := data[i_cl1+16:]
+			if i_cl2 := bytes.IndexAny(datafromclen, "\r\n"); i_cl2 > 0 {
+				if clen, e := strconv.Atoi(string(datafromclen[:i_cl2])); e != nil {
+					err = e
+				} else if i_js1 := bytes.Index(datafromclen, []byte("{\"")); i_js1 > i_cl2 {
+					if i_js2 := i_js1 + clen; len(datafromclen) >= i_js2 {
+						advance = i_cl1 + 16 + i_js2
+						token = datafromclen[i_js1:i_js2]
+					}
+				}
+			}
+		}
+		return
+	})
+
+	for stdin.Scan() {
+		err := it.handleIncoming(stdin.Bytes())
+		if err != nil {
+			err_json, _ := json.Marshal(err)
+			_, _ = it.stdout.WriteString("Content-Length: ")
+			_, _ = it.stdout.WriteString(strconv.Itoa(len(err_json)))
+			_, _ = it.stdout.WriteString("\r\n\r\n")
+			_, _ = it.stdout.Write(err_json)
+		}
+	}
+	return stdin.Err()
 }
