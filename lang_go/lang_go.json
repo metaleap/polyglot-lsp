@@ -1,4 +1,5 @@
 {
+    "Disabled": false,
     "DisplayName": "Go",
     "PkgFile": "go.mod",
     "SrcFileExt": ".go",
