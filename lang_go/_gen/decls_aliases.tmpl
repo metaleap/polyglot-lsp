@@ -15,7 +15,7 @@ type {{ $alias.Name }} = Decimal
 {{ else if ($main.IsTypeKindOf $alias.Type "boolean") -}}
 type {{ $alias.Name }} = Boolean
 {{ else if or ($main.IsTypeKindOfStructure $alias.Type) ($main.IsTypeKindOfOr $alias.Type) -}}
-type {{ $alias.Name }} {{ $main.DoType $alias.Type }}
+type {{ $alias.Name }} {{if eq $alias.Name "LSPAny"}}= any{{else}}{{ $main.DoType $alias.Type }}{{end}}
 {{ else -}}
 type {{ $alias.Name }} = {{ $main.DoType $alias.Type }}
 {{ end -}}

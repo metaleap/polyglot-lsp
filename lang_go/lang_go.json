@@ -17,7 +17,7 @@
         "type_Array": "[]{{.Main.DoType .Type.ElemType}}",
         "type_Map": "map[{{.Main.DoType .Type.KeyType}}]{{.Main.DoType .Type.ValueType}}"
     },
-    "Dict": {},
+    "Dict": { },
     "PostGenTools": {
         "Format": {
             "Disabled": false,
@@ -36,6 +36,7 @@
                 "Cmd": "go vet -C {dir}",
                 "Env": {
                     "GOCACHE": "{user_home_dir}/.cache/go-build",
+                    "GODEBUG": "gotypesalias=1",
                     "GO111MODULE": "off"
                 }
             }

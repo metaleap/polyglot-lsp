@@ -1,3 +1,4 @@
+
 import (
 	"bufio"
 	"bytes"
@@ -136,7 +137,7 @@ type Server struct {
 	{{- range $msg.DocLines }}
 	// {{ . }}
 	{{- end }}
-	On_{{ $msg.MethodNameSafe }} func()
+	On_{{ $msg.MethodNameSafe }} func({{ if $msg.HasUnaryParamsTypeName }}params *{{ $msg.UnaryParamsTypeName }}{{ end }}) (any, error)
 	{{ end -}}
 	{{- end -}}
 
@@ -159,21 +160,39 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 		return nil
 	}
 
-	if msg_method != nil { // msg is an incoming Request or Notification
+	switch msg_method, _ := msg_method.(string); msg_method {
+	case "":  // msg is an incoming Response
+		handler := it.waiters[msg_id]
+		delete(it.waiters, msg_id)
+		go handler()
+	default: // msg is an incoming Request or Notification
 		{{- range $main.Decls.Extras -}}
 		{{- $msg := . }}
 		/* {{ $msg.Method }} */
 		{{- end -}}
-	} else { // msg is an incoming Response
-		handler := it.waiters[msg_id]
-		delete(it.waiters, msg_id)
-		go handler()
 	}
 
 	return nil
 }
 
-func (it *Server) Serve() error {
+func (it *Server) sendErrMsg(err any) {
+	if err == nil {
+		return
+	}
+	var json_rpc_err_msg *jsonRpcError
+	if json_rpc_err_msg, _ = err.(*jsonRpcError); json_rpc_err_msg == nil {
+		json_rpc_err_msg = &jsonRpcError{ Code: -32603, Message: fmt.Sprintf("%v", err) }
+	}
+	err_json,_ := json.Marshal(json_rpc_err_msg)
+	_, _ = it.stdout.WriteString("Content-Length: ")
+	_, _ = it.stdout.WriteString(strconv.Itoa(len(err_json)))
+	_, _ = it.stdout.WriteString("\r\n\r\n")
+	_, _ = it.stdout.Write(err_json)
+}
+
+// ServeForever keeps reading and handling LSP JSON-RPC messages incoming over `os.Stdin`
+// until reading from `os.Stdin` fails, then returns that IO read error.
+func (it *Server) ServeForever() error {
 	const buf_cap = 1024 * 1024
 
 	it.stdout = bufio.NewWriterSize(os.Stdout, buf_cap)
@@ -201,11 +220,7 @@ func (it *Server) Serve() error {
 	for stdin.Scan() {
 		err := it.handleIncoming(stdin.Bytes())
 		if err != nil {
-			err_json,_ := json.Marshal(err)
-			_, _ = it.stdout.WriteString("Content-Length: ")
-			_, _ = it.stdout.WriteString(strconv.Itoa(len(err_json)))
-			_, _ = it.stdout.WriteString("\r\n\r\n")
-			_, _ = it.stdout.Write(err_json)
+			it.sendErrMsg(err)
 		}
 	}
 	return stdin.Err()

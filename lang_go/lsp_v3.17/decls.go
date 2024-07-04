@@ -152,61 +152,61 @@ type Server struct {
 
 	// The `workspace/didChangeWorkspaceFolders` notification is sent from the client to the server when the workspace
 	// folder configuration changes.
-	On_workspace_didChangeWorkspaceFolders func()
+	On_workspace_didChangeWorkspaceFolders func(params *DidChangeWorkspaceFoldersParams) (any, error)
 
 	// The `window/workDoneProgress/cancel` notification is sent from  the client to the server to cancel a progress
 	// initiated on the server side.
-	On_window_workDoneProgress_cancel func()
+	On_window_workDoneProgress_cancel func(params *WorkDoneProgressCancelParams) (any, error)
 
 	// The did create files notification is sent from the client to the server when
 	// files were created from within the client.
 	//
 	// @since 3.16.0
-	On_workspace_didCreateFiles func()
+	On_workspace_didCreateFiles func(params *CreateFilesParams) (any, error)
 
 	// The did rename files notification is sent from the client to the server when
 	// files were renamed from within the client.
 	//
 	// @since 3.16.0
-	On_workspace_didRenameFiles func()
+	On_workspace_didRenameFiles func(params *RenameFilesParams) (any, error)
 
 	// The will delete files request is sent from the client to the server before files are actually
 	// deleted as long as the deletion is triggered from within the client.
 	//
 	// @since 3.16.0
-	On_workspace_didDeleteFiles func()
+	On_workspace_didDeleteFiles func(params *DeleteFilesParams) (any, error)
 
 	// A notification sent when a notebook opens.
 	//
 	// @since 3.17.0
-	On_notebookDocument_didOpen func()
+	On_notebookDocument_didOpen func(params *DidOpenNotebookDocumentParams) (any, error)
 
 	//
-	On_notebookDocument_didChange func()
+	On_notebookDocument_didChange func(params *DidChangeNotebookDocumentParams) (any, error)
 
 	// A notification sent when a notebook document is saved.
 	//
 	// @since 3.17.0
-	On_notebookDocument_didSave func()
+	On_notebookDocument_didSave func(params *DidSaveNotebookDocumentParams) (any, error)
 
 	// A notification sent when a notebook closes.
 	//
 	// @since 3.17.0
-	On_notebookDocument_didClose func()
+	On_notebookDocument_didClose func(params *DidCloseNotebookDocumentParams) (any, error)
 
 	// The initialized notification is sent from the client to the
 	// server after the client is fully initialized and the server
 	// is allowed to send requests from the server to the client.
-	On_initialized func()
+	On_initialized func(params *InitializedParams) (any, error)
 
 	// The exit event is sent from the client to the server to
 	// ask the server to exit its process.
-	On_exit func()
+	On_exit func() (any, error)
 
 	// The configuration change notification is sent from the client to the server
 	// when the client's configuration has changed. The notification contains
 	// the changed configuration as defined by the language client.
-	On_workspace_didChangeConfiguration func()
+	On_workspace_didChangeConfiguration func(params *DidChangeConfigurationParams) (any, error)
 
 	// The document open notification is sent from the client to the server to signal
 	// newly opened text documents. The document's truth is now managed by the client
@@ -216,11 +216,11 @@ type Server struct {
 	// be sent more than once without a corresponding close notification send before.
 	// This means open and close notification must be balanced and the max open count
 	// is one.
-	On_textDocument_didOpen func()
+	On_textDocument_didOpen func(params *DidOpenTextDocumentParams) (any, error)
 
 	// The document change notification is sent from the client to the server to signal
 	// changes to a text document.
-	On_textDocument_didChange func()
+	On_textDocument_didChange func(params *DidChangeTextDocumentParams) (any, error)
 
 	// The document close notification is sent from the client to the server when
 	// the document got closed in the client. The document's truth now exists where
@@ -229,98 +229,98 @@ type Server struct {
 	// is about managing the document's content. Receiving a close notification
 	// doesn't mean that the document was open in an editor before. A close
 	// notification requires a previous open notification to be sent.
-	On_textDocument_didClose func()
+	On_textDocument_didClose func(params *DidCloseTextDocumentParams) (any, error)
 
 	// The document save notification is sent from the client to the server when
 	// the document got saved in the client.
-	On_textDocument_didSave func()
+	On_textDocument_didSave func(params *DidSaveTextDocumentParams) (any, error)
 
 	// A document will save notification is sent from the client to the server before
 	// the document is actually saved.
-	On_textDocument_willSave func()
+	On_textDocument_willSave func(params *WillSaveTextDocumentParams) (any, error)
 
 	// The watched files notification is sent from the client to the server when
 	// the client detects changes to file watched by the language client.
-	On_workspace_didChangeWatchedFiles func()
+	On_workspace_didChangeWatchedFiles func(params *DidChangeWatchedFilesParams) (any, error)
 
 	//
-	On___setTrace func()
+	On___setTrace func(params *SetTraceParams) (any, error)
 
 	//
-	On___cancelRequest func()
+	On___cancelRequest func(params *CancelParams) (any, error)
 
 	//
-	On___progress func()
+	On___progress func(params *ProgressParams) (any, error)
 
 	// A request to resolve the implementation locations of a symbol at a given text
 	// document position. The request's parameter is of type {@link TextDocumentPositionParams}
 	// the response is of type {@link Definition} or a Thenable that resolves to such.
-	On_textDocument_implementation func()
+	On_textDocument_implementation func(params *ImplementationParams) (any, error)
 
 	// A request to resolve the type definition locations of a symbol at a given text
 	// document position. The request's parameter is of type {@link TextDocumentPositionParams}
 	// the response is of type {@link Definition} or a Thenable that resolves to such.
-	On_textDocument_typeDefinition func()
+	On_textDocument_typeDefinition func(params *TypeDefinitionParams) (any, error)
 
 	// A request to list all color symbols found in a given text document. The request's
 	// parameter is of type {@link DocumentColorParams} the
 	// response is of type {@link ColorInformation ColorInformation[]} or a Thenable
 	// that resolves to such.
-	On_textDocument_documentColor func()
+	On_textDocument_documentColor func(params *DocumentColorParams) (any, error)
 
 	// A request to list all presentation for a color. The request's
 	// parameter is of type {@link ColorPresentationParams} the
 	// response is of type {@link ColorInformation ColorInformation[]} or a Thenable
 	// that resolves to such.
-	On_textDocument_colorPresentation func()
+	On_textDocument_colorPresentation func(params *ColorPresentationParams) (any, error)
 
 	// A request to provide folding ranges in a document. The request's
 	// parameter is of type {@link FoldingRangeParams}, the
 	// response is of type {@link FoldingRangeList} or a Thenable
 	// that resolves to such.
-	On_textDocument_foldingRange func()
+	On_textDocument_foldingRange func(params *FoldingRangeParams) (any, error)
 
 	// A request to resolve the type definition locations of a symbol at a given text
 	// document position. The request's parameter is of type {@link TextDocumentPositionParams}
 	// the response is of type {@link Declaration} or a typed array of {@link DeclarationLink}
 	// or a Thenable that resolves to such.
-	On_textDocument_declaration func()
+	On_textDocument_declaration func(params *DeclarationParams) (any, error)
 
 	// A request to provide selection ranges in a document. The request's
 	// parameter is of type {@link SelectionRangeParams}, the
 	// response is of type {@link SelectionRange SelectionRange[]} or a Thenable
 	// that resolves to such.
-	On_textDocument_selectionRange func()
+	On_textDocument_selectionRange func(params *SelectionRangeParams) (any, error)
 
 	// A request to result a `CallHierarchyItem` in a document at a given position.
 	// Can be used as an input to an incoming or outgoing call hierarchy.
 	//
 	// @since 3.16.0
-	On_textDocument_prepareCallHierarchy func()
+	On_textDocument_prepareCallHierarchy func(params *CallHierarchyPrepareParams) (any, error)
 
 	// A request to resolve the incoming calls for a given `CallHierarchyItem`.
 	//
 	// @since 3.16.0
-	On_callHierarchy_incomingCalls func()
+	On_callHierarchy_incomingCalls func(params *CallHierarchyIncomingCallsParams) (any, error)
 
 	// A request to resolve the outgoing calls for a given `CallHierarchyItem`.
 	//
 	// @since 3.16.0
-	On_callHierarchy_outgoingCalls func()
+	On_callHierarchy_outgoingCalls func(params *CallHierarchyOutgoingCallsParams) (any, error)
 
 	// @since 3.16.0
-	On_textDocument_semanticTokens_full func()
+	On_textDocument_semanticTokens_full func(params *SemanticTokensParams) (any, error)
 
 	// @since 3.16.0
-	On_textDocument_semanticTokens_full_delta func()
+	On_textDocument_semanticTokens_full_delta func(params *SemanticTokensDeltaParams) (any, error)
 
 	// @since 3.16.0
-	On_textDocument_semanticTokens_range func()
+	On_textDocument_semanticTokens_range func(params *SemanticTokensRangeParams) (any, error)
 
 	// A request to provide ranges that can be edited together.
 	//
 	// @since 3.16.0
-	On_textDocument_linkedEditingRange func()
+	On_textDocument_linkedEditingRange func(params *LinkedEditingRangeParams) (any, error)
 
 	// The will create files request is sent from the client to the server before files are actually
 	// created as long as the creation is triggered from within the client.
@@ -330,92 +330,84 @@ type Server struct {
 	// to be created.
 	//
 	// @since 3.16.0
-	On_workspace_willCreateFiles func()
+	On_workspace_willCreateFiles func(params *CreateFilesParams) (any, error)
 
 	// The will rename files request is sent from the client to the server before files are actually
 	// renamed as long as the rename is triggered from within the client.
 	//
 	// @since 3.16.0
-	On_workspace_willRenameFiles func()
+	On_workspace_willRenameFiles func(params *RenameFilesParams) (any, error)
 
 	// The did delete files notification is sent from the client to the server when
 	// files were deleted from within the client.
 	//
 	// @since 3.16.0
-	On_workspace_willDeleteFiles func()
+	On_workspace_willDeleteFiles func(params *DeleteFilesParams) (any, error)
 
 	// A request to get the moniker of a symbol at a given text document position.
 	// The request parameter is of type {@link TextDocumentPositionParams}.
 	// The response is of type {@link Moniker Moniker[]} or `null`.
-	On_textDocument_moniker func()
+	On_textDocument_moniker func(params *MonikerParams) (any, error)
 
 	// A request to result a `TypeHierarchyItem` in a document at a given position.
 	// Can be used as an input to a subtypes or supertypes type hierarchy.
 	//
 	// @since 3.17.0
-	On_textDocument_prepareTypeHierarchy func()
+	On_textDocument_prepareTypeHierarchy func(params *TypeHierarchyPrepareParams) (any, error)
 
 	// A request to resolve the supertypes for a given `TypeHierarchyItem`.
 	//
 	// @since 3.17.0
-	On_typeHierarchy_supertypes func()
+	On_typeHierarchy_supertypes func(params *TypeHierarchySupertypesParams) (any, error)
 
 	// A request to resolve the subtypes for a given `TypeHierarchyItem`.
 	//
 	// @since 3.17.0
-	On_typeHierarchy_subtypes func()
+	On_typeHierarchy_subtypes func(params *TypeHierarchySubtypesParams) (any, error)
 
 	// A request to provide inline values in a document. The request's parameter is of
 	// type {@link InlineValueParams}, the response is of type
 	// {@link InlineValue InlineValue[]} or a Thenable that resolves to such.
 	//
 	// @since 3.17.0
-	On_textDocument_inlineValue func()
+	On_textDocument_inlineValue func(params *InlineValueParams) (any, error)
 
 	// A request to provide inlay hints in a document. The request's parameter is of
 	// type {@link InlayHintsParams}, the response is of type
 	// {@link InlayHint InlayHint[]} or a Thenable that resolves to such.
 	//
 	// @since 3.17.0
-	On_textDocument_inlayHint func()
+	On_textDocument_inlayHint func(params *InlayHintParams) (any, error)
 
 	// A request to resolve additional properties for an inlay hint.
 	// The request's parameter is of type {@link InlayHint}, the response is
 	// of type {@link InlayHint} or a Thenable that resolves to such.
 	//
 	// @since 3.17.0
-	On_inlayHint_resolve func()
+	On_inlayHint_resolve func(params *InlayHint) (any, error)
 
 	// The document diagnostic request definition.
 	//
 	// @since 3.17.0
-	On_textDocument_diagnostic func()
+	On_textDocument_diagnostic func(params *DocumentDiagnosticParams) (any, error)
 
 	// The workspace diagnostic request definition.
 	//
 	// @since 3.17.0
-	On_workspace_diagnostic func()
-
-	// A request to provide inline completions in a document. The request's parameter is of
-	// type {@link InlineCompletionParams}, the response is of type
-	// {@link InlineCompletion InlineCompletion[]} or a Thenable that resolves to such.
-	//
-	// @since 3.18.0
-	// @proposed
-	On_textDocument_inlineCompletion func()
+	On_workspace_diagnostic func(params *WorkspaceDiagnosticParams) (any, error)
 
 	// The initialize request is sent from the client to the server.
 	// It is sent once as the request after starting up the server.
 	// The requests parameter is of type {@link InitializeParams}
 	// the response if of type {@link InitializeResult} of a Thenable that
 	// resolves to such.
-	On_initialize func()
+	On_initialize func(params *InitializeParams) (any, error)
 
 	// A shutdown request is sent from the client to the server.
 	// It is sent once when the client decides to shutdown the
 	// server. The only notification that is sent after a shutdown request
 	// is the exit event.
-	On_shutdown func()
+	On_shutdown func() (any, error)
 
 	// A document will save request is sent from the client to the server before
 	// the document is actually saved. The request can return an array of TextEdits
@@ -423,7 +415,7 @@ type Server struct {
 	// clients might drop results if computing the text edits took too long or if a
 	// server constantly fails on this request. This is done to keep the save fast and
 	// reliable.
-	On_textDocument_willSaveWaitUntil func()
+	On_textDocument_willSaveWaitUntil func(params *WillSaveTextDocumentParams) (any, error)
 
 	// Request to request completion at a given text document position. The request's
 	// parameter is of type {@link TextDocumentPosition} the response
@@ -434,110 +426,93 @@ type Server struct {
 	// and {@link CompletionItem.documentation `documentation`} properties to the `completionItem/resolve`
 	// request. However, properties that are needed for the initial sorting and filtering, like `sortText`,
 	// `filterText`, `insertText`, and `textEdit`, must not be changed during resolve.
-	On_textDocument_completion func()
+	On_textDocument_completion func(params *CompletionParams) (any, error)
 
 	// Request to resolve additional information for a given completion item.The request's
 	// parameter is of type {@link CompletionItem} the response
 	// is of type {@link CompletionItem} or a Thenable that resolves to such.
-	On_completionItem_resolve func()
+	On_completionItem_resolve func(params *CompletionItem) (any, error)
 
 	// Request to request hover information at a given text document position. The request's
 	// parameter is of type {@link TextDocumentPosition} the response is of
 	// type {@link Hover} or a Thenable that resolves to such.
-	On_textDocument_hover func()
+	On_textDocument_hover func(params *HoverParams) (any, error)
 
 	//
-	On_textDocument_signatureHelp func()
+	On_textDocument_signatureHelp func(params *SignatureHelpParams) (any, error)
 
 	// A request to resolve the definition location of a symbol at a given text
 	// document position. The request's parameter is of type {@link TextDocumentPosition}
 	// the response is of either type {@link Definition} or a typed array of
 	// {@link DefinitionLink} or a Thenable that resolves to such.
-	On_textDocument_definition func()
+	On_textDocument_definition func(params *DefinitionParams) (any, error)
 
 	// A request to resolve project-wide references for the symbol denoted
 	// by the given text document position. The request's parameter is of
 	// type {@link ReferenceParams} the response is of type
 	// {@link Location Location[]} or a Thenable that resolves to such.
-	On_textDocument_references func()
+	On_textDocument_references func(params *ReferenceParams) (any, error)
 
 	// Request to resolve a {@link DocumentHighlight} for a given
 	// text document position. The request's parameter is of type {@link TextDocumentPosition}
 	// the request response is an array of type {@link DocumentHighlight}
 	// or a Thenable that resolves to such.
-	On_textDocument_documentHighlight func()
+	On_textDocument_documentHighlight func(params *DocumentHighlightParams) (any, error)
 
 	// A request to list all symbols found in a given text document. The request's
 	// parameter is of type {@link TextDocumentIdentifier} the
 	// response is of type {@link SymbolInformation SymbolInformation[]} or a Thenable
 	// that resolves to such.
-	On_textDocument_documentSymbol func()
+	On_textDocument_documentSymbol func(params *DocumentSymbolParams) (any, error)
 
 	// A request to provide commands for the given text document and range.
-	On_textDocument_codeAction func()
+	On_textDocument_codeAction func(params *CodeActionParams) (any, error)
 
 	// Request to resolve additional information for a given code action.The request's
 	// parameter is of type {@link CodeAction} the response
 	// is of type {@link CodeAction} or a Thenable that resolves to such.
-	On_codeAction_resolve func()
-
-	// A request to list project-wide symbols matching the query string given
-	// by the {@link WorkspaceSymbolParams}. The response is
-	// of type {@link SymbolInformation SymbolInformation[]} or a Thenable that
-	// resolves to such.
-	//
-	// @since 3.17.0 - support for WorkspaceSymbol in the returned data. Clients
-	//  need to advertise support for WorkspaceSymbols via the client capability
-	//  `workspace.symbol.resolveSupport`.
-	//
-	On_workspace_symbol func()
+	On_codeAction_resolve func(params *CodeAction) (any, error)
 
 	// A request to resolve the range inside the workspace
 	// symbol's location.
 	//
 	// @since 3.17.0
-	On_workspaceSymbol_resolve func()
+	On_workspaceSymbol_resolve func(params *WorkspaceSymbol) (any, error)
 
 	// A request to provide code lens for the given text document.
-	On_textDocument_codeLens func()
+	On_textDocument_codeLens func(params *CodeLensParams) (any, error)
 
 	// A request to resolve a command for a given code lens.
-	On_codeLens_resolve func()
+	On_codeLens_resolve func(params *CodeLens) (any, error)
 
 	// A request to provide document links
-	On_textDocument_documentLink func()
+	On_textDocument_documentLink func(params *DocumentLinkParams) (any, error)
 
 	// Request to resolve additional information for a given document link. The request's
 	// parameter is of type {@link DocumentLink} the response
 	// is of type {@link DocumentLink} or a Thenable that resolves to such.
-	On_documentLink_resolve func()
+	On_documentLink_resolve func(params *DocumentLink) (any, error)
 
 	// A request to format a whole document.
-	On_textDocument_formatting func()
+	On_textDocument_formatting func(params *DocumentFormattingParams) (any, error)
 
 	// A request to format a range in a document.
-	On_textDocument_rangeFormatting func()
-
-	// A request to format ranges in a document.
-	//
-	// @since 3.18.0
-	// @proposed
-	On_textDocument_rangesFormatting func()
+	On_textDocument_rangeFormatting func(params *DocumentRangeFormattingParams) (any, error)
 
 	// A request to format a document on type.
-	On_textDocument_onTypeFormatting func()
+	On_textDocument_onTypeFormatting func(params *DocumentOnTypeFormattingParams) (any, error)
 
 	// A request to rename a symbol.
-	On_textDocument_rename func()
+	On_textDocument_rename func(params *RenameParams) (any, error)
 
 	// A request to test and perform the setup necessary for a rename.
 	//
 	// @since 3.16 - support for default behavior
-	On_textDocument_prepareRename func()
+	On_textDocument_prepareRename func(params *PrepareRenameParams) (any, error)
 
 	// A request send from the client to the server to execute a command. The request might return
 	// a workspace edit which the client will apply to the workspace.
-	On_workspace_executeCommand func()
+	On_workspace_executeCommand func(params *ExecuteCommandParams) (any, error)
 }
 
 type jsonRpcError struct {
@@ -557,7 +532,12 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 		return nil
 	}
 
-	if msg_method != nil { // msg is an incoming Request or Notification
+	switch msg_method, _ := msg_method.(string); msg_method {
+	case "": // msg is an incoming Response
+		handler := it.waiters[msg_id]
+		delete(it.waiters, msg_id)
+		go handler()
+	default: // msg is an incoming Request or Notification
 		/* workspace/didChangeWorkspaceFolders */
 		/* window/workDoneProgress/cancel */
 		/* workspace/didCreateFiles */
@@ -591,7 +571,6 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 		/* textDocument/documentColor */
 		/* textDocument/colorPresentation */
 		/* textDocument/foldingRange */
-		/* workspace/foldingRange/refresh */
 		/* textDocument/declaration */
 		/* textDocument/selectionRange */
 		/* window/workDoneProgress/create */
@@ -619,7 +598,6 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 		/* textDocument/diagnostic */
 		/* workspace/diagnostic */
 		/* workspace/diagnostic/refresh */
-		/* textDocument/inlineCompletion */
 		/* client/registerCapability */
 		/* client/unregisterCapability */
 		/* initialize */
@@ -636,7 +614,6 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 		/* textDocument/documentSymbol */
 		/* textDocument/codeAction */
 		/* codeAction/resolve */
-		/* workspace/symbol */
 		/* workspaceSymbol/resolve */
 		/* textDocument/codeLens */
 		/* codeLens/resolve */
@@ -645,22 +622,34 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 		/* documentLink/resolve */
 		/* textDocument/formatting */
 		/* textDocument/rangeFormatting */
-		/* textDocument/rangesFormatting */
 		/* textDocument/onTypeFormatting */
 		/* textDocument/rename */
 		/* textDocument/prepareRename */
 		/* workspace/executeCommand */
 		/* workspace/applyEdit */
-	} else { // msg is an incoming Response
-		handler := it.waiters[msg_id]
-		delete(it.waiters, msg_id)
-		go handler()
 	}
 
 	return nil
 }
 
-func (it *Server) Serve() error {
+func (it *Server) sendErrMsg(err any) {
+	if err == nil {
+		return
+	}
+	var json_rpc_err_msg *jsonRpcError
+	if json_rpc_err_msg, _ = err.(*jsonRpcError); json_rpc_err_msg == nil {
+		json_rpc_err_msg = &jsonRpcError{Code: -32603, Message: fmt.Sprintf("%v", err)}
+	}
+	err_json, _ := json.Marshal(json_rpc_err_msg)
+	_, _ = it.stdout.WriteString("Content-Length: ")
+	_, _ = it.stdout.WriteString(strconv.Itoa(len(err_json)))
+	_, _ = it.stdout.WriteString("\r\n\r\n")
+	_, _ = it.stdout.Write(err_json)
+}
+
+// ServeForever keeps reading and handling LSP JSON-RPC messages incoming over `os.Stdin`
+// until reading from `os.Stdin` fails, then returns that IO read error.
+func (it *Server) ServeForever() error {
 	const buf_cap = 1024 * 1024
 
 	it.stdout = bufio.NewWriterSize(os.Stdout, buf_cap)
@@ -688,11 +677,7 @@ func (it *Server) Serve() error {
 	for stdin.Scan() {
 		err := it.handleIncoming(stdin.Bytes())
 		if err != nil {
-			err_json, _ := json.Marshal(err)
-			_, _ = it.stdout.WriteString("Content-Length: ")
-			_, _ = it.stdout.WriteString(strconv.Itoa(len(err_json)))
-			_, _ = it.stdout.WriteString("\r\n\r\n")
-			_, _ = it.stdout.Write(err_json)
+			it.sendErrMsg(err)
 		}
 	}
 	return stdin.Err()

@@ -32,19 +32,27 @@ func (*MetaModel) toGenBase(it *MMBase) glot.GenBase {
 
 func (it *MetaModel) GenExtras(gen *glot.Gen) (ret []any) {
 	repl := strings.NewReplacer("/", "_", "$", "_")
-	prepForTmpl := func(it *MMMessageBase, base *MMBase) {
-		it.MethodNameSafe = repl.Replace(it.Method)
-		it.IsClientToServer = (it.MessageDirection == MMMessageDirectionClientToServer) || (it.MessageDirection == MMMessageDirectionBoth)
-		it.IsServerToClient = (it.MessageDirection == MMMessageDirectionServerToClient) || (it.MessageDirection == MMMessageDirectionBoth)
-		it.DocLines = strings.Split(base.Documentation, "\n")
+
+	prepForTmpl := func(msgBase *MMMessageBase, base *MMBase) bool {
+		msgBase.MethodNameSafe = repl.Replace(msgBase.Method)
+		msgBase.IsClientToServer = (msgBase.MessageDirection == MMMessageDirectionClientToServer) || (msgBase.MessageDirection == MMMessageDirectionBoth)
+		msgBase.IsServerToClient = (msgBase.MessageDirection == MMMessageDirectionServerToClient) || (msgBase.MessageDirection == MMMessageDirectionBoth)
+		msgBase.DocLines = strings.Split(base.Documentation, "\n")
+		if len(msgBase.Params) == 1 {
+			msgBase.UnaryParamsTypeName = strings.TrimSpace(string(msgBase.Params[0].Name))
+		}
+		msgBase.HasUnaryParamsTypeName = (len(msgBase.UnaryParamsTypeName) > 0)
+		return !(base.Since > it.MetaData.Version)
 	}
 	for _, it := range it.Notifications {
-		prepForTmpl(&it.MMMessageBase, &it.MMBase)
-		ret = append(ret, it)
+		if prepForTmpl(&it.MMMessageBase, &it.MMBase) {
+			ret = append(ret, it)
+		}
 	}
 	for _, it := range it.Requests {
-		prepForTmpl(&it.MMMessageBase, &it.MMBase)
-		ret = append(ret, it)
+		if prepForTmpl(&it.MMMessageBase, &it.MMBase) {
+			ret = append(ret, it)
+		}
 	}
 	return
 }

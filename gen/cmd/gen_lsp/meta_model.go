@@ -74,10 +74,14 @@ type MMMessageBase struct {
 	RegistrationMethod  string             `json:"registrationMethod,omitempty"`
 	RegistrationOptions *MMType            `json:"registrationOptions,omitempty"`
 
-	MethodNameSafe   string
-	IsClientToServer bool
-	IsServerToClient bool
-	DocLines         []string
+	// templating-convenience fields
+
+	MethodNameSafe         string
+	IsClientToServer       bool
+	IsServerToClient       bool
+	DocLines               []string
+	HasUnaryParamsTypeName bool
+	UnaryParamsTypeName    string
 }
 
 type MMMessageDirection string

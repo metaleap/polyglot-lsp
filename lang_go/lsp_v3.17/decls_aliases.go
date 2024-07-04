@@ -32,15 +32,7 @@ type LSPArray = []LSPAny
 // @since 3.17.0
 //
 // "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-type LSPAny /*TOr*/ struct {
-	LSPObject/*TOpt*/ LSPObject
-	LSPArray/*TOpt*/ LSPArray
-	String/*TOpt*/ *String
-	Integer/*TOpt*/ *Integer
-	Uinteger/*TOpt*/ *Uinteger
-	Decimal/*TOpt*/ *Decimal
-	Boolean/*TOpt*/ *Boolean
-}
+type LSPAny = any
 
 // The declaration of a symbol representation as one or many `Location`.
 //
