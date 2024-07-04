@@ -7,7 +7,31 @@
 {{- else -}}
 /*TOr*/type {{ $ident }} struct {
 {{- range $member_types -}}
-    {{.NameSuggestion true}} {{ $bag.Main.DoTypeOptional . true }}
+	{{.NameSuggestion true}} {{ $bag.Main.DoTypeOptional . true }}
 {{ end }}
+}
+func (it *{{ $ident }}) MarshalJSON() ([]byte, error) {
+	{{- range $member_types -}}
+		if !isNone(it.{{.NameSuggestion true}}) {
+			return json.Marshal(it.{{.NameSuggestion true}})
+		}
+	{{ end }}
+	return []byte("null"), nil
+}
+func (it *{{ $ident }}) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{{ range $member_types -}}
+	{
+		var tmp {{ $bag.Main.DoTypeOptional . true }}
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.{{.NameSuggestion true}} = tmp
+			return nil
+		}
+	}
+	{{ end }}
+	return nil
 }
 {{- end }}

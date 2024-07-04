@@ -771,8 +771,8 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 				WorkspaceFolders: &WorkspaceFoldersServerCapabilities{
 					Supported: ptr(Boolean(it.On_workspace_didChangeWorkspaceFolders != nil)),
 					ChangeNotifications: struct {
-						String  *String
-						Boolean *Boolean
+						String/*TOpt*/ *String
+						Boolean/*TOpt*/ *Boolean
 					}{
 						Boolean: ptr(Boolean(it.On_workspace_didChangeWorkspaceFolders != nil)),
 					},
