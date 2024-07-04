@@ -5,14 +5,17 @@ import (
 	"bufio"
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 	"strconv"
+	"sync"
 )
 
 type Server struct {
-	stdout  *bufio.Writer
-	waiters map[string]func()
+	sync.Mutex // sync writes to stdout
+	stdout     *bufio.Writer
+	waiters    map[string]func()
 
 	// The `workspace/didChangeWorkspaceFolders` notification is sent from the client to the server when the workspace
 	// folder configuration changes.
@@ -398,147 +401,147 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 		delete(it.waiters, msg_id)
 		go handler()
 	case "workspace/didChangeWorkspaceFolders":
-		serverHandleIncoming(it, it.On_workspace_didChangeWorkspaceFolders, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_workspace_didChangeWorkspaceFolders, msg_method, msg_id, raw["params"])
 	case "window/workDoneProgress/cancel":
-		serverHandleIncoming(it, it.On_window_workDoneProgress_cancel, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_window_workDoneProgress_cancel, msg_method, msg_id, raw["params"])
 	case "workspace/didCreateFiles":
-		serverHandleIncoming(it, it.On_workspace_didCreateFiles, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_workspace_didCreateFiles, msg_method, msg_id, raw["params"])
 	case "workspace/didRenameFiles":
-		serverHandleIncoming(it, it.On_workspace_didRenameFiles, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_workspace_didRenameFiles, msg_method, msg_id, raw["params"])
 	case "workspace/didDeleteFiles":
-		serverHandleIncoming(it, it.On_workspace_didDeleteFiles, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_workspace_didDeleteFiles, msg_method, msg_id, raw["params"])
 	case "notebookDocument/didOpen":
-		serverHandleIncoming(it, it.On_notebookDocument_didOpen, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_notebookDocument_didOpen, msg_method, msg_id, raw["params"])
 	case "notebookDocument/didChange":
-		serverHandleIncoming(it, it.On_notebookDocument_didChange, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_notebookDocument_didChange, msg_method, msg_id, raw["params"])
 	case "notebookDocument/didSave":
-		serverHandleIncoming(it, it.On_notebookDocument_didSave, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_notebookDocument_didSave, msg_method, msg_id, raw["params"])
 	case "notebookDocument/didClose":
-		serverHandleIncoming(it, it.On_notebookDocument_didClose, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_notebookDocument_didClose, msg_method, msg_id, raw["params"])
 	case "initialized":
-		serverHandleIncoming(it, it.On_initialized, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_initialized, msg_method, msg_id, raw["params"])
 	case "exit":
-		serverHandleIncoming(it, it.On_exit, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_exit, msg_method, msg_id, raw["params"])
 	case "workspace/didChangeConfiguration":
-		serverHandleIncoming(it, it.On_workspace_didChangeConfiguration, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_workspace_didChangeConfiguration, msg_method, msg_id, raw["params"])
 	case "textDocument/didOpen":
-		serverHandleIncoming(it, it.On_textDocument_didOpen, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_didOpen, msg_method, msg_id, raw["params"])
 	case "textDocument/didChange":
-		serverHandleIncoming(it, it.On_textDocument_didChange, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_didChange, msg_method, msg_id, raw["params"])
 	case "textDocument/didClose":
-		serverHandleIncoming(it, it.On_textDocument_didClose, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_didClose, msg_method, msg_id, raw["params"])
 	case "textDocument/didSave":
-		serverHandleIncoming(it, it.On_textDocument_didSave, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_didSave, msg_method, msg_id, raw["params"])
 	case "textDocument/willSave":
-		serverHandleIncoming(it, it.On_textDocument_willSave, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_willSave, msg_method, msg_id, raw["params"])
 	case "workspace/didChangeWatchedFiles":
-		serverHandleIncoming(it, it.On_workspace_didChangeWatchedFiles, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_workspace_didChangeWatchedFiles, msg_method, msg_id, raw["params"])
 	case "$/setTrace":
-		serverHandleIncoming(it, it.On___setTrace, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On___setTrace, msg_method, msg_id, raw["params"])
 	case "$/cancelRequest":
-		serverHandleIncoming(it, it.On___cancelRequest, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On___cancelRequest, msg_method, msg_id, raw["params"])
 	case "$/progress":
-		serverHandleIncoming(it, it.On___progress, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On___progress, msg_method, msg_id, raw["params"])
 	case "textDocument/implementation":
-		serverHandleIncoming(it, it.On_textDocument_implementation, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_implementation, msg_method, msg_id, raw["params"])
 	case "textDocument/typeDefinition":
-		serverHandleIncoming(it, it.On_textDocument_typeDefinition, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_typeDefinition, msg_method, msg_id, raw["params"])
 	case "textDocument/documentColor":
-		serverHandleIncoming(it, it.On_textDocument_documentColor, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_documentColor, msg_method, msg_id, raw["params"])
 	case "textDocument/colorPresentation":
-		serverHandleIncoming(it, it.On_textDocument_colorPresentation, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_colorPresentation, msg_method, msg_id, raw["params"])
 	case "textDocument/foldingRange":
-		serverHandleIncoming(it, it.On_textDocument_foldingRange, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_foldingRange, msg_method, msg_id, raw["params"])
 	case "textDocument/declaration":
-		serverHandleIncoming(it, it.On_textDocument_declaration, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_declaration, msg_method, msg_id, raw["params"])
 	case "textDocument/selectionRange":
-		serverHandleIncoming(it, it.On_textDocument_selectionRange, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_selectionRange, msg_method, msg_id, raw["params"])
 	case "textDocument/prepareCallHierarchy":
-		serverHandleIncoming(it, it.On_textDocument_prepareCallHierarchy, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_prepareCallHierarchy, msg_method, msg_id, raw["params"])
 	case "callHierarchy/incomingCalls":
-		serverHandleIncoming(it, it.On_callHierarchy_incomingCalls, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_callHierarchy_incomingCalls, msg_method, msg_id, raw["params"])
 	case "callHierarchy/outgoingCalls":
-		serverHandleIncoming(it, it.On_callHierarchy_outgoingCalls, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_callHierarchy_outgoingCalls, msg_method, msg_id, raw["params"])
 	case "textDocument/semanticTokens/full":
-		serverHandleIncoming(it, it.On_textDocument_semanticTokens_full, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_semanticTokens_full, msg_method, msg_id, raw["params"])
 	case "textDocument/semanticTokens/full/delta":
-		serverHandleIncoming(it, it.On_textDocument_semanticTokens_full_delta, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_semanticTokens_full_delta, msg_method, msg_id, raw["params"])
 	case "textDocument/semanticTokens/range":
-		serverHandleIncoming(it, it.On_textDocument_semanticTokens_range, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_semanticTokens_range, msg_method, msg_id, raw["params"])
 	case "textDocument/linkedEditingRange":
-		serverHandleIncoming(it, it.On_textDocument_linkedEditingRange, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_linkedEditingRange, msg_method, msg_id, raw["params"])
 	case "workspace/willCreateFiles":
-		serverHandleIncoming(it, it.On_workspace_willCreateFiles, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_workspace_willCreateFiles, msg_method, msg_id, raw["params"])
 	case "workspace/willRenameFiles":
-		serverHandleIncoming(it, it.On_workspace_willRenameFiles, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_workspace_willRenameFiles, msg_method, msg_id, raw["params"])
 	case "workspace/willDeleteFiles":
-		serverHandleIncoming(it, it.On_workspace_willDeleteFiles, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_workspace_willDeleteFiles, msg_method, msg_id, raw["params"])
 	case "textDocument/moniker":
-		serverHandleIncoming(it, it.On_textDocument_moniker, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_moniker, msg_method, msg_id, raw["params"])
 	case "textDocument/prepareTypeHierarchy":
-		serverHandleIncoming(it, it.On_textDocument_prepareTypeHierarchy, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_prepareTypeHierarchy, msg_method, msg_id, raw["params"])
 	case "typeHierarchy/supertypes":
-		serverHandleIncoming(it, it.On_typeHierarchy_supertypes, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_typeHierarchy_supertypes, msg_method, msg_id, raw["params"])
 	case "typeHierarchy/subtypes":
-		serverHandleIncoming(it, it.On_typeHierarchy_subtypes, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_typeHierarchy_subtypes, msg_method, msg_id, raw["params"])
 	case "textDocument/inlineValue":
-		serverHandleIncoming(it, it.On_textDocument_inlineValue, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_inlineValue, msg_method, msg_id, raw["params"])
 	case "textDocument/inlayHint":
-		serverHandleIncoming(it, it.On_textDocument_inlayHint, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_inlayHint, msg_method, msg_id, raw["params"])
 	case "inlayHint/resolve":
-		serverHandleIncoming(it, it.On_inlayHint_resolve, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_inlayHint_resolve, msg_method, msg_id, raw["params"])
 	case "textDocument/diagnostic":
-		serverHandleIncoming(it, it.On_textDocument_diagnostic, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_diagnostic, msg_method, msg_id, raw["params"])
 	case "workspace/diagnostic":
-		serverHandleIncoming(it, it.On_workspace_diagnostic, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_workspace_diagnostic, msg_method, msg_id, raw["params"])
 	case "initialize":
-		serverHandleIncoming(it, it.On_initialize, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_initialize, msg_method, msg_id, raw["params"])
 	case "shutdown":
-		serverHandleIncoming(it, it.On_shutdown, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_shutdown, msg_method, msg_id, raw["params"])
 	case "textDocument/willSaveWaitUntil":
-		serverHandleIncoming(it, it.On_textDocument_willSaveWaitUntil, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_willSaveWaitUntil, msg_method, msg_id, raw["params"])
 	case "textDocument/completion":
-		serverHandleIncoming(it, it.On_textDocument_completion, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_completion, msg_method, msg_id, raw["params"])
 	case "completionItem/resolve":
-		serverHandleIncoming(it, it.On_completionItem_resolve, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_completionItem_resolve, msg_method, msg_id, raw["params"])
 	case "textDocument/hover":
-		serverHandleIncoming(it, it.On_textDocument_hover, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_hover, msg_method, msg_id, raw["params"])
 	case "textDocument/signatureHelp":
-		serverHandleIncoming(it, it.On_textDocument_signatureHelp, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_signatureHelp, msg_method, msg_id, raw["params"])
 	case "textDocument/definition":
-		serverHandleIncoming(it, it.On_textDocument_definition, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_definition, msg_method, msg_id, raw["params"])
 	case "textDocument/references":
-		serverHandleIncoming(it, it.On_textDocument_references, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_references, msg_method, msg_id, raw["params"])
 	case "textDocument/documentHighlight":
-		serverHandleIncoming(it, it.On_textDocument_documentHighlight, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_documentHighlight, msg_method, msg_id, raw["params"])
 	case "textDocument/documentSymbol":
-		serverHandleIncoming(it, it.On_textDocument_documentSymbol, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_documentSymbol, msg_method, msg_id, raw["params"])
 	case "textDocument/codeAction":
-		serverHandleIncoming(it, it.On_textDocument_codeAction, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_codeAction, msg_method, msg_id, raw["params"])
 	case "codeAction/resolve":
-		serverHandleIncoming(it, it.On_codeAction_resolve, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_codeAction_resolve, msg_method, msg_id, raw["params"])
 	case "workspaceSymbol/resolve":
-		serverHandleIncoming(it, it.On_workspaceSymbol_resolve, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_workspaceSymbol_resolve, msg_method, msg_id, raw["params"])
 	case "textDocument/codeLens":
-		serverHandleIncoming(it, it.On_textDocument_codeLens, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_codeLens, msg_method, msg_id, raw["params"])
 	case "codeLens/resolve":
-		serverHandleIncoming(it, it.On_codeLens_resolve, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_codeLens_resolve, msg_method, msg_id, raw["params"])
 	case "textDocument/documentLink":
-		serverHandleIncoming(it, it.On_textDocument_documentLink, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_documentLink, msg_method, msg_id, raw["params"])
 	case "documentLink/resolve":
-		serverHandleIncoming(it, it.On_documentLink_resolve, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_documentLink_resolve, msg_method, msg_id, raw["params"])
 	case "textDocument/formatting":
-		serverHandleIncoming(it, it.On_textDocument_formatting, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_formatting, msg_method, msg_id, raw["params"])
 	case "textDocument/rangeFormatting":
-		serverHandleIncoming(it, it.On_textDocument_rangeFormatting, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_rangeFormatting, msg_method, msg_id, raw["params"])
 	case "textDocument/onTypeFormatting":
-		serverHandleIncoming(it, it.On_textDocument_onTypeFormatting, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_onTypeFormatting, msg_method, msg_id, raw["params"])
 	case "textDocument/rename":
-		serverHandleIncoming(it, it.On_textDocument_rename, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_rename, msg_method, msg_id, raw["params"])
 	case "textDocument/prepareRename":
-		serverHandleIncoming(it, it.On_textDocument_prepareRename, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_textDocument_prepareRename, msg_method, msg_id, raw["params"])
 	case "workspace/executeCommand":
-		serverHandleIncoming(it, it.On_workspace_executeCommand, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_workspace_executeCommand, msg_method, msg_id, raw["params"])
 	default: // msg is an incoming Request or Notification
 		/* workspace/didChangeWorkspaceFolders */
 		/* window/workDoneProgress/cancel */
@@ -634,19 +637,46 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 	return nil
 }
 
-func serverHandleIncoming[T any](it *Server, handler func(*T) (any, error), msgIdMaybe any, msgParams any) {
+func serverHandleIncoming[T any](it *Server, handler func(*T) (any, error), msgMethodName string, msgIdMaybe any, msgParams any) {
 	var req_id string
 	if msgIdMaybe != nil {
 		req_id = fmt.Sprintf("%v", msgIdMaybe)
+	}
+	if handler == nil {
+		if req_id != "" {
+			it.sendErrMsg(errors.New("unimplemented: " + msgMethodName))
+		}
+		return
 	}
 	var params T
 	if msgParams != nil {
 		json_bytes, _ := json.Marshal(msgParams)
 		if err := json.Unmarshal(json_bytes, &params); err != nil {
-			it.sendErrMsg(&jsonRpcError{Code: -32700, Message: err.Error()})
+			it.sendErrMsg(&jsonRpcError{Code: -32602, Message: err.Error()})
 			return
 		}
 	}
+	go func(params *T) {
+		if msgParams == nil {
+			params = nil
+		}
+		result, err := handler(params)
+		resp := map[string]any{
+			"result": result,
+			"id":     req_id,
+		}
+		if err != nil {
+			if msgIdMaybe != nil {
+				resp["error"] = &jsonRpcError{Code: -32603, Message: fmt.Sprintf("%v", err)}
+			} else {
+				it.sendErrMsg(err)
+				return
+			}
+		}
+		if msgIdMaybe != nil {
+			it.sendMsg(resp)
+		}
+	}(&params)
 }
 
 func (it *Server) sendErrMsg(err any) {
@@ -657,7 +687,13 @@ func (it *Server) sendErrMsg(err any) {
 	if json_rpc_err_msg, _ = err.(*jsonRpcError); json_rpc_err_msg == nil {
 		json_rpc_err_msg = &jsonRpcError{Code: -32603, Message: fmt.Sprintf("%v", err)}
 	}
-	err_json, _ := json.Marshal(json_rpc_err_msg)
+	it.sendMsg(json_rpc_err_msg)
+}
+
+func (it *Server) sendMsg(jsonable any) {
+	err_json, _ := json.Marshal(jsonable)
+	it.Lock()
+	defer it.Unlock()
 	_, _ = it.stdout.WriteString("Content-Length: ")
 	_, _ = it.stdout.WriteString(strconv.Itoa(len(err_json)))
 	_, _ = it.stdout.WriteString("\r\n\r\n")

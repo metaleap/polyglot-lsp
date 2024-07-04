@@ -3,14 +3,17 @@ import (
 	"bufio"
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 	"strconv"
+	"sync"
 )
 
 {{ $main := . -}}
 
 type Server struct {
+	sync.Mutex // sync writes to stdout
 	stdout *bufio.Writer
 	waiters map[string]func()
 
@@ -48,7 +51,7 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 	{{- $msg := . }}
 	{{- if ($msg.IsClientToServer) }}
 	case "{{$msg.Method}}":
-		serverHandleIncoming(it, it.On_{{ $msg.MethodNameSafe }}, msg_id, raw["params"])
+		serverHandleIncoming(it, it.On_{{ $msg.MethodNameSafe }}, msg_method, msg_id, raw["params"])
 	{{- end }}
 	{{- end }}
 	default: // msg is an incoming Request or Notification
@@ -61,19 +64,46 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 	return nil
 }
 
-func serverHandleIncoming[T any] (it *Server, handler func (*T) (any, error), msgIdMaybe any, msgParams any) {
+func serverHandleIncoming[T any] (it *Server, handler func (*T) (any, error), msgMethodName string, msgIdMaybe any, msgParams any) {
 	var req_id string
 	if msgIdMaybe != nil {
 		req_id = fmt.Sprintf("%v", msgIdMaybe)
+	}
+	if handler == nil {
+		if req_id != "" {
+			it.sendErrMsg(errors.New("unimplemented: " + msgMethodName))
+		}
+		return
 	}
 	var params T
 	if msgParams != nil {
 		json_bytes, _ := json.Marshal(msgParams)
 		if err := json.Unmarshal(json_bytes, &params); err != nil {
-			it.sendErrMsg(&jsonRpcError{ Code: -32700, Message: err.Error() })
+			it.sendErrMsg(&jsonRpcError{ Code: -32602, Message: err.Error() })
 			return
 		}
 	}
+	go func(params *T) {
+		if msgParams == nil {
+			params = nil
+		}
+		result, err := handler(params)
+		resp := map[string]any {
+			"result": result,
+			"id": req_id,
+		}
+		if err != nil {
+			if msgIdMaybe != nil {
+				resp["error"] = &jsonRpcError{ Code: -32603, Message: fmt.Sprintf("%v", err) }
+			}else {
+				it.sendErrMsg(err)
+				return
+			}
+		}
+		if msgIdMaybe != nil {
+			it.sendMsg(resp)
+		}
+	}(&params)
 }
 
 func (it *Server) sendErrMsg(err any) {
@@ -84,7 +114,13 @@ func (it *Server) sendErrMsg(err any) {
 	if json_rpc_err_msg, _ = err.(*jsonRpcError); json_rpc_err_msg == nil {
 		json_rpc_err_msg = &jsonRpcError{ Code: -32603, Message: fmt.Sprintf("%v", err) }
 	}
-	err_json,_ := json.Marshal(json_rpc_err_msg)
+	it.sendMsg(json_rpc_err_msg)
+}
+
+func (it *Server) sendMsg(jsonable any) {
+	err_json,_ := json.Marshal(jsonable)
+	it.Lock()
+	defer it.Unlock()
 	_, _ = it.stdout.WriteString("Content-Length: ")
 	_, _ = it.stdout.WriteString(strconv.Itoa(len(err_json)))
 	_, _ = it.stdout.WriteString("\r\n\r\n")
