@@ -394,6 +394,67 @@ type Server struct {
 	On_workspace_executeCommand func(params *ExecuteCommandParams) (any, error)
 }
 
+func (it *Server) Send_window_showMessage(params *ShowMessageParams) {
+
+}
+func (it *Server) Send_window_logMessage(params *LogMessageParams) {
+
+}
+func (it *Server) Send_telemetry_event(params *LSPAny) {
+
+}
+func (it *Server) Send_textDocument_publishDiagnostics(params *PublishDiagnosticsParams) {
+
+}
+func (it *Server) Send___logTrace(params *LogTraceParams) {
+
+}
+func (it *Server) Send___cancelRequest(params *CancelParams) {
+
+}
+func (it *Server) Send___progress(params *ProgressParams) {
+
+}
+func (it *Server) Send_workspace_workspaceFolders(params *Void, onResp func()) {
+
+}
+func (it *Server) Send_workspace_configuration(params *ConfigurationParams, onResp func()) {
+
+}
+func (it *Server) Send_window_workDoneProgress_create(params *WorkDoneProgressCreateParams, onResp func()) {
+
+}
+func (it *Server) Send_workspace_semanticTokens_refresh(params *Void, onResp func()) {
+
+}
+func (it *Server) Send_window_showDocument(params *ShowDocumentParams, onResp func()) {
+
+}
+func (it *Server) Send_workspace_inlineValue_refresh(params *Void, onResp func()) {
+
+}
+func (it *Server) Send_workspace_inlayHint_refresh(params *Void, onResp func()) {
+
+}
+func (it *Server) Send_workspace_diagnostic_refresh(params *Void, onResp func()) {
+
+}
+func (it *Server) Send_client_registerCapability(params *RegistrationParams, onResp func()) {
+
+}
+func (it *Server) Send_client_unregisterCapability(params *UnregistrationParams, onResp func()) {
+
+}
+func (it *Server) Send_window_showMessageRequest(params *ShowMessageRequestParams, onResp func()) {
+
+}
+func (it *Server) Send_workspace_codeLens_refresh(params *Void, onResp func()) {
+
+}
+func (it *Server) Send_workspace_applyEdit(params *ApplyWorkspaceEditParams, onResp func()) {
+
+}
+
 func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 	raw := map[string]any{}
 	if err := json.Unmarshal(jsonRpcMsg, &raw); err != nil {
@@ -553,7 +614,8 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 	case "workspace/executeCommand":
 		serverHandleIncoming(it, it.On_workspace_executeCommand, msg_method, msg_id, raw["params"])
 	case "initialized":
-		// no-op
+		if it.On_workspace_didChangeWatchedFiles != nil {
+		}
 	case "initialize":
 		serverHandleIncoming(it, func(params *InitializeParams) (any, error) {
 			init := &it.Initialized

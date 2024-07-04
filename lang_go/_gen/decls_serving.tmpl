@@ -39,8 +39,16 @@ type Server struct {
 	On_{{ $msg.MethodNameSafe }} func(params *{{ $msg.UnaryParamsTypeName }}) (any, error)
 	{{ end -}}
 	{{- end -}}
+}
+
+{{- range $main.Decls.Extras -}}
+{{- $msg := . }}
+{{- if $msg.IsServerToClient }}
+func (it *Server) Send_{{ $msg.MethodNameSafe }} (params *{{ $msg.UnaryParamsTypeName }}{{if $msg.IsReq}}, onResp func(){{end}}) {
 
 }
+{{- end }}
+{{- end }}
 
 func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 	raw := map[string]any{}
@@ -68,7 +76,8 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 	{{- end }}
 	{{- end }}
 	case "initialized":
-		// no-op
+		if it.On_workspace_didChangeWatchedFiles != nil {
+		}
 	case "initialize":
 		serverHandleIncoming(it, func(params *InitializeParams) (any, error) {
 			init := &it.Initialized
