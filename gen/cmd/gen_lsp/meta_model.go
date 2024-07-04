@@ -76,12 +76,11 @@ type MMMessageBase struct {
 
 	// templating-convenience fields
 
-	MethodNameSafe         string
-	IsClientToServer       bool
-	IsServerToClient       bool
-	DocLines               []string
-	HasUnaryParamsTypeName bool
-	UnaryParamsTypeName    string
+	MethodNameSafe      string
+	IsClientToServer    bool
+	IsServerToClient    bool
+	DocLines            []string
+	UnaryParamsTypeName string
 }
 
 type MMMessageDirection string

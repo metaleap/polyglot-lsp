@@ -41,7 +41,9 @@ func (it *MetaModel) GenExtras(gen *glot.Gen) (ret []any) {
 		if len(msgBase.Params) == 1 {
 			msgBase.UnaryParamsTypeName = strings.TrimSpace(string(msgBase.Params[0].Name))
 		}
-		msgBase.HasUnaryParamsTypeName = (len(msgBase.UnaryParamsTypeName) > 0)
+		if len(msgBase.Params) <= 1 && msgBase.UnaryParamsTypeName == "" {
+			msgBase.UnaryParamsTypeName = "Void"
+		}
 		return !(base.Since > it.MetaData.Version)
 	}
 	for _, it := range it.Notifications {

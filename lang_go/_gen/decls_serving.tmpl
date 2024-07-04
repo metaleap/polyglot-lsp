@@ -1,0 +1,128 @@
+
+import (
+	"bufio"
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"os"
+	"strconv"
+)
+
+{{ $main := . -}}
+
+type Server struct {
+	stdout *bufio.Writer
+	waiters map[string]func()
+
+	{{ range $main.Decls.Extras -}}
+	{{- $msg := . -}}
+	{{- if ($msg.IsClientToServer) -}}
+	{{- range $msg.DocLines }}
+	// {{ . }}
+	{{- end }}
+	On_{{ $msg.MethodNameSafe }} func(params *{{ $msg.UnaryParamsTypeName }}) (any, error)
+	{{ end -}}
+	{{- end -}}
+
+}
+
+func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
+	raw := map[string]any{}
+	if err := json.Unmarshal(jsonRpcMsg, &raw); err != nil {
+		return &jsonRpcError{ Code: -32700, Message: err.Error() }
+	}
+	msg_id, msg_method, msg_err_code :=raw["id"], raw["method"], raw["code"]
+
+	if msg_err_code != nil { // received an error Response
+		println(string(jsonRpcMsg)) // goes to stderr
+		return nil
+	}
+
+	switch msg_method, _ := msg_method.(string); msg_method {
+	case "":  // msg is an incoming Response
+        msg_id := fmt.Sprintf("%v", msg_id)
+		handler := it.waiters[msg_id]
+		delete(it.waiters, msg_id)
+		go handler()
+	{{- range $main.Decls.Extras -}}
+	{{- $msg := . }}
+	{{- if ($msg.IsClientToServer) }}
+	case "{{$msg.Method}}":
+		serverHandleIncoming(it, it.On_{{ $msg.MethodNameSafe }}, msg_id, raw["params"])
+	{{- end }}
+	{{- end }}
+	default: // msg is an incoming Request or Notification
+		{{- range $main.Decls.Extras -}}
+		{{- $msg := . }}
+		/* {{ $msg.Method }} */
+		{{- end -}}
+	}
+
+	return nil
+}
+
+func serverHandleIncoming[T any] (it *Server, handler func (*T) (any, error), msgIdMaybe any, msgParams any) {
+	var req_id string
+	if msgIdMaybe != nil {
+		req_id = fmt.Sprintf("%v", msgIdMaybe)
+	}
+	var params T
+	if msgParams != nil {
+		json_bytes, _ := json.Marshal(msgParams)
+		if err := json.Unmarshal(json_bytes, &params); err != nil {
+			it.sendErrMsg(&jsonRpcError{ Code: -32700, Message: err.Error() })
+			return
+		}
+	}
+}
+
+func (it *Server) sendErrMsg(err any) {
+	if err == nil {
+		return
+	}
+	var json_rpc_err_msg *jsonRpcError
+	if json_rpc_err_msg, _ = err.(*jsonRpcError); json_rpc_err_msg == nil {
+		json_rpc_err_msg = &jsonRpcError{ Code: -32603, Message: fmt.Sprintf("%v", err) }
+	}
+	err_json,_ := json.Marshal(json_rpc_err_msg)
+	_, _ = it.stdout.WriteString("Content-Length: ")
+	_, _ = it.stdout.WriteString(strconv.Itoa(len(err_json)))
+	_, _ = it.stdout.WriteString("\r\n\r\n")
+	_, _ = it.stdout.Write(err_json)
+}
+
+// ServeForever keeps reading and handling LSP JSON-RPC messages incoming over `os.Stdin`
+// until reading from `os.Stdin` fails, then returns that IO read error.
+func (it *Server) ServeForever() error {
+	const buf_cap = 1024 * 1024
+
+	it.stdout = bufio.NewWriterSize(os.Stdout, buf_cap)
+	it.waiters =  map[string]func(){}
+
+	stdin := bufio.NewScanner(os.Stdin)
+	stdin.Buffer(make([]byte, buf_cap), buf_cap)
+	stdin.Split(func(data []byte, ateof bool) (advance int, token []byte, err error) {
+		if i_cl1 := bytes.Index(data, []byte("Content-Length: ")); i_cl1 >= 0 {
+			datafromclen := data[i_cl1+16:]
+			if i_cl2 := bytes.IndexAny(datafromclen, "\r\n"); i_cl2 > 0 {
+				if clen, e := strconv.Atoi(string(datafromclen[:i_cl2])); e != nil {
+					err = e
+				} else if i_js1 := bytes.Index(datafromclen, []byte("{\"")); i_js1 > i_cl2 {
+					if i_js2 := i_js1 + clen; len(datafromclen) >= i_js2 {
+						advance = i_cl1 + 16 + i_js2
+						token = datafromclen[i_js1:i_js2]
+					}
+				}
+			}
+		}
+		return
+	})
+
+	for stdin.Scan() {
+		err := it.handleIncoming(stdin.Bytes())
+		if err != nil {
+			it.sendErrMsg(err)
+		}
+	}
+	return stdin.Err()
+}
