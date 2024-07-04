@@ -84,11 +84,12 @@ type DocumentDiagnosticReport /*TOr*/ struct {
 type PrepareRenameResult /*TOr*/ struct {
 	Range/*TOpt*/ *Range
 	RangeWithPlaceholderString/*TOpt*/ * /*TStruc*/ struct {
-		Range       Range
-		Placeholder string
+		Range Range `json:"range"`
+
+		Placeholder string `json:"placeholder"`
 	}
 	DefaultBehaviorBoolean/*TOpt*/ * /*TStruc*/ struct {
-		DefaultBehavior bool
+		DefaultBehavior bool `json:"defaultBehavior"`
 	}
 }
 
@@ -124,18 +125,22 @@ type WorkspaceDocumentDiagnosticReport /*TOr*/ struct {
 // "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
 type TextDocumentContentChangeEvent /*TOr*/ struct {
 	RangeWithRangeLengthUintegerWithTextString/*TOpt*/ * /*TStruc*/ struct {
+
 		// The range of the document that changed.
-		Range Range
+		Range Range `json:"range"`
+
 		// The optional length of the range that got replaced.
 		//
 		// @deprecated use range instead.
-		RangeLength/*TOpt*/ *Uinteger
+		RangeLength/*TOpt*/ *Uinteger `json:"rangeLength"`
+
 		// The new text for the provided range.
-		Text string
+		Text string `json:"text"`
 	}
 	TextString/*TOpt*/ * /*TStruc*/ struct {
+
 		// The new text of the whole document.
-		Text string
+		Text string `json:"text"`
 	}
 }
 
@@ -156,8 +161,9 @@ type TextDocumentContentChangeEvent /*TOr*/ struct {
 type MarkedString /*TOr*/ struct {
 	String/*TOpt*/ *String
 	LanguageStringWithValueString/*TOpt*/ * /*TStruc*/ struct {
-		Language string
-		Value    string
+		Language string `json:"language"`
+
+		Value string `json:"value"`
 	}
 }
 
@@ -203,12 +209,15 @@ type GlobPattern /*TOr*/ struct {
 //
 // @since 3.17.0
 type TextDocumentFilter /*TStruc*/ struct {
+
 	// A language id, like `typescript`.
-	Language/*TOpt*/ *String
+	Language/*TOpt*/ *String `json:"language"`
+
 	// A Uri `Uri.scheme`, like `file` or `untitled`.
-	Scheme/*TOpt*/ *String
+	Scheme/*TOpt*/ *String `json:"scheme"`
+
 	// A glob pattern, like **​/*.{ts,js}. See TextDocumentFilter for examples.
-	Pattern/*TOpt*/ *String
+	Pattern/*TOpt*/ *String `json:"pattern"`
 }
 
 // A notebook document filter denotes a notebook document by
@@ -217,12 +226,15 @@ type TextDocumentFilter /*TStruc*/ struct {
 //
 // @since 3.17.0
 type NotebookDocumentFilter /*TStruc*/ struct {
+
 	// The type of the enclosing notebook.
-	NotebookType/*TOpt*/ *String
+	NotebookType/*TOpt*/ *String `json:"notebookType"`
+
 	// A Uri `Uri.scheme`, like `file` or `untitled`.
-	Scheme/*TOpt*/ *String
+	Scheme/*TOpt*/ *String `json:"scheme"`
+
 	// A glob pattern.
-	Pattern/*TOpt*/ *String
+	Pattern/*TOpt*/ *String `json:"pattern"`
 }
 
 // The glob pattern to watch relative to the base path. Glob patterns can have the following syntax:

@@ -38,22 +38,22 @@ func (it *GenBase) DoDocComments(root *GenMain) string {
 }
 
 func (it *GenMain) DoType(t GenType) string {
-	return strings.TrimSpace(it.DoTypeOptional(t, false))
+	return it.DoTypeOptional(t, false)
 }
 
 func (it *GenMain) DoTypeOptional(t GenType, optional bool) string {
 	if optional {
-		return it.doType(t, "type_Optional")
+		return strings.TrimSpace(it.doType(t, "type_Optional"))
 	}
 
 	switch t := t.(type) {
 	case GenTypeBaseType:
 		if s := it.Lang.BaseTypeMapping[string(t)]; s != "" {
-			return s
+			return strings.TrimSpace(s)
 		}
 		panic("(missing in " + it.gen.filePathLang + ": \"BaseTypeMapping\"{\"" + t.String() + "\":...})")
 	}
-	return it.doType(t, "type_"+t.kind())
+	return strings.TrimSpace(it.doType(t, "type_"+t.kind()))
 }
 
 func (it *GenMain) doType(t GenType, tmplName string) (ret string) {

@@ -8,6 +8,7 @@ import (
 	"os"
 	"strconv"
 	"sync"
+	"time"
 )
 
 {{ $main := . -}}
@@ -15,7 +16,7 @@ import (
 type Server struct {
 	sync.Mutex // sync writes to stdout
 	stdout *bufio.Writer
-	waiters map[string]func()
+	waiters map[string]func(any)
 
 	Lang struct {
 		CompletionTriggerChars []string
@@ -47,10 +48,29 @@ type Server struct {
 {{- range $msg.DocLines }}
 // {{ . }}
 {{- end }}
-func (it *Server) Send_{{ $msg.MethodNameSafe }} (params *{{ $msg.UnaryParamsTypeName }}{{if $msg.IsReq}}, onResp func(*{{- if $msg.IsReq -}}{{- $main.DoType $msg.ResultType -}}{{- end -}}){{end}}) {
+func (it *Server) {{if $msg.IsReq}}Request{{else}}Notify{{end}}_{{ $msg.MethodNameSafe }} (params *{{ $msg.UnaryParamsTypeName }}{{if $msg.IsReq}}, onResp func(*{{- if $msg.IsReq -}}{{- $main.DoType $msg.ResultType -}}{{- end -}}){{end}}) {
+	var on_resp func(any){{- if $msg.IsReq -}} = serverOnResp(it, onResp){{- end }}
+	go it.send("{{$msg.Method}}", params, {{ $msg.IsReq }}, on_resp)
 }
 {{- end }}
 {{- end }}
+
+func serverOnResp[T any] (it *Server, onResp func(*T)) func(any) {
+	if onResp == nil {
+		return nil
+	}
+	return func(resultAsMap any) {
+		var result T
+		if resultAsMap != nil {
+			json_bytes, _ := json.Marshal(resultAsMap)
+			if err := json.Unmarshal(json_bytes, &result); err != nil {
+				it.sendErrMsg(err)
+				return
+			}
+		}
+		onResp(iIf(resultAsMap == nil, nil, &result))
+	}
+}
 
 func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 	raw := map[string]any{}
@@ -69,7 +89,7 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
         msg_id := fmt.Sprintf("%v", msg_id)
 		handler := it.waiters[msg_id]
 		delete(it.waiters, msg_id)
-		go handler()
+		go handler(raw["result"])
 	{{- range $main.Decls.Extras -}}
 	{{- $msg := . }}
 	{{- if and $msg.IsClientToServer (not $msg.IsInit) }}
@@ -83,8 +103,8 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 			init.Client = params
 			init.Server = &InitializeResult{
 				ServerInfo: &struct {
-					Name    string
-					Version *String
+					Name    string  "json:\"name\""
+					Version *String "json:\"version\""
 				}{Name: os.Args[0]},
 			}
 			caps := &init.Server.Capabilities
@@ -125,8 +145,8 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 			caps.InlayHintProvider.Boolean=ptr(Boolean(it.On_textDocument_inlayHint!=nil))
 			caps.WorkspaceSymbolProvider.Boolean = ptr(Boolean(it.On_workspace_symbol != nil))
 			caps.Workspace = &struct {
-				WorkspaceFolders *WorkspaceFoldersServerCapabilities
-				FileOperations   *FileOperationOptions
+				WorkspaceFolders *WorkspaceFoldersServerCapabilities "json:\"workspaceFolders\""
+				FileOperations   *FileOperationOptions               "json:\"fileOperations\""
 			}{
 				WorkspaceFolders: &WorkspaceFoldersServerCapabilities{
 					Supported: ptr(Boolean(it.On_workspace_didChangeWorkspaceFolders != nil)),
@@ -220,13 +240,25 @@ func (it *Server) sendMsg(jsonable any) {
 	_, _ = it.stdout.Write(err_json)
 }
 
+func (it *Server) send(methodName string, params any, isReq bool, onResp func(any)) {
+	req_id := strconv.FormatInt(time.Now().UnixNano(), 36)
+	req := map[string]any{"method": methodName, "params": params}
+	if onResp != nil {
+		it.waiters[req_id] = onResp
+	}
+	if isReq {
+		req["id"] = req_id
+	}
+	it.sendMsg(req)
+}
+
 // ServeForever keeps reading and handling LSP JSON-RPC messages incoming over `os.Stdin`
 // until reading from `os.Stdin` fails, then returns that IO read error.
 func (it *Server) ServeForever() error {
 	const buf_cap = 1024 * 1024
 
 	it.stdout = bufio.NewWriterSize(os.Stdout, buf_cap)
-	it.waiters =  map[string]func(){}
+	it.waiters =  map[string]func(any){}
 
 	stdin := bufio.NewScanner(os.Stdin)
 	stdin.Buffer(make([]byte, buf_cap), buf_cap)
@@ -264,7 +296,7 @@ func (it *Server) ServeForever() error {
 		}
 		it.On_initialized = func(params *InitializedParams) (any, error) {
 			if it.On_workspace_didChangeWatchedFiles != nil {
-				go it.Send_client_registerCapability(&RegistrationParams{
+				it.Request_client_registerCapability(&RegistrationParams{
 					Registrations: []Registration{
 						{Method: "workspace/didChangeWatchedFiles", Id: "workspace/didChangeWatchedFiles",
 							RegisterOptions: DidChangeWatchedFilesRegistrationOptions{Watchers: []FileSystemWatcher{

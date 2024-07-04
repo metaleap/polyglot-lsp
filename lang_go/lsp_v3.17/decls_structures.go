@@ -616,7 +616,6 @@ type InlayHint struct {
 		String/*TOpt*/ *String
 		InlayHintLabelParts/*TOpt*/ []InlayHintLabelPart
 	}
-
 	// The kind of this hint. Can be omitted in which case the client
 	// should fall back to a reasonable default.
 	Kind/*TOpt*/ InlayHintKind
@@ -803,10 +802,12 @@ type InitializeResult struct {
 	//
 	// @since 3.15.0
 	ServerInfo/*TOpt*/ * /*TStruc*/ struct {
+
 		// The name of the server as defined by the server.
-		Name string
+		Name string `json:"name"`
+
 		// The server's version as defined by the server.
-		Version/*TOpt*/ *String
+		Version/*TOpt*/ *String `json:"version"`
 	}
 }
 
@@ -1127,10 +1128,12 @@ type CompletionList struct {
 	//
 	// @since 3.17.0
 	ItemDefaults/*TOpt*/ * /*TStruc*/ struct {
+
 		// A default commit character set.
 		//
 		// @since 3.17.0
-		CommitCharacters/*TOpt*/ []string
+		CommitCharacters/*TOpt*/ []string `json:"commitCharacters"`
+
 		// A default edit range.
 		//
 		// @since 3.17.0
@@ -1139,22 +1142,26 @@ type CompletionList struct {
 		EditRange/*TOpt*/ /*TOr*/ struct {
 			Range/*TOpt*/ *Range
 			InsertRangeWithReplaceRange/*TOpt*/ * /*TStruc*/ struct {
-				Insert  Range
-				Replace Range
+				Insert Range `json:"insert"`
+
+				Replace Range `json:"replace"`
 			}
-		}
+		} `json:"editRange"`
+
 		// A default insert text format.
 		//
 		// @since 3.17.0
-		InsertTextFormat/*TOpt*/ InsertTextFormat
+		InsertTextFormat/*TOpt*/ InsertTextFormat `json:"insertTextFormat"`
+
 		// A default insert text mode.
 		//
 		// @since 3.17.0
-		InsertTextMode/*TOpt*/ InsertTextMode
+		InsertTextMode/*TOpt*/ InsertTextMode `json:"insertTextMode"`
+
 		// A default data value.
 		//
 		// @since 3.17.0
-		Data/*TOpt*/ LSPAny
+		Data/*TOpt*/ LSPAny `json:"data"`
 	}
 	// The completion items.
 	Items []CompletionItem
@@ -1182,7 +1189,6 @@ type Hover struct {
 		MarkedString/*TOpt*/ MarkedString
 		MarkedStrings/*TOpt*/ []MarkedString
 	}
-
 	// An optional range inside the text document that is used to
 	// visualize the hover, e.g. by changing the background color.
 	Range/*TOpt*/ *Range
@@ -1415,10 +1421,11 @@ type CodeAction struct {
 	//
 	// @since 3.16.0
 	Disabled/*TOpt*/ * /*TStruc*/ struct {
+
 		// Human readable description of why the code action is currently disabled.
 		//
 		// This is displayed in the code actions UI.
-		Reason string
+		Reason string `json:"reason"`
 	}
 	// The workspace edit this code action performs.
 	Edit/*TOpt*/ *WorkspaceEdit
@@ -1465,10 +1472,9 @@ type WorkspaceSymbol struct {
 	Location/*TOr*/ struct {
 		Location/*TOpt*/ *Location
 		UriDocumentUri/*TOpt*/ * /*TStruc*/ struct {
-			Uri DocumentURI
+			Uri DocumentURI `json:"uri"`
 		}
 	}
-
 	// A data entry field that is preserved on a workspace symbol between a
 	// workspace symbol request and a workspace symbol resolve request.
 	Data/*TOpt*/ LSPAny
@@ -1941,8 +1947,9 @@ type SemanticTokensOptions struct {
 	Full/*TOpt*/ /*TOr*/ struct {
 		Boolean/*TOpt*/ *Boolean
 		DeltaBoolean/*TOpt*/ * /*TStruc*/ struct {
+
 			// The server supports deltas for full documents.
-			Delta /*TOpt*/ *Boolean
+			Delta /*TOpt*/ *Boolean `json:"delta"`
 		}
 	}
 }
@@ -2369,24 +2376,31 @@ type NotebookDocumentChangeEvent struct {
 	Metadata/*TOpt*/ LSPObject
 	// Changes to cells
 	Cells/*TOpt*/ * /*TStruc*/ struct {
+
 		// Changes to the cell structure to add or
 		// remove cells.
 		Structure/*TOpt*/ * /*TStruc*/ struct {
+
 			// The change to the cell array.
-			Array NotebookCellArrayChange
+			Array NotebookCellArrayChange `json:"array"`
+
 			// Additional opened cell text documents.
-			DidOpen/*TOpt*/ []TextDocumentItem
+			DidOpen/*TOpt*/ []TextDocumentItem `json:"didOpen"`
+
 			// Additional closed cell text documents.
-			DidClose/*TOpt*/ []TextDocumentIdentifier
-		}
+			DidClose/*TOpt*/ []TextDocumentIdentifier `json:"didClose"`
+		} `json:"structure"`
+
 		// Changes to notebook cells properties like its
 		// kind, execution summary or metadata.
-		Data/*TOpt*/ []NotebookCell
+		Data/*TOpt*/ []NotebookCell `json:"data"`
+
 		// Changes to the text content of notebook cells.
 		TextContent/*TOpt*/ [] /*TStruc*/ struct {
-			Document VersionedTextDocumentIdentifier
-			Changes  []TextDocumentContentChangeEvent
-		}
+			Document VersionedTextDocumentIdentifier `json:"document"`
+
+			Changes []TextDocumentContentChangeEvent `json:"changes"`
+		} `json:"textContent"`
 	}
 }
 
@@ -2427,15 +2441,16 @@ type _InitializeParams struct {
 	// Is `null` if the process has not been started by another process.
 	// If the parent process is not alive then the server should exit.
 	ProcessId/*TOr*/ /*TOpt*/ *Integer
-
 	// Information about the client
 	//
 	// @since 3.15.0
 	ClientInfo/*TOpt*/ * /*TStruc*/ struct {
+
 		// The name of the client as defined by the client.
-		Name string
+		Name string `json:"name"`
+
 		// The client's version as defined by the client.
-		Version/*TOpt*/ *String
+		Version/*TOpt*/ *String `json:"version"`
 	}
 	// The locale the client is currently showing the user interface
 	// in. This must not necessarily be the locale of the operating
@@ -2457,7 +2472,6 @@ type _InitializeParams struct {
 	//
 	// @deprecated in favour of workspaceFolders.
 	RootUri/*TOr*/ /*TOpt*/ *DocumentURI
-
 	// The capabilities provided by the client (editor or tool)
 	Capabilities ClientCapabilities
 	// User provided initialization options.
@@ -2722,14 +2736,16 @@ type ServerCapabilities struct {
 	}
 	// Workspace specific server capabilities.
 	Workspace/*TOpt*/ * /*TStruc*/ struct {
+
 		// The server supports workspace folder.
 		//
 		// @since 3.6.0
-		WorkspaceFolders/*TOpt*/ *WorkspaceFoldersServerCapabilities
+		WorkspaceFolders/*TOpt*/ *WorkspaceFoldersServerCapabilities `json:"workspaceFolders"`
+
 		// The server is interested in notifications/requests for operations on files.
 		//
 		// @since 3.16.0
-		FileOperations/*TOpt*/ *FileOperationOptions
+		FileOperations/*TOpt*/ *FileOperationOptions `json:"fileOperations"`
 	}
 	// Experimental server capabilities.
 	Experimental/*TOpt*/ LSPAny
@@ -2869,12 +2885,13 @@ type CompletionOptions struct {
 	//
 	// @since 3.17.0
 	CompletionItem/*TOpt*/ * /*TStruc*/ struct {
+
 		// The server has support for completion item label
 		// details (see also `CompletionItemLabelDetails`) when
 		// receiving a completion item in a resolve call.
 		//
 		// @since 3.17.0
-		LabelDetailsSupport /*TOpt*/ *Boolean
+		LabelDetailsSupport /*TOpt*/ *Boolean `json:"labelDetailsSupport"`
 	}
 }
 
@@ -3307,6 +3324,7 @@ type TextDocumentSyncOptions struct {
 type NotebookDocumentSyncOptions struct {
 	// The notebooks to be synced
 	NotebookSelector [] /*TStruc*/ struct {
+
 		// The notebook to be synced If a string
 		// value is provided it matches against the
 		// notebook type. '*' matches every notebook.
@@ -3315,11 +3333,12 @@ type NotebookDocumentSyncOptions struct {
 		Notebook/*TOpt*/ /*TOr*/ struct {
 			String/*TOpt*/ *String
 			NotebookDocumentFilter/*TOpt*/ *NotebookDocumentFilter
-		}
+		} `json:"notebook"`
+
 		// The cells of the matching notebook to be synced.
 		Cells/*TOpt*/ [] /*TStruc*/ struct {
-			Language string
-		}
+			Language string `json:"language"`
+		} `json:"cells"`
 	}
 	// Whether save notification should be forwarded to
 	// the server. Will only be honored if mode === `notebook`.
@@ -3403,12 +3422,8 @@ type ParameterInformation struct {
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
 	Label/*TOr*/ struct {
 		String/*TOpt*/ *String
-		UintegerWithUinteger/*TOpt*/ * /*TTup*/ struct {
-			Uinteger0 uint
-			Uinteger1 uint
-		}
+		UintegerWithUinteger/*TOpt*/ * /*TTup*/ []uint
 	}
-
 	// The human-readable doc-comment of this parameter. Will be shown
 	// in the UI but can be omitted.
 	//
@@ -3434,7 +3449,6 @@ type NotebookCellTextDocumentFilter struct {
 		String/*TOpt*/ *String
 		NotebookDocumentFilter/*TOpt*/ *NotebookDocumentFilter
 	}
-
 	// A language id like `python`.
 	//
 	// Will be matched against the language id of the
@@ -3650,12 +3664,14 @@ type GeneralClientCapabilities struct {
 	//
 	// @since 3.17.0
 	StaleRequestSupport/*TOpt*/ * /*TStruc*/ struct {
+
 		// The client will actively cancel the request.
-		Cancel bool
+		Cancel bool `json:"cancel"`
+
 		// The list of requests for which the client
 		// will retry the request if it receives a
 		// response with error code `ContentModified`
-		RetryOnContentModified []string
+		RetryOnContentModified []string `json:"retryOnContentModified"`
 	}
 	// Client capabilities specific to regular expressions.
 	//
@@ -3700,7 +3716,6 @@ type RelativePattern struct {
 		WorkspaceFolder/*TOpt*/ *WorkspaceFolder
 		URI/*TOpt*/ *URI
 	}
-
 	// The actual glob pattern;
 	Pattern Pattern
 }
@@ -3731,10 +3746,11 @@ type WorkspaceEditClientCapabilities struct {
 	//
 	// @since 3.16.0
 	ChangeAnnotationSupport/*TOpt*/ * /*TStruc*/ struct {
+
 		// Whether the client groups edits with equal labels into tree nodes,
 		// for instance all edits labelled with "Changes in Strings" would
 		// be a tree node.
-		GroupsOnLabel /*TOpt*/ *Boolean
+		GroupsOnLabel /*TOpt*/ *Boolean `json:"groupsOnLabel"`
 	}
 }
 
@@ -3761,6 +3777,7 @@ type WorkspaceSymbolClientCapabilities struct {
 	DynamicRegistration/*TOpt*/ *Boolean
 	// Specific capabilities for the `SymbolKind` in the `workspace/symbol` request.
 	SymbolKind/*TOpt*/ * /*TStruc*/ struct {
+
 		// The symbol kind values the client supports. When this
 		// property exists the client also guarantees that it will
 		// handle values outside its set gracefully and falls back
@@ -3769,15 +3786,16 @@ type WorkspaceSymbolClientCapabilities struct {
 		// If this property is not present the client only supports
 		// the symbol kinds from `File` to `Array` as defined in
 		// the initial version of the protocol.
-		ValueSet /*TOpt*/ []SymbolKind
+		ValueSet /*TOpt*/ []SymbolKind `json:"valueSet"`
 	}
 	// The client supports tags on `SymbolInformation`.
 	// Clients supporting tags have to handle unknown tags gracefully.
 	//
 	// @since 3.16.0
 	TagSupport/*TOpt*/ * /*TStruc*/ struct {
+
 		// The tags supported by the client.
-		ValueSet []SymbolTag
+		ValueSet []SymbolTag `json:"valueSet"`
 	}
 	// The client support partial workspace symbols. The client will send the
 	// request `workspaceSymbol/resolve` to the server to resolve additional
@@ -3785,9 +3803,10 @@ type WorkspaceSymbolClientCapabilities struct {
 	//
 	// @since 3.17.0
 	ResolveSupport/*TOpt*/ * /*TStruc*/ struct {
+
 		// The properties that a client can resolve lazily. Usually
 		// `location.range`
-		Properties []string
+		Properties []string `json:"properties"`
 	}
 }
 
@@ -3906,22 +3925,28 @@ type CompletionClientCapabilities struct {
 	// The client supports the following `CompletionItem` specific
 	// capabilities.
 	CompletionItem/*TOpt*/ * /*TStruc*/ struct {
+
 		// Client supports snippets as insert text.
 		//
 		// A snippet can define tab stops and placeholders with `$1`, `$2`
 		// and `${3:foo}`. `$0` defines the final tab stop, it defaults to
 		// the end of the snippet. Placeholders with equal identifiers are linked,
 		// that is typing in one will update others too.
-		SnippetSupport/*TOpt*/ *Boolean
+		SnippetSupport/*TOpt*/ *Boolean `json:"snippetSupport"`
+
 		// Client supports commit characters on a completion item.
-		CommitCharactersSupport/*TOpt*/ *Boolean
+		CommitCharactersSupport/*TOpt*/ *Boolean `json:"commitCharactersSupport"`
+
 		// Client supports the following content formats for the documentation
 		// property. The order describes the preferred format of the client.
-		DocumentationFormat/*TOpt*/ []MarkupKind
+		DocumentationFormat/*TOpt*/ []MarkupKind `json:"documentationFormat"`
+
 		// Client supports the deprecated property on a completion item.
-		DeprecatedSupport/*TOpt*/ *Boolean
+		DeprecatedSupport/*TOpt*/ *Boolean `json:"deprecatedSupport"`
+
 		// Client supports the preselect property on a completion item.
-		PreselectSupport/*TOpt*/ *Boolean
+		PreselectSupport/*TOpt*/ *Boolean `json:"preselectSupport"`
+
 		// Client supports the tag property on a completion item. Clients supporting
 		// tags have to handle unknown tags gracefully. Clients especially need to
 		// preserve unknown tags when sending a completion item back to the server in
@@ -3929,38 +3954,45 @@ type CompletionClientCapabilities struct {
 		//
 		// @since 3.15.0
 		TagSupport/*TOpt*/ * /*TStruc*/ struct {
+
 			// The tags supported by the client.
-			ValueSet []CompletionItemTag
-		}
+			ValueSet []CompletionItemTag `json:"valueSet"`
+		} `json:"tagSupport"`
+
 		// Client support insert replace edit to control different behavior if a
 		// completion item is inserted in the text or should replace text.
 		//
 		// @since 3.16.0
-		InsertReplaceSupport/*TOpt*/ *Boolean
+		InsertReplaceSupport/*TOpt*/ *Boolean `json:"insertReplaceSupport"`
+
 		// Indicates which properties a client can resolve lazily on a completion
 		// item. Before version 3.16.0 only the predefined properties `documentation`
 		// and `details` could be resolved lazily.
 		//
 		// @since 3.16.0
 		ResolveSupport/*TOpt*/ * /*TStruc*/ struct {
+
 			// The properties that a client can resolve lazily.
-			Properties []string
-		}
+			Properties []string `json:"properties"`
+		} `json:"resolveSupport"`
+
 		// The client supports the `insertTextMode` property on
 		// a completion item to override the whitespace handling mode
 		// as defined by the client (see `insertTextMode`).
 		//
 		// @since 3.16.0
 		InsertTextModeSupport/*TOpt*/ * /*TStruc*/ struct {
-			ValueSet []InsertTextMode
-		}
+			ValueSet []InsertTextMode `json:"valueSet"`
+		} `json:"insertTextModeSupport"`
+
 		// The client has support for completion item label
 		// details (see also `CompletionItemLabelDetails`).
 		//
 		// @since 3.17.0
-		LabelDetailsSupport/*TOpt*/ *Boolean
+		LabelDetailsSupport/*TOpt*/ *Boolean `json:"labelDetailsSupport"`
 	}
 	CompletionItemKind/*TOpt*/ * /*TStruc*/ struct {
+
 		// The completion item kind values the client supports. When this
 		// property exists the client also guarantees that it will
 		// handle values outside its set gracefully and falls back
@@ -3969,7 +4001,7 @@ type CompletionClientCapabilities struct {
 		// If this property is not present the client only supports
 		// the completion items kinds from `Text` to `Reference` as defined in
 		// the initial version of the protocol.
-		ValueSet /*TOpt*/ []CompletionItemKind
+		ValueSet /*TOpt*/ []CompletionItemKind `json:"valueSet"`
 	}
 	// Defines how the client handles whitespace and indentation
 	// when accepting a completion item that uses multi line
@@ -3985,6 +4017,7 @@ type CompletionClientCapabilities struct {
 	//
 	// @since 3.17.0
 	CompletionList/*TOpt*/ * /*TStruc*/ struct {
+
 		// The client supports the following itemDefaults on
 		// a completion list.
 		//
@@ -3993,7 +4026,7 @@ type CompletionClientCapabilities struct {
 		// no properties are supported.
 		//
 		// @since 3.17.0
-		ItemDefaults /*TOpt*/ []string
+		ItemDefaults /*TOpt*/ []string `json:"itemDefaults"`
 	}
 }
 
@@ -4012,22 +4045,26 @@ type SignatureHelpClientCapabilities struct {
 	// The client supports the following `SignatureInformation`
 	// specific properties.
 	SignatureInformation/*TOpt*/ * /*TStruc*/ struct {
+
 		// Client supports the following content formats for the documentation
 		// property. The order describes the preferred format of the client.
-		DocumentationFormat/*TOpt*/ []MarkupKind
+		DocumentationFormat/*TOpt*/ []MarkupKind `json:"documentationFormat"`
+
 		// Client capabilities specific to parameter information.
 		ParameterInformation/*TOpt*/ * /*TStruc*/ struct {
+
 			// The client supports processing label offsets instead of a
 			// simple label string.
 			//
 			// @since 3.14.0
-			LabelOffsetSupport /*TOpt*/ *Boolean
-		}
+			LabelOffsetSupport /*TOpt*/ *Boolean `json:"labelOffsetSupport"`
+		} `json:"parameterInformation"`
+
 		// The client supports the `activeParameter` property on `SignatureInformation`
 		// literal.
 		//
 		// @since 3.16.0
-		ActiveParameterSupport/*TOpt*/ *Boolean
+		ActiveParameterSupport/*TOpt*/ *Boolean `json:"activeParameterSupport"`
 	}
 	// The client supports to send additional context information for a
 	// `textDocument/signatureHelp` request. A client that opts into
@@ -4101,6 +4138,7 @@ type DocumentSymbolClientCapabilities struct {
 	// Specific capabilities for the `SymbolKind` in the
 	// `textDocument/documentSymbol` request.
 	SymbolKind/*TOpt*/ * /*TStruc*/ struct {
+
 		// The symbol kind values the client supports. When this
 		// property exists the client also guarantees that it will
 		// handle values outside its set gracefully and falls back
@@ -4109,7 +4147,7 @@ type DocumentSymbolClientCapabilities struct {
 		// If this property is not present the client only supports
 		// the symbol kinds from `File` to `Array` as defined in
 		// the initial version of the protocol.
-		ValueSet /*TOpt*/ []SymbolKind
+		ValueSet /*TOpt*/ []SymbolKind `json:"valueSet"`
 	}
 	// The client supports hierarchical document symbols.
 	HierarchicalDocumentSymbolSupport/*TOpt*/ *Boolean
@@ -4119,8 +4157,9 @@ type DocumentSymbolClientCapabilities struct {
 	//
 	// @since 3.16.0
 	TagSupport/*TOpt*/ * /*TStruc*/ struct {
+
 		// The tags supported by the client.
-		ValueSet []SymbolTag
+		ValueSet []SymbolTag `json:"valueSet"`
 	}
 	// The client supports an additional label presented in the UI when
 	// registering a document symbol provider.
@@ -4139,15 +4178,17 @@ type CodeActionClientCapabilities struct {
 	//
 	// @since 3.8.0
 	CodeActionLiteralSupport/*TOpt*/ * /*TStruc*/ struct {
+
 		// The code action kind is support with the following value
 		// set.
 		CodeActionKind /*TStruc*/ struct {
+
 			// The code action kind values the client supports. When this
 			// property exists the client also guarantees that it will
 			// handle values outside its set gracefully and falls back
 			// to a default value when unknown.
-			ValueSet []CodeActionKind
-		}
+			ValueSet []CodeActionKind `json:"valueSet"`
+		} `json:"codeActionKind"`
 	}
 	// Whether code action supports the `isPreferred` property.
 	//
@@ -4168,8 +4209,9 @@ type CodeActionClientCapabilities struct {
 	//
 	// @since 3.16.0
 	ResolveSupport/*TOpt*/ * /*TStruc*/ struct {
+
 		// The properties that a client can resolve lazily.
-		Properties []string
+		Properties []string `json:"properties"`
 	}
 	// Whether the client honors the change annotations in
 	// text edits and resource operations returned via the
@@ -4265,21 +4307,23 @@ type FoldingRangeClientCapabilities struct {
 	//
 	// @since 3.17.0
 	FoldingRangeKind/*TOpt*/ * /*TStruc*/ struct {
+
 		// The folding range kind values the client supports. When this
 		// property exists the client also guarantees that it will
 		// handle values outside its set gracefully and falls back
 		// to a default value when unknown.
-		ValueSet /*TOpt*/ []FoldingRangeKind
+		ValueSet /*TOpt*/ []FoldingRangeKind `json:"valueSet"`
 	}
 	// Specific options for the folding range.
 	//
 	// @since 3.17.0
 	FoldingRange/*TOpt*/ * /*TStruc*/ struct {
+
 		// If set, the client signals that it supports setting collapsedText on
 		// folding ranges to display custom labels instead of the default text.
 		//
 		// @since 3.17.0
-		CollapsedText /*TOpt*/ *Boolean
+		CollapsedText /*TOpt*/ *Boolean `json:"collapsedText"`
 	}
 }
 
@@ -4299,8 +4343,9 @@ type PublishDiagnosticsClientCapabilities struct {
 	//
 	// @since 3.15.0
 	TagSupport/*TOpt*/ * /*TStruc*/ struct {
+
 		// The tags supported by the client.
-		ValueSet []DiagnosticTag
+		ValueSet []DiagnosticTag `json:"valueSet"`
 	}
 	// Whether the client interprets the version property of the
 	// `textDocument/publishDiagnostics` notification's parameter.
@@ -4342,6 +4387,7 @@ type SemanticTokensClientCapabilities struct {
 	// range provider the client might not render a minimap correctly or might
 	// even decide to not show any semantic tokens at all.
 	Requests/*TStruc*/ struct {
+
 		// The client will send the `textDocument/semanticTokens/range` request if
 		// the server provides a corresponding handler.
 		//
@@ -4349,7 +4395,8 @@ type SemanticTokensClientCapabilities struct {
 		Range/*TOpt*/ /*TOr*/ struct {
 			Boolean/*TOpt*/ *Boolean
 			AnyByString/*TOpt*/ map[string]any
-		}
+		} `json:"range"`
+
 		// The client will send the `textDocument/semanticTokens/full` request if
 		// the server provides a corresponding handler.
 		//
@@ -4357,13 +4404,13 @@ type SemanticTokensClientCapabilities struct {
 		Full/*TOpt*/ /*TOr*/ struct {
 			Boolean/*TOpt*/ *Boolean
 			DeltaBoolean/*TOpt*/ * /*TStruc*/ struct {
+
 				// The client will send the `textDocument/semanticTokens/full/delta` request if
 				// the server provides a corresponding handler.
-				Delta /*TOpt*/ *Boolean
+				Delta /*TOpt*/ *Boolean `json:"delta"`
 			}
-		}
+		} `json:"full"`
 	}
-
 	// The token types that the client supports.
 	TokenTypes []string
 	// The token modifiers that the client supports.
@@ -4439,8 +4486,9 @@ type InlayHintClientCapabilities struct {
 	// Indicates which properties a client can resolve lazily on an inlay
 	// hint.
 	ResolveSupport/*TOpt*/ * /*TStruc*/ struct {
+
 		// The properties that a client can resolve lazily.
-		Properties []string
+		Properties []string `json:"properties"`
 	}
 }
 
@@ -4473,10 +4521,11 @@ type NotebookDocumentSyncClientCapabilities struct {
 type ShowMessageRequestClientCapabilities struct {
 	// Capabilities specific to the `MessageActionItem` type.
 	MessageActionItem /*TOpt*/ * /*TStruc*/ struct {
+
 		// Whether the client supports additional attributes which
 		// are preserved and send back to the server in the
 		// request's response.
-		AdditionalPropertiesSupport /*TOpt*/ *Boolean
+		AdditionalPropertiesSupport /*TOpt*/ *Boolean `json:"additionalPropertiesSupport"`
 	}
 }
 

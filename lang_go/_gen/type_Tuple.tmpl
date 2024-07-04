@@ -1,8 +1,4 @@
 {{- $bag := . -}}
 {{- $member_types := $bag.Type -}}
 
-/*TTup*/struct {
-{{- range $i, $mt := $member_types }}
-    {{$mt.NameSuggestion true}}{{$i}} {{ $bag.Main.DoType $mt }}
-{{- end }}
-}
+/*TTup*/[]{{ $bag.Main.DoType (index $member_types 0) -}}
