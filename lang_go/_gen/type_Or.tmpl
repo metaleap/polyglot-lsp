@@ -1,10 +1,11 @@
 {{- $bag := . -}}
+{{- $ident := $bag.TypeIdentGen -}}
 {{- $member_types := $bag.Type.NonNull -}}
 
 {{- if eq (len $member_types) 1 -}}
 /*TOr*/{{ $bag.Main.DoTypeOptional (index $member_types 0) true }}
 {{- else -}}
-/*TOr*/struct {
+/*TOr*/type {{ $ident }} struct {
 {{- range $member_types -}}
     {{.NameSuggestion true}} {{ $bag.Main.DoTypeOptional . true }}
 {{ end }}

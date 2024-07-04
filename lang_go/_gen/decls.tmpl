@@ -6,7 +6,7 @@ import (
 {{ $main := . -}}
 
 {{- range $main.Decls.NamedAnonDeclRenders }}
-{{ $main.DoType . }}
+{{ . }}
 {{- end }}
 
 

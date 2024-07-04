@@ -434,12 +434,7 @@ type WorkspaceEdit struct {
 	// only plain `TextEdit`s using the `changes` property are supported.
 	//
 	// Every object in the array has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	DocumentChanges/*TOpt*/ [] /*TOr*/ struct {
-		TextDocumentEdit/*TOpt*/ *TextDocumentEdit
-		CreateFile/*TOpt*/ *CreateFile
-		RenameFile/*TOpt*/ *RenameFile
-		DeleteFile/*TOpt*/ *DeleteFile
-	}
+	DocumentChanges/*TOpt*/ []TextDocumentEditOrCreateFileOrRenameFileOrDeleteFile
 	// A map of change annotations that can be referenced in `AnnotatedTextEdit`s or create, rename and
 	// delete file / folder operations.
 	//
@@ -612,10 +607,7 @@ type InlayHint struct {
 	// *Note* that neither the string nor the label part can be empty.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Label/*TOr*/ struct {
-		String/*TOpt*/ *String
-		InlayHintLabelParts/*TOpt*/ []InlayHintLabelPart
-	}
+	Label StringOrInlayHintLabelParts
 	// The kind of this hint. Can be omitted in which case the client
 	// should fall back to a reasonable default.
 	Kind/*TOpt*/ InlayHintKind
@@ -628,10 +620,7 @@ type InlayHint struct {
 	// The tooltip text when you hover over this item.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Tooltip/*TOpt*/ /*TOr*/ struct {
-		String/*TOpt*/ *String
-		MarkupContent/*TOpt*/ *MarkupContent
-	}
+	Tooltip/*TOpt*/ StringOrMarkupContent
 	// Render padding before the hint.
 	//
 	// Note: Padding should use the editor's background color, not the
@@ -677,10 +666,7 @@ type DocumentDiagnosticParams struct {
 // @since 3.17.0
 type DocumentDiagnosticReportPartialResult struct {
 	// Every object in the map has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	RelatedDocuments map[DocumentURI] /*TOr*/ struct {
-		FullDocumentDiagnosticReport/*TOpt*/ *FullDocumentDiagnosticReport
-		UnchangedDocumentDiagnosticReport/*TOpt*/ *UnchangedDocumentDiagnosticReport
-	}
+	RelatedDocuments map[DocumentURI]FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport
 }
 
 // Cancellation data returned from a diagnostic request.
@@ -832,10 +818,7 @@ type DidChangeConfigurationParams struct {
 
 type DidChangeConfigurationRegistrationOptions struct {
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Section /*TOpt*/ /*TOr*/ struct {
-		String/*TOpt*/ *String
-		Strings/*TOpt*/ []string
-	}
+	Section /*TOpt*/ StringOrStrings
 }
 
 // The parameters of a notification message.
@@ -1002,10 +985,7 @@ type CompletionItem struct {
 	// A human-readable string that represents a doc-comment.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Documentation/*TOpt*/ /*TOr*/ struct {
-		String/*TOpt*/ *String
-		MarkupContent/*TOpt*/ *MarkupContent
-	}
+	Documentation/*TOpt*/ StringOrMarkupContent
 	// Indicates if this item is deprecated.
 	// @deprecated Use `tags` instead.
 	Deprecated/*TOpt*/ *Boolean
@@ -1070,10 +1050,7 @@ type CompletionItem struct {
 	// @since 3.16.0 additional type `InsertReplaceEdit`
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	TextEdit/*TOpt*/ /*TOr*/ struct {
-		TextEdit/*TOpt*/ *TextEdit
-		InsertReplaceEdit/*TOpt*/ *InsertReplaceEdit
-	}
+	TextEdit/*TOpt*/ TextEditOrInsertReplaceEdit
 	// The edit text used if the completion item is part of a CompletionList and
 	// CompletionList defines an item default for the text edit range.
 	//
@@ -1139,14 +1116,7 @@ type CompletionList struct {
 		// @since 3.17.0
 		//
 		// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-		EditRange/*TOpt*/ /*TOr*/ struct {
-			Range/*TOpt*/ *Range
-			InsertRangeWithReplaceRange/*TOpt*/ * /*TStruc*/ struct {
-				Insert Range `json:"insert"`
-
-				Replace Range `json:"replace"`
-			}
-		} `json:"editRange"`
+		EditRange/*TOpt*/ RangeOrInsertRangeWithReplaceRange `json:"editRange"`
 
 		// A default insert text format.
 		//
@@ -1184,11 +1154,7 @@ type Hover struct {
 	// The hover's content
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Contents/*TOr*/ struct {
-		MarkupContent/*TOpt*/ *MarkupContent
-		MarkedString/*TOpt*/ MarkedString
-		MarkedStrings/*TOpt*/ []MarkedString
-	}
+	Contents MarkupContentOrMarkedStringOrMarkedStrings
 	// An optional range inside the text document that is used to
 	// visualize the hover, e.g. by changing the background color.
 	Range/*TOpt*/ *Range
@@ -1469,12 +1435,7 @@ type WorkspaceSymbol struct {
 	// See SymbolInformation#location for more details.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Location/*TOr*/ struct {
-		Location/*TOpt*/ *Location
-		UriDocumentUri/*TOpt*/ * /*TStruc*/ struct {
-			Uri DocumentURI `json:"uri"`
-		}
-	}
+	Location LocationOrUriDocumentUri
 	// A data entry field that is preserved on a workspace symbol between a
 	// workspace symbol request and a workspace symbol resolve request.
 	Data/*TOpt*/ LSPAny
@@ -1741,10 +1702,7 @@ type CancelParams struct {
 	// The request id to cancel.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Id /*TOr*/ struct {
-		Integer/*TOpt*/ *Integer
-		String/*TOpt*/ *String
-	}
+	Id IntegerOrString
 }
 
 type ProgressParams struct {
@@ -1937,21 +1895,11 @@ type SemanticTokensOptions struct {
 	// of a document.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Range/*TOpt*/ /*TOr*/ struct {
-		Boolean/*TOpt*/ *Boolean
-		AnyByString/*TOpt*/ map[string]any
-	}
+	Range/*TOpt*/ BooleanOrAnyByString
 	// Server supports providing semantic tokens for a full document.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Full/*TOpt*/ /*TOr*/ struct {
-		Boolean/*TOpt*/ *Boolean
-		DeltaBoolean/*TOpt*/ * /*TStruc*/ struct {
-
-			// The server supports deltas for full documents.
-			Delta /*TOpt*/ *Boolean `json:"delta"`
-		}
-	}
+	Full/*TOpt*/ BooleanOrDeltaBoolean
 }
 
 // @since 3.16.0
@@ -1989,10 +1937,7 @@ type TextDocumentEdit struct {
 	// client capability.
 	//
 	// Every object in the array has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Edits [] /*TOr*/ struct {
-		TextEdit/*TOpt*/ *TextEdit
-		AnnotatedTextEdit/*TOpt*/ *AnnotatedTextEdit
-	}
+	Edits []TextEditOrAnnotatedTextEdit
 }
 
 // Create file operation.
@@ -2157,10 +2102,7 @@ type InlayHintLabelPart struct {
 	// this property late using the resolve request.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Tooltip/*TOpt*/ /*TOr*/ struct {
-		String/*TOpt*/ *String
-		MarkupContent/*TOpt*/ *MarkupContent
-	}
+	Tooltip/*TOpt*/ StringOrMarkupContent
 	// An optional source code location that represents this
 	// label part.
 	//
@@ -2235,10 +2177,7 @@ type RelatedFullDocumentDiagnosticReport struct {
 	// @since 3.17.0
 	//
 	// Every object in the map has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	RelatedDocuments/*TOpt*/ map[DocumentURI] /*TOr*/ struct {
-		FullDocumentDiagnosticReport/*TOpt*/ *FullDocumentDiagnosticReport
-		UnchangedDocumentDiagnosticReport/*TOpt*/ *UnchangedDocumentDiagnosticReport
-	}
+	RelatedDocuments/*TOpt*/ map[DocumentURI]FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport
 }
 
 // An unchanged diagnostic report with a set of related documents.
@@ -2255,10 +2194,7 @@ type RelatedUnchangedDocumentDiagnosticReport struct {
 	// @since 3.17.0
 	//
 	// Every object in the map has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	RelatedDocuments/*TOpt*/ map[DocumentURI] /*TOr*/ struct {
-		FullDocumentDiagnosticReport/*TOpt*/ *FullDocumentDiagnosticReport
-		UnchangedDocumentDiagnosticReport/*TOpt*/ *UnchangedDocumentDiagnosticReport
-	}
+	RelatedDocuments/*TOpt*/ map[DocumentURI]FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport
 }
 
 // A diagnostic report with a full set of problems.
@@ -2509,91 +2445,55 @@ type ServerCapabilities struct {
 	// TextDocumentSyncKind number.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	TextDocumentSync/*TOpt*/ /*TOr*/ struct {
-		TextDocumentSyncOptions/*TOpt*/ *TextDocumentSyncOptions
-		TextDocumentSyncKind/*TOpt*/ TextDocumentSyncKind
-	}
+	TextDocumentSync/*TOpt*/ TextDocumentSyncOptionsOrTextDocumentSyncKind
 	// Defines how notebook documents are synced.
 	//
 	// @since 3.17.0
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	NotebookDocumentSync/*TOpt*/ /*TOr*/ struct {
-		NotebookDocumentSyncOptions/*TOpt*/ *NotebookDocumentSyncOptions
-		NotebookDocumentSyncRegistrationOptions/*TOpt*/ *NotebookDocumentSyncRegistrationOptions
-	}
+	NotebookDocumentSync/*TOpt*/ NotebookDocumentSyncOptionsOrNotebookDocumentSyncRegistrationOptions
 	// The server provides completion support.
 	CompletionProvider/*TOpt*/ *CompletionOptions
 	// The server provides hover support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	HoverProvider/*TOpt*/ /*TOr*/ struct {
-		Boolean/*TOpt*/ *Boolean
-		HoverOptions/*TOpt*/ *HoverOptions
-	}
+	HoverProvider/*TOpt*/ BooleanOrHoverOptions
 	// The server provides signature help support.
 	SignatureHelpProvider/*TOpt*/ *SignatureHelpOptions
 	// The server provides Goto Declaration support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	DeclarationProvider/*TOpt*/ /*TOr*/ struct {
-		Boolean/*TOpt*/ *Boolean
-		DeclarationOptions/*TOpt*/ *DeclarationOptions
-		DeclarationRegistrationOptions/*TOpt*/ *DeclarationRegistrationOptions
-	}
+	DeclarationProvider/*TOpt*/ BooleanOrDeclarationOptionsOrDeclarationRegistrationOptions
 	// The server provides goto definition support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	DefinitionProvider/*TOpt*/ /*TOr*/ struct {
-		Boolean/*TOpt*/ *Boolean
-		DefinitionOptions/*TOpt*/ *DefinitionOptions
-	}
+	DefinitionProvider/*TOpt*/ BooleanOrDefinitionOptions
 	// The server provides Goto Type Definition support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	TypeDefinitionProvider/*TOpt*/ /*TOr*/ struct {
-		Boolean/*TOpt*/ *Boolean
-		TypeDefinitionOptions/*TOpt*/ *TypeDefinitionOptions
-		TypeDefinitionRegistrationOptions/*TOpt*/ *TypeDefinitionRegistrationOptions
-	}
+	TypeDefinitionProvider/*TOpt*/ BooleanOrTypeDefinitionOptionsOrTypeDefinitionRegistrationOptions
 	// The server provides Goto Implementation support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	ImplementationProvider/*TOpt*/ /*TOr*/ struct {
-		Boolean/*TOpt*/ *Boolean
-		ImplementationOptions/*TOpt*/ *ImplementationOptions
-		ImplementationRegistrationOptions/*TOpt*/ *ImplementationRegistrationOptions
-	}
+	ImplementationProvider/*TOpt*/ BooleanOrImplementationOptionsOrImplementationRegistrationOptions
 	// The server provides find references support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	ReferencesProvider/*TOpt*/ /*TOr*/ struct {
-		Boolean/*TOpt*/ *Boolean
-		ReferenceOptions/*TOpt*/ *ReferenceOptions
-	}
+	ReferencesProvider/*TOpt*/ BooleanOrReferenceOptions
 	// The server provides document highlight support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	DocumentHighlightProvider/*TOpt*/ /*TOr*/ struct {
-		Boolean/*TOpt*/ *Boolean
-		DocumentHighlightOptions/*TOpt*/ *DocumentHighlightOptions
-	}
+	DocumentHighlightProvider/*TOpt*/ BooleanOrDocumentHighlightOptions
 	// The server provides document symbol support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	DocumentSymbolProvider/*TOpt*/ /*TOr*/ struct {
-		Boolean/*TOpt*/ *Boolean
-		DocumentSymbolOptions/*TOpt*/ *DocumentSymbolOptions
-	}
+	DocumentSymbolProvider/*TOpt*/ BooleanOrDocumentSymbolOptions
 	// The server provides code actions. CodeActionOptions may only be
 	// specified if the client states that it supports
 	// `codeActionLiteralSupport` in its initial `initialize` request.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	CodeActionProvider/*TOpt*/ /*TOr*/ struct {
-		Boolean/*TOpt*/ *Boolean
-		CodeActionOptions/*TOpt*/ *CodeActionOptions
-	}
+	CodeActionProvider/*TOpt*/ BooleanOrCodeActionOptions
 	// The server provides code lens.
 	CodeLensProvider/*TOpt*/ *CodeLensOptions
 	// The server provides document link support.
@@ -2601,32 +2501,19 @@ type ServerCapabilities struct {
 	// The server provides color provider support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	ColorProvider/*TOpt*/ /*TOr*/ struct {
-		Boolean/*TOpt*/ *Boolean
-		DocumentColorOptions/*TOpt*/ *DocumentColorOptions
-		DocumentColorRegistrationOptions/*TOpt*/ *DocumentColorRegistrationOptions
-	}
+	ColorProvider/*TOpt*/ BooleanOrDocumentColorOptionsOrDocumentColorRegistrationOptions
 	// The server provides workspace symbol support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	WorkspaceSymbolProvider/*TOpt*/ /*TOr*/ struct {
-		Boolean/*TOpt*/ *Boolean
-		WorkspaceSymbolOptions/*TOpt*/ *WorkspaceSymbolOptions
-	}
+	WorkspaceSymbolProvider/*TOpt*/ BooleanOrWorkspaceSymbolOptions
 	// The server provides document formatting.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	DocumentFormattingProvider/*TOpt*/ /*TOr*/ struct {
-		Boolean/*TOpt*/ *Boolean
-		DocumentFormattingOptions/*TOpt*/ *DocumentFormattingOptions
-	}
+	DocumentFormattingProvider/*TOpt*/ BooleanOrDocumentFormattingOptions
 	// The server provides document range formatting.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	DocumentRangeFormattingProvider/*TOpt*/ /*TOr*/ struct {
-		Boolean/*TOpt*/ *Boolean
-		DocumentRangeFormattingOptions/*TOpt*/ *DocumentRangeFormattingOptions
-	}
+	DocumentRangeFormattingProvider/*TOpt*/ BooleanOrDocumentRangeFormattingOptions
 	// The server provides document formatting on typing.
 	DocumentOnTypeFormattingProvider/*TOpt*/ *DocumentOnTypeFormattingOptions
 	// The server provides rename support. RenameOptions may only be
@@ -2634,26 +2521,15 @@ type ServerCapabilities struct {
 	// `prepareSupport` in its initial `initialize` request.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	RenameProvider/*TOpt*/ /*TOr*/ struct {
-		Boolean/*TOpt*/ *Boolean
-		RenameOptions/*TOpt*/ *RenameOptions
-	}
+	RenameProvider/*TOpt*/ BooleanOrRenameOptions
 	// The server provides folding provider support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	FoldingRangeProvider/*TOpt*/ /*TOr*/ struct {
-		Boolean/*TOpt*/ *Boolean
-		FoldingRangeOptions/*TOpt*/ *FoldingRangeOptions
-		FoldingRangeRegistrationOptions/*TOpt*/ *FoldingRangeRegistrationOptions
-	}
+	FoldingRangeProvider/*TOpt*/ BooleanOrFoldingRangeOptionsOrFoldingRangeRegistrationOptions
 	// The server provides selection range support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	SelectionRangeProvider/*TOpt*/ /*TOr*/ struct {
-		Boolean/*TOpt*/ *Boolean
-		SelectionRangeOptions/*TOpt*/ *SelectionRangeOptions
-		SelectionRangeRegistrationOptions/*TOpt*/ *SelectionRangeRegistrationOptions
-	}
+	SelectionRangeProvider/*TOpt*/ BooleanOrSelectionRangeOptionsOrSelectionRangeRegistrationOptions
 	// The server provides execute command support.
 	ExecuteCommandProvider/*TOpt*/ *ExecuteCommandOptions
 	// The server provides call hierarchy support.
@@ -2661,79 +2537,49 @@ type ServerCapabilities struct {
 	// @since 3.16.0
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	CallHierarchyProvider/*TOpt*/ /*TOr*/ struct {
-		Boolean/*TOpt*/ *Boolean
-		CallHierarchyOptions/*TOpt*/ *CallHierarchyOptions
-		CallHierarchyRegistrationOptions/*TOpt*/ *CallHierarchyRegistrationOptions
-	}
+	CallHierarchyProvider/*TOpt*/ BooleanOrCallHierarchyOptionsOrCallHierarchyRegistrationOptions
 	// The server provides linked editing range support.
 	//
 	// @since 3.16.0
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	LinkedEditingRangeProvider/*TOpt*/ /*TOr*/ struct {
-		Boolean/*TOpt*/ *Boolean
-		LinkedEditingRangeOptions/*TOpt*/ *LinkedEditingRangeOptions
-		LinkedEditingRangeRegistrationOptions/*TOpt*/ *LinkedEditingRangeRegistrationOptions
-	}
+	LinkedEditingRangeProvider/*TOpt*/ BooleanOrLinkedEditingRangeOptionsOrLinkedEditingRangeRegistrationOptions
 	// The server provides semantic tokens support.
 	//
 	// @since 3.16.0
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	SemanticTokensProvider/*TOpt*/ /*TOr*/ struct {
-		SemanticTokensOptions/*TOpt*/ *SemanticTokensOptions
-		SemanticTokensRegistrationOptions/*TOpt*/ *SemanticTokensRegistrationOptions
-	}
+	SemanticTokensProvider/*TOpt*/ SemanticTokensOptionsOrSemanticTokensRegistrationOptions
 	// The server provides moniker support.
 	//
 	// @since 3.16.0
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	MonikerProvider/*TOpt*/ /*TOr*/ struct {
-		Boolean/*TOpt*/ *Boolean
-		MonikerOptions/*TOpt*/ *MonikerOptions
-		MonikerRegistrationOptions/*TOpt*/ *MonikerRegistrationOptions
-	}
+	MonikerProvider/*TOpt*/ BooleanOrMonikerOptionsOrMonikerRegistrationOptions
 	// The server provides type hierarchy support.
 	//
 	// @since 3.17.0
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	TypeHierarchyProvider/*TOpt*/ /*TOr*/ struct {
-		Boolean/*TOpt*/ *Boolean
-		TypeHierarchyOptions/*TOpt*/ *TypeHierarchyOptions
-		TypeHierarchyRegistrationOptions/*TOpt*/ *TypeHierarchyRegistrationOptions
-	}
+	TypeHierarchyProvider/*TOpt*/ BooleanOrTypeHierarchyOptionsOrTypeHierarchyRegistrationOptions
 	// The server provides inline values.
 	//
 	// @since 3.17.0
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	InlineValueProvider/*TOpt*/ /*TOr*/ struct {
-		Boolean/*TOpt*/ *Boolean
-		InlineValueOptions/*TOpt*/ *InlineValueOptions
-		InlineValueRegistrationOptions/*TOpt*/ *InlineValueRegistrationOptions
-	}
+	InlineValueProvider/*TOpt*/ BooleanOrInlineValueOptionsOrInlineValueRegistrationOptions
 	// The server provides inlay hints.
 	//
 	// @since 3.17.0
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	InlayHintProvider/*TOpt*/ /*TOr*/ struct {
-		Boolean/*TOpt*/ *Boolean
-		InlayHintOptions/*TOpt*/ *InlayHintOptions
-		InlayHintRegistrationOptions/*TOpt*/ *InlayHintRegistrationOptions
-	}
+	InlayHintProvider/*TOpt*/ BooleanOrInlayHintOptionsOrInlayHintRegistrationOptions
 	// The server has support for pull model diagnostics.
 	//
 	// @since 3.17.0
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	DiagnosticProvider/*TOpt*/ /*TOr*/ struct {
-		DiagnosticOptions/*TOpt*/ *DiagnosticOptions
-		DiagnosticRegistrationOptions/*TOpt*/ *DiagnosticRegistrationOptions
-	}
+	DiagnosticProvider/*TOpt*/ DiagnosticOptionsOrDiagnosticRegistrationOptions
 	// Workspace specific server capabilities.
 	Workspace/*TOpt*/ * /*TStruc*/ struct {
 
@@ -2794,10 +2640,7 @@ type Diagnostic struct {
 	// The diagnostic's code, which usually appear in the user interface.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Code/*TOpt*/ /*TOr*/ struct {
-		Integer/*TOpt*/ *Integer
-		String/*TOpt*/ *String
-	}
+	Code/*TOpt*/ IntegerOrString
 	// An optional property to describe the error code.
 	// Requires the code field (above) to be present/not null.
 	//
@@ -2933,10 +2776,7 @@ type SignatureInformation struct {
 	// in the UI but can be omitted.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Documentation/*TOpt*/ /*TOr*/ struct {
-		String/*TOpt*/ *String
-		MarkupContent/*TOpt*/ *MarkupContent
-	}
+	Documentation/*TOpt*/ StringOrMarkupContent
 	// The parameters of this signature.
 	Parameters/*TOpt*/ []ParameterInformation
 	// The index of the active parameter.
@@ -3302,10 +3142,7 @@ type TextDocumentSyncOptions struct {
 	// sent.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Save/*TOpt*/ /*TOr*/ struct {
-		Boolean/*TOpt*/ *Boolean
-		SaveOptions/*TOpt*/ *SaveOptions
-	}
+	Save/*TOpt*/ BooleanOrSaveOptions
 }
 
 // Options specific to a notebook plus its cells
@@ -3330,10 +3167,7 @@ type NotebookDocumentSyncOptions struct {
 		// notebook type. '*' matches every notebook.
 		//
 		// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-		Notebook/*TOpt*/ /*TOr*/ struct {
-			String/*TOpt*/ *String
-			NotebookDocumentFilter/*TOpt*/ *NotebookDocumentFilter
-		} `json:"notebook"`
+		Notebook/*TOpt*/ StringOrNotebookDocumentFilter `json:"notebook"`
 
 		// The cells of the matching notebook to be synced.
 		Cells/*TOpt*/ [] /*TStruc*/ struct {
@@ -3365,10 +3199,7 @@ type WorkspaceFoldersServerCapabilities struct {
 	// using the `client/unregisterCapability` request.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	ChangeNotifications/*TOpt*/ /*TOr*/ struct {
-		String/*TOpt*/ *String
-		Boolean/*TOpt*/ *Boolean
-	}
+	ChangeNotifications/*TOpt*/ StringOrBoolean
 }
 
 // Options for notifications/requests for user operations on files.
@@ -3420,18 +3251,12 @@ type ParameterInformation struct {
 	// Its intended use case is to highlight the parameter label part in the `SignatureInformation.label`.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Label/*TOr*/ struct {
-		String/*TOpt*/ *String
-		UintegerWithUinteger/*TOpt*/ * /*TTup*/ []uint
-	}
+	Label StringOrUintegerWithUinteger
 	// The human-readable doc-comment of this parameter. Will be shown
 	// in the UI but can be omitted.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Documentation/*TOpt*/ /*TOr*/ struct {
-		String/*TOpt*/ *String
-		MarkupContent/*TOpt*/ *MarkupContent
-	}
+	Documentation/*TOpt*/ StringOrMarkupContent
 }
 
 // A notebook cell text document filter denotes a cell text
@@ -3445,10 +3270,7 @@ type NotebookCellTextDocumentFilter struct {
 	// notebook type. '*' matches every notebook.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Notebook/*TOr*/ struct {
-		String/*TOpt*/ *String
-		NotebookDocumentFilter/*TOpt*/ *NotebookDocumentFilter
-	}
+	Notebook StringOrNotebookDocumentFilter
 	// A language id like `python`.
 	//
 	// Will be matched against the language id of the
@@ -3712,10 +3534,7 @@ type RelativePattern struct {
 	// against relatively.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	BaseUri/*TOr*/ struct {
-		WorkspaceFolder/*TOpt*/ *WorkspaceFolder
-		URI/*TOpt*/ *URI
-	}
+	BaseUri WorkspaceFolderOrURI
 	// The actual glob pattern;
 	Pattern Pattern
 }
@@ -4392,24 +4211,13 @@ type SemanticTokensClientCapabilities struct {
 		// the server provides a corresponding handler.
 		//
 		// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-		Range/*TOpt*/ /*TOr*/ struct {
-			Boolean/*TOpt*/ *Boolean
-			AnyByString/*TOpt*/ map[string]any
-		} `json:"range"`
+		Range/*TOpt*/ BooleanOrAnyByString `json:"range"`
 
 		// The client will send the `textDocument/semanticTokens/full` request if
 		// the server provides a corresponding handler.
 		//
 		// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-		Full/*TOpt*/ /*TOr*/ struct {
-			Boolean/*TOpt*/ *Boolean
-			DeltaBoolean/*TOpt*/ * /*TStruc*/ struct {
-
-				// The client will send the `textDocument/semanticTokens/full/delta` request if
-				// the server provides a corresponding handler.
-				Delta /*TOpt*/ *Boolean `json:"delta"`
-			}
-		} `json:"full"`
+		Full/*TOpt*/ BooleanOrDeltaBoolean_ `json:"full"`
 	}
 	// The token types that the client supports.
 	TokenTypes []string
