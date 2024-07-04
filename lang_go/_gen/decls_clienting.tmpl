@@ -1,4 +1,6 @@
 import (
+	"fmt"
+	"io"
 )
 
 {{ $main := . -}}
@@ -8,11 +10,53 @@ type Client struct {
 
 	{{ range $main.Decls.Extras -}}
 	{{- $msg := . -}}
-	{{- if and $msg.IsServerToClient (not $msg.IsInit) -}}
+	{{- if $msg.IsServerToClient -}}
 	{{- range $msg.DocLines }}
 	// {{ . }}
 	{{- end }}
 	On_{{ $msg.MethodNameSafe }} func(params *{{ $msg.UnaryParamsTypeName }}) (any, error)
 	{{ end -}}
 	{{- end -}}
+}
+
+{{- range $main.Decls.Extras -}}
+{{- $msg := . }}
+{{- if $msg.IsClientToServer }}
+{{- range $msg.DocLines }}
+// {{ . }}
+{{- end }}
+func (it *Client) {{if $msg.IsReq}}Request{{else}}Notify{{end}}_{{ $msg.MethodNameSafe }} (params *{{ $msg.UnaryParamsTypeName }}{{if $msg.IsReq}}, onResp func(*{{- if $msg.IsReq -}}{{- $main.DoType $msg.ResultType -}}{{- end -}}){{end}}) {
+	var on_resp func(any){{- if $msg.IsReq -}} = clientServerOnResp(&it.clientServerBase, onResp){{- end }}
+	go it.send("{{$msg.Method}}", params, {{ $msg.IsReq }}, on_resp)
+}
+{{- end }}
+{{- end }}
+
+func (it *Client) handleIncoming(raw map[string]any) *jsonRpcError {
+	msg_id, msg_method :=raw["id"], raw["method"]
+
+	switch msg_method, _ := msg_method.(string); msg_method {
+	case "":  // msg is an incoming Response
+		msg_id := fmt.Sprintf("%v", msg_id)
+		handler := it.waiters[msg_id]
+		delete(it.waiters, msg_id)
+		go handler(raw["result"])
+	{{- range $main.Decls.Extras -}}
+	{{- $msg := . }}
+	{{- if $msg.IsServerToClient }}
+	case "{{$msg.Method}}":
+		clientServerHandleIncoming(&it.clientServerBase, it.On_{{ $msg.MethodNameSafe }}, msg_method, msg_id, raw["params"])
+	{{- end }}
+	{{- end }}
+	default: // msg is an incoming Request or Notification
+		return &jsonRpcError{ Code: -32601, Message: "unknown method: " + msg_method}
+	}
+
+	return nil
+}
+
+// Forever keeps reading and handling LSP JSON-RPC messages incoming over `serverOut`
+// until reading from `serverOut` fails, then returns that IO read error.
+func (it *Client) Forever(serverOut io.Reader, serverIn io.Writer) error {
+	return it.forever(serverOut, serverIn, it.handleIncoming)
 }

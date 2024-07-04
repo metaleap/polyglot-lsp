@@ -782,5 +782,5 @@ func (it *Server) Forever() error {
 		}
 	}
 
-	return it.forever(it.handleIncoming)
+	return it.forever(os.Stdin, os.Stdout, it.handleIncoming)
 }

@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"net/url"
-	"os"
 	"reflect"
 	"strconv"
 	"sync"
@@ -211,15 +211,15 @@ func (it *clientServerBase) send(methodName string, params any, isReq bool, onRe
 	it.sendMsg(req)
 }
 
-// forever keeps reading and handling LSP JSON-RPC messages incoming over `os.Stdin`
-// until reading from `os.Stdin` fails, then returns that IO read error.
-func (it *clientServerBase) forever(handleIncoming func(map[string]any) *jsonRpcError) error {
+// forever keeps reading and handling LSP JSON-RPC messages incoming over
+// `in` until reading from `in` fails, then returns that IO read error.
+func (it *clientServerBase) forever(in io.Reader, out io.Writer, handleIncoming func(map[string]any) *jsonRpcError) error {
 	const buf_cap = 1024 * 1024
 
-	it.stdout = bufio.NewWriterSize(os.Stdout, buf_cap)
+	it.stdout = bufio.NewWriterSize(out, buf_cap)
 	it.waiters = map[string]func(any){}
 
-	stdin := bufio.NewScanner(os.Stdin)
+	stdin := bufio.NewScanner(in)
 	stdin.Buffer(make([]byte, buf_cap), buf_cap)
 	stdin.Split(func(data []byte, ateof bool) (advance int, token []byte, err error) {
 		if i_cl1 := bytes.Index(data, []byte("Content-Length: ")); i_cl1 >= 0 {
