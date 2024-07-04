@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"strings"
 
 	glot "polyglot-lsp/pkg"
@@ -15,17 +14,6 @@ func generate(metaModel *MetaModel, ver string, lang string) {
 		GenRepo:  "github.com/metaleap/polyglot-lsp/gen/cmd/gen_lsp",
 	}}
 	gen.Generate(metaModel)
-
-	for _, notif := range metaModel.Notifications {
-		src, _ := json.Marshal(notif)
-		println("\n\n\n\n", string(src))
-	}
-
-	for _, notif := range metaModel.Requests {
-		src, _ := json.Marshal(notif)
-		println("\n\n\n\n", string(src))
-	}
-
 }
 
 func (*MetaModel) toGenBase(it *MMBase) glot.GenBase {
@@ -40,6 +28,25 @@ func (*MetaModel) toGenBase(it *MMBase) glot.GenBase {
 	}
 
 	return glot.GenBase{Name: it.Name, NameUp: glot.Up0(it.Name), DocLines: doc_lines}
+}
+
+func (it *MetaModel) GenExtras(gen *glot.Gen) (ret []any) {
+	repl := strings.NewReplacer("/", "_", "$", "_")
+	prepForTmpl := func(it *MMMessageBase, base *MMBase) {
+		it.MethodNameSafe = repl.Replace(it.Method)
+		it.IsClientToServer = (it.MessageDirection == MMMessageDirectionClientToServer) || (it.MessageDirection == MMMessageDirectionBoth)
+		it.IsServerToClient = (it.MessageDirection == MMMessageDirectionServerToClient) || (it.MessageDirection == MMMessageDirectionBoth)
+		it.DocLines = strings.Split(base.Documentation, "\n")
+	}
+	for _, it := range it.Notifications {
+		prepForTmpl(&it.MMMessageBase, &it.MMBase)
+		ret = append(ret, it)
+	}
+	for _, it := range it.Requests {
+		prepForTmpl(&it.MMMessageBase, &it.MMBase)
+		ret = append(ret, it)
+	}
+	return
 }
 
 func (it *MetaModel) GenEnumerations(gen *glot.Gen) []*glot.GenEnumeration {

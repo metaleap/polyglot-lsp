@@ -42,6 +42,7 @@ type GenMain struct {
 		Enumerations []*GenEnumeration
 		TypeAliases  []*GenAlias
 		Structures   []*GenStructure
+		Extras       []any
 
 		NamedAnonDeclRenders []string
 	}
@@ -71,6 +72,7 @@ type Source interface {
 	GenTypeAliases(*Gen) []*GenAlias
 	GenEnumerations(*Gen) []*GenEnumeration
 	GenStructures(*Gen) []*GenStructure
+	GenExtras(*Gen) []any
 }
 
 func (it *Gen) Generate(source Source) {
@@ -94,6 +96,7 @@ func (it *Gen) Generate(source Source) {
 	it.genPkgFile(&buf)
 
 	it.genMainDecls()
+	it.Main.Decls.Extras = source.GenExtras(it)
 	for _, tmpl_name := range Dir(it.dirPathSrc, func(entry fs.DirEntry, _ string) (string, bool) {
 		name := entry.Name()
 		return strings.TrimSuffix(name, ".tmpl"), strings.HasPrefix(name, "decls_") && strings.HasSuffix(name, ".tmpl")
