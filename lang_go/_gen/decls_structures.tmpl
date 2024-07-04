@@ -13,9 +13,9 @@ type {{ $struct.NameUp }} struct {
     {{ $main.DoType . }}
     {{- end -}}
 
-    {{- range .Properties -}}
+    {{- range .Properties }}
     {{ .DoDocComments $main }}
-    {{ .NameUp }} {{ $main.DoTypeOptional .Type ($main.If .HasConstVal false .Optional) }}
+    {{ .NameUp }} {{ $main.DoTypeOptional .Type ($main.If .HasConstVal false .Optional) }} `json:"{{.Name}}"`
     {{- end }}
 }
 
