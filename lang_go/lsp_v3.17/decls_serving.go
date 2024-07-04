@@ -17,6 +17,18 @@ type Server struct {
 	stdout     *bufio.Writer
 	waiters    map[string]func()
 
+	Lang struct {
+		CompletionTriggerChars []string
+		SignatureTriggerChars  []string
+	}
+
+	// Initialized is for informational purposes only, to the importer who shall not set or mutate them.
+	// Its fields are set automatically at the appropriate initialization lifecycle instant.
+	Initialized struct {
+		Client *InitializeParams
+		Server *InitializeResult
+	}
+
 	// The `workspace/didChangeWorkspaceFolders` notification is sent from the client to the server when the workspace
 	// folder configuration changes.
 	On_workspace_didChangeWorkspaceFolders func(params *DidChangeWorkspaceFoldersParams) (any, error)
@@ -60,11 +72,6 @@ type Server struct {
 	//
 	// @since 3.17.0
 	On_notebookDocument_didClose func(params *DidCloseNotebookDocumentParams) (any, error)
-
-	// The initialized notification is sent from the client to the
-	// server after the client is fully initialized and the server
-	// is allowed to send requests from the server to the client.
-	On_initialized func(params *InitializedParams) (any, error)
 
 	// The exit event is sent from the client to the server to
 	// ask the server to exit its process.
@@ -263,13 +270,6 @@ type Server struct {
 	// @since 3.17.0
 	On_workspace_diagnostic func(params *WorkspaceDiagnosticParams) (any, error)
 
-	// The initialize request is sent from the client to the server.
-	// It is sent once as the request after starting up the server.
-	// The requests parameter is of type {@link InitializeParams}
-	// the response if of type {@link InitializeResult} of a Thenable that
-	// resolves to such.
-	On_initialize func(params *InitializeParams) (any, error)
-
 	// A shutdown request is sent from the client to the server.
 	// It is sent once when the client decides to shutdown the
 	// server. The only notification that is sent after a shutdown request
@@ -418,8 +418,6 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 		serverHandleIncoming(it, it.On_notebookDocument_didSave, msg_method, msg_id, raw["params"])
 	case "notebookDocument/didClose":
 		serverHandleIncoming(it, it.On_notebookDocument_didClose, msg_method, msg_id, raw["params"])
-	case "initialized":
-		serverHandleIncoming(it, it.On_initialized, msg_method, msg_id, raw["params"])
 	case "exit":
 		serverHandleIncoming(it, it.On_exit, msg_method, msg_id, raw["params"])
 	case "workspace/didChangeConfiguration":
@@ -494,8 +492,6 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 		serverHandleIncoming(it, it.On_textDocument_diagnostic, msg_method, msg_id, raw["params"])
 	case "workspace/diagnostic":
 		serverHandleIncoming(it, it.On_workspace_diagnostic, msg_method, msg_id, raw["params"])
-	case "initialize":
-		serverHandleIncoming(it, it.On_initialize, msg_method, msg_id, raw["params"])
 	case "shutdown":
 		serverHandleIncoming(it, it.On_shutdown, msg_method, msg_id, raw["params"])
 	case "textDocument/willSaveWaitUntil":
@@ -542,99 +538,52 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 		serverHandleIncoming(it, it.On_textDocument_prepareRename, msg_method, msg_id, raw["params"])
 	case "workspace/executeCommand":
 		serverHandleIncoming(it, it.On_workspace_executeCommand, msg_method, msg_id, raw["params"])
+	case "initialized":
+		// no-op
+	case "initialize":
+		serverHandleIncoming(it, func(params *InitializeParams) (any, error) {
+			init := &it.Initialized
+			init.Client = params
+			init.Server = &InitializeResult{
+				ServerInfo: &struct {
+					Name    string
+					Version *String
+				}{Name: os.Args[0]},
+			}
+			caps := &init.Server.Capabilities
+			caps.TextDocumentSync.TextDocumentSyncOptions = &TextDocumentSyncOptions{
+				OpenClose: ptr(Boolean(it.On_textDocument_didClose != nil || it.On_textDocument_didOpen != nil)),
+				Change:    iIf(it.On_textDocument_didChange == nil, TextDocumentSyncKindNone, TextDocumentSyncKindFull),
+			}
+			if it.On_textDocument_completion != nil {
+				caps.CompletionProvider = &CompletionOptions{TriggerCharacters: it.Lang.CompletionTriggerChars}
+			}
+			caps.HoverProvider.Boolean = ptr(Boolean(it.On_textDocument_hover != nil))
+			if it.On_textDocument_signatureHelp != nil {
+				caps.SignatureHelpProvider = &SignatureHelpOptions{TriggerCharacters: it.Lang.SignatureTriggerChars}
+			}
+			caps.DeclarationProvider.Boolean = ptr(Boolean(it.On_textDocument_declaration != nil))
+			caps.DefinitionProvider.Boolean = ptr(Boolean(it.On_textDocument_definition != nil))
+			caps.TypeDefinitionProvider.Boolean = ptr(Boolean(it.On_textDocument_typeDefinition != nil))
+			caps.ImplementationProvider.Boolean = ptr(Boolean(it.On_textDocument_implementation != nil))
+			caps.ReferencesProvider.Boolean = ptr(Boolean(it.On_textDocument_references != nil))
+			caps.DocumentHighlightProvider.Boolean = ptr(Boolean(it.On_textDocument_documentHighlight != nil))
+			return init.Server, nil
+		}, msg_method, msg_id, raw["params"])
 	default: // msg is an incoming Request or Notification
-		/* workspace/didChangeWorkspaceFolders */
-		/* window/workDoneProgress/cancel */
-		/* workspace/didCreateFiles */
-		/* workspace/didRenameFiles */
-		/* workspace/didDeleteFiles */
-		/* notebookDocument/didOpen */
-		/* notebookDocument/didChange */
-		/* notebookDocument/didSave */
-		/* notebookDocument/didClose */
-		/* initialized */
-		/* exit */
-		/* workspace/didChangeConfiguration */
-		/* window/showMessage */
-		/* window/logMessage */
-		/* telemetry/event */
-		/* textDocument/didOpen */
-		/* textDocument/didChange */
-		/* textDocument/didClose */
-		/* textDocument/didSave */
-		/* textDocument/willSave */
-		/* workspace/didChangeWatchedFiles */
-		/* textDocument/publishDiagnostics */
-		/* $/setTrace */
-		/* $/logTrace */
-		/* $/cancelRequest */
-		/* $/progress */
-		/* textDocument/implementation */
-		/* textDocument/typeDefinition */
-		/* workspace/workspaceFolders */
-		/* workspace/configuration */
-		/* textDocument/documentColor */
-		/* textDocument/colorPresentation */
-		/* textDocument/foldingRange */
-		/* textDocument/declaration */
-		/* textDocument/selectionRange */
-		/* window/workDoneProgress/create */
-		/* textDocument/prepareCallHierarchy */
-		/* callHierarchy/incomingCalls */
-		/* callHierarchy/outgoingCalls */
-		/* textDocument/semanticTokens/full */
-		/* textDocument/semanticTokens/full/delta */
-		/* textDocument/semanticTokens/range */
-		/* workspace/semanticTokens/refresh */
-		/* window/showDocument */
-		/* textDocument/linkedEditingRange */
-		/* workspace/willCreateFiles */
-		/* workspace/willRenameFiles */
-		/* workspace/willDeleteFiles */
-		/* textDocument/moniker */
-		/* textDocument/prepareTypeHierarchy */
-		/* typeHierarchy/supertypes */
-		/* typeHierarchy/subtypes */
-		/* textDocument/inlineValue */
-		/* workspace/inlineValue/refresh */
-		/* textDocument/inlayHint */
-		/* inlayHint/resolve */
-		/* workspace/inlayHint/refresh */
-		/* textDocument/diagnostic */
-		/* workspace/diagnostic */
-		/* workspace/diagnostic/refresh */
-		/* client/registerCapability */
-		/* client/unregisterCapability */
-		/* initialize */
-		/* shutdown */
-		/* window/showMessageRequest */
-		/* textDocument/willSaveWaitUntil */
-		/* textDocument/completion */
-		/* completionItem/resolve */
-		/* textDocument/hover */
-		/* textDocument/signatureHelp */
-		/* textDocument/definition */
-		/* textDocument/references */
-		/* textDocument/documentHighlight */
-		/* textDocument/documentSymbol */
-		/* textDocument/codeAction */
-		/* codeAction/resolve */
-		/* workspaceSymbol/resolve */
-		/* textDocument/codeLens */
-		/* codeLens/resolve */
-		/* workspace/codeLens/refresh */
-		/* textDocument/documentLink */
-		/* documentLink/resolve */
-		/* textDocument/formatting */
-		/* textDocument/rangeFormatting */
-		/* textDocument/onTypeFormatting */
-		/* textDocument/rename */
-		/* textDocument/prepareRename */
-		/* workspace/executeCommand */
-		/* workspace/applyEdit */
+		return &jsonRpcError{Code: -32601, Message: "unknown method: " + msg_method}
 	}
 
 	return nil
+}
+
+func ptr[T any](value T) *T { return &value }
+
+func iIf[T any](chk bool, ifTrue T, ifFalse T) T {
+	if chk {
+		return ifTrue
+	}
+	return ifFalse
 }
 
 func serverHandleIncoming[T any](it *Server, handler func(*T) (any, error), msgMethodName string, msgIdMaybe any, msgParams any) {
@@ -726,6 +675,23 @@ func (it *Server) ServeForever() error {
 		}
 		return
 	})
+
+	{ // users shouldn't have to set up no-op handlers for these routine teardown lifecycle messages:
+		old_shutdown, old_exit := it.On_shutdown, it.On_exit
+		it.On_shutdown = func(params *Void) (any, error) {
+			if old_shutdown != nil {
+				return old_shutdown(params)
+			}
+			return nil, nil
+		}
+		it.On_exit = func(params *Void) (any, error) {
+			if old_exit != nil {
+				return old_exit(params)
+			}
+			os.Exit(0)
+			return nil, nil
+		}
+	}
 
 	for stdin.Scan() {
 		err := it.handleIncoming(stdin.Bytes())

@@ -81,6 +81,7 @@ type MMMessageBase struct {
 	IsServerToClient    bool
 	DocLines            []string
 	UnaryParamsTypeName string
+	IsInit              bool
 }
 
 type MMMessageDirection string

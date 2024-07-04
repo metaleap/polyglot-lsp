@@ -17,9 +17,21 @@ type Server struct {
 	stdout *bufio.Writer
 	waiters map[string]func()
 
+	Lang struct {
+		CompletionTriggerChars []string
+		SignatureTriggerChars []string
+	}
+
+	// Initialized is for informational purposes only, to the importer who shall not set or mutate them.
+	// Its fields are set automatically at the appropriate initialization lifecycle instant.
+	Initialized struct {
+		Client *InitializeParams
+		Server *InitializeResult
+	}
+
 	{{ range $main.Decls.Extras -}}
 	{{- $msg := . -}}
-	{{- if ($msg.IsClientToServer) -}}
+	{{- if and $msg.IsClientToServer (not $msg.IsInit) -}}
 	{{- range $msg.DocLines }}
 	// {{ . }}
 	{{- end }}
@@ -49,19 +61,57 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 		go handler()
 	{{- range $main.Decls.Extras -}}
 	{{- $msg := . }}
-	{{- if ($msg.IsClientToServer) }}
+	{{- if and $msg.IsClientToServer (not $msg.IsInit) }}
 	case "{{$msg.Method}}":
 		serverHandleIncoming(it, it.On_{{ $msg.MethodNameSafe }}, msg_method, msg_id, raw["params"])
 	{{- end }}
 	{{- end }}
+	case "initialized":
+		// no-op
+	case "initialize":
+		serverHandleIncoming(it, func(params *InitializeParams) (any, error) {
+			init := &it.Initialized
+			init.Client = params
+			init.Server = &InitializeResult{
+				ServerInfo: &struct {
+					Name    string
+					Version *String
+				}{Name: os.Args[0]},
+			}
+			caps := &init.Server.Capabilities
+			caps.TextDocumentSync.TextDocumentSyncOptions = &TextDocumentSyncOptions{
+				OpenClose: ptr(Boolean(it.On_textDocument_didClose != nil || it.On_textDocument_didOpen != nil)),
+				Change: iIf(it.On_textDocument_didChange == nil, TextDocumentSyncKindNone, TextDocumentSyncKindFull),
+			}
+			if it.On_textDocument_completion != nil {
+				caps.CompletionProvider = &CompletionOptions{ TriggerCharacters: it.Lang.CompletionTriggerChars }
+			}
+			caps.HoverProvider.Boolean = ptr(Boolean(it.On_textDocument_hover != nil))
+			if it.On_textDocument_signatureHelp != nil {
+				caps.SignatureHelpProvider = &SignatureHelpOptions{ TriggerCharacters: it.Lang.SignatureTriggerChars }
+			}
+			caps.DeclarationProvider.Boolean = ptr(Boolean(it.On_textDocument_declaration != nil))
+			caps.DefinitionProvider.Boolean = ptr(Boolean(it.On_textDocument_definition != nil))
+			caps.TypeDefinitionProvider.Boolean = ptr(Boolean(it.On_textDocument_typeDefinition != nil))
+			caps.ImplementationProvider.Boolean = ptr(Boolean(it.On_textDocument_implementation != nil))
+			caps.ReferencesProvider.Boolean = ptr(Boolean(it.On_textDocument_references != nil))
+			caps.DocumentHighlightProvider.Boolean = ptr(Boolean(it.On_textDocument_documentHighlight != nil))
+			return init.Server, nil
+		}, msg_method, msg_id, raw["params"])
 	default: // msg is an incoming Request or Notification
-		{{- range $main.Decls.Extras -}}
-		{{- $msg := . }}
-		/* {{ $msg.Method }} */
-		{{- end -}}
+		return &jsonRpcError{ Code: -32601, Message: "unknown method: " + msg_method}
 	}
 
 	return nil
+}
+
+func ptr[T any](value T) *T { return &value }
+
+func iIf[T any](chk bool, ifTrue T, ifFalse T) T {
+	if chk {
+		return ifTrue
+	}
+	return ifFalse
 }
 
 func serverHandleIncoming[T any] (it *Server, handler func (*T) (any, error), msgMethodName string, msgIdMaybe any, msgParams any) {
@@ -153,6 +203,23 @@ func (it *Server) ServeForever() error {
 		}
 		return
 	})
+
+	{ // users shouldn't have to set up no-op handlers for these routine teardown lifecycle messages:
+		old_shutdown, old_exit := it.On_shutdown, it.On_exit
+		it.On_shutdown = func(params *Void) (any, error) {
+			if old_shutdown != nil {
+				return old_shutdown(params)
+			}
+			return nil, nil
+		}
+		it.On_exit = func(params *Void) (any, error) {
+			if old_exit != nil {
+				return old_exit(params)
+			}
+			os.Exit(0)
+			return nil, nil
+		}
+	}
 
 	for stdin.Scan() {
 		err := it.handleIncoming(stdin.Bytes())

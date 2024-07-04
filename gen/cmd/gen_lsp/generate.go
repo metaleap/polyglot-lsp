@@ -44,6 +44,7 @@ func (it *MetaModel) GenExtras(gen *glot.Gen) (ret []any) {
 		if len(msgBase.Params) <= 1 && msgBase.UnaryParamsTypeName == "" {
 			msgBase.UnaryParamsTypeName = "Void"
 		}
+		msgBase.IsInit = (msgBase.Method == "initialize") || (msgBase.Method == "initialized")
 		return !(base.Since > it.MetaData.Version)
 	}
 	for _, it := range it.Notifications {
