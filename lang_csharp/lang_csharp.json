@@ -1,4 +1,5 @@
 {
+    "Disabled": true,
     "DisplayName": "C#",
     "PkgFile": "*.csproj",
     "SrcFileExt": ".cs",
@@ -22,7 +23,7 @@
         "type_Array": "{{.Main.DoType .Type.ElemType}}[]",
         "type_Map": "System.Collections.Generic.Dictionary<{{.Main.DoType .Type.KeyType}}, {{.Main.DoType .Type.ValueType}}>"
     },
-    "Dict": {},
+    "Dict": { },
     "PostGenTools": {
         "Format": {
             "Disabled": false,

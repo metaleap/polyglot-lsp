@@ -52,6 +52,7 @@ type GenMain struct {
 }
 
 type GenLang struct { // the contents of your lang_foo/lang_foo.json
+	Disabled     bool
 	DisplayName  string // eg. "Go" or "C#"
 	PkgFile      string // eg "go.mod", "package.json" etc
 	SrcFileExt   string // eg ".go", ".cs" etc
@@ -82,10 +83,14 @@ func (it *Gen) Generate(source Source) {
 	it.dirPathSrc = it.dirPathLang + "/_gen"
 	it.dirPathDst = it.dirPathLang + "/" + it.Main.GenIdent + "_v" + it.Main.GenVer
 	it.filePathLang = it.dirPathLang + "/lang_" + it.LangIdent + ".json"
-	defer it.postGenCleanUp()
-	DirCreate(it.dirPathDst)
 
 	it.Main.Lang = LoadFromJSONFile[GenLang](it.filePathLang)
+	if it.Main.Lang.Disabled {
+		return
+	}
+
+	defer it.postGenCleanUp()
+	DirCreate(it.dirPathDst)
 	it.Main.PkgName = If(it.Main.PkgName == "", it.Main.GenIdent, it.Main.PkgName)
 	if strings.HasPrefix(it.Main.Lang.PkgFile, "*") {
 		it.Main.Lang.PkgFile = it.Main.GenIdent + "_v" + it.Main.GenVer + it.Main.Lang.PkgFile[1:]
