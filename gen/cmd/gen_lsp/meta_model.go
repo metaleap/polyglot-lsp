@@ -83,6 +83,7 @@ type MMMessageBase struct {
 	UnaryParamsTypeName string
 	IsInit              bool
 	IsReq               bool
+	ResultType          glot.GenType
 }
 
 type MMMessageDirection string

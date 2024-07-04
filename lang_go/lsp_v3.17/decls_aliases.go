@@ -87,7 +87,6 @@ type PrepareRenameResult /*TOr*/ struct {
 		Range       Range
 		Placeholder string
 	}
-
 	DefaultBehaviorBoolean/*TOpt*/ * /*TStruc*/ struct {
 		DefaultBehavior bool
 	}
@@ -134,7 +133,6 @@ type TextDocumentContentChangeEvent /*TOr*/ struct {
 		// The new text for the provided range.
 		Text string
 	}
-
 	TextString/*TOpt*/ * /*TStruc*/ struct {
 		// The new text of the whole document.
 		Text string

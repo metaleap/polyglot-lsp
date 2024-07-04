@@ -395,64 +395,44 @@ type Server struct {
 }
 
 func (it *Server) Send_window_showMessage(params *ShowMessageParams) {
-
 }
 func (it *Server) Send_window_logMessage(params *LogMessageParams) {
-
 }
 func (it *Server) Send_telemetry_event(params *LSPAny) {
-
 }
 func (it *Server) Send_textDocument_publishDiagnostics(params *PublishDiagnosticsParams) {
-
 }
 func (it *Server) Send___logTrace(params *LogTraceParams) {
-
 }
 func (it *Server) Send___cancelRequest(params *CancelParams) {
-
 }
 func (it *Server) Send___progress(params *ProgressParams) {
-
 }
-func (it *Server) Send_workspace_workspaceFolders(params *Void, onResp func()) {
-
+func (it *Server) Send_workspace_workspaceFolders(params *Void, onResp func(* /*TOr*/ /*TOpt*/ []WorkspaceFolder)) {
 }
-func (it *Server) Send_workspace_configuration(params *ConfigurationParams, onResp func()) {
-
+func (it *Server) Send_workspace_configuration(params *ConfigurationParams, onResp func(*[]LSPAny)) {
 }
-func (it *Server) Send_window_workDoneProgress_create(params *WorkDoneProgressCreateParams, onResp func()) {
-
+func (it *Server) Send_window_workDoneProgress_create(params *WorkDoneProgressCreateParams, onResp func(*Void)) {
 }
-func (it *Server) Send_workspace_semanticTokens_refresh(params *Void, onResp func()) {
-
+func (it *Server) Send_workspace_semanticTokens_refresh(params *Void, onResp func(*Void)) {
 }
-func (it *Server) Send_window_showDocument(params *ShowDocumentParams, onResp func()) {
-
+func (it *Server) Send_window_showDocument(params *ShowDocumentParams, onResp func(*ShowDocumentResult)) {
 }
-func (it *Server) Send_workspace_inlineValue_refresh(params *Void, onResp func()) {
-
+func (it *Server) Send_workspace_inlineValue_refresh(params *Void, onResp func(*Void)) {
 }
-func (it *Server) Send_workspace_inlayHint_refresh(params *Void, onResp func()) {
-
+func (it *Server) Send_workspace_inlayHint_refresh(params *Void, onResp func(*Void)) {
 }
-func (it *Server) Send_workspace_diagnostic_refresh(params *Void, onResp func()) {
-
+func (it *Server) Send_workspace_diagnostic_refresh(params *Void, onResp func(*Void)) {
 }
-func (it *Server) Send_client_registerCapability(params *RegistrationParams, onResp func()) {
-
+func (it *Server) Send_client_registerCapability(params *RegistrationParams, onResp func(*Void)) {
 }
-func (it *Server) Send_client_unregisterCapability(params *UnregistrationParams, onResp func()) {
-
+func (it *Server) Send_client_unregisterCapability(params *UnregistrationParams, onResp func(*Void)) {
 }
-func (it *Server) Send_window_showMessageRequest(params *ShowMessageRequestParams, onResp func()) {
-
+func (it *Server) Send_window_showMessageRequest(params *ShowMessageRequestParams, onResp func(* /*TOr*/ /*TOpt*/ *MessageActionItem)) {
 }
-func (it *Server) Send_workspace_codeLens_refresh(params *Void, onResp func()) {
-
+func (it *Server) Send_workspace_codeLens_refresh(params *Void, onResp func(*Void)) {
 }
-func (it *Server) Send_workspace_applyEdit(params *ApplyWorkspaceEditParams, onResp func()) {
-
+func (it *Server) Send_workspace_applyEdit(params *ApplyWorkspaceEditParams, onResp func(*ApplyWorkspaceEditResult)) {
 }
 
 func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
@@ -615,6 +595,14 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 		serverHandleIncoming(it, it.On_workspace_executeCommand, msg_method, msg_id, raw["params"])
 	case "initialized":
 		if it.On_workspace_didChangeWatchedFiles != nil {
+			it.Send_client_registerCapability(&RegistrationParams{
+				Registrations: []Registration{
+					{Method: "workspace/didChangeWatchedFiles", Id: "workspace/didChangeWatchedFiles",
+						RegisterOptions: DidChangeWatchedFilesRegistrationOptions{Watchers: []FileSystemWatcher{
+							{Kind: WatchKindChange | WatchKindCreate | WatchKindDelete,
+								GlobPattern: GlobPattern{Pattern: ptr(String("**/*"))}}}}},
+				},
+			}, func(*Void) {})
 		}
 	case "initialize":
 		serverHandleIncoming(it, func(params *InitializeParams) (any, error) {

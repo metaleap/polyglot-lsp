@@ -8,6 +8,7 @@
         "uinteger": "uint",
         "integer": "int",
         "boolean": "bool",
+        "null": "Void",
         "decimal": "float64",
         "DocumentUri": "DocumentURI",
         "URI": "URI"

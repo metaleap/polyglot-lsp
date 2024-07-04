@@ -44,8 +44,7 @@ type Server struct {
 {{- range $main.Decls.Extras -}}
 {{- $msg := . }}
 {{- if $msg.IsServerToClient }}
-func (it *Server) Send_{{ $msg.MethodNameSafe }} (params *{{ $msg.UnaryParamsTypeName }}{{if $msg.IsReq}}, onResp func(){{end}}) {
-
+func (it *Server) Send_{{ $msg.MethodNameSafe }} (params *{{ $msg.UnaryParamsTypeName }}{{if $msg.IsReq}}, onResp func(*{{- if $msg.IsReq -}}{{- $main.DoType $msg.ResultType -}}{{- end -}}){{end}}) {
 }
 {{- end }}
 {{- end }}
@@ -77,6 +76,14 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 	{{- end }}
 	case "initialized":
 		if it.On_workspace_didChangeWatchedFiles != nil {
+			it.Send_client_registerCapability(&RegistrationParams{
+				Registrations: []Registration{
+					{Method: "workspace/didChangeWatchedFiles", Id: "workspace/didChangeWatchedFiles",
+						RegisterOptions: DidChangeWatchedFilesRegistrationOptions{Watchers: []FileSystemWatcher{
+							{Kind: WatchKindChange | WatchKindCreate | WatchKindDelete,
+								GlobPattern: GlobPattern{Pattern: ptr(String("**/*"))}}}}},
+				},
+			}, func(*Void) {})
 		}
 	case "initialize":
 		serverHandleIncoming(it, func(params *InitializeParams) (any, error) {

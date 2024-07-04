@@ -38,7 +38,7 @@ func (it *GenBase) DoDocComments(root *GenMain) string {
 }
 
 func (it *GenMain) DoType(t GenType) string {
-	return it.DoTypeOptional(t, false)
+	return strings.TrimSpace(it.DoTypeOptional(t, false))
 }
 
 func (it *GenMain) DoTypeOptional(t GenType, optional bool) string {

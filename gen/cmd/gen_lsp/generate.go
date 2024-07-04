@@ -33,7 +33,7 @@ func (*MetaModel) toGenBase(it *MMBase) glot.GenBase {
 func (it *MetaModel) GenExtras(gen *glot.Gen) (ret []any) {
 	repl := strings.NewReplacer("/", "_", "$", "_")
 
-	prepForTmpl := func(msgBase *MMMessageBase, base *MMBase, isReq bool) bool {
+	prepForTmpl := func(msgBase *MMMessageBase, base *MMBase, result *MMType) bool {
 		msgBase.MethodNameSafe = repl.Replace(msgBase.Method)
 		msgBase.IsClientToServer = (msgBase.MessageDirection == MMMessageDirectionClientToServer) || (msgBase.MessageDirection == MMMessageDirectionBoth)
 		msgBase.IsServerToClient = (msgBase.MessageDirection == MMMessageDirectionServerToClient) || (msgBase.MessageDirection == MMMessageDirectionBoth)
@@ -44,7 +44,10 @@ func (it *MetaModel) GenExtras(gen *glot.Gen) (ret []any) {
 		if len(msgBase.Params) <= 1 && msgBase.UnaryParamsTypeName == "" {
 			msgBase.UnaryParamsTypeName = "Void"
 		}
-		msgBase.IsReq, msgBase.IsInit = isReq, (msgBase.Method == "initialize") || (msgBase.Method == "initialized")
+		msgBase.IsReq, msgBase.IsInit = (result != nil), (msgBase.Method == "initialize") || (msgBase.Method == "initialized")
+		if result != nil {
+			msgBase.ResultType = result.toGenType(it, gen)
+		}
 
 		if idx := strings.IndexByte(base.Since, ' '); idx > 0 {
 			base.Since = base.Since[:idx]
@@ -52,12 +55,12 @@ func (it *MetaModel) GenExtras(gen *glot.Gen) (ret []any) {
 		return !(base.Since > it.MetaData.Version)
 	}
 	for _, it := range it.Notifications {
-		if prepForTmpl(&it.MMMessageBase, &it.MMBase, false) {
+		if prepForTmpl(&it.MMMessageBase, &it.MMBase, nil) {
 			ret = append(ret, it)
 		}
 	}
 	for _, it := range it.Requests {
-		if prepForTmpl(&it.MMMessageBase, &it.MMBase, true) {
+		if prepForTmpl(&it.MMMessageBase, &it.MMBase, &it.Result) {
 			ret = append(ret, it)
 		}
 	}

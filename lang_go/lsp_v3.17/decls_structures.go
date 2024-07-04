@@ -440,7 +440,6 @@ type WorkspaceEdit struct {
 		RenameFile/*TOpt*/ *RenameFile
 		DeleteFile/*TOpt*/ *DeleteFile
 	}
-
 	// A map of change annotations that can be referenced in `AnnotatedTextEdit`s or create, rename and
 	// delete file / folder operations.
 	//
@@ -634,7 +633,6 @@ type InlayHint struct {
 		String/*TOpt*/ *String
 		MarkupContent/*TOpt*/ *MarkupContent
 	}
-
 	// Render padding before the hint.
 	//
 	// Note: Padding should use the editor's background color, not the
@@ -1007,7 +1005,6 @@ type CompletionItem struct {
 		String/*TOpt*/ *String
 		MarkupContent/*TOpt*/ *MarkupContent
 	}
-
 	// Indicates if this item is deprecated.
 	// @deprecated Use `tags` instead.
 	Deprecated/*TOpt*/ *Boolean
@@ -1076,7 +1073,6 @@ type CompletionItem struct {
 		TextEdit/*TOpt*/ *TextEdit
 		InsertReplaceEdit/*TOpt*/ *InsertReplaceEdit
 	}
-
 	// The edit text used if the completion item is part of a CompletionList and
 	// CompletionList defines an item default for the text edit range.
 	//
@@ -1147,7 +1143,6 @@ type CompletionList struct {
 				Replace Range
 			}
 		}
-
 		// A default insert text format.
 		//
 		// @since 3.17.0
@@ -1161,7 +1156,6 @@ type CompletionList struct {
 		// @since 3.17.0
 		Data/*TOpt*/ LSPAny
 	}
-
 	// The completion items.
 	Items []CompletionItem
 }
@@ -1426,7 +1420,6 @@ type CodeAction struct {
 		// This is displayed in the code actions UI.
 		Reason string
 	}
-
 	// The workspace edit this code action performs.
 	Edit/*TOpt*/ *WorkspaceEdit
 	// A command this code action executes. If a code action
@@ -1942,7 +1935,6 @@ type SemanticTokensOptions struct {
 		Boolean/*TOpt*/ *Boolean
 		AnyByString/*TOpt*/ map[string]any
 	}
-
 	// Server supports providing semantic tokens for a full document.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
@@ -2162,7 +2154,6 @@ type InlayHintLabelPart struct {
 		String/*TOpt*/ *String
 		MarkupContent/*TOpt*/ *MarkupContent
 	}
-
 	// An optional source code location that represents this
 	// label part.
 	//
@@ -2388,7 +2379,6 @@ type NotebookDocumentChangeEvent struct {
 			// Additional closed cell text documents.
 			DidClose/*TOpt*/ []TextDocumentIdentifier
 		}
-
 		// Changes to notebook cells properties like its
 		// kind, execution summary or metadata.
 		Data/*TOpt*/ []NotebookCell
@@ -2447,7 +2437,6 @@ type _InitializeParams struct {
 		// The client's version as defined by the client.
 		Version/*TOpt*/ *String
 	}
-
 	// The locale the client is currently showing the user interface
 	// in. This must not necessarily be the locale of the operating
 	// system.
@@ -2462,7 +2451,6 @@ type _InitializeParams struct {
 	//
 	// @deprecated in favour of rootUri.
 	RootPath/*TOpt*/ /*TOr*/ /*TOpt*/ *String
-
 	// The rootUri of the workspace. Is null if no
 	// folder is open. If both `rootPath` and `rootUri` are set
 	// `rootUri` wins.
@@ -2511,7 +2499,6 @@ type ServerCapabilities struct {
 		TextDocumentSyncOptions/*TOpt*/ *TextDocumentSyncOptions
 		TextDocumentSyncKind/*TOpt*/ TextDocumentSyncKind
 	}
-
 	// Defines how notebook documents are synced.
 	//
 	// @since 3.17.0
@@ -2521,7 +2508,6 @@ type ServerCapabilities struct {
 		NotebookDocumentSyncOptions/*TOpt*/ *NotebookDocumentSyncOptions
 		NotebookDocumentSyncRegistrationOptions/*TOpt*/ *NotebookDocumentSyncRegistrationOptions
 	}
-
 	// The server provides completion support.
 	CompletionProvider/*TOpt*/ *CompletionOptions
 	// The server provides hover support.
@@ -2531,7 +2517,6 @@ type ServerCapabilities struct {
 		Boolean/*TOpt*/ *Boolean
 		HoverOptions/*TOpt*/ *HoverOptions
 	}
-
 	// The server provides signature help support.
 	SignatureHelpProvider/*TOpt*/ *SignatureHelpOptions
 	// The server provides Goto Declaration support.
@@ -2542,7 +2527,6 @@ type ServerCapabilities struct {
 		DeclarationOptions/*TOpt*/ *DeclarationOptions
 		DeclarationRegistrationOptions/*TOpt*/ *DeclarationRegistrationOptions
 	}
-
 	// The server provides goto definition support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
@@ -2550,7 +2534,6 @@ type ServerCapabilities struct {
 		Boolean/*TOpt*/ *Boolean
 		DefinitionOptions/*TOpt*/ *DefinitionOptions
 	}
-
 	// The server provides Goto Type Definition support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
@@ -2559,7 +2542,6 @@ type ServerCapabilities struct {
 		TypeDefinitionOptions/*TOpt*/ *TypeDefinitionOptions
 		TypeDefinitionRegistrationOptions/*TOpt*/ *TypeDefinitionRegistrationOptions
 	}
-
 	// The server provides Goto Implementation support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
@@ -2568,7 +2550,6 @@ type ServerCapabilities struct {
 		ImplementationOptions/*TOpt*/ *ImplementationOptions
 		ImplementationRegistrationOptions/*TOpt*/ *ImplementationRegistrationOptions
 	}
-
 	// The server provides find references support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
@@ -2576,7 +2557,6 @@ type ServerCapabilities struct {
 		Boolean/*TOpt*/ *Boolean
 		ReferenceOptions/*TOpt*/ *ReferenceOptions
 	}
-
 	// The server provides document highlight support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
@@ -2584,7 +2564,6 @@ type ServerCapabilities struct {
 		Boolean/*TOpt*/ *Boolean
 		DocumentHighlightOptions/*TOpt*/ *DocumentHighlightOptions
 	}
-
 	// The server provides document symbol support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
@@ -2592,7 +2571,6 @@ type ServerCapabilities struct {
 		Boolean/*TOpt*/ *Boolean
 		DocumentSymbolOptions/*TOpt*/ *DocumentSymbolOptions
 	}
-
 	// The server provides code actions. CodeActionOptions may only be
 	// specified if the client states that it supports
 	// `codeActionLiteralSupport` in its initial `initialize` request.
@@ -2602,7 +2580,6 @@ type ServerCapabilities struct {
 		Boolean/*TOpt*/ *Boolean
 		CodeActionOptions/*TOpt*/ *CodeActionOptions
 	}
-
 	// The server provides code lens.
 	CodeLensProvider/*TOpt*/ *CodeLensOptions
 	// The server provides document link support.
@@ -2615,7 +2592,6 @@ type ServerCapabilities struct {
 		DocumentColorOptions/*TOpt*/ *DocumentColorOptions
 		DocumentColorRegistrationOptions/*TOpt*/ *DocumentColorRegistrationOptions
 	}
-
 	// The server provides workspace symbol support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
@@ -2623,7 +2599,6 @@ type ServerCapabilities struct {
 		Boolean/*TOpt*/ *Boolean
 		WorkspaceSymbolOptions/*TOpt*/ *WorkspaceSymbolOptions
 	}
-
 	// The server provides document formatting.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
@@ -2631,7 +2606,6 @@ type ServerCapabilities struct {
 		Boolean/*TOpt*/ *Boolean
 		DocumentFormattingOptions/*TOpt*/ *DocumentFormattingOptions
 	}
-
 	// The server provides document range formatting.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
@@ -2639,7 +2613,6 @@ type ServerCapabilities struct {
 		Boolean/*TOpt*/ *Boolean
 		DocumentRangeFormattingOptions/*TOpt*/ *DocumentRangeFormattingOptions
 	}
-
 	// The server provides document formatting on typing.
 	DocumentOnTypeFormattingProvider/*TOpt*/ *DocumentOnTypeFormattingOptions
 	// The server provides rename support. RenameOptions may only be
@@ -2651,7 +2624,6 @@ type ServerCapabilities struct {
 		Boolean/*TOpt*/ *Boolean
 		RenameOptions/*TOpt*/ *RenameOptions
 	}
-
 	// The server provides folding provider support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
@@ -2660,7 +2632,6 @@ type ServerCapabilities struct {
 		FoldingRangeOptions/*TOpt*/ *FoldingRangeOptions
 		FoldingRangeRegistrationOptions/*TOpt*/ *FoldingRangeRegistrationOptions
 	}
-
 	// The server provides selection range support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
@@ -2669,7 +2640,6 @@ type ServerCapabilities struct {
 		SelectionRangeOptions/*TOpt*/ *SelectionRangeOptions
 		SelectionRangeRegistrationOptions/*TOpt*/ *SelectionRangeRegistrationOptions
 	}
-
 	// The server provides execute command support.
 	ExecuteCommandProvider/*TOpt*/ *ExecuteCommandOptions
 	// The server provides call hierarchy support.
@@ -2682,7 +2652,6 @@ type ServerCapabilities struct {
 		CallHierarchyOptions/*TOpt*/ *CallHierarchyOptions
 		CallHierarchyRegistrationOptions/*TOpt*/ *CallHierarchyRegistrationOptions
 	}
-
 	// The server provides linked editing range support.
 	//
 	// @since 3.16.0
@@ -2693,7 +2662,6 @@ type ServerCapabilities struct {
 		LinkedEditingRangeOptions/*TOpt*/ *LinkedEditingRangeOptions
 		LinkedEditingRangeRegistrationOptions/*TOpt*/ *LinkedEditingRangeRegistrationOptions
 	}
-
 	// The server provides semantic tokens support.
 	//
 	// @since 3.16.0
@@ -2703,7 +2671,6 @@ type ServerCapabilities struct {
 		SemanticTokensOptions/*TOpt*/ *SemanticTokensOptions
 		SemanticTokensRegistrationOptions/*TOpt*/ *SemanticTokensRegistrationOptions
 	}
-
 	// The server provides moniker support.
 	//
 	// @since 3.16.0
@@ -2714,7 +2681,6 @@ type ServerCapabilities struct {
 		MonikerOptions/*TOpt*/ *MonikerOptions
 		MonikerRegistrationOptions/*TOpt*/ *MonikerRegistrationOptions
 	}
-
 	// The server provides type hierarchy support.
 	//
 	// @since 3.17.0
@@ -2725,7 +2691,6 @@ type ServerCapabilities struct {
 		TypeHierarchyOptions/*TOpt*/ *TypeHierarchyOptions
 		TypeHierarchyRegistrationOptions/*TOpt*/ *TypeHierarchyRegistrationOptions
 	}
-
 	// The server provides inline values.
 	//
 	// @since 3.17.0
@@ -2736,7 +2701,6 @@ type ServerCapabilities struct {
 		InlineValueOptions/*TOpt*/ *InlineValueOptions
 		InlineValueRegistrationOptions/*TOpt*/ *InlineValueRegistrationOptions
 	}
-
 	// The server provides inlay hints.
 	//
 	// @since 3.17.0
@@ -2747,7 +2711,6 @@ type ServerCapabilities struct {
 		InlayHintOptions/*TOpt*/ *InlayHintOptions
 		InlayHintRegistrationOptions/*TOpt*/ *InlayHintRegistrationOptions
 	}
-
 	// The server has support for pull model diagnostics.
 	//
 	// @since 3.17.0
@@ -2757,7 +2720,6 @@ type ServerCapabilities struct {
 		DiagnosticOptions/*TOpt*/ *DiagnosticOptions
 		DiagnosticRegistrationOptions/*TOpt*/ *DiagnosticRegistrationOptions
 	}
-
 	// Workspace specific server capabilities.
 	Workspace/*TOpt*/ * /*TStruc*/ struct {
 		// The server supports workspace folder.
@@ -2769,7 +2731,6 @@ type ServerCapabilities struct {
 		// @since 3.16.0
 		FileOperations/*TOpt*/ *FileOperationOptions
 	}
-
 	// Experimental server capabilities.
 	Experimental/*TOpt*/ LSPAny
 }
@@ -2821,7 +2782,6 @@ type Diagnostic struct {
 		Integer/*TOpt*/ *Integer
 		String/*TOpt*/ *String
 	}
-
 	// An optional property to describe the error code.
 	// Requires the code field (above) to be present/not null.
 	//
@@ -2960,7 +2920,6 @@ type SignatureInformation struct {
 		String/*TOpt*/ *String
 		MarkupContent/*TOpt*/ *MarkupContent
 	}
-
 	// The parameters of this signature.
 	Parameters/*TOpt*/ []ParameterInformation
 	// The index of the active parameter.
@@ -3357,13 +3316,11 @@ type NotebookDocumentSyncOptions struct {
 			String/*TOpt*/ *String
 			NotebookDocumentFilter/*TOpt*/ *NotebookDocumentFilter
 		}
-
 		// The cells of the matching notebook to be synced.
 		Cells/*TOpt*/ [] /*TStruc*/ struct {
 			Language string
 		}
 	}
-
 	// Whether save notification should be forwarded to
 	// the server. Will only be honored if mode === `notebook`.
 	Save/*TOpt*/ *Boolean
@@ -3700,7 +3657,6 @@ type GeneralClientCapabilities struct {
 		// response with error code `ContentModified`
 		RetryOnContentModified []string
 	}
-
 	// Client capabilities specific to regular expressions.
 	//
 	// @since 3.16.0
@@ -3815,7 +3771,6 @@ type WorkspaceSymbolClientCapabilities struct {
 		// the initial version of the protocol.
 		ValueSet /*TOpt*/ []SymbolKind
 	}
-
 	// The client supports tags on `SymbolInformation`.
 	// Clients supporting tags have to handle unknown tags gracefully.
 	//
@@ -3824,7 +3779,6 @@ type WorkspaceSymbolClientCapabilities struct {
 		// The tags supported by the client.
 		ValueSet []SymbolTag
 	}
-
 	// The client support partial workspace symbols. The client will send the
 	// request `workspaceSymbol/resolve` to the server to resolve additional
 	// properties.
@@ -3978,7 +3932,6 @@ type CompletionClientCapabilities struct {
 			// The tags supported by the client.
 			ValueSet []CompletionItemTag
 		}
-
 		// Client support insert replace edit to control different behavior if a
 		// completion item is inserted in the text or should replace text.
 		//
@@ -3993,7 +3946,6 @@ type CompletionClientCapabilities struct {
 			// The properties that a client can resolve lazily.
 			Properties []string
 		}
-
 		// The client supports the `insertTextMode` property on
 		// a completion item to override the whitespace handling mode
 		// as defined by the client (see `insertTextMode`).
@@ -4002,14 +3954,12 @@ type CompletionClientCapabilities struct {
 		InsertTextModeSupport/*TOpt*/ * /*TStruc*/ struct {
 			ValueSet []InsertTextMode
 		}
-
 		// The client has support for completion item label
 		// details (see also `CompletionItemLabelDetails`).
 		//
 		// @since 3.17.0
 		LabelDetailsSupport/*TOpt*/ *Boolean
 	}
-
 	CompletionItemKind/*TOpt*/ * /*TStruc*/ struct {
 		// The completion item kind values the client supports. When this
 		// property exists the client also guarantees that it will
@@ -4021,7 +3971,6 @@ type CompletionClientCapabilities struct {
 		// the initial version of the protocol.
 		ValueSet /*TOpt*/ []CompletionItemKind
 	}
-
 	// Defines how the client handles whitespace and indentation
 	// when accepting a completion item that uses multi line
 	// text in either `insertText` or `textEdit`.
@@ -4074,14 +4023,12 @@ type SignatureHelpClientCapabilities struct {
 			// @since 3.14.0
 			LabelOffsetSupport /*TOpt*/ *Boolean
 		}
-
 		// The client supports the `activeParameter` property on `SignatureInformation`
 		// literal.
 		//
 		// @since 3.16.0
 		ActiveParameterSupport/*TOpt*/ *Boolean
 	}
-
 	// The client supports to send additional context information for a
 	// `textDocument/signatureHelp` request. A client that opts into
 	// contextSupport will also support the `retriggerCharacters` on
@@ -4164,7 +4111,6 @@ type DocumentSymbolClientCapabilities struct {
 		// the initial version of the protocol.
 		ValueSet /*TOpt*/ []SymbolKind
 	}
-
 	// The client supports hierarchical document symbols.
 	HierarchicalDocumentSymbolSupport/*TOpt*/ *Boolean
 	// The client supports tags on `SymbolInformation`. Tags are supported on
@@ -4176,7 +4122,6 @@ type DocumentSymbolClientCapabilities struct {
 		// The tags supported by the client.
 		ValueSet []SymbolTag
 	}
-
 	// The client supports an additional label presented in the UI when
 	// registering a document symbol provider.
 	//
@@ -4204,7 +4149,6 @@ type CodeActionClientCapabilities struct {
 			ValueSet []CodeActionKind
 		}
 	}
-
 	// Whether code action supports the `isPreferred` property.
 	//
 	// @since 3.15.0
@@ -4227,7 +4171,6 @@ type CodeActionClientCapabilities struct {
 		// The properties that a client can resolve lazily.
 		Properties []string
 	}
-
 	// Whether the client honors the change annotations in
 	// text edits and resource operations returned via the
 	// `CodeAction#edit` property by for example presenting
@@ -4328,7 +4271,6 @@ type FoldingRangeClientCapabilities struct {
 		// to a default value when unknown.
 		ValueSet /*TOpt*/ []FoldingRangeKind
 	}
-
 	// Specific options for the folding range.
 	//
 	// @since 3.17.0
@@ -4360,7 +4302,6 @@ type PublishDiagnosticsClientCapabilities struct {
 		// The tags supported by the client.
 		ValueSet []DiagnosticTag
 	}
-
 	// Whether the client interprets the version property of the
 	// `textDocument/publishDiagnostics` notification's parameter.
 	//
@@ -4409,7 +4350,6 @@ type SemanticTokensClientCapabilities struct {
 			Boolean/*TOpt*/ *Boolean
 			AnyByString/*TOpt*/ map[string]any
 		}
-
 		// The client will send the `textDocument/semanticTokens/full` request if
 		// the server provides a corresponding handler.
 		//
