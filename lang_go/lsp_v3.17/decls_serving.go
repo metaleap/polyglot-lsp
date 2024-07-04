@@ -74,6 +74,11 @@ type Server struct {
 	// @since 3.17.0
 	On_notebookDocument_didClose func(params *DidCloseNotebookDocumentParams) (any, error)
 
+	// The initialized notification is sent from the client to the
+	// server after the client is fully initialized and the server
+	// is allowed to send requests from the server to the client.
+	On_initialized func(params *InitializedParams) (any, error)
+
 	// The exit event is sent from the client to the server to
 	// ask the server to exit its process.
 	On_exit func(params *Void) (any, error)
@@ -394,44 +399,103 @@ type Server struct {
 	On_workspace_executeCommand func(params *ExecuteCommandParams) (any, error)
 }
 
+// The show message notification is sent from a server to a client to ask
+// the client to display a particular message in the user interface.
 func (it *Server) Send_window_showMessage(params *ShowMessageParams) {
 }
+
+// The log message notification is sent from the server to the client to ask
+// the client to log a particular message.
 func (it *Server) Send_window_logMessage(params *LogMessageParams) {
 }
+
+// The telemetry event notification is sent from the server to the client to ask
+// the client to log telemetry data.
 func (it *Server) Send_telemetry_event(params *LSPAny) {
 }
+
+// Diagnostics notification are sent from the server to the client to signal
+// results of validation runs.
 func (it *Server) Send_textDocument_publishDiagnostics(params *PublishDiagnosticsParams) {
 }
+
 func (it *Server) Send___logTrace(params *LogTraceParams) {
 }
+
 func (it *Server) Send___cancelRequest(params *CancelParams) {
 }
+
 func (it *Server) Send___progress(params *ProgressParams) {
 }
+
+// The `workspace/workspaceFolders` is sent from the server to the client to fetch the open workspace folders.
 func (it *Server) Send_workspace_workspaceFolders(params *Void, onResp func(* /*TOr*/ /*TOpt*/ []WorkspaceFolder)) {
 }
+
+// The 'workspace/configuration' request is sent from the server to the client to fetch a certain
+// configuration setting.
+//
+// This pull model replaces the old push model where the client signaled configuration change via an
+// event. If the server still needs to react to configuration changes (since the server caches the
+// result of `workspace/configuration` requests) the server should register for an empty configuration
+// change event and empty the cache if such an event is received.
 func (it *Server) Send_workspace_configuration(params *ConfigurationParams, onResp func(*[]LSPAny)) {
 }
+
+// The `window/workDoneProgress/create` request is sent from the server to the client to initiate progress
+// reporting from the server.
 func (it *Server) Send_window_workDoneProgress_create(params *WorkDoneProgressCreateParams, onResp func(*Void)) {
 }
+
+// @since 3.16.0
 func (it *Server) Send_workspace_semanticTokens_refresh(params *Void, onResp func(*Void)) {
 }
+
+// A request to show a document. This request might open an
+// external program depending on the value of the URI to open.
+// For example a request to open `https://code.visualstudio.com/`
+// will very likely open the URI in a WEB browser.
+//
+// @since 3.16.0
 func (it *Server) Send_window_showDocument(params *ShowDocumentParams, onResp func(*ShowDocumentResult)) {
 }
+
+// @since 3.17.0
 func (it *Server) Send_workspace_inlineValue_refresh(params *Void, onResp func(*Void)) {
 }
+
+// @since 3.17.0
 func (it *Server) Send_workspace_inlayHint_refresh(params *Void, onResp func(*Void)) {
 }
+
+// The diagnostic refresh request definition.
+//
+// @since 3.17.0
 func (it *Server) Send_workspace_diagnostic_refresh(params *Void, onResp func(*Void)) {
 }
+
+// The `client/registerCapability` request is sent from the server to the client to register a new capability
+// handler on the client side.
 func (it *Server) Send_client_registerCapability(params *RegistrationParams, onResp func(*Void)) {
 }
+
+// The `client/unregisterCapability` request is sent from the server to the client to unregister a previously registered capability
+// handler on the client side.
 func (it *Server) Send_client_unregisterCapability(params *UnregistrationParams, onResp func(*Void)) {
 }
+
+// The show message request is sent from the server to the client to show a message
+// and a set of options actions to the user.
 func (it *Server) Send_window_showMessageRequest(params *ShowMessageRequestParams, onResp func(* /*TOr*/ /*TOpt*/ *MessageActionItem)) {
 }
+
+// A request to refresh all code actions
+//
+// @since 3.16.0
 func (it *Server) Send_workspace_codeLens_refresh(params *Void, onResp func(*Void)) {
 }
+
+// A request sent from the server to the client to modified certain resources.
 func (it *Server) Send_workspace_applyEdit(params *ApplyWorkspaceEditParams, onResp func(*ApplyWorkspaceEditResult)) {
 }
 
@@ -471,6 +535,8 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 		serverHandleIncoming(it, it.On_notebookDocument_didSave, msg_method, msg_id, raw["params"])
 	case "notebookDocument/didClose":
 		serverHandleIncoming(it, it.On_notebookDocument_didClose, msg_method, msg_id, raw["params"])
+	case "initialized":
+		serverHandleIncoming(it, it.On_initialized, msg_method, msg_id, raw["params"])
 	case "exit":
 		serverHandleIncoming(it, it.On_exit, msg_method, msg_id, raw["params"])
 	case "workspace/didChangeConfiguration":
@@ -593,17 +659,6 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 		serverHandleIncoming(it, it.On_textDocument_prepareRename, msg_method, msg_id, raw["params"])
 	case "workspace/executeCommand":
 		serverHandleIncoming(it, it.On_workspace_executeCommand, msg_method, msg_id, raw["params"])
-	case "initialized":
-		if it.On_workspace_didChangeWatchedFiles != nil {
-			it.Send_client_registerCapability(&RegistrationParams{
-				Registrations: []Registration{
-					{Method: "workspace/didChangeWatchedFiles", Id: "workspace/didChangeWatchedFiles",
-						RegisterOptions: DidChangeWatchedFilesRegistrationOptions{Watchers: []FileSystemWatcher{
-							{Kind: WatchKindChange | WatchKindCreate | WatchKindDelete,
-								GlobPattern: GlobPattern{Pattern: ptr(String("**/*"))}}}}},
-				},
-			}, func(*Void) {})
-		}
 	case "initialize":
 		serverHandleIncoming(it, func(params *InitializeParams) (any, error) {
 			init := &it.Initialized
@@ -775,7 +830,7 @@ func (it *Server) ServeForever() error {
 	})
 
 	{ // users shouldn't have to set up no-op handlers for these routine teardown lifecycle messages:
-		old_shutdown, old_exit := it.On_shutdown, it.On_exit
+		old_shutdown, old_exit, old_initialized := it.On_shutdown, it.On_exit, it.On_initialized
 		it.On_shutdown = func(params *Void) (any, error) {
 			if old_shutdown != nil {
 				return old_shutdown(params)
@@ -787,6 +842,22 @@ func (it *Server) ServeForever() error {
 				return old_exit(params)
 			}
 			os.Exit(0)
+			return nil, nil
+		}
+		it.On_initialized = func(params *InitializedParams) (any, error) {
+			if it.On_workspace_didChangeWatchedFiles != nil {
+				go it.Send_client_registerCapability(&RegistrationParams{
+					Registrations: []Registration{
+						{Method: "workspace/didChangeWatchedFiles", Id: "workspace/didChangeWatchedFiles",
+							RegisterOptions: DidChangeWatchedFilesRegistrationOptions{Watchers: []FileSystemWatcher{
+								{Kind: WatchKindChange | WatchKindCreate | WatchKindDelete,
+									GlobPattern: GlobPattern{Pattern: ptr(String("**/*"))}}}}},
+					},
+				}, func(*Void) {})
+			}
+			if old_initialized != nil {
+				return old_initialized(params)
+			}
 			return nil, nil
 		}
 	}

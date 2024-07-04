@@ -44,7 +44,7 @@ func (it *MetaModel) GenExtras(gen *glot.Gen) (ret []any) {
 		if len(msgBase.Params) <= 1 && msgBase.UnaryParamsTypeName == "" {
 			msgBase.UnaryParamsTypeName = "Void"
 		}
-		msgBase.IsReq, msgBase.IsInit = (result != nil), (msgBase.Method == "initialize") || (msgBase.Method == "initialized")
+		msgBase.IsReq, msgBase.IsInit = (result != nil), (msgBase.Method == "initialize")
 		if result != nil {
 			msgBase.ResultType = result.toGenType(it, gen)
 		}
