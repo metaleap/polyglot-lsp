@@ -1,34 +1,18 @@
 
 import (
-	"bufio"
-	"bytes"
-	"encoding/json"
-	"errors"
 	"fmt"
 	"os"
-	"strconv"
-	"sync"
-	"time"
 )
 
 {{ $main := . -}}
 
 type Server struct {
-	sync.Mutex // sync writes to stdout
-	stdout *bufio.Writer
-	waiters map[string]func(any)
+	clientServerBase
 
 	Lang struct {
 		CompletionTriggerChars []string
 		SignatureTriggerChars []string
 		Commands []string
-	}
-
-	// Initialized is for informational purposes only, to the importer who shall not set or mutate them.
-	// Its fields are set automatically at the appropriate initialization lifecycle instant.
-	Initialized struct {
-		Client *InitializeParams
-		Server *InitializeResult
 	}
 
 	{{ range $main.Decls.Extras -}}
@@ -49,44 +33,18 @@ type Server struct {
 // {{ . }}
 {{- end }}
 func (it *Server) {{if $msg.IsReq}}Request{{else}}Notify{{end}}_{{ $msg.MethodNameSafe }} (params *{{ $msg.UnaryParamsTypeName }}{{if $msg.IsReq}}, onResp func(*{{- if $msg.IsReq -}}{{- $main.DoType $msg.ResultType -}}{{- end -}}){{end}}) {
-	var on_resp func(any){{- if $msg.IsReq -}} = serverOnResp(it, onResp){{- end }}
+	var on_resp func(any){{- if $msg.IsReq -}} = clientServerOnResp(&it.clientServerBase, onResp){{- end }}
 	go it.send("{{$msg.Method}}", params, {{ $msg.IsReq }}, on_resp)
 }
 {{- end }}
 {{- end }}
 
-func serverOnResp[T any] (it *Server, onResp func(*T)) func(any) {
-	if onResp == nil {
-		return nil
-	}
-	return func(resultAsMap any) {
-		var result T
-		if resultAsMap != nil {
-			json_bytes, _ := json.Marshal(resultAsMap)
-			if err := json.Unmarshal(json_bytes, &result); err != nil {
-				it.sendErrMsg(err)
-				return
-			}
-		}
-		onResp(iIf(resultAsMap == nil, nil, &result))
-	}
-}
-
-func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
-	raw := map[string]any{}
-	if err := json.Unmarshal(jsonRpcMsg, &raw); err != nil {
-		return &jsonRpcError{ Code: -32700, Message: err.Error() }
-	}
-	msg_id, msg_method, msg_err_code :=raw["id"], raw["method"], raw["code"]
-
-	if msg_err_code != nil { // received an error Response
-		println(string(jsonRpcMsg)) // goes to stderr
-		return nil
-	}
+func (it *Server) handleIncoming(raw map[string]any) *jsonRpcError {
+	msg_id, msg_method :=raw["id"], raw["method"]
 
 	switch msg_method, _ := msg_method.(string); msg_method {
 	case "":  // msg is an incoming Response
-        msg_id := fmt.Sprintf("%v", msg_id)
+		msg_id := fmt.Sprintf("%v", msg_id)
 		handler := it.waiters[msg_id]
 		delete(it.waiters, msg_id)
 		go handler(raw["result"])
@@ -94,11 +52,11 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 	{{- $msg := . }}
 	{{- if and $msg.IsClientToServer (not $msg.IsInit) }}
 	case "{{$msg.Method}}":
-		serverHandleIncoming(it, it.On_{{ $msg.MethodNameSafe }}, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_{{ $msg.MethodNameSafe }}, msg_method, msg_id, raw["params"])
 	{{- end }}
 	{{- end }}
 	case "initialize":
-		serverHandleIncoming(it, func(params *InitializeParams) (any, error) {
+		clientServerHandleIncoming(&it.clientServerBase, func(params *InitializeParams) (any, error) {
 			init := &it.Initialized
 			init.Client = params
 			init.Server = &InitializeResult{
@@ -168,117 +126,9 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 	return nil
 }
 
-func ptr[T any](value T) *T { return &value }
-
-func iIf[T any](chk bool, ifTrue T, ifFalse T) T {
-	if chk {
-		return ifTrue
-	}
-	return ifFalse
-}
-
-func serverHandleIncoming[T any] (it *Server, handler func (*T) (any, error), msgMethodName string, msgIdMaybe any, msgParams any) {
-	var req_id string
-	if msgIdMaybe != nil {
-		req_id = fmt.Sprintf("%v", msgIdMaybe)
-	}
-	if handler == nil {
-		if req_id != "" {
-			it.sendErrMsg(errors.New("unimplemented: " + msgMethodName))
-		}
-		return
-	}
-	var params T
-	if msgParams != nil {
-		json_bytes, _ := json.Marshal(msgParams)
-		if err := json.Unmarshal(json_bytes, &params); err != nil {
-			it.sendErrMsg(&jsonRpcError{ Code: -32602, Message: err.Error() })
-			return
-		}
-	}
-	go func(params *T) {
-		if msgParams == nil {
-			params = nil
-		}
-		result, err := handler(params)
-		resp := map[string]any {
-			"result": result,
-			"id": req_id,
-		}
-		if err != nil {
-			if msgIdMaybe != nil {
-				resp["error"] = &jsonRpcError{ Code: -32603, Message: fmt.Sprintf("%v", err) }
-			}else {
-				it.sendErrMsg(err)
-				return
-			}
-		}
-		if msgIdMaybe != nil {
-			it.sendMsg(resp)
-		}
-	}(&params)
-}
-
-func (it *Server) sendErrMsg(err any) {
-	if err == nil {
-		return
-	}
-	var json_rpc_err_msg *jsonRpcError
-	if json_rpc_err_msg, _ = err.(*jsonRpcError); json_rpc_err_msg == nil {
-		json_rpc_err_msg = &jsonRpcError{ Code: -32603, Message: fmt.Sprintf("%v", err) }
-	}
-	it.sendMsg(json_rpc_err_msg)
-}
-
-func (it *Server) sendMsg(jsonable any) {
-	err_json,_ := json.Marshal(jsonable)
-	it.Lock()
-	defer it.Unlock()
-	_, _ = it.stdout.WriteString("Content-Length: ")
-	_, _ = it.stdout.WriteString(strconv.Itoa(len(err_json)))
-	_, _ = it.stdout.WriteString("\r\n\r\n")
-	_, _ = it.stdout.Write(err_json)
-}
-
-func (it *Server) send(methodName string, params any, isReq bool, onResp func(any)) {
-	req_id := strconv.FormatInt(time.Now().UnixNano(), 36)
-	req := map[string]any{"method": methodName, "params": params}
-	if onResp != nil {
-		it.waiters[req_id] = onResp
-	}
-	if isReq {
-		req["id"] = req_id
-	}
-	it.sendMsg(req)
-}
-
-// ServeForever keeps reading and handling LSP JSON-RPC messages incoming over `os.Stdin`
+// Forever keeps reading and handling LSP JSON-RPC messages incoming over `os.Stdin`
 // until reading from `os.Stdin` fails, then returns that IO read error.
-func (it *Server) ServeForever() error {
-	const buf_cap = 1024 * 1024
-
-	it.stdout = bufio.NewWriterSize(os.Stdout, buf_cap)
-	it.waiters =  map[string]func(any){}
-
-	stdin := bufio.NewScanner(os.Stdin)
-	stdin.Buffer(make([]byte, buf_cap), buf_cap)
-	stdin.Split(func(data []byte, ateof bool) (advance int, token []byte, err error) {
-		if i_cl1 := bytes.Index(data, []byte("Content-Length: ")); i_cl1 >= 0 {
-			datafromclen := data[i_cl1+16:]
-			if i_cl2 := bytes.IndexAny(datafromclen, "\r\n"); i_cl2 > 0 {
-				if clen, e := strconv.Atoi(string(datafromclen[:i_cl2])); e != nil {
-					err = e
-				} else if i_js1 := bytes.Index(datafromclen, []byte("{\"")); i_js1 > i_cl2 {
-					if i_js2 := i_js1 + clen; len(datafromclen) >= i_js2 {
-						advance = i_cl1 + 16 + i_js2
-						token = datafromclen[i_js1:i_js2]
-					}
-				}
-			}
-		}
-		return
-	})
-
+func (it *Server) Forever() error {
 	{ // users shouldn't have to set up no-op handlers for these routine teardown lifecycle messages:
 		old_shutdown, old_exit, old_initialized := it.On_shutdown, it.On_exit, it.On_initialized
 		it.On_shutdown = func(params *Void) (any, error) {
@@ -312,11 +162,5 @@ func (it *Server) ServeForever() error {
 		}
 	}
 
-	for stdin.Scan() {
-		err := it.handleIncoming(stdin.Bytes())
-		if err != nil {
-			it.sendErrMsg(err)
-		}
-	}
-	return stdin.Err()
+	return it.forever(it.handleIncoming)
 }

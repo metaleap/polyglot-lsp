@@ -1,0 +1,18 @@
+import (
+)
+
+{{ $main := . -}}
+
+type Client struct {
+	clientServerBase
+
+	{{ range $main.Decls.Extras -}}
+	{{- $msg := . -}}
+	{{- if and $msg.IsServerToClient (not $msg.IsInit) -}}
+	{{- range $msg.DocLines }}
+	// {{ . }}
+	{{- end }}
+	On_{{ $msg.MethodNameSafe }} func(params *{{ $msg.UnaryParamsTypeName }}) (any, error)
+	{{ end -}}
+	{{- end -}}
+}

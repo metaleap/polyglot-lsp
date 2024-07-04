@@ -2,33 +2,17 @@
 package lsp
 
 import (
-	"bufio"
-	"bytes"
-	"encoding/json"
-	"errors"
 	"fmt"
 	"os"
-	"strconv"
-	"sync"
-	"time"
 )
 
 type Server struct {
-	sync.Mutex // sync writes to stdout
-	stdout     *bufio.Writer
-	waiters    map[string]func(any)
+	clientServerBase
 
 	Lang struct {
 		CompletionTriggerChars []string
 		SignatureTriggerChars  []string
 		Commands               []string
-	}
-
-	// Initialized is for informational purposes only, to the importer who shall not set or mutate them.
-	// Its fields are set automatically at the appropriate initialization lifecycle instant.
-	Initialized struct {
-		Client *InitializeParams
-		Server *InitializeResult
 	}
 
 	// The `workspace/didChangeWorkspaceFolders` notification is sent from the client to the server when the workspace
@@ -445,7 +429,7 @@ func (it *Server) Notify___progress(params *ProgressParams) {
 
 // The `workspace/workspaceFolders` is sent from the server to the client to fetch the open workspace folders.
 func (it *Server) Request_workspace_workspaceFolders(params *Void, onResp func(* /*TOr*/ /*TOpt*/ []WorkspaceFolder)) {
-	var on_resp func(any) = serverOnResp(it, onResp)
+	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("workspace/workspaceFolders", params, true, on_resp)
 }
 
@@ -457,20 +441,20 @@ func (it *Server) Request_workspace_workspaceFolders(params *Void, onResp func(*
 // result of `workspace/configuration` requests) the server should register for an empty configuration
 // change event and empty the cache if such an event is received.
 func (it *Server) Request_workspace_configuration(params *ConfigurationParams, onResp func(*[]LSPAny)) {
-	var on_resp func(any) = serverOnResp(it, onResp)
+	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("workspace/configuration", params, true, on_resp)
 }
 
 // The `window/workDoneProgress/create` request is sent from the server to the client to initiate progress
 // reporting from the server.
 func (it *Server) Request_window_workDoneProgress_create(params *WorkDoneProgressCreateParams, onResp func(*Void)) {
-	var on_resp func(any) = serverOnResp(it, onResp)
+	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("window/workDoneProgress/create", params, true, on_resp)
 }
 
 // @since 3.16.0
 func (it *Server) Request_workspace_semanticTokens_refresh(params *Void, onResp func(*Void)) {
-	var on_resp func(any) = serverOnResp(it, onResp)
+	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("workspace/semanticTokens/refresh", params, true, on_resp)
 }
 
@@ -481,19 +465,19 @@ func (it *Server) Request_workspace_semanticTokens_refresh(params *Void, onResp 
 //
 // @since 3.16.0
 func (it *Server) Request_window_showDocument(params *ShowDocumentParams, onResp func(*ShowDocumentResult)) {
-	var on_resp func(any) = serverOnResp(it, onResp)
+	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("window/showDocument", params, true, on_resp)
 }
 
 // @since 3.17.0
 func (it *Server) Request_workspace_inlineValue_refresh(params *Void, onResp func(*Void)) {
-	var on_resp func(any) = serverOnResp(it, onResp)
+	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("workspace/inlineValue/refresh", params, true, on_resp)
 }
 
 // @since 3.17.0
 func (it *Server) Request_workspace_inlayHint_refresh(params *Void, onResp func(*Void)) {
-	var on_resp func(any) = serverOnResp(it, onResp)
+	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("workspace/inlayHint/refresh", params, true, on_resp)
 }
 
@@ -501,28 +485,28 @@ func (it *Server) Request_workspace_inlayHint_refresh(params *Void, onResp func(
 //
 // @since 3.17.0
 func (it *Server) Request_workspace_diagnostic_refresh(params *Void, onResp func(*Void)) {
-	var on_resp func(any) = serverOnResp(it, onResp)
+	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("workspace/diagnostic/refresh", params, true, on_resp)
 }
 
 // The `client/registerCapability` request is sent from the server to the client to register a new capability
 // handler on the client side.
 func (it *Server) Request_client_registerCapability(params *RegistrationParams, onResp func(*Void)) {
-	var on_resp func(any) = serverOnResp(it, onResp)
+	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("client/registerCapability", params, true, on_resp)
 }
 
 // The `client/unregisterCapability` request is sent from the server to the client to unregister a previously registered capability
 // handler on the client side.
 func (it *Server) Request_client_unregisterCapability(params *UnregistrationParams, onResp func(*Void)) {
-	var on_resp func(any) = serverOnResp(it, onResp)
+	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("client/unregisterCapability", params, true, on_resp)
 }
 
 // The show message request is sent from the server to the client to show a message
 // and a set of options actions to the user.
 func (it *Server) Request_window_showMessageRequest(params *ShowMessageRequestParams, onResp func(* /*TOr*/ /*TOpt*/ *MessageActionItem)) {
-	var on_resp func(any) = serverOnResp(it, onResp)
+	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("window/showMessageRequest", params, true, on_resp)
 }
 
@@ -530,44 +514,18 @@ func (it *Server) Request_window_showMessageRequest(params *ShowMessageRequestPa
 //
 // @since 3.16.0
 func (it *Server) Request_workspace_codeLens_refresh(params *Void, onResp func(*Void)) {
-	var on_resp func(any) = serverOnResp(it, onResp)
+	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("workspace/codeLens/refresh", params, true, on_resp)
 }
 
 // A request sent from the server to the client to modified certain resources.
 func (it *Server) Request_workspace_applyEdit(params *ApplyWorkspaceEditParams, onResp func(*ApplyWorkspaceEditResult)) {
-	var on_resp func(any) = serverOnResp(it, onResp)
+	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("workspace/applyEdit", params, true, on_resp)
 }
 
-func serverOnResp[T any](it *Server, onResp func(*T)) func(any) {
-	if onResp == nil {
-		return nil
-	}
-	return func(resultAsMap any) {
-		var result T
-		if resultAsMap != nil {
-			json_bytes, _ := json.Marshal(resultAsMap)
-			if err := json.Unmarshal(json_bytes, &result); err != nil {
-				it.sendErrMsg(err)
-				return
-			}
-		}
-		onResp(iIf(resultAsMap == nil, nil, &result))
-	}
-}
-
-func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
-	raw := map[string]any{}
-	if err := json.Unmarshal(jsonRpcMsg, &raw); err != nil {
-		return &jsonRpcError{Code: -32700, Message: err.Error()}
-	}
-	msg_id, msg_method, msg_err_code := raw["id"], raw["method"], raw["code"]
-
-	if msg_err_code != nil { // received an error Response
-		println(string(jsonRpcMsg)) // goes to stderr
-		return nil
-	}
+func (it *Server) handleIncoming(raw map[string]any) *jsonRpcError {
+	msg_id, msg_method := raw["id"], raw["method"]
 
 	switch msg_method, _ := msg_method.(string); msg_method {
 	case "": // msg is an incoming Response
@@ -576,149 +534,149 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 		delete(it.waiters, msg_id)
 		go handler(raw["result"])
 	case "workspace/didChangeWorkspaceFolders":
-		serverHandleIncoming(it, it.On_workspace_didChangeWorkspaceFolders, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_workspace_didChangeWorkspaceFolders, msg_method, msg_id, raw["params"])
 	case "window/workDoneProgress/cancel":
-		serverHandleIncoming(it, it.On_window_workDoneProgress_cancel, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_window_workDoneProgress_cancel, msg_method, msg_id, raw["params"])
 	case "workspace/didCreateFiles":
-		serverHandleIncoming(it, it.On_workspace_didCreateFiles, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_workspace_didCreateFiles, msg_method, msg_id, raw["params"])
 	case "workspace/didRenameFiles":
-		serverHandleIncoming(it, it.On_workspace_didRenameFiles, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_workspace_didRenameFiles, msg_method, msg_id, raw["params"])
 	case "workspace/didDeleteFiles":
-		serverHandleIncoming(it, it.On_workspace_didDeleteFiles, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_workspace_didDeleteFiles, msg_method, msg_id, raw["params"])
 	case "notebookDocument/didOpen":
-		serverHandleIncoming(it, it.On_notebookDocument_didOpen, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_notebookDocument_didOpen, msg_method, msg_id, raw["params"])
 	case "notebookDocument/didChange":
-		serverHandleIncoming(it, it.On_notebookDocument_didChange, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_notebookDocument_didChange, msg_method, msg_id, raw["params"])
 	case "notebookDocument/didSave":
-		serverHandleIncoming(it, it.On_notebookDocument_didSave, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_notebookDocument_didSave, msg_method, msg_id, raw["params"])
 	case "notebookDocument/didClose":
-		serverHandleIncoming(it, it.On_notebookDocument_didClose, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_notebookDocument_didClose, msg_method, msg_id, raw["params"])
 	case "initialized":
-		serverHandleIncoming(it, it.On_initialized, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_initialized, msg_method, msg_id, raw["params"])
 	case "exit":
-		serverHandleIncoming(it, it.On_exit, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_exit, msg_method, msg_id, raw["params"])
 	case "workspace/didChangeConfiguration":
-		serverHandleIncoming(it, it.On_workspace_didChangeConfiguration, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_workspace_didChangeConfiguration, msg_method, msg_id, raw["params"])
 	case "textDocument/didOpen":
-		serverHandleIncoming(it, it.On_textDocument_didOpen, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_didOpen, msg_method, msg_id, raw["params"])
 	case "textDocument/didChange":
-		serverHandleIncoming(it, it.On_textDocument_didChange, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_didChange, msg_method, msg_id, raw["params"])
 	case "textDocument/didClose":
-		serverHandleIncoming(it, it.On_textDocument_didClose, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_didClose, msg_method, msg_id, raw["params"])
 	case "textDocument/didSave":
-		serverHandleIncoming(it, it.On_textDocument_didSave, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_didSave, msg_method, msg_id, raw["params"])
 	case "textDocument/willSave":
-		serverHandleIncoming(it, it.On_textDocument_willSave, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_willSave, msg_method, msg_id, raw["params"])
 	case "workspace/didChangeWatchedFiles":
-		serverHandleIncoming(it, it.On_workspace_didChangeWatchedFiles, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_workspace_didChangeWatchedFiles, msg_method, msg_id, raw["params"])
 	case "$/setTrace":
-		serverHandleIncoming(it, it.On___setTrace, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On___setTrace, msg_method, msg_id, raw["params"])
 	case "$/cancelRequest":
-		serverHandleIncoming(it, it.On___cancelRequest, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On___cancelRequest, msg_method, msg_id, raw["params"])
 	case "$/progress":
-		serverHandleIncoming(it, it.On___progress, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On___progress, msg_method, msg_id, raw["params"])
 	case "textDocument/implementation":
-		serverHandleIncoming(it, it.On_textDocument_implementation, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_implementation, msg_method, msg_id, raw["params"])
 	case "textDocument/typeDefinition":
-		serverHandleIncoming(it, it.On_textDocument_typeDefinition, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_typeDefinition, msg_method, msg_id, raw["params"])
 	case "textDocument/documentColor":
-		serverHandleIncoming(it, it.On_textDocument_documentColor, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_documentColor, msg_method, msg_id, raw["params"])
 	case "textDocument/colorPresentation":
-		serverHandleIncoming(it, it.On_textDocument_colorPresentation, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_colorPresentation, msg_method, msg_id, raw["params"])
 	case "textDocument/foldingRange":
-		serverHandleIncoming(it, it.On_textDocument_foldingRange, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_foldingRange, msg_method, msg_id, raw["params"])
 	case "textDocument/declaration":
-		serverHandleIncoming(it, it.On_textDocument_declaration, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_declaration, msg_method, msg_id, raw["params"])
 	case "textDocument/selectionRange":
-		serverHandleIncoming(it, it.On_textDocument_selectionRange, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_selectionRange, msg_method, msg_id, raw["params"])
 	case "textDocument/prepareCallHierarchy":
-		serverHandleIncoming(it, it.On_textDocument_prepareCallHierarchy, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_prepareCallHierarchy, msg_method, msg_id, raw["params"])
 	case "callHierarchy/incomingCalls":
-		serverHandleIncoming(it, it.On_callHierarchy_incomingCalls, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_callHierarchy_incomingCalls, msg_method, msg_id, raw["params"])
 	case "callHierarchy/outgoingCalls":
-		serverHandleIncoming(it, it.On_callHierarchy_outgoingCalls, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_callHierarchy_outgoingCalls, msg_method, msg_id, raw["params"])
 	case "textDocument/semanticTokens/full":
-		serverHandleIncoming(it, it.On_textDocument_semanticTokens_full, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_semanticTokens_full, msg_method, msg_id, raw["params"])
 	case "textDocument/semanticTokens/full/delta":
-		serverHandleIncoming(it, it.On_textDocument_semanticTokens_full_delta, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_semanticTokens_full_delta, msg_method, msg_id, raw["params"])
 	case "textDocument/semanticTokens/range":
-		serverHandleIncoming(it, it.On_textDocument_semanticTokens_range, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_semanticTokens_range, msg_method, msg_id, raw["params"])
 	case "textDocument/linkedEditingRange":
-		serverHandleIncoming(it, it.On_textDocument_linkedEditingRange, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_linkedEditingRange, msg_method, msg_id, raw["params"])
 	case "workspace/willCreateFiles":
-		serverHandleIncoming(it, it.On_workspace_willCreateFiles, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_workspace_willCreateFiles, msg_method, msg_id, raw["params"])
 	case "workspace/willRenameFiles":
-		serverHandleIncoming(it, it.On_workspace_willRenameFiles, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_workspace_willRenameFiles, msg_method, msg_id, raw["params"])
 	case "workspace/willDeleteFiles":
-		serverHandleIncoming(it, it.On_workspace_willDeleteFiles, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_workspace_willDeleteFiles, msg_method, msg_id, raw["params"])
 	case "textDocument/moniker":
-		serverHandleIncoming(it, it.On_textDocument_moniker, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_moniker, msg_method, msg_id, raw["params"])
 	case "textDocument/prepareTypeHierarchy":
-		serverHandleIncoming(it, it.On_textDocument_prepareTypeHierarchy, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_prepareTypeHierarchy, msg_method, msg_id, raw["params"])
 	case "typeHierarchy/supertypes":
-		serverHandleIncoming(it, it.On_typeHierarchy_supertypes, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_typeHierarchy_supertypes, msg_method, msg_id, raw["params"])
 	case "typeHierarchy/subtypes":
-		serverHandleIncoming(it, it.On_typeHierarchy_subtypes, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_typeHierarchy_subtypes, msg_method, msg_id, raw["params"])
 	case "textDocument/inlineValue":
-		serverHandleIncoming(it, it.On_textDocument_inlineValue, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_inlineValue, msg_method, msg_id, raw["params"])
 	case "textDocument/inlayHint":
-		serverHandleIncoming(it, it.On_textDocument_inlayHint, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_inlayHint, msg_method, msg_id, raw["params"])
 	case "inlayHint/resolve":
-		serverHandleIncoming(it, it.On_inlayHint_resolve, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_inlayHint_resolve, msg_method, msg_id, raw["params"])
 	case "textDocument/diagnostic":
-		serverHandleIncoming(it, it.On_textDocument_diagnostic, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_diagnostic, msg_method, msg_id, raw["params"])
 	case "workspace/diagnostic":
-		serverHandleIncoming(it, it.On_workspace_diagnostic, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_workspace_diagnostic, msg_method, msg_id, raw["params"])
 	case "shutdown":
-		serverHandleIncoming(it, it.On_shutdown, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_shutdown, msg_method, msg_id, raw["params"])
 	case "textDocument/willSaveWaitUntil":
-		serverHandleIncoming(it, it.On_textDocument_willSaveWaitUntil, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_willSaveWaitUntil, msg_method, msg_id, raw["params"])
 	case "textDocument/completion":
-		serverHandleIncoming(it, it.On_textDocument_completion, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_completion, msg_method, msg_id, raw["params"])
 	case "completionItem/resolve":
-		serverHandleIncoming(it, it.On_completionItem_resolve, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_completionItem_resolve, msg_method, msg_id, raw["params"])
 	case "textDocument/hover":
-		serverHandleIncoming(it, it.On_textDocument_hover, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_hover, msg_method, msg_id, raw["params"])
 	case "textDocument/signatureHelp":
-		serverHandleIncoming(it, it.On_textDocument_signatureHelp, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_signatureHelp, msg_method, msg_id, raw["params"])
 	case "textDocument/definition":
-		serverHandleIncoming(it, it.On_textDocument_definition, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_definition, msg_method, msg_id, raw["params"])
 	case "textDocument/references":
-		serverHandleIncoming(it, it.On_textDocument_references, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_references, msg_method, msg_id, raw["params"])
 	case "textDocument/documentHighlight":
-		serverHandleIncoming(it, it.On_textDocument_documentHighlight, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_documentHighlight, msg_method, msg_id, raw["params"])
 	case "textDocument/documentSymbol":
-		serverHandleIncoming(it, it.On_textDocument_documentSymbol, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_documentSymbol, msg_method, msg_id, raw["params"])
 	case "textDocument/codeAction":
-		serverHandleIncoming(it, it.On_textDocument_codeAction, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_codeAction, msg_method, msg_id, raw["params"])
 	case "codeAction/resolve":
-		serverHandleIncoming(it, it.On_codeAction_resolve, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_codeAction_resolve, msg_method, msg_id, raw["params"])
 	case "workspace/symbol":
-		serverHandleIncoming(it, it.On_workspace_symbol, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_workspace_symbol, msg_method, msg_id, raw["params"])
 	case "workspaceSymbol/resolve":
-		serverHandleIncoming(it, it.On_workspaceSymbol_resolve, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_workspaceSymbol_resolve, msg_method, msg_id, raw["params"])
 	case "textDocument/codeLens":
-		serverHandleIncoming(it, it.On_textDocument_codeLens, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_codeLens, msg_method, msg_id, raw["params"])
 	case "codeLens/resolve":
-		serverHandleIncoming(it, it.On_codeLens_resolve, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_codeLens_resolve, msg_method, msg_id, raw["params"])
 	case "textDocument/documentLink":
-		serverHandleIncoming(it, it.On_textDocument_documentLink, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_documentLink, msg_method, msg_id, raw["params"])
 	case "documentLink/resolve":
-		serverHandleIncoming(it, it.On_documentLink_resolve, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_documentLink_resolve, msg_method, msg_id, raw["params"])
 	case "textDocument/formatting":
-		serverHandleIncoming(it, it.On_textDocument_formatting, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_formatting, msg_method, msg_id, raw["params"])
 	case "textDocument/rangeFormatting":
-		serverHandleIncoming(it, it.On_textDocument_rangeFormatting, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_rangeFormatting, msg_method, msg_id, raw["params"])
 	case "textDocument/onTypeFormatting":
-		serverHandleIncoming(it, it.On_textDocument_onTypeFormatting, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_onTypeFormatting, msg_method, msg_id, raw["params"])
 	case "textDocument/rename":
-		serverHandleIncoming(it, it.On_textDocument_rename, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_rename, msg_method, msg_id, raw["params"])
 	case "textDocument/prepareRename":
-		serverHandleIncoming(it, it.On_textDocument_prepareRename, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_textDocument_prepareRename, msg_method, msg_id, raw["params"])
 	case "workspace/executeCommand":
-		serverHandleIncoming(it, it.On_workspace_executeCommand, msg_method, msg_id, raw["params"])
+		clientServerHandleIncoming(&it.clientServerBase, it.On_workspace_executeCommand, msg_method, msg_id, raw["params"])
 	case "initialize":
-		serverHandleIncoming(it, func(params *InitializeParams) (any, error) {
+		clientServerHandleIncoming(&it.clientServerBase, func(params *InitializeParams) (any, error) {
 			init := &it.Initialized
 			init.Client = params
 			init.Server = &InitializeResult{
@@ -788,117 +746,9 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 	return nil
 }
 
-func ptr[T any](value T) *T { return &value }
-
-func iIf[T any](chk bool, ifTrue T, ifFalse T) T {
-	if chk {
-		return ifTrue
-	}
-	return ifFalse
-}
-
-func serverHandleIncoming[T any](it *Server, handler func(*T) (any, error), msgMethodName string, msgIdMaybe any, msgParams any) {
-	var req_id string
-	if msgIdMaybe != nil {
-		req_id = fmt.Sprintf("%v", msgIdMaybe)
-	}
-	if handler == nil {
-		if req_id != "" {
-			it.sendErrMsg(errors.New("unimplemented: " + msgMethodName))
-		}
-		return
-	}
-	var params T
-	if msgParams != nil {
-		json_bytes, _ := json.Marshal(msgParams)
-		if err := json.Unmarshal(json_bytes, &params); err != nil {
-			it.sendErrMsg(&jsonRpcError{Code: -32602, Message: err.Error()})
-			return
-		}
-	}
-	go func(params *T) {
-		if msgParams == nil {
-			params = nil
-		}
-		result, err := handler(params)
-		resp := map[string]any{
-			"result": result,
-			"id":     req_id,
-		}
-		if err != nil {
-			if msgIdMaybe != nil {
-				resp["error"] = &jsonRpcError{Code: -32603, Message: fmt.Sprintf("%v", err)}
-			} else {
-				it.sendErrMsg(err)
-				return
-			}
-		}
-		if msgIdMaybe != nil {
-			it.sendMsg(resp)
-		}
-	}(&params)
-}
-
-func (it *Server) sendErrMsg(err any) {
-	if err == nil {
-		return
-	}
-	var json_rpc_err_msg *jsonRpcError
-	if json_rpc_err_msg, _ = err.(*jsonRpcError); json_rpc_err_msg == nil {
-		json_rpc_err_msg = &jsonRpcError{Code: -32603, Message: fmt.Sprintf("%v", err)}
-	}
-	it.sendMsg(json_rpc_err_msg)
-}
-
-func (it *Server) sendMsg(jsonable any) {
-	err_json, _ := json.Marshal(jsonable)
-	it.Lock()
-	defer it.Unlock()
-	_, _ = it.stdout.WriteString("Content-Length: ")
-	_, _ = it.stdout.WriteString(strconv.Itoa(len(err_json)))
-	_, _ = it.stdout.WriteString("\r\n\r\n")
-	_, _ = it.stdout.Write(err_json)
-}
-
-func (it *Server) send(methodName string, params any, isReq bool, onResp func(any)) {
-	req_id := strconv.FormatInt(time.Now().UnixNano(), 36)
-	req := map[string]any{"method": methodName, "params": params}
-	if onResp != nil {
-		it.waiters[req_id] = onResp
-	}
-	if isReq {
-		req["id"] = req_id
-	}
-	it.sendMsg(req)
-}
-
-// ServeForever keeps reading and handling LSP JSON-RPC messages incoming over `os.Stdin`
+// Forever keeps reading and handling LSP JSON-RPC messages incoming over `os.Stdin`
 // until reading from `os.Stdin` fails, then returns that IO read error.
-func (it *Server) ServeForever() error {
-	const buf_cap = 1024 * 1024
-
-	it.stdout = bufio.NewWriterSize(os.Stdout, buf_cap)
-	it.waiters = map[string]func(any){}
-
-	stdin := bufio.NewScanner(os.Stdin)
-	stdin.Buffer(make([]byte, buf_cap), buf_cap)
-	stdin.Split(func(data []byte, ateof bool) (advance int, token []byte, err error) {
-		if i_cl1 := bytes.Index(data, []byte("Content-Length: ")); i_cl1 >= 0 {
-			datafromclen := data[i_cl1+16:]
-			if i_cl2 := bytes.IndexAny(datafromclen, "\r\n"); i_cl2 > 0 {
-				if clen, e := strconv.Atoi(string(datafromclen[:i_cl2])); e != nil {
-					err = e
-				} else if i_js1 := bytes.Index(datafromclen, []byte("{\"")); i_js1 > i_cl2 {
-					if i_js2 := i_js1 + clen; len(datafromclen) >= i_js2 {
-						advance = i_cl1 + 16 + i_js2
-						token = datafromclen[i_js1:i_js2]
-					}
-				}
-			}
-		}
-		return
-	})
-
+func (it *Server) Forever() error {
 	{ // users shouldn't have to set up no-op handlers for these routine teardown lifecycle messages:
 		old_shutdown, old_exit, old_initialized := it.On_shutdown, it.On_exit, it.On_initialized
 		it.On_shutdown = func(params *Void) (any, error) {
@@ -932,11 +782,5 @@ func (it *Server) ServeForever() error {
 		}
 	}
 
-	for stdin.Scan() {
-		err := it.handleIncoming(stdin.Bytes())
-		if err != nil {
-			it.sendErrMsg(err)
-		}
-	}
-	return stdin.Err()
+	return it.forever(it.handleIncoming)
 }
