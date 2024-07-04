@@ -20,6 +20,7 @@ type Server struct {
 	Lang struct {
 		CompletionTriggerChars []string
 		SignatureTriggerChars  []string
+		Commands               []string
 	}
 
 	// Initialized is for informational purposes only, to the importer who shall not set or mutate them.
@@ -340,6 +341,17 @@ type Server struct {
 	// is of type {@link CodeAction} or a Thenable that resolves to such.
 	On_codeAction_resolve func(params *CodeAction) (any, error)
 
+	// A request to list project-wide symbols matching the query string given
+	// by the {@link WorkspaceSymbolParams}. The response is
+	// of type {@link SymbolInformation SymbolInformation[]} or a Thenable that
+	// resolves to such.
+	//
+	// @since 3.17.0 - support for WorkspaceSymbol in the returned data. Clients
+	//  need to advertise support for WorkspaceSymbols via the client capability
+	//  `workspace.symbol.resolveSupport`.
+	//
+	On_workspace_symbol func(params *WorkspaceSymbolParams) (any, error)
+
 	// A request to resolve the range inside the workspace
 	// symbol's location.
 	//
@@ -516,6 +528,8 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 		serverHandleIncoming(it, it.On_textDocument_codeAction, msg_method, msg_id, raw["params"])
 	case "codeAction/resolve":
 		serverHandleIncoming(it, it.On_codeAction_resolve, msg_method, msg_id, raw["params"])
+	case "workspace/symbol":
+		serverHandleIncoming(it, it.On_workspace_symbol, msg_method, msg_id, raw["params"])
 	case "workspaceSymbol/resolve":
 		serverHandleIncoming(it, it.On_workspaceSymbol_resolve, msg_method, msg_id, raw["params"])
 	case "textDocument/codeLens":
@@ -568,6 +582,40 @@ func (it *Server) handleIncoming(jsonRpcMsg []byte) *jsonRpcError {
 			caps.ImplementationProvider.Boolean = ptr(Boolean(it.On_textDocument_implementation != nil))
 			caps.ReferencesProvider.Boolean = ptr(Boolean(it.On_textDocument_references != nil))
 			caps.DocumentHighlightProvider.Boolean = ptr(Boolean(it.On_textDocument_documentHighlight != nil))
+			caps.DocumentSymbolProvider.Boolean = ptr(Boolean(it.On_textDocument_documentSymbol != nil))
+			caps.CodeActionProvider.Boolean = ptr(Boolean(it.On_textDocument_codeAction != nil))
+			if it.On_textDocument_codeLens != nil {
+				caps.CodeLensProvider = &CodeLensOptions{}
+			}
+			caps.DocumentFormattingProvider.Boolean = ptr(Boolean(it.On_textDocument_formatting != nil))
+			caps.DocumentRangeFormattingProvider.Boolean = ptr(Boolean(it.On_textDocument_rangeFormatting != nil))
+			caps.RenameProvider.RenameOptions = iIf(it.On_textDocument_rename == nil, nil, &RenameOptions{
+				PrepareProvider: ptr(Boolean(it.On_textDocument_prepareRename != nil)),
+			})
+			if it.On_workspace_executeCommand != nil {
+				caps.ExecuteCommandProvider = &ExecuteCommandOptions{Commands: it.Lang.Commands}
+			}
+			caps.SelectionRangeProvider.Boolean = ptr(Boolean(it.On_textDocument_selectionRange != nil))
+			caps.CallHierarchyProvider.Boolean = ptr(Boolean(it.On_textDocument_prepareCallHierarchy != nil && it.On_callHierarchy_incomingCalls != nil && it.On_callHierarchy_outgoingCalls != nil))
+			caps.TypeHierarchyProvider.Boolean = ptr(Boolean(it.On_textDocument_prepareTypeHierarchy != nil && it.On_typeHierarchy_subtypes != nil && it.On_typeHierarchy_supertypes != nil))
+			caps.InlineValueProvider.Boolean = ptr(Boolean(it.On_textDocument_inlineValue != nil))
+			caps.InlayHintProvider.Boolean = ptr(Boolean(it.On_textDocument_inlayHint != nil))
+			caps.WorkspaceSymbolProvider.Boolean = ptr(Boolean(it.On_workspace_symbol != nil))
+			caps.Workspace = &struct {
+				WorkspaceFolders *WorkspaceFoldersServerCapabilities
+				FileOperations   *FileOperationOptions
+			}{
+				WorkspaceFolders: &WorkspaceFoldersServerCapabilities{
+					Supported: ptr(Boolean(it.On_workspace_didChangeWorkspaceFolders != nil)),
+					ChangeNotifications: struct {
+						String  *String
+						Boolean *Boolean
+					}{
+						Boolean: ptr(Boolean(it.On_workspace_didChangeWorkspaceFolders != nil)),
+					},
+				},
+			}
+
 			return init.Server, nil
 		}, msg_method, msg_id, raw["params"])
 	default: // msg is an incoming Request or Notification
