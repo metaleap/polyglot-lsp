@@ -9,9 +9,10 @@ type Server struct {
 	clientServerBase
 
 	Lang struct {
-		CompletionTriggerChars []string
-		SignatureTriggerChars  []string
-		Commands               []string
+		CompletionTriggerChars        []string
+		SignatureTriggerChars         []string
+		Commands                      []string
+		DocumentSymbolsMultiTreeLabel string
 	}
 
 	// The `workspace/didChangeWorkspaceFolders` notification is sent from the client to the server when the workspace
@@ -727,7 +728,9 @@ func (it *Server) handleIncoming(raw map[string]any) *jsonRpcError {
 				caps.DocumentHighlightProvider = &BooleanOrDocumentHighlightOptions{Boolean: ptr(Boolean(true))}
 			}
 			if it.On_textDocument_documentSymbol != nil {
-				caps.DocumentSymbolProvider = &BooleanOrDocumentSymbolOptions{Boolean: ptr(Boolean(true))}
+				caps.DocumentSymbolProvider = iIf(it.Lang.DocumentSymbolsMultiTreeLabel == "",
+					&BooleanOrDocumentSymbolOptions{Boolean: ptr(Boolean(true))},
+					&BooleanOrDocumentSymbolOptions{DocumentSymbolOptions: &DocumentSymbolOptions{Label: ptr(String(it.Lang.DocumentSymbolsMultiTreeLabel))}})
 			}
 			if it.On_textDocument_codeAction != nil {
 				caps.CodeActionProvider = &BooleanOrCodeActionOptions{Boolean: ptr(Boolean(true))}
