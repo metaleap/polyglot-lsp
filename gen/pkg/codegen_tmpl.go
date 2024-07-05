@@ -53,7 +53,7 @@ func (it *GenMain) DoTypeOptional(t GenType, optional bool) string {
 		}
 		panic("(missing in " + it.gen.filePathLang + ": \"BaseTypeMapping\"{\"" + t.String() + "\":...})")
 	}
-	return strings.TrimSpace(it.doType(t, "type_"+t.kind()))
+	return If(t.kind() == "or" || t.kind() == "Or", "*", "") + strings.TrimSpace(it.doType(t, "type_"+t.kind()))
 }
 
 func (it *GenMain) doType(t GenType, tmplName string) (ret string) {

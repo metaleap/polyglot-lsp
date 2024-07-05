@@ -122,7 +122,7 @@ type TextDocumentRegistrationOptions struct {
 
 	// A document selector to identify the scope of the registration. If set to null
 	// the document selector provided on the client side will be used.
-	DocumentSelector /*TOr*/ /*TOpt*/ DocumentSelector `json:"documentSelector,omitempty"`
+	DocumentSelector /*TOpt*/ * /*TOr*/ /*TOpt*/ DocumentSelector `json:"documentSelector,omitempty"`
 }
 
 // Parameters for a `FoldingRangeRequest`.
@@ -493,7 +493,7 @@ type WorkspaceEdit struct {
 	// only plain `TextEdit`s using the `changes` property are supported.
 	//
 	// Every object in the array has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	DocumentChanges/*TOpt*/ []TextDocumentEditOrCreateFileOrRenameFileOrDeleteFile `json:"documentChanges,omitempty"`
+	DocumentChanges/*TOpt*/ []*TextDocumentEditOrCreateFileOrRenameFileOrDeleteFile `json:"documentChanges,omitempty"`
 
 	// A map of change annotations that can be referenced in `AnnotatedTextEdit`s or create, rename and
 	// delete file / folder operations.
@@ -691,7 +691,7 @@ type InlayHint struct {
 	// *Note* that neither the string nor the label part can be empty.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Label StringOrInlayHintLabelParts `json:"label,omitempty"`
+	Label/*TOpt*/ *StringOrInlayHintLabelParts `json:"label,omitempty"`
 
 	// The kind of this hint. Can be omitted in which case the client
 	// should fall back to a reasonable default.
@@ -707,7 +707,7 @@ type InlayHint struct {
 	// The tooltip text when you hover over this item.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Tooltip/*TOpt*/ StringOrMarkupContent `json:"tooltip,omitempty"`
+	Tooltip/*TOpt*/ *StringOrMarkupContent `json:"tooltip,omitempty"`
 
 	// Render padding before the hint.
 	//
@@ -760,7 +760,7 @@ type DocumentDiagnosticParams struct {
 type DocumentDiagnosticReportPartialResult struct {
 
 	// Every object in the map has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	RelatedDocuments map[DocumentURI]FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport `json:"relatedDocuments,omitempty"`
+	RelatedDocuments map[DocumentURI]*FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport `json:"relatedDocuments,omitempty"`
 }
 
 // Cancellation data returned from a diagnostic request.
@@ -926,7 +926,7 @@ type DidChangeConfigurationParams struct {
 type DidChangeConfigurationRegistrationOptions struct {
 
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Section /*TOpt*/ StringOrStrings `json:"section,omitempty"`
+	Section /*TOpt*/ *StringOrStrings `json:"section,omitempty"`
 }
 
 // The parameters of a notification message.
@@ -1124,7 +1124,7 @@ type CompletionItem struct {
 	// A human-readable string that represents a doc-comment.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Documentation/*TOpt*/ StringOrMarkupContent `json:"documentation,omitempty"`
+	Documentation/*TOpt*/ *StringOrMarkupContent `json:"documentation,omitempty"`
 
 	// Indicates if this item is deprecated.
 	// @deprecated Use `tags` instead.
@@ -1197,7 +1197,7 @@ type CompletionItem struct {
 	// @since 3.16.0 additional type `InsertReplaceEdit`
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	TextEdit/*TOpt*/ TextEditOrInsertReplaceEdit `json:"textEdit,omitempty"`
+	TextEdit/*TOpt*/ *TextEditOrInsertReplaceEdit `json:"textEdit,omitempty"`
 
 	// The edit text used if the completion item is part of a CompletionList and
 	// CompletionList defines an item default for the text edit range.
@@ -1270,7 +1270,7 @@ type CompletionList struct {
 		// @since 3.17.0
 		//
 		// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-		EditRange/*TOpt*/ RangeOrInsertRangeWithReplaceRange `json:"editRange,omitempty"`
+		EditRange/*TOpt*/ *RangeOrInsertRangeWithReplaceRange `json:"editRange,omitempty"`
 
 		// A default insert text format.
 		//
@@ -1310,7 +1310,7 @@ type Hover struct {
 	// The hover's content
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Contents MarkupContentOrMarkedStringOrMarkedStrings `json:"contents,omitempty"`
+	Contents/*TOpt*/ *MarkupContentOrMarkedStringOrMarkedStrings `json:"contents,omitempty"`
 
 	// An optional range inside the text document that is used to
 	// visualize the hover, e.g. by changing the background color.
@@ -1626,7 +1626,7 @@ type WorkspaceSymbol struct {
 	// See SymbolInformation#location for more details.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Location LocationOrUriDocumentUri `json:"location,omitempty"`
+	Location/*TOpt*/ *LocationOrUriDocumentUri `json:"location,omitempty"`
 
 	// A data entry field that is preserved on a workspace symbol between a
 	// workspace symbol request and a workspace symbol resolve request.
@@ -1935,7 +1935,7 @@ type CancelParams struct {
 	// The request id to cancel.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Id IntegerOrString `json:"id,omitempty"`
+	Id /*TOpt*/ *IntegerOrString `json:"id,omitempty"`
 }
 
 type ProgressParams struct {
@@ -2154,12 +2154,12 @@ type SemanticTokensOptions struct {
 	// of a document.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Range/*TOpt*/ BooleanOrAnyByString `json:"range,omitempty"`
+	Range/*TOpt*/ *BooleanOrAnyByString `json:"range,omitempty"`
 
 	// Server supports providing semantic tokens for a full document.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Full/*TOpt*/ BooleanOrDeltaBoolean `json:"full,omitempty"`
+	Full/*TOpt*/ *BooleanOrDeltaBoolean `json:"full,omitempty"`
 }
 
 // @since 3.16.0
@@ -2203,7 +2203,7 @@ type TextDocumentEdit struct {
 	// client capability.
 	//
 	// Every object in the array has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Edits []TextEditOrAnnotatedTextEdit `json:"edits,omitempty"`
+	Edits []*TextEditOrAnnotatedTextEdit `json:"edits,omitempty"`
 }
 
 // Create file operation.
@@ -2397,7 +2397,7 @@ type InlayHintLabelPart struct {
 	// this property late using the resolve request.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Tooltip/*TOpt*/ StringOrMarkupContent `json:"tooltip,omitempty"`
+	Tooltip/*TOpt*/ *StringOrMarkupContent `json:"tooltip,omitempty"`
 
 	// An optional source code location that represents this
 	// label part.
@@ -2478,7 +2478,7 @@ type RelatedFullDocumentDiagnosticReport struct {
 	// @since 3.17.0
 	//
 	// Every object in the map has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	RelatedDocuments/*TOpt*/ map[DocumentURI]FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport `json:"relatedDocuments,omitempty"`
+	RelatedDocuments/*TOpt*/ map[DocumentURI]*FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport `json:"relatedDocuments,omitempty"`
 }
 
 // An unchanged diagnostic report with a set of related documents.
@@ -2496,7 +2496,7 @@ type RelatedUnchangedDocumentDiagnosticReport struct {
 	// @since 3.17.0
 	//
 	// Every object in the map has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	RelatedDocuments/*TOpt*/ map[DocumentURI]FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport `json:"relatedDocuments,omitempty"`
+	RelatedDocuments/*TOpt*/ map[DocumentURI]*FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport `json:"relatedDocuments,omitempty"`
 }
 
 // A diagnostic report with a full set of problems.
@@ -2708,7 +2708,7 @@ type _InitializeParams struct {
 	//
 	// Is `null` if the process has not been started by another process.
 	// If the parent process is not alive then the server should exit.
-	ProcessId/*TOr*/ /*TOpt*/ *Integer `json:"processId,omitempty"`
+	ProcessId/*TOpt*/ * /*TOr*/ /*TOpt*/ *Integer `json:"processId,omitempty"`
 
 	// Information about the client
 	//
@@ -2736,14 +2736,14 @@ type _InitializeParams struct {
 	// if no folder is open.
 	//
 	// @deprecated in favour of rootUri.
-	RootPath/*TOpt*/ /*TOr*/ /*TOpt*/ *String `json:"rootPath,omitempty"`
+	RootPath/*TOpt*/ * /*TOr*/ /*TOpt*/ *String `json:"rootPath,omitempty"`
 
 	// The rootUri of the workspace. Is null if no
 	// folder is open. If both `rootPath` and `rootUri` are set
 	// `rootUri` wins.
 	//
 	// @deprecated in favour of workspaceFolders.
-	RootUri/*TOr*/ /*TOpt*/ *DocumentURI `json:"rootUri,omitempty"`
+	RootUri/*TOpt*/ * /*TOr*/ /*TOpt*/ *DocumentURI `json:"rootUri,omitempty"`
 
 	// The capabilities provided by the client (editor or tool)
 	Capabilities ClientCapabilities `json:"capabilities,omitempty"`
@@ -2764,7 +2764,7 @@ type WorkspaceFoldersInitializeParams struct {
 	// configured.
 	//
 	// @since 3.6.0
-	WorkspaceFolders /*TOpt*/ /*TOr*/ /*TOpt*/ []WorkspaceFolder `json:"workspaceFolders,omitempty"`
+	WorkspaceFolders /*TOpt*/ * /*TOr*/ /*TOpt*/ []WorkspaceFolder `json:"workspaceFolders,omitempty"`
 }
 
 // Defines the capabilities provided by a language
@@ -2787,14 +2787,14 @@ type ServerCapabilities struct {
 	// TextDocumentSyncKind number.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	TextDocumentSync/*TOpt*/ TextDocumentSyncOptionsOrTextDocumentSyncKind `json:"textDocumentSync,omitempty"`
+	TextDocumentSync/*TOpt*/ *TextDocumentSyncOptionsOrTextDocumentSyncKind `json:"textDocumentSync,omitempty"`
 
 	// Defines how notebook documents are synced.
 	//
 	// @since 3.17.0
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	NotebookDocumentSync/*TOpt*/ NotebookDocumentSyncOptionsOrNotebookDocumentSyncRegistrationOptions `json:"notebookDocumentSync,omitempty"`
+	NotebookDocumentSync/*TOpt*/ *NotebookDocumentSyncOptionsOrNotebookDocumentSyncRegistrationOptions `json:"notebookDocumentSync,omitempty"`
 
 	// The server provides completion support.
 	CompletionProvider/*TOpt*/ *CompletionOptions `json:"completionProvider,omitempty"`
@@ -2802,7 +2802,7 @@ type ServerCapabilities struct {
 	// The server provides hover support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	HoverProvider/*TOpt*/ BooleanOrHoverOptions `json:"hoverProvider,omitempty"`
+	HoverProvider/*TOpt*/ *BooleanOrHoverOptions `json:"hoverProvider,omitempty"`
 
 	// The server provides signature help support.
 	SignatureHelpProvider/*TOpt*/ *SignatureHelpOptions `json:"signatureHelpProvider,omitempty"`
@@ -2810,44 +2810,44 @@ type ServerCapabilities struct {
 	// The server provides Goto Declaration support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	DeclarationProvider/*TOpt*/ BooleanOrDeclarationOptionsOrDeclarationRegistrationOptions `json:"declarationProvider,omitempty"`
+	DeclarationProvider/*TOpt*/ *BooleanOrDeclarationOptionsOrDeclarationRegistrationOptions `json:"declarationProvider,omitempty"`
 
 	// The server provides goto definition support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	DefinitionProvider/*TOpt*/ BooleanOrDefinitionOptions `json:"definitionProvider,omitempty"`
+	DefinitionProvider/*TOpt*/ *BooleanOrDefinitionOptions `json:"definitionProvider,omitempty"`
 
 	// The server provides Goto Type Definition support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	TypeDefinitionProvider/*TOpt*/ BooleanOrTypeDefinitionOptionsOrTypeDefinitionRegistrationOptions `json:"typeDefinitionProvider,omitempty"`
+	TypeDefinitionProvider/*TOpt*/ *BooleanOrTypeDefinitionOptionsOrTypeDefinitionRegistrationOptions `json:"typeDefinitionProvider,omitempty"`
 
 	// The server provides Goto Implementation support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	ImplementationProvider/*TOpt*/ BooleanOrImplementationOptionsOrImplementationRegistrationOptions `json:"implementationProvider,omitempty"`
+	ImplementationProvider/*TOpt*/ *BooleanOrImplementationOptionsOrImplementationRegistrationOptions `json:"implementationProvider,omitempty"`
 
 	// The server provides find references support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	ReferencesProvider/*TOpt*/ BooleanOrReferenceOptions `json:"referencesProvider,omitempty"`
+	ReferencesProvider/*TOpt*/ *BooleanOrReferenceOptions `json:"referencesProvider,omitempty"`
 
 	// The server provides document highlight support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	DocumentHighlightProvider/*TOpt*/ BooleanOrDocumentHighlightOptions `json:"documentHighlightProvider,omitempty"`
+	DocumentHighlightProvider/*TOpt*/ *BooleanOrDocumentHighlightOptions `json:"documentHighlightProvider,omitempty"`
 
 	// The server provides document symbol support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	DocumentSymbolProvider/*TOpt*/ BooleanOrDocumentSymbolOptions `json:"documentSymbolProvider,omitempty"`
+	DocumentSymbolProvider/*TOpt*/ *BooleanOrDocumentSymbolOptions `json:"documentSymbolProvider,omitempty"`
 
 	// The server provides code actions. CodeActionOptions may only be
 	// specified if the client states that it supports
 	// `codeActionLiteralSupport` in its initial `initialize` request.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	CodeActionProvider/*TOpt*/ BooleanOrCodeActionOptions `json:"codeActionProvider,omitempty"`
+	CodeActionProvider/*TOpt*/ *BooleanOrCodeActionOptions `json:"codeActionProvider,omitempty"`
 
 	// The server provides code lens.
 	CodeLensProvider/*TOpt*/ *CodeLensOptions `json:"codeLensProvider,omitempty"`
@@ -2858,22 +2858,22 @@ type ServerCapabilities struct {
 	// The server provides color provider support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	ColorProvider/*TOpt*/ BooleanOrDocumentColorOptionsOrDocumentColorRegistrationOptions `json:"colorProvider,omitempty"`
+	ColorProvider/*TOpt*/ *BooleanOrDocumentColorOptionsOrDocumentColorRegistrationOptions `json:"colorProvider,omitempty"`
 
 	// The server provides workspace symbol support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	WorkspaceSymbolProvider/*TOpt*/ BooleanOrWorkspaceSymbolOptions `json:"workspaceSymbolProvider,omitempty"`
+	WorkspaceSymbolProvider/*TOpt*/ *BooleanOrWorkspaceSymbolOptions `json:"workspaceSymbolProvider,omitempty"`
 
 	// The server provides document formatting.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	DocumentFormattingProvider/*TOpt*/ BooleanOrDocumentFormattingOptions `json:"documentFormattingProvider,omitempty"`
+	DocumentFormattingProvider/*TOpt*/ *BooleanOrDocumentFormattingOptions `json:"documentFormattingProvider,omitempty"`
 
 	// The server provides document range formatting.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	DocumentRangeFormattingProvider/*TOpt*/ BooleanOrDocumentRangeFormattingOptions `json:"documentRangeFormattingProvider,omitempty"`
+	DocumentRangeFormattingProvider/*TOpt*/ *BooleanOrDocumentRangeFormattingOptions `json:"documentRangeFormattingProvider,omitempty"`
 
 	// The server provides document formatting on typing.
 	DocumentOnTypeFormattingProvider/*TOpt*/ *DocumentOnTypeFormattingOptions `json:"documentOnTypeFormattingProvider,omitempty"`
@@ -2883,17 +2883,17 @@ type ServerCapabilities struct {
 	// `prepareSupport` in its initial `initialize` request.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	RenameProvider/*TOpt*/ BooleanOrRenameOptions `json:"renameProvider,omitempty"`
+	RenameProvider/*TOpt*/ *BooleanOrRenameOptions `json:"renameProvider,omitempty"`
 
 	// The server provides folding provider support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	FoldingRangeProvider/*TOpt*/ BooleanOrFoldingRangeOptionsOrFoldingRangeRegistrationOptions `json:"foldingRangeProvider,omitempty"`
+	FoldingRangeProvider/*TOpt*/ *BooleanOrFoldingRangeOptionsOrFoldingRangeRegistrationOptions `json:"foldingRangeProvider,omitempty"`
 
 	// The server provides selection range support.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	SelectionRangeProvider/*TOpt*/ BooleanOrSelectionRangeOptionsOrSelectionRangeRegistrationOptions `json:"selectionRangeProvider,omitempty"`
+	SelectionRangeProvider/*TOpt*/ *BooleanOrSelectionRangeOptionsOrSelectionRangeRegistrationOptions `json:"selectionRangeProvider,omitempty"`
 
 	// The server provides execute command support.
 	ExecuteCommandProvider/*TOpt*/ *ExecuteCommandOptions `json:"executeCommandProvider,omitempty"`
@@ -2903,56 +2903,56 @@ type ServerCapabilities struct {
 	// @since 3.16.0
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	CallHierarchyProvider/*TOpt*/ BooleanOrCallHierarchyOptionsOrCallHierarchyRegistrationOptions `json:"callHierarchyProvider,omitempty"`
+	CallHierarchyProvider/*TOpt*/ *BooleanOrCallHierarchyOptionsOrCallHierarchyRegistrationOptions `json:"callHierarchyProvider,omitempty"`
 
 	// The server provides linked editing range support.
 	//
 	// @since 3.16.0
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	LinkedEditingRangeProvider/*TOpt*/ BooleanOrLinkedEditingRangeOptionsOrLinkedEditingRangeRegistrationOptions `json:"linkedEditingRangeProvider,omitempty"`
+	LinkedEditingRangeProvider/*TOpt*/ *BooleanOrLinkedEditingRangeOptionsOrLinkedEditingRangeRegistrationOptions `json:"linkedEditingRangeProvider,omitempty"`
 
 	// The server provides semantic tokens support.
 	//
 	// @since 3.16.0
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	SemanticTokensProvider/*TOpt*/ SemanticTokensOptionsOrSemanticTokensRegistrationOptions `json:"semanticTokensProvider,omitempty"`
+	SemanticTokensProvider/*TOpt*/ *SemanticTokensOptionsOrSemanticTokensRegistrationOptions `json:"semanticTokensProvider,omitempty"`
 
 	// The server provides moniker support.
 	//
 	// @since 3.16.0
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	MonikerProvider/*TOpt*/ BooleanOrMonikerOptionsOrMonikerRegistrationOptions `json:"monikerProvider,omitempty"`
+	MonikerProvider/*TOpt*/ *BooleanOrMonikerOptionsOrMonikerRegistrationOptions `json:"monikerProvider,omitempty"`
 
 	// The server provides type hierarchy support.
 	//
 	// @since 3.17.0
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	TypeHierarchyProvider/*TOpt*/ BooleanOrTypeHierarchyOptionsOrTypeHierarchyRegistrationOptions `json:"typeHierarchyProvider,omitempty"`
+	TypeHierarchyProvider/*TOpt*/ *BooleanOrTypeHierarchyOptionsOrTypeHierarchyRegistrationOptions `json:"typeHierarchyProvider,omitempty"`
 
 	// The server provides inline values.
 	//
 	// @since 3.17.0
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	InlineValueProvider/*TOpt*/ BooleanOrInlineValueOptionsOrInlineValueRegistrationOptions `json:"inlineValueProvider,omitempty"`
+	InlineValueProvider/*TOpt*/ *BooleanOrInlineValueOptionsOrInlineValueRegistrationOptions `json:"inlineValueProvider,omitempty"`
 
 	// The server provides inlay hints.
 	//
 	// @since 3.17.0
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	InlayHintProvider/*TOpt*/ BooleanOrInlayHintOptionsOrInlayHintRegistrationOptions `json:"inlayHintProvider,omitempty"`
+	InlayHintProvider/*TOpt*/ *BooleanOrInlayHintOptionsOrInlayHintRegistrationOptions `json:"inlayHintProvider,omitempty"`
 
 	// The server has support for pull model diagnostics.
 	//
 	// @since 3.17.0
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	DiagnosticProvider/*TOpt*/ DiagnosticOptionsOrDiagnosticRegistrationOptions `json:"diagnosticProvider,omitempty"`
+	DiagnosticProvider/*TOpt*/ *DiagnosticOptionsOrDiagnosticRegistrationOptions `json:"diagnosticProvider,omitempty"`
 
 	// Workspace specific server capabilities.
 	Workspace/*TOpt*/ * /*TStruc*/ struct {
@@ -3024,7 +3024,7 @@ type Diagnostic struct {
 	// The diagnostic's code, which usually appear in the user interface.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Code/*TOpt*/ IntegerOrString `json:"code,omitempty"`
+	Code/*TOpt*/ *IntegerOrString `json:"code,omitempty"`
 
 	// An optional property to describe the error code.
 	// Requires the code field (above) to be present/not null.
@@ -3183,7 +3183,7 @@ type SignatureInformation struct {
 	// in the UI but can be omitted.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Documentation/*TOpt*/ StringOrMarkupContent `json:"documentation,omitempty"`
+	Documentation/*TOpt*/ *StringOrMarkupContent `json:"documentation,omitempty"`
 
 	// The parameters of this signature.
 	Parameters/*TOpt*/ []ParameterInformation `json:"parameters,omitempty"`
@@ -3416,7 +3416,7 @@ type OptionalVersionedTextDocumentIdentifier struct {
 	// (the server has not received an open notification before) the server can send
 	// `null` to indicate that the version is unknown and the content on disk is the
 	// truth (as specified with document content ownership).
-	Version/*TOr*/ /*TOpt*/ *Integer `json:"version,omitempty"`
+	Version/*TOpt*/ * /*TOr*/ /*TOpt*/ *Integer `json:"version,omitempty"`
 }
 
 // A special text edit with an additional change annotation.
@@ -3506,7 +3506,7 @@ type WorkspaceFullDocumentDiagnosticReport struct {
 
 	// The version number for which the diagnostics are reported.
 	// If the document is not marked as open `null` can be provided.
-	Version/*TOr*/ /*TOpt*/ *Integer `json:"version,omitempty"`
+	Version/*TOpt*/ * /*TOr*/ /*TOpt*/ *Integer `json:"version,omitempty"`
 }
 
 // An unchanged document diagnostic report for a workspace diagnostic result.
@@ -3520,7 +3520,7 @@ type WorkspaceUnchangedDocumentDiagnosticReport struct {
 
 	// The version number for which the diagnostics are reported.
 	// If the document is not marked as open `null` can be provided.
-	Version/*TOr*/ /*TOpt*/ *Integer `json:"version,omitempty"`
+	Version/*TOpt*/ * /*TOr*/ /*TOpt*/ *Integer `json:"version,omitempty"`
 }
 
 // A notebook cell.
@@ -3613,7 +3613,7 @@ type TextDocumentSyncOptions struct {
 	// sent.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Save/*TOpt*/ BooleanOrSaveOptions `json:"save,omitempty"`
+	Save/*TOpt*/ *BooleanOrSaveOptions `json:"save,omitempty"`
 }
 
 // Options specific to a notebook plus its cells
@@ -3639,7 +3639,7 @@ type NotebookDocumentSyncOptions struct {
 		// notebook type. '*' matches every notebook.
 		//
 		// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-		Notebook/*TOpt*/ StringOrNotebookDocumentFilter `json:"notebook,omitempty"`
+		Notebook/*TOpt*/ *StringOrNotebookDocumentFilter `json:"notebook,omitempty"`
 
 		// The cells of the matching notebook to be synced.
 		Cells/*TOpt*/ [] /*TStruc*/ struct {
@@ -3674,7 +3674,7 @@ type WorkspaceFoldersServerCapabilities struct {
 	// using the `client/unregisterCapability` request.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	ChangeNotifications/*TOpt*/ StringOrBoolean `json:"changeNotifications,omitempty"`
+	ChangeNotifications/*TOpt*/ *StringOrBoolean `json:"changeNotifications,omitempty"`
 }
 
 // Options for notifications/requests for user operations on files.
@@ -3736,13 +3736,13 @@ type ParameterInformation struct {
 	// Its intended use case is to highlight the parameter label part in the `SignatureInformation.label`.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Label StringOrUintegerWithUinteger `json:"label,omitempty"`
+	Label/*TOpt*/ *StringOrUintegerWithUinteger `json:"label,omitempty"`
 
 	// The human-readable doc-comment of this parameter. Will be shown
 	// in the UI but can be omitted.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Documentation/*TOpt*/ StringOrMarkupContent `json:"documentation,omitempty"`
+	Documentation/*TOpt*/ *StringOrMarkupContent `json:"documentation,omitempty"`
 }
 
 // A notebook cell text document filter denotes a cell text
@@ -3757,7 +3757,7 @@ type NotebookCellTextDocumentFilter struct {
 	// notebook type. '*' matches every notebook.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	Notebook StringOrNotebookDocumentFilter `json:"notebook,omitempty"`
+	Notebook/*TOpt*/ *StringOrNotebookDocumentFilter `json:"notebook,omitempty"`
 
 	// A language id like `python`.
 	//
@@ -4078,7 +4078,7 @@ type RelativePattern struct {
 	// against relatively.
 	//
 	// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-	BaseUri WorkspaceFolderOrURI `json:"baseUri,omitempty"`
+	BaseUri/*TOpt*/ *WorkspaceFolderOrURI `json:"baseUri,omitempty"`
 
 	// The actual glob pattern;
 	Pattern Pattern `json:"pattern,omitempty"`
@@ -4843,13 +4843,13 @@ type SemanticTokensClientCapabilities struct {
 		// the server provides a corresponding handler.
 		//
 		// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-		Range/*TOpt*/ BooleanOrAnyByString `json:"range,omitempty"`
+		Range/*TOpt*/ *BooleanOrAnyByString `json:"range,omitempty"`
 
 		// The client will send the `textDocument/semanticTokens/full` request if
 		// the server provides a corresponding handler.
 		//
 		// This object has "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-		Full/*TOpt*/ BooleanOrDeltaBoolean_ `json:"full,omitempty"`
+		Full/*TOpt*/ *BooleanOrDeltaBoolean_ `json:"full,omitempty"`
 	} `json:"requests,omitempty"`
 
 	// The token types that the client supports.

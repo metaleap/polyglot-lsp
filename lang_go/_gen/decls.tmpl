@@ -166,7 +166,7 @@ func iIf[T any](chk bool, ifTrue T, ifFalse T) T {
 type clientServerBase struct {
 	stdioLock sync.Mutex // to sync writes to stdout
 	stdout *bufio.Writer
-	waiters map[string]func(any)
+	waiters map[any]func(any)
 
 	LogPrefixSendRecvJsons string
 
@@ -223,7 +223,7 @@ func (it *clientServerBase) forever(in io.Reader, out io.Writer, handleIncoming 
 	const buf_cap = 1024 * 1024
 
 	it.stdout = bufio.NewWriterSize(out, buf_cap)
-	it.waiters = map[string]func(any){}
+	it.waiters = map[any]func(any){}
 
 	stdin := bufio.NewScanner(in)
 	stdin.Buffer(make([]byte, buf_cap), buf_cap)
@@ -263,7 +263,13 @@ func (it *clientServerBase) forever(in io.Reader, out io.Writer, handleIncoming 
 			it.stdioLock.Unlock()
 			continue
 		}
-		it.sendErrMsg(handleIncoming(raw))
+		if msg_id := raw["id"]; raw["method"] == nil { // received a Response message
+			handler := it.waiters[msg_id]
+			delete(it.waiters, msg_id)
+			go handler(raw["result"])
+		} else {
+			it.sendErrMsg(handleIncoming(raw))
+		}
 	}
 	return stdin.Err()
 }
@@ -285,13 +291,9 @@ func clientServerOnResp[T any] (it *clientServerBase, onResp func(*T)) func(any)
 	}
 }
 
-func clientServerHandleIncoming[T any] (it *clientServerBase, handler func (*T) (any, error), msgMethodName string, msgIdMaybe any, msgParams any) {
-	var req_id string
-	if msgIdMaybe != nil {
-		req_id = fmt.Sprintf("%v", msgIdMaybe)
-	}
+func clientServerHandleIncoming[T any] (it *clientServerBase, handler func (*T) (any, error), msgMethodName string, msgId any, msgParams any) {
 	if handler == nil {
-		if req_id != "" {
+		if msgId != nil {
 			it.sendErrMsg(errors.New("unimplemented: " + msgMethodName))
 		}
 		return
@@ -312,17 +314,17 @@ func clientServerHandleIncoming[T any] (it *clientServerBase, handler func (*T) 
 		resp := map[string]any {
 			"jsonrpc": "2.0",
 			"result": result,
-			"id": req_id,
+			"id": msgId,
 		}
 		if err != nil {
-			if msgIdMaybe != nil {
+			if msgId != nil {
 				resp["error"] = &jsonRpcError{ Code: int(ErrorCodesInternalError), Message: fmt.Sprintf("%v", err) }
 			}else {
 				it.sendErrMsg(err)
 				return
 			}
 		}
-		if msgIdMaybe != nil {
+		if msgId != nil {
 			it.sendMsg(resp)
 		}
 	}(&params)

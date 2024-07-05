@@ -1,5 +1,4 @@
 import (
-	"fmt"
 	"io"
 )
 
@@ -36,11 +35,6 @@ func (it *Client) handleIncoming(raw map[string]any) *jsonRpcError {
 	msg_id, msg_method :=raw["id"], raw["method"]
 
 	switch msg_method, _ := msg_method.(string); msg_method {
-	case "":  // msg is an incoming Response
-		msg_id := fmt.Sprintf("%v", msg_id)
-		handler := it.waiters[msg_id]
-		delete(it.waiters, msg_id)
-		go handler(raw["result"])
 	{{- range $main.Decls.Extras -}}
 	{{- $msg := . }}
 	{{- if $msg.IsServerToClient }}

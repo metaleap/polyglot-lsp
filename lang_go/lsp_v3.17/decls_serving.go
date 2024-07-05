@@ -2,7 +2,6 @@
 package lsp_v3_17
 
 import (
-	"fmt"
 	"os"
 )
 
@@ -428,7 +427,7 @@ func (it *Server) Notify___progress(params *ProgressParams) {
 }
 
 // The `workspace/workspaceFolders` is sent from the server to the client to fetch the open workspace folders.
-func (it *Server) Request_workspace_workspaceFolders(params *Void, onResp func(* /*TOr*/ /*TOpt*/ []WorkspaceFolder)) {
+func (it *Server) Request_workspace_workspaceFolders(params *Void, onResp func(** /*TOr*/ /*TOpt*/ []WorkspaceFolder)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("workspace/workspaceFolders", params, true, on_resp)
 }
@@ -505,7 +504,7 @@ func (it *Server) Request_client_unregisterCapability(params *UnregistrationPara
 
 // The show message request is sent from the server to the client to show a message
 // and a set of options actions to the user.
-func (it *Server) Request_window_showMessageRequest(params *ShowMessageRequestParams, onResp func(* /*TOr*/ /*TOpt*/ *MessageActionItem)) {
+func (it *Server) Request_window_showMessageRequest(params *ShowMessageRequestParams, onResp func(** /*TOr*/ /*TOpt*/ *MessageActionItem)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("window/showMessageRequest", params, true, on_resp)
 }
@@ -528,11 +527,6 @@ func (it *Server) handleIncoming(raw map[string]any) *jsonRpcError {
 	msg_id, msg_method := raw["id"], raw["method"]
 
 	switch msg_method, _ := msg_method.(string); msg_method {
-	case "": // msg is an incoming Response
-		msg_id := fmt.Sprintf("%v", msg_id)
-		handler := it.waiters[msg_id]
-		delete(it.waiters, msg_id)
-		go handler(raw["result"])
 	case "workspace/didChangeWorkspaceFolders":
 		clientServerHandleIncoming(&it.clientServerBase, it.On_workspace_didChangeWorkspaceFolders, msg_method, msg_id, raw["params"])
 	case "window/workDoneProgress/cancel":
@@ -686,52 +680,87 @@ func (it *Server) handleIncoming(raw map[string]any) *jsonRpcError {
 				}{Name: os.Args[0]},
 			}
 			caps := &init.Server.Capabilities
-			caps.TextDocumentSync.TextDocumentSyncOptions = &TextDocumentSyncOptions{
-				OpenClose: ptr(Boolean(it.On_textDocument_didClose != nil || it.On_textDocument_didOpen != nil)),
-				Change:    iIf(it.On_textDocument_didChange == nil, TextDocumentSyncKindNone, TextDocumentSyncKindFull),
+			if it.On_textDocument_didClose != nil || it.On_textDocument_didOpen != nil || it.On_textDocument_didChange != nil {
+				caps.TextDocumentSync = &TextDocumentSyncOptionsOrTextDocumentSyncKind{
+					TextDocumentSyncOptions: &TextDocumentSyncOptions{
+						OpenClose: ptr(Boolean(it.On_textDocument_didClose != nil || it.On_textDocument_didOpen != nil)),
+						Change:    iIf(it.On_textDocument_didChange != nil, TextDocumentSyncKindFull, TextDocumentSyncKindNone),
+					},
+				}
 			}
 			if it.On_textDocument_completion != nil {
 				caps.CompletionProvider = &CompletionOptions{TriggerCharacters: it.Lang.CompletionTriggerChars}
 			}
-			caps.HoverProvider.Boolean = ptr(Boolean(it.On_textDocument_hover != nil))
 			if it.On_textDocument_signatureHelp != nil {
 				caps.SignatureHelpProvider = &SignatureHelpOptions{TriggerCharacters: it.Lang.SignatureTriggerChars}
 			}
-			caps.DeclarationProvider.Boolean = ptr(Boolean(it.On_textDocument_declaration != nil))
-			caps.DefinitionProvider.Boolean = ptr(Boolean(it.On_textDocument_definition != nil))
-			caps.TypeDefinitionProvider.Boolean = ptr(Boolean(it.On_textDocument_typeDefinition != nil))
-			caps.ImplementationProvider.Boolean = ptr(Boolean(it.On_textDocument_implementation != nil))
-			caps.ReferencesProvider.Boolean = ptr(Boolean(it.On_textDocument_references != nil))
-			caps.DocumentHighlightProvider.Boolean = ptr(Boolean(it.On_textDocument_documentHighlight != nil))
-			caps.DocumentSymbolProvider.Boolean = ptr(Boolean(it.On_textDocument_documentSymbol != nil))
-			caps.CodeActionProvider.Boolean = ptr(Boolean(it.On_textDocument_codeAction != nil))
 			if it.On_textDocument_codeLens != nil {
 				caps.CodeLensProvider = &CodeLensOptions{}
 			}
-			caps.DocumentFormattingProvider.Boolean = ptr(Boolean(it.On_textDocument_formatting != nil))
-			caps.DocumentRangeFormattingProvider.Boolean = ptr(Boolean(it.On_textDocument_rangeFormatting != nil))
 			caps.RenameProvider.RenameOptions = iIf(it.On_textDocument_rename == nil, nil, &RenameOptions{
 				PrepareProvider: ptr(Boolean(it.On_textDocument_prepareRename != nil)),
 			})
 			if it.On_workspace_executeCommand != nil {
 				caps.ExecuteCommandProvider = &ExecuteCommandOptions{Commands: it.Lang.Commands}
 			}
-			caps.SelectionRangeProvider.Boolean = ptr(Boolean(it.On_textDocument_selectionRange != nil))
-			caps.CallHierarchyProvider.Boolean = ptr(Boolean(it.On_textDocument_prepareCallHierarchy != nil && it.On_callHierarchy_incomingCalls != nil && it.On_callHierarchy_outgoingCalls != nil))
-			caps.TypeHierarchyProvider.Boolean = ptr(Boolean(it.On_textDocument_prepareTypeHierarchy != nil && it.On_typeHierarchy_subtypes != nil && it.On_typeHierarchy_supertypes != nil))
-			caps.InlineValueProvider.Boolean = ptr(Boolean(it.On_textDocument_inlineValue != nil))
-			caps.InlayHintProvider.Boolean = ptr(Boolean(it.On_textDocument_inlayHint != nil))
-			caps.WorkspaceSymbolProvider.Boolean = ptr(Boolean(it.On_workspace_symbol != nil))
+			if it.On_textDocument_hover != nil {
+				caps.HoverProvider = &BooleanOrHoverOptions{Boolean: ptr(Boolean(true))}
+			}
+			if it.On_textDocument_declaration != nil {
+				caps.DeclarationProvider = &BooleanOrDeclarationOptionsOrDeclarationRegistrationOptions{Boolean: ptr(Boolean(true))}
+			}
+			if it.On_textDocument_definition != nil {
+				caps.DefinitionProvider = &BooleanOrDefinitionOptions{Boolean: ptr(Boolean(true))}
+			}
+			if it.On_textDocument_typeDefinition != nil {
+				caps.TypeDefinitionProvider = &BooleanOrTypeDefinitionOptionsOrTypeDefinitionRegistrationOptions{Boolean: ptr(Boolean(true))}
+			}
+			if it.On_textDocument_implementation != nil {
+				caps.ImplementationProvider = &BooleanOrImplementationOptionsOrImplementationRegistrationOptions{Boolean: ptr(Boolean(true))}
+			}
+			if it.On_textDocument_references != nil {
+				caps.ReferencesProvider = &BooleanOrReferenceOptions{Boolean: ptr(Boolean(true))}
+			}
+			if it.On_textDocument_documentHighlight != nil {
+				caps.DocumentHighlightProvider = &BooleanOrDocumentHighlightOptions{Boolean: ptr(Boolean(true))}
+			}
+			if it.On_textDocument_documentSymbol != nil {
+				caps.DocumentSymbolProvider = &BooleanOrDocumentSymbolOptions{Boolean: ptr(Boolean(true))}
+			}
+			if it.On_textDocument_codeAction != nil {
+				caps.CodeActionProvider = &BooleanOrCodeActionOptions{Boolean: ptr(Boolean(true))}
+			}
+			if it.On_textDocument_formatting != nil {
+				caps.DocumentFormattingProvider = &BooleanOrDocumentFormattingOptions{Boolean: ptr(Boolean(true))}
+			}
+			if it.On_textDocument_rangeFormatting != nil {
+				caps.DocumentRangeFormattingProvider = &BooleanOrDocumentRangeFormattingOptions{Boolean: ptr(Boolean(true))}
+			}
+			if it.On_textDocument_selectionRange != nil {
+				caps.SelectionRangeProvider = &BooleanOrSelectionRangeOptionsOrSelectionRangeRegistrationOptions{Boolean: ptr(Boolean(true))}
+			}
+			if it.On_textDocument_prepareCallHierarchy != nil && it.On_callHierarchy_incomingCalls != nil && it.On_callHierarchy_outgoingCalls != nil {
+				caps.CallHierarchyProvider = &BooleanOrCallHierarchyOptionsOrCallHierarchyRegistrationOptions{Boolean: ptr(Boolean(true))}
+			}
+			if it.On_textDocument_prepareTypeHierarchy != nil && it.On_typeHierarchy_subtypes != nil && it.On_typeHierarchy_supertypes != nil {
+				caps.TypeHierarchyProvider = &BooleanOrTypeHierarchyOptionsOrTypeHierarchyRegistrationOptions{Boolean: ptr(Boolean(true))}
+			}
+			if it.On_textDocument_inlineValue != nil {
+				caps.InlineValueProvider = &BooleanOrInlineValueOptionsOrInlineValueRegistrationOptions{Boolean: ptr(Boolean(true))}
+			}
+			if it.On_textDocument_inlayHint != nil {
+				caps.InlayHintProvider = &BooleanOrInlayHintOptionsOrInlayHintRegistrationOptions{Boolean: ptr(Boolean(true))}
+			}
+			if it.On_workspace_symbol != nil {
+				caps.WorkspaceSymbolProvider = &BooleanOrWorkspaceSymbolOptions{Boolean: ptr(Boolean(true))}
+			}
 			caps.Workspace = &struct {
 				WorkspaceFolders *WorkspaceFoldersServerCapabilities `json:"workspaceFolders,omitempty"`
 				FileOperations   *FileOperationOptions               `json:"fileOperations,omitempty"`
 			}{
 				WorkspaceFolders: &WorkspaceFoldersServerCapabilities{
 					Supported: ptr(Boolean(it.On_workspace_didChangeWorkspaceFolders != nil)),
-					ChangeNotifications: struct {
-						String/*TOpt*/ *String
-						Boolean/*TOpt*/ *Boolean
-					}{
+					ChangeNotifications: &StringOrBoolean{
 						Boolean: ptr(Boolean(it.On_workspace_didChangeWorkspaceFolders != nil)),
 					},
 				},
@@ -771,7 +800,7 @@ func (it *Server) Forever() error {
 						{Method: "workspace/didChangeWatchedFiles", Id: "workspace/didChangeWatchedFiles",
 							RegisterOptions: DidChangeWatchedFilesRegistrationOptions{Watchers: []FileSystemWatcher{
 								{Kind: WatchKindChange | WatchKindCreate | WatchKindDelete,
-									GlobPattern: GlobPattern{Pattern: ptr(String("**/*"))}}}}},
+									GlobPattern: GlobPattern(&PatternOrRelativePattern{Pattern: ptr(String("**/*"))})}}}},
 					},
 				}, func(*Void) {})
 			}

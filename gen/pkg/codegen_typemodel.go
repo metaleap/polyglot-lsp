@@ -32,6 +32,9 @@ type GenStructureProperty struct {
 	Optional bool
 }
 
+func (it *GenStructureProperty) OptionalOrOr() bool {
+	return it.Optional || it.Type.kind() == "Or" || it.Type.kind() == "or"
+}
 func (it *GenStructureProperty) HasConstVal() bool { return it.ConstVal != nil }
 func (it *GenStructureProperty) equiv(cmp *GenStructureProperty) bool {
 	return it.Name == cmp.Name && sameGenType(it.Type, cmp.Type)

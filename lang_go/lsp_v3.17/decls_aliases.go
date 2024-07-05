@@ -9,7 +9,7 @@ package lsp_v3_17
 // by the client.
 //
 // "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-type Definition LocationOrLocations
+type Definition *LocationOrLocations
 
 // Information about where a symbol is defined.
 //
@@ -34,7 +34,7 @@ type LSPAny = any
 // The declaration of a symbol representation as one or many `Location`.
 //
 // "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-type Declaration LocationOrLocations
+type Declaration *LocationOrLocations
 
 // Information about where a symbol is declared.
 //
@@ -54,7 +54,7 @@ type DeclarationLink = LocationLink
 // @since 3.17.0
 //
 // "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-type InlineValue InlineValueTextOrInlineValueVariableLookupOrInlineValueEvaluatableExpression
+type InlineValue *InlineValueTextOrInlineValueVariableLookupOrInlineValueEvaluatableExpression
 
 // The result of a document diagnostic pull request. A report can
 // either be a full report containing all diagnostics for the
@@ -65,10 +65,10 @@ type InlineValue InlineValueTextOrInlineValueVariableLookupOrInlineValueEvaluata
 // @since 3.17.0
 //
 // "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-type DocumentDiagnosticReport RelatedFullDocumentDiagnosticReportOrRelatedUnchangedDocumentDiagnosticReport
+type DocumentDiagnosticReport *RelatedFullDocumentDiagnosticReportOrRelatedUnchangedDocumentDiagnosticReport
 
 // "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-type PrepareRenameResult RangeOrRangeWithPlaceholderStringOrDefaultBehaviorBoolean
+type PrepareRenameResult *RangeOrRangeWithPlaceholderStringOrDefaultBehaviorBoolean
 
 // A document selector is the combination of one or many document filters.
 //
@@ -78,7 +78,7 @@ type PrepareRenameResult RangeOrRangeWithPlaceholderStringOrDefaultBehaviorBoole
 type DocumentSelector = []DocumentFilter
 
 // "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-type ProgressToken IntegerOrString
+type ProgressToken *IntegerOrString
 
 // An identifier to refer to a change annotation stored with a workspace edit.
 type ChangeAnnotationIdentifier = String
@@ -88,13 +88,13 @@ type ChangeAnnotationIdentifier = String
 // @since 3.17.0
 //
 // "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-type WorkspaceDocumentDiagnosticReport WorkspaceFullDocumentDiagnosticReportOrWorkspaceUnchangedDocumentDiagnosticReport
+type WorkspaceDocumentDiagnosticReport *WorkspaceFullDocumentDiagnosticReportOrWorkspaceUnchangedDocumentDiagnosticReport
 
 // An event describing a change to a text document. If only a text is provided
 // it is considered to be the full content of the document.
 //
 // "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-type TextDocumentContentChangeEvent RangeWithRangeLengthUintegerWithTextStringOrTextString
+type TextDocumentContentChangeEvent *RangeWithRangeLengthUintegerWithTextStringOrTextString
 
 // MarkedString can be used to render human readable text. It is either a markdown string
 // or a code-block that provides a language and a code snippet. The language identifier
@@ -110,7 +110,7 @@ type TextDocumentContentChangeEvent RangeWithRangeLengthUintegerWithTextStringOr
 // @deprecated use MarkupContent instead.
 //
 // "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-type MarkedString StringOrLanguageStringWithValueString
+type MarkedString *StringOrLanguageStringWithValueString
 
 // A document filter describes a top level text document or
 // a notebook cell document.
@@ -118,7 +118,7 @@ type MarkedString StringOrLanguageStringWithValueString
 // @since 3.17.0 - proposed support for NotebookCellTextDocumentFilter.
 //
 // "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-type DocumentFilter TextDocumentFilterOrNotebookCellTextDocumentFilter
+type DocumentFilter *TextDocumentFilterOrNotebookCellTextDocumentFilter
 
 // LSP object definition.
 // @since 3.17.0
@@ -129,7 +129,7 @@ type LSPObject = map[string]LSPAny
 // @since 3.17.0
 //
 // "OneOf" (union type) semantics: only (at most) one field in it is ever set, all others will be null/undefined/nil/empty/zero-length/etc.
-type GlobPattern PatternOrRelativePattern
+type GlobPattern *PatternOrRelativePattern
 
 // A document filter denotes a document by different properties like
 // the `TextDocument.languageId`, the `Uri.scheme` of

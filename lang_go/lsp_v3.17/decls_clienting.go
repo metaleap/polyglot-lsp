@@ -2,7 +2,6 @@
 package lsp_v3_17
 
 import (
-	"fmt"
 	"io"
 )
 
@@ -257,7 +256,7 @@ func (it *Client) Notify___progress(params *ProgressParams) {
 // A request to resolve the implementation locations of a symbol at a given text
 // document position. The request's parameter is of type {@link TextDocumentPositionParams}
 // the response is of type {@link Definition} or a Thenable that resolves to such.
-func (it *Client) Request_textDocument_implementation(params *ImplementationParams, onResp func(*DefinitionOrDefinitionLinksOrNull)) {
+func (it *Client) Request_textDocument_implementation(params *ImplementationParams, onResp func(**DefinitionOrDefinitionLinksOrNull)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/implementation", params, true, on_resp)
 }
@@ -265,7 +264,7 @@ func (it *Client) Request_textDocument_implementation(params *ImplementationPara
 // A request to resolve the type definition locations of a symbol at a given text
 // document position. The request's parameter is of type {@link TextDocumentPositionParams}
 // the response is of type {@link Definition} or a Thenable that resolves to such.
-func (it *Client) Request_textDocument_typeDefinition(params *TypeDefinitionParams, onResp func(*DefinitionOrDefinitionLinksOrNull)) {
+func (it *Client) Request_textDocument_typeDefinition(params *TypeDefinitionParams, onResp func(**DefinitionOrDefinitionLinksOrNull)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/typeDefinition", params, true, on_resp)
 }
@@ -292,7 +291,7 @@ func (it *Client) Request_textDocument_colorPresentation(params *ColorPresentati
 // parameter is of type {@link FoldingRangeParams}, the
 // response is of type {@link FoldingRangeList} or a Thenable
 // that resolves to such.
-func (it *Client) Request_textDocument_foldingRange(params *FoldingRangeParams, onResp func(* /*TOr*/ /*TOpt*/ []FoldingRange)) {
+func (it *Client) Request_textDocument_foldingRange(params *FoldingRangeParams, onResp func(** /*TOr*/ /*TOpt*/ []FoldingRange)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/foldingRange", params, true, on_resp)
 }
@@ -301,7 +300,7 @@ func (it *Client) Request_textDocument_foldingRange(params *FoldingRangeParams, 
 // document position. The request's parameter is of type {@link TextDocumentPositionParams}
 // the response is of type {@link Declaration} or a typed array of {@link DeclarationLink}
 // or a Thenable that resolves to such.
-func (it *Client) Request_textDocument_declaration(params *DeclarationParams, onResp func(*DeclarationOrDeclarationLinksOrNull)) {
+func (it *Client) Request_textDocument_declaration(params *DeclarationParams, onResp func(**DeclarationOrDeclarationLinksOrNull)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/declaration", params, true, on_resp)
 }
@@ -310,7 +309,7 @@ func (it *Client) Request_textDocument_declaration(params *DeclarationParams, on
 // parameter is of type {@link SelectionRangeParams}, the
 // response is of type {@link SelectionRange SelectionRange[]} or a Thenable
 // that resolves to such.
-func (it *Client) Request_textDocument_selectionRange(params *SelectionRangeParams, onResp func(* /*TOr*/ /*TOpt*/ []SelectionRange)) {
+func (it *Client) Request_textDocument_selectionRange(params *SelectionRangeParams, onResp func(** /*TOr*/ /*TOpt*/ []SelectionRange)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/selectionRange", params, true, on_resp)
 }
@@ -319,7 +318,7 @@ func (it *Client) Request_textDocument_selectionRange(params *SelectionRangePara
 // Can be used as an input to an incoming or outgoing call hierarchy.
 //
 // @since 3.16.0
-func (it *Client) Request_textDocument_prepareCallHierarchy(params *CallHierarchyPrepareParams, onResp func(* /*TOr*/ /*TOpt*/ []CallHierarchyItem)) {
+func (it *Client) Request_textDocument_prepareCallHierarchy(params *CallHierarchyPrepareParams, onResp func(** /*TOr*/ /*TOpt*/ []CallHierarchyItem)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/prepareCallHierarchy", params, true, on_resp)
 }
@@ -327,7 +326,7 @@ func (it *Client) Request_textDocument_prepareCallHierarchy(params *CallHierarch
 // A request to resolve the incoming calls for a given `CallHierarchyItem`.
 //
 // @since 3.16.0
-func (it *Client) Request_callHierarchy_incomingCalls(params *CallHierarchyIncomingCallsParams, onResp func(* /*TOr*/ /*TOpt*/ []CallHierarchyIncomingCall)) {
+func (it *Client) Request_callHierarchy_incomingCalls(params *CallHierarchyIncomingCallsParams, onResp func(** /*TOr*/ /*TOpt*/ []CallHierarchyIncomingCall)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("callHierarchy/incomingCalls", params, true, on_resp)
 }
@@ -335,25 +334,25 @@ func (it *Client) Request_callHierarchy_incomingCalls(params *CallHierarchyIncom
 // A request to resolve the outgoing calls for a given `CallHierarchyItem`.
 //
 // @since 3.16.0
-func (it *Client) Request_callHierarchy_outgoingCalls(params *CallHierarchyOutgoingCallsParams, onResp func(* /*TOr*/ /*TOpt*/ []CallHierarchyOutgoingCall)) {
+func (it *Client) Request_callHierarchy_outgoingCalls(params *CallHierarchyOutgoingCallsParams, onResp func(** /*TOr*/ /*TOpt*/ []CallHierarchyOutgoingCall)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("callHierarchy/outgoingCalls", params, true, on_resp)
 }
 
 // @since 3.16.0
-func (it *Client) Request_textDocument_semanticTokens_full(params *SemanticTokensParams, onResp func(* /*TOr*/ /*TOpt*/ *SemanticTokens)) {
+func (it *Client) Request_textDocument_semanticTokens_full(params *SemanticTokensParams, onResp func(** /*TOr*/ /*TOpt*/ *SemanticTokens)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/semanticTokens/full", params, true, on_resp)
 }
 
 // @since 3.16.0
-func (it *Client) Request_textDocument_semanticTokens_full_delta(params *SemanticTokensDeltaParams, onResp func(*SemanticTokensOrSemanticTokensDeltaOrNull)) {
+func (it *Client) Request_textDocument_semanticTokens_full_delta(params *SemanticTokensDeltaParams, onResp func(**SemanticTokensOrSemanticTokensDeltaOrNull)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/semanticTokens/full/delta", params, true, on_resp)
 }
 
 // @since 3.16.0
-func (it *Client) Request_textDocument_semanticTokens_range(params *SemanticTokensRangeParams, onResp func(* /*TOr*/ /*TOpt*/ *SemanticTokens)) {
+func (it *Client) Request_textDocument_semanticTokens_range(params *SemanticTokensRangeParams, onResp func(** /*TOr*/ /*TOpt*/ *SemanticTokens)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/semanticTokens/range", params, true, on_resp)
 }
@@ -361,7 +360,7 @@ func (it *Client) Request_textDocument_semanticTokens_range(params *SemanticToke
 // A request to provide ranges that can be edited together.
 //
 // @since 3.16.0
-func (it *Client) Request_textDocument_linkedEditingRange(params *LinkedEditingRangeParams, onResp func(* /*TOr*/ /*TOpt*/ *LinkedEditingRanges)) {
+func (it *Client) Request_textDocument_linkedEditingRange(params *LinkedEditingRangeParams, onResp func(** /*TOr*/ /*TOpt*/ *LinkedEditingRanges)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/linkedEditingRange", params, true, on_resp)
 }
@@ -374,7 +373,7 @@ func (it *Client) Request_textDocument_linkedEditingRange(params *LinkedEditingR
 // to be created.
 //
 // @since 3.16.0
-func (it *Client) Request_workspace_willCreateFiles(params *CreateFilesParams, onResp func(* /*TOr*/ /*TOpt*/ *WorkspaceEdit)) {
+func (it *Client) Request_workspace_willCreateFiles(params *CreateFilesParams, onResp func(** /*TOr*/ /*TOpt*/ *WorkspaceEdit)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("workspace/willCreateFiles", params, true, on_resp)
 }
@@ -383,7 +382,7 @@ func (it *Client) Request_workspace_willCreateFiles(params *CreateFilesParams, o
 // renamed as long as the rename is triggered from within the client.
 //
 // @since 3.16.0
-func (it *Client) Request_workspace_willRenameFiles(params *RenameFilesParams, onResp func(* /*TOr*/ /*TOpt*/ *WorkspaceEdit)) {
+func (it *Client) Request_workspace_willRenameFiles(params *RenameFilesParams, onResp func(** /*TOr*/ /*TOpt*/ *WorkspaceEdit)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("workspace/willRenameFiles", params, true, on_resp)
 }
@@ -392,7 +391,7 @@ func (it *Client) Request_workspace_willRenameFiles(params *RenameFilesParams, o
 // files were deleted from within the client.
 //
 // @since 3.16.0
-func (it *Client) Request_workspace_willDeleteFiles(params *DeleteFilesParams, onResp func(* /*TOr*/ /*TOpt*/ *WorkspaceEdit)) {
+func (it *Client) Request_workspace_willDeleteFiles(params *DeleteFilesParams, onResp func(** /*TOr*/ /*TOpt*/ *WorkspaceEdit)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("workspace/willDeleteFiles", params, true, on_resp)
 }
@@ -400,7 +399,7 @@ func (it *Client) Request_workspace_willDeleteFiles(params *DeleteFilesParams, o
 // A request to get the moniker of a symbol at a given text document position.
 // The request parameter is of type {@link TextDocumentPositionParams}.
 // The response is of type {@link Moniker Moniker[]} or `null`.
-func (it *Client) Request_textDocument_moniker(params *MonikerParams, onResp func(* /*TOr*/ /*TOpt*/ []Moniker)) {
+func (it *Client) Request_textDocument_moniker(params *MonikerParams, onResp func(** /*TOr*/ /*TOpt*/ []Moniker)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/moniker", params, true, on_resp)
 }
@@ -409,7 +408,7 @@ func (it *Client) Request_textDocument_moniker(params *MonikerParams, onResp fun
 // Can be used as an input to a subtypes or supertypes type hierarchy.
 //
 // @since 3.17.0
-func (it *Client) Request_textDocument_prepareTypeHierarchy(params *TypeHierarchyPrepareParams, onResp func(* /*TOr*/ /*TOpt*/ []TypeHierarchyItem)) {
+func (it *Client) Request_textDocument_prepareTypeHierarchy(params *TypeHierarchyPrepareParams, onResp func(** /*TOr*/ /*TOpt*/ []TypeHierarchyItem)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/prepareTypeHierarchy", params, true, on_resp)
 }
@@ -417,7 +416,7 @@ func (it *Client) Request_textDocument_prepareTypeHierarchy(params *TypeHierarch
 // A request to resolve the supertypes for a given `TypeHierarchyItem`.
 //
 // @since 3.17.0
-func (it *Client) Request_typeHierarchy_supertypes(params *TypeHierarchySupertypesParams, onResp func(* /*TOr*/ /*TOpt*/ []TypeHierarchyItem)) {
+func (it *Client) Request_typeHierarchy_supertypes(params *TypeHierarchySupertypesParams, onResp func(** /*TOr*/ /*TOpt*/ []TypeHierarchyItem)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("typeHierarchy/supertypes", params, true, on_resp)
 }
@@ -425,7 +424,7 @@ func (it *Client) Request_typeHierarchy_supertypes(params *TypeHierarchySupertyp
 // A request to resolve the subtypes for a given `TypeHierarchyItem`.
 //
 // @since 3.17.0
-func (it *Client) Request_typeHierarchy_subtypes(params *TypeHierarchySubtypesParams, onResp func(* /*TOr*/ /*TOpt*/ []TypeHierarchyItem)) {
+func (it *Client) Request_typeHierarchy_subtypes(params *TypeHierarchySubtypesParams, onResp func(** /*TOr*/ /*TOpt*/ []TypeHierarchyItem)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("typeHierarchy/subtypes", params, true, on_resp)
 }
@@ -435,7 +434,7 @@ func (it *Client) Request_typeHierarchy_subtypes(params *TypeHierarchySubtypesPa
 // {@link InlineValue InlineValue[]} or a Thenable that resolves to such.
 //
 // @since 3.17.0
-func (it *Client) Request_textDocument_inlineValue(params *InlineValueParams, onResp func(* /*TOr*/ /*TOpt*/ []InlineValue)) {
+func (it *Client) Request_textDocument_inlineValue(params *InlineValueParams, onResp func(** /*TOr*/ /*TOpt*/ []InlineValue)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/inlineValue", params, true, on_resp)
 }
@@ -445,7 +444,7 @@ func (it *Client) Request_textDocument_inlineValue(params *InlineValueParams, on
 // {@link InlayHint InlayHint[]} or a Thenable that resolves to such.
 //
 // @since 3.17.0
-func (it *Client) Request_textDocument_inlayHint(params *InlayHintParams, onResp func(* /*TOr*/ /*TOpt*/ []InlayHint)) {
+func (it *Client) Request_textDocument_inlayHint(params *InlayHintParams, onResp func(** /*TOr*/ /*TOpt*/ []InlayHint)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/inlayHint", params, true, on_resp)
 }
@@ -501,7 +500,7 @@ func (it *Client) Request_shutdown(params *Void, onResp func(*Void)) {
 // clients might drop results if computing the text edits took too long or if a
 // server constantly fails on this request. This is done to keep the save fast and
 // reliable.
-func (it *Client) Request_textDocument_willSaveWaitUntil(params *WillSaveTextDocumentParams, onResp func(* /*TOr*/ /*TOpt*/ []TextEdit)) {
+func (it *Client) Request_textDocument_willSaveWaitUntil(params *WillSaveTextDocumentParams, onResp func(** /*TOr*/ /*TOpt*/ []TextEdit)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/willSaveWaitUntil", params, true, on_resp)
 }
@@ -515,7 +514,7 @@ func (it *Client) Request_textDocument_willSaveWaitUntil(params *WillSaveTextDoc
 // and {@link CompletionItem.documentation `documentation`} properties to the `completionItem/resolve`
 // request. However, properties that are needed for the initial sorting and filtering, like `sortText`,
 // `filterText`, `insertText`, and `textEdit`, must not be changed during resolve.
-func (it *Client) Request_textDocument_completion(params *CompletionParams, onResp func(*CompletionItemsOrCompletionListOrNull)) {
+func (it *Client) Request_textDocument_completion(params *CompletionParams, onResp func(**CompletionItemsOrCompletionListOrNull)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/completion", params, true, on_resp)
 }
@@ -531,12 +530,12 @@ func (it *Client) Request_completionItem_resolve(params *CompletionItem, onResp 
 // Request to request hover information at a given text document position. The request's
 // parameter is of type {@link TextDocumentPosition} the response is of
 // type {@link Hover} or a Thenable that resolves to such.
-func (it *Client) Request_textDocument_hover(params *HoverParams, onResp func(* /*TOr*/ /*TOpt*/ *Hover)) {
+func (it *Client) Request_textDocument_hover(params *HoverParams, onResp func(** /*TOr*/ /*TOpt*/ *Hover)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/hover", params, true, on_resp)
 }
 
-func (it *Client) Request_textDocument_signatureHelp(params *SignatureHelpParams, onResp func(* /*TOr*/ /*TOpt*/ *SignatureHelp)) {
+func (it *Client) Request_textDocument_signatureHelp(params *SignatureHelpParams, onResp func(** /*TOr*/ /*TOpt*/ *SignatureHelp)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/signatureHelp", params, true, on_resp)
 }
@@ -545,7 +544,7 @@ func (it *Client) Request_textDocument_signatureHelp(params *SignatureHelpParams
 // document position. The request's parameter is of type {@link TextDocumentPosition}
 // the response is of either type {@link Definition} or a typed array of
 // {@link DefinitionLink} or a Thenable that resolves to such.
-func (it *Client) Request_textDocument_definition(params *DefinitionParams, onResp func(*DefinitionOrDefinitionLinksOrNull)) {
+func (it *Client) Request_textDocument_definition(params *DefinitionParams, onResp func(**DefinitionOrDefinitionLinksOrNull)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/definition", params, true, on_resp)
 }
@@ -554,7 +553,7 @@ func (it *Client) Request_textDocument_definition(params *DefinitionParams, onRe
 // by the given text document position. The request's parameter is of
 // type {@link ReferenceParams} the response is of type
 // {@link Location Location[]} or a Thenable that resolves to such.
-func (it *Client) Request_textDocument_references(params *ReferenceParams, onResp func(* /*TOr*/ /*TOpt*/ []Location)) {
+func (it *Client) Request_textDocument_references(params *ReferenceParams, onResp func(** /*TOr*/ /*TOpt*/ []Location)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/references", params, true, on_resp)
 }
@@ -563,7 +562,7 @@ func (it *Client) Request_textDocument_references(params *ReferenceParams, onRes
 // text document position. The request's parameter is of type {@link TextDocumentPosition}
 // the request response is an array of type {@link DocumentHighlight}
 // or a Thenable that resolves to such.
-func (it *Client) Request_textDocument_documentHighlight(params *DocumentHighlightParams, onResp func(* /*TOr*/ /*TOpt*/ []DocumentHighlight)) {
+func (it *Client) Request_textDocument_documentHighlight(params *DocumentHighlightParams, onResp func(** /*TOr*/ /*TOpt*/ []DocumentHighlight)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/documentHighlight", params, true, on_resp)
 }
@@ -572,13 +571,13 @@ func (it *Client) Request_textDocument_documentHighlight(params *DocumentHighlig
 // parameter is of type {@link TextDocumentIdentifier} the
 // response is of type {@link SymbolInformation SymbolInformation[]} or a Thenable
 // that resolves to such.
-func (it *Client) Request_textDocument_documentSymbol(params *DocumentSymbolParams, onResp func(*SymbolInformationsOrDocumentSymbolsOrNull)) {
+func (it *Client) Request_textDocument_documentSymbol(params *DocumentSymbolParams, onResp func(**SymbolInformationsOrDocumentSymbolsOrNull)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/documentSymbol", params, true, on_resp)
 }
 
 // A request to provide commands for the given text document and range.
-func (it *Client) Request_textDocument_codeAction(params *CodeActionParams, onResp func(* /*TOr*/ /*TOpt*/ []CommandOrCodeAction)) {
+func (it *Client) Request_textDocument_codeAction(params *CodeActionParams, onResp func(** /*TOr*/ /*TOpt*/ []*CommandOrCodeAction)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/codeAction", params, true, on_resp)
 }
@@ -600,7 +599,7 @@ func (it *Client) Request_codeAction_resolve(params *CodeAction, onResp func(*Co
 //
 //	need to advertise support for WorkspaceSymbols via the client capability
 //	`workspace.symbol.resolveSupport`.
-func (it *Client) Request_workspace_symbol(params *WorkspaceSymbolParams, onResp func(*SymbolInformationsOrWorkspaceSymbolsOrNull)) {
+func (it *Client) Request_workspace_symbol(params *WorkspaceSymbolParams, onResp func(**SymbolInformationsOrWorkspaceSymbolsOrNull)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("workspace/symbol", params, true, on_resp)
 }
@@ -615,7 +614,7 @@ func (it *Client) Request_workspaceSymbol_resolve(params *WorkspaceSymbol, onRes
 }
 
 // A request to provide code lens for the given text document.
-func (it *Client) Request_textDocument_codeLens(params *CodeLensParams, onResp func(* /*TOr*/ /*TOpt*/ []CodeLens)) {
+func (it *Client) Request_textDocument_codeLens(params *CodeLensParams, onResp func(** /*TOr*/ /*TOpt*/ []CodeLens)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/codeLens", params, true, on_resp)
 }
@@ -627,7 +626,7 @@ func (it *Client) Request_codeLens_resolve(params *CodeLens, onResp func(*CodeLe
 }
 
 // A request to provide document links
-func (it *Client) Request_textDocument_documentLink(params *DocumentLinkParams, onResp func(* /*TOr*/ /*TOpt*/ []DocumentLink)) {
+func (it *Client) Request_textDocument_documentLink(params *DocumentLinkParams, onResp func(** /*TOr*/ /*TOpt*/ []DocumentLink)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/documentLink", params, true, on_resp)
 }
@@ -641,25 +640,25 @@ func (it *Client) Request_documentLink_resolve(params *DocumentLink, onResp func
 }
 
 // A request to format a whole document.
-func (it *Client) Request_textDocument_formatting(params *DocumentFormattingParams, onResp func(* /*TOr*/ /*TOpt*/ []TextEdit)) {
+func (it *Client) Request_textDocument_formatting(params *DocumentFormattingParams, onResp func(** /*TOr*/ /*TOpt*/ []TextEdit)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/formatting", params, true, on_resp)
 }
 
 // A request to format a range in a document.
-func (it *Client) Request_textDocument_rangeFormatting(params *DocumentRangeFormattingParams, onResp func(* /*TOr*/ /*TOpt*/ []TextEdit)) {
+func (it *Client) Request_textDocument_rangeFormatting(params *DocumentRangeFormattingParams, onResp func(** /*TOr*/ /*TOpt*/ []TextEdit)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/rangeFormatting", params, true, on_resp)
 }
 
 // A request to format a document on type.
-func (it *Client) Request_textDocument_onTypeFormatting(params *DocumentOnTypeFormattingParams, onResp func(* /*TOr*/ /*TOpt*/ []TextEdit)) {
+func (it *Client) Request_textDocument_onTypeFormatting(params *DocumentOnTypeFormattingParams, onResp func(** /*TOr*/ /*TOpt*/ []TextEdit)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/onTypeFormatting", params, true, on_resp)
 }
 
 // A request to rename a symbol.
-func (it *Client) Request_textDocument_rename(params *RenameParams, onResp func(* /*TOr*/ /*TOpt*/ *WorkspaceEdit)) {
+func (it *Client) Request_textDocument_rename(params *RenameParams, onResp func(** /*TOr*/ /*TOpt*/ *WorkspaceEdit)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/rename", params, true, on_resp)
 }
@@ -667,14 +666,14 @@ func (it *Client) Request_textDocument_rename(params *RenameParams, onResp func(
 // A request to test and perform the setup necessary for a rename.
 //
 // @since 3.16 - support for default behavior
-func (it *Client) Request_textDocument_prepareRename(params *PrepareRenameParams, onResp func(* /*TOr*/ /*TOpt*/ PrepareRenameResult)) {
+func (it *Client) Request_textDocument_prepareRename(params *PrepareRenameParams, onResp func(** /*TOr*/ /*TOpt*/ PrepareRenameResult)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("textDocument/prepareRename", params, true, on_resp)
 }
 
 // A request send from the client to the server to execute a command. The request might return
 // a workspace edit which the client will apply to the workspace.
-func (it *Client) Request_workspace_executeCommand(params *ExecuteCommandParams, onResp func(* /*TOr*/ /*TOpt*/ LSPAny)) {
+func (it *Client) Request_workspace_executeCommand(params *ExecuteCommandParams, onResp func(** /*TOr*/ /*TOpt*/ LSPAny)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("workspace/executeCommand", params, true, on_resp)
 }
@@ -683,11 +682,6 @@ func (it *Client) handleIncoming(raw map[string]any) *jsonRpcError {
 	msg_id, msg_method := raw["id"], raw["method"]
 
 	switch msg_method, _ := msg_method.(string); msg_method {
-	case "": // msg is an incoming Response
-		msg_id := fmt.Sprintf("%v", msg_id)
-		handler := it.waiters[msg_id]
-		delete(it.waiters, msg_id)
-		go handler(raw["result"])
 	case "window/showMessage":
 		clientServerHandleIncoming(&it.clientServerBase, it.On_window_showMessage, msg_method, msg_id, raw["params"])
 	case "window/logMessage":

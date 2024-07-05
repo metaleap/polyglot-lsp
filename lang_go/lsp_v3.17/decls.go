@@ -16,42 +16,38 @@ import (
 )
 
 /*TOr*/
-type LocationOrUriDocumentUri struct {
-	Location/*TOpt*/ *Location
-	UriDocumentUri/*TOpt*/ * /*TStruc*/ struct {
-		Uri DocumentURI `json:"uri,omitempty"`
-	}
+type WorkspaceFullDocumentDiagnosticReportOrWorkspaceUnchangedDocumentDiagnosticReport struct {
+	WorkspaceFullDocumentDiagnosticReport/*TOpt*/ *WorkspaceFullDocumentDiagnosticReport
+	WorkspaceUnchangedDocumentDiagnosticReport/*TOpt*/ *WorkspaceUnchangedDocumentDiagnosticReport
 }
 
-func (it *LocationOrUriDocumentUri) MarshalJSON() ([]byte, error) {
-	if !isNone(it.Location) {
-		return json.Marshal(it.Location)
+func (it *WorkspaceFullDocumentDiagnosticReportOrWorkspaceUnchangedDocumentDiagnosticReport) MarshalJSON() ([]byte, error) {
+	if !isNone(it.WorkspaceFullDocumentDiagnosticReport) {
+		return json.Marshal(it.WorkspaceFullDocumentDiagnosticReport)
 	}
-	if !isNone(it.UriDocumentUri) {
-		return json.Marshal(it.UriDocumentUri)
+	if !isNone(it.WorkspaceUnchangedDocumentDiagnosticReport) {
+		return json.Marshal(it.WorkspaceUnchangedDocumentDiagnosticReport)
 	}
 
 	return []byte("null"), nil
 }
-func (it *LocationOrUriDocumentUri) UnmarshalJSON(jsonBytes []byte) error {
+func (it *WorkspaceFullDocumentDiagnosticReportOrWorkspaceUnchangedDocumentDiagnosticReport) UnmarshalJSON(jsonBytes []byte) error {
 	if bytes.Equal(jsonBytes, []byte("null")) {
 		return nil
 	}
 	{
-		var tmp /*TOpt*/ *Location
+		var tmp /*TOpt*/ *WorkspaceFullDocumentDiagnosticReport
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.Location = tmp
+			it.WorkspaceFullDocumentDiagnosticReport = tmp
 			return nil
 		}
 	}
 	{
-		var tmp /*TOpt*/ * /*TStruc*/ struct {
-			Uri DocumentURI `json:"uri,omitempty"`
-		}
+		var tmp /*TOpt*/ *WorkspaceUnchangedDocumentDiagnosticReport
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.UriDocumentUri = tmp
+			it.WorkspaceUnchangedDocumentDiagnosticReport = tmp
 			return nil
 		}
 	}
@@ -108,582 +104,22 @@ func (it *StringOrLanguageStringWithValueString) UnmarshalJSON(jsonBytes []byte)
 }
 
 /*TOr*/
-type TextDocumentFilterOrNotebookCellTextDocumentFilter struct {
-	TextDocumentFilter/*TOpt*/ *TextDocumentFilter
-	NotebookCellTextDocumentFilter/*TOpt*/ *NotebookCellTextDocumentFilter
-}
-
-func (it *TextDocumentFilterOrNotebookCellTextDocumentFilter) MarshalJSON() ([]byte, error) {
-	if !isNone(it.TextDocumentFilter) {
-		return json.Marshal(it.TextDocumentFilter)
-	}
-	if !isNone(it.NotebookCellTextDocumentFilter) {
-		return json.Marshal(it.NotebookCellTextDocumentFilter)
-	}
-
-	return []byte("null"), nil
-}
-func (it *TextDocumentFilterOrNotebookCellTextDocumentFilter) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *TextDocumentFilter
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.TextDocumentFilter = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *NotebookCellTextDocumentFilter
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.NotebookCellTextDocumentFilter = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type BooleanOrDeltaBoolean struct {
-	Boolean/*TOpt*/ *Boolean
-	DeltaBoolean/*TOpt*/ * /*TStruc*/ struct {
-
-		// The server supports deltas for full documents.
-		Delta /*TOpt*/ *Boolean `json:"delta,omitempty"`
-	}
-}
-
-func (it *BooleanOrDeltaBoolean) MarshalJSON() ([]byte, error) {
-	if !isNone(it.Boolean) {
-		return json.Marshal(it.Boolean)
-	}
-	if !isNone(it.DeltaBoolean) {
-		return json.Marshal(it.DeltaBoolean)
-	}
-
-	return []byte("null"), nil
-}
-func (it *BooleanOrDeltaBoolean) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *Boolean
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.Boolean = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ * /*TStruc*/ struct {
-
-			// The server supports deltas for full documents.
-			Delta /*TOpt*/ *Boolean `json:"delta,omitempty"`
-		}
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.DeltaBoolean = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type BooleanOrDocumentSymbolOptions struct {
-	Boolean/*TOpt*/ *Boolean
-	DocumentSymbolOptions/*TOpt*/ *DocumentSymbolOptions
-}
-
-func (it *BooleanOrDocumentSymbolOptions) MarshalJSON() ([]byte, error) {
-	if !isNone(it.Boolean) {
-		return json.Marshal(it.Boolean)
-	}
-	if !isNone(it.DocumentSymbolOptions) {
-		return json.Marshal(it.DocumentSymbolOptions)
-	}
-
-	return []byte("null"), nil
-}
-func (it *BooleanOrDocumentSymbolOptions) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *Boolean
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.Boolean = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *DocumentSymbolOptions
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.DocumentSymbolOptions = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type BooleanOrWorkspaceSymbolOptions struct {
-	Boolean/*TOpt*/ *Boolean
-	WorkspaceSymbolOptions/*TOpt*/ *WorkspaceSymbolOptions
-}
-
-func (it *BooleanOrWorkspaceSymbolOptions) MarshalJSON() ([]byte, error) {
-	if !isNone(it.Boolean) {
-		return json.Marshal(it.Boolean)
-	}
-	if !isNone(it.WorkspaceSymbolOptions) {
-		return json.Marshal(it.WorkspaceSymbolOptions)
-	}
-
-	return []byte("null"), nil
-}
-func (it *BooleanOrWorkspaceSymbolOptions) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *Boolean
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.Boolean = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *WorkspaceSymbolOptions
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.WorkspaceSymbolOptions = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type SemanticTokensOptionsOrSemanticTokensRegistrationOptions struct {
-	SemanticTokensOptions/*TOpt*/ *SemanticTokensOptions
-	SemanticTokensRegistrationOptions/*TOpt*/ *SemanticTokensRegistrationOptions
-}
-
-func (it *SemanticTokensOptionsOrSemanticTokensRegistrationOptions) MarshalJSON() ([]byte, error) {
-	if !isNone(it.SemanticTokensOptions) {
-		return json.Marshal(it.SemanticTokensOptions)
-	}
-	if !isNone(it.SemanticTokensRegistrationOptions) {
-		return json.Marshal(it.SemanticTokensRegistrationOptions)
-	}
-
-	return []byte("null"), nil
-}
-func (it *SemanticTokensOptionsOrSemanticTokensRegistrationOptions) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *SemanticTokensOptions
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.SemanticTokensOptions = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *SemanticTokensRegistrationOptions
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.SemanticTokensRegistrationOptions = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type SemanticTokensOrSemanticTokensDeltaOrNull struct {
-	SemanticTokens/*TOpt*/ *SemanticTokens
-	SemanticTokensDelta/*TOpt*/ *SemanticTokensDelta
-}
-
-func (it *SemanticTokensOrSemanticTokensDeltaOrNull) MarshalJSON() ([]byte, error) {
-	if !isNone(it.SemanticTokens) {
-		return json.Marshal(it.SemanticTokens)
-	}
-	if !isNone(it.SemanticTokensDelta) {
-		return json.Marshal(it.SemanticTokensDelta)
-	}
-
-	return []byte("null"), nil
-}
-func (it *SemanticTokensOrSemanticTokensDeltaOrNull) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *SemanticTokens
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.SemanticTokens = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *SemanticTokensDelta
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.SemanticTokensDelta = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type SymbolInformationsOrDocumentSymbolsOrNull struct {
-	SymbolInformations/*TOpt*/ []SymbolInformation
-	DocumentSymbols/*TOpt*/ []DocumentSymbol
-}
-
-func (it *SymbolInformationsOrDocumentSymbolsOrNull) MarshalJSON() ([]byte, error) {
-	if !isNone(it.SymbolInformations) {
-		return json.Marshal(it.SymbolInformations)
-	}
-	if !isNone(it.DocumentSymbols) {
-		return json.Marshal(it.DocumentSymbols)
-	}
-
-	return []byte("null"), nil
-}
-func (it *SymbolInformationsOrDocumentSymbolsOrNull) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ []SymbolInformation
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.SymbolInformations = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ []DocumentSymbol
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.DocumentSymbols = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type BooleanOrImplementationOptionsOrImplementationRegistrationOptions struct {
-	Boolean/*TOpt*/ *Boolean
-	ImplementationOptions/*TOpt*/ *ImplementationOptions
-	ImplementationRegistrationOptions/*TOpt*/ *ImplementationRegistrationOptions
-}
-
-func (it *BooleanOrImplementationOptionsOrImplementationRegistrationOptions) MarshalJSON() ([]byte, error) {
-	if !isNone(it.Boolean) {
-		return json.Marshal(it.Boolean)
-	}
-	if !isNone(it.ImplementationOptions) {
-		return json.Marshal(it.ImplementationOptions)
-	}
-	if !isNone(it.ImplementationRegistrationOptions) {
-		return json.Marshal(it.ImplementationRegistrationOptions)
-	}
-
-	return []byte("null"), nil
-}
-func (it *BooleanOrImplementationOptionsOrImplementationRegistrationOptions) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *Boolean
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.Boolean = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *ImplementationOptions
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.ImplementationOptions = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *ImplementationRegistrationOptions
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.ImplementationRegistrationOptions = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type BooleanOrDocumentHighlightOptions struct {
-	Boolean/*TOpt*/ *Boolean
-	DocumentHighlightOptions/*TOpt*/ *DocumentHighlightOptions
-}
-
-func (it *BooleanOrDocumentHighlightOptions) MarshalJSON() ([]byte, error) {
-	if !isNone(it.Boolean) {
-		return json.Marshal(it.Boolean)
-	}
-	if !isNone(it.DocumentHighlightOptions) {
-		return json.Marshal(it.DocumentHighlightOptions)
-	}
-
-	return []byte("null"), nil
-}
-func (it *BooleanOrDocumentHighlightOptions) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *Boolean
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.Boolean = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *DocumentHighlightOptions
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.DocumentHighlightOptions = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type BooleanOrMonikerOptionsOrMonikerRegistrationOptions struct {
-	Boolean/*TOpt*/ *Boolean
-	MonikerOptions/*TOpt*/ *MonikerOptions
-	MonikerRegistrationOptions/*TOpt*/ *MonikerRegistrationOptions
-}
-
-func (it *BooleanOrMonikerOptionsOrMonikerRegistrationOptions) MarshalJSON() ([]byte, error) {
-	if !isNone(it.Boolean) {
-		return json.Marshal(it.Boolean)
-	}
-	if !isNone(it.MonikerOptions) {
-		return json.Marshal(it.MonikerOptions)
-	}
-	if !isNone(it.MonikerRegistrationOptions) {
-		return json.Marshal(it.MonikerRegistrationOptions)
-	}
-
-	return []byte("null"), nil
-}
-func (it *BooleanOrMonikerOptionsOrMonikerRegistrationOptions) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *Boolean
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.Boolean = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *MonikerOptions
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.MonikerOptions = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *MonikerRegistrationOptions
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.MonikerRegistrationOptions = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type IntegerOrString struct {
-	Integer/*TOpt*/ *Integer
+type StringOrInlayHintLabelParts struct {
 	String/*TOpt*/ *String
+	InlayHintLabelParts/*TOpt*/ []InlayHintLabelPart
 }
 
-func (it *IntegerOrString) MarshalJSON() ([]byte, error) {
-	if !isNone(it.Integer) {
-		return json.Marshal(it.Integer)
-	}
+func (it *StringOrInlayHintLabelParts) MarshalJSON() ([]byte, error) {
 	if !isNone(it.String) {
 		return json.Marshal(it.String)
 	}
-
-	return []byte("null"), nil
-}
-func (it *IntegerOrString) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *Integer
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.Integer = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *String
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.String = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type DefinitionOrDefinitionLinksOrNull struct {
-	Definition/*TOpt*/ Definition
-	DefinitionLinks/*TOpt*/ []DefinitionLink
-}
-
-func (it *DefinitionOrDefinitionLinksOrNull) MarshalJSON() ([]byte, error) {
-	if !isNone(it.Definition) {
-		return json.Marshal(it.Definition)
-	}
-	if !isNone(it.DefinitionLinks) {
-		return json.Marshal(it.DefinitionLinks)
+	if !isNone(it.InlayHintLabelParts) {
+		return json.Marshal(it.InlayHintLabelParts)
 	}
 
 	return []byte("null"), nil
 }
-func (it *DefinitionOrDefinitionLinksOrNull) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ Definition
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.Definition = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ []DefinitionLink
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.DefinitionLinks = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type RangeOrInsertRangeWithReplaceRange struct {
-	Range/*TOpt*/ *Range
-	InsertRangeWithReplaceRange/*TOpt*/ * /*TStruc*/ struct {
-		Insert Range `json:"insert,omitempty"`
-
-		Replace Range `json:"replace,omitempty"`
-	}
-}
-
-func (it *RangeOrInsertRangeWithReplaceRange) MarshalJSON() ([]byte, error) {
-	if !isNone(it.Range) {
-		return json.Marshal(it.Range)
-	}
-	if !isNone(it.InsertRangeWithReplaceRange) {
-		return json.Marshal(it.InsertRangeWithReplaceRange)
-	}
-
-	return []byte("null"), nil
-}
-func (it *RangeOrInsertRangeWithReplaceRange) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *Range
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.Range = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ * /*TStruc*/ struct {
-			Insert Range `json:"insert,omitempty"`
-
-			Replace Range `json:"replace,omitempty"`
-		}
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.InsertRangeWithReplaceRange = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type StringOrNotebookDocumentFilter struct {
-	String/*TOpt*/ *String
-	NotebookDocumentFilter/*TOpt*/ *NotebookDocumentFilter
-}
-
-func (it *StringOrNotebookDocumentFilter) MarshalJSON() ([]byte, error) {
-	if !isNone(it.String) {
-		return json.Marshal(it.String)
-	}
-	if !isNone(it.NotebookDocumentFilter) {
-		return json.Marshal(it.NotebookDocumentFilter)
-	}
-
-	return []byte("null"), nil
-}
-func (it *StringOrNotebookDocumentFilter) UnmarshalJSON(jsonBytes []byte) error {
+func (it *StringOrInlayHintLabelParts) UnmarshalJSON(jsonBytes []byte) error {
 	if bytes.Equal(jsonBytes, []byte("null")) {
 		return nil
 	}
@@ -696,10 +132,10 @@ func (it *StringOrNotebookDocumentFilter) UnmarshalJSON(jsonBytes []byte) error 
 		}
 	}
 	{
-		var tmp /*TOpt*/ *NotebookDocumentFilter
+		var tmp /*TOpt*/ []InlayHintLabelPart
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.NotebookDocumentFilter = tmp
+			it.InlayHintLabelParts = tmp
 			return nil
 		}
 	}
@@ -708,62 +144,90 @@ func (it *StringOrNotebookDocumentFilter) UnmarshalJSON(jsonBytes []byte) error 
 }
 
 /*TOr*/
-type TextDocumentEditOrCreateFileOrRenameFileOrDeleteFile struct {
-	TextDocumentEdit/*TOpt*/ *TextDocumentEdit
-	CreateFile/*TOpt*/ *CreateFile
-	RenameFile/*TOpt*/ *RenameFile
-	DeleteFile/*TOpt*/ *DeleteFile
+type BooleanOrRenameOptions struct {
+	Boolean/*TOpt*/ *Boolean
+	RenameOptions/*TOpt*/ *RenameOptions
 }
 
-func (it *TextDocumentEditOrCreateFileOrRenameFileOrDeleteFile) MarshalJSON() ([]byte, error) {
-	if !isNone(it.TextDocumentEdit) {
-		return json.Marshal(it.TextDocumentEdit)
+func (it *BooleanOrRenameOptions) MarshalJSON() ([]byte, error) {
+	if !isNone(it.Boolean) {
+		return json.Marshal(it.Boolean)
 	}
-	if !isNone(it.CreateFile) {
-		return json.Marshal(it.CreateFile)
-	}
-	if !isNone(it.RenameFile) {
-		return json.Marshal(it.RenameFile)
-	}
-	if !isNone(it.DeleteFile) {
-		return json.Marshal(it.DeleteFile)
+	if !isNone(it.RenameOptions) {
+		return json.Marshal(it.RenameOptions)
 	}
 
 	return []byte("null"), nil
 }
-func (it *TextDocumentEditOrCreateFileOrRenameFileOrDeleteFile) UnmarshalJSON(jsonBytes []byte) error {
+func (it *BooleanOrRenameOptions) UnmarshalJSON(jsonBytes []byte) error {
 	if bytes.Equal(jsonBytes, []byte("null")) {
 		return nil
 	}
 	{
-		var tmp /*TOpt*/ *TextDocumentEdit
+		var tmp /*TOpt*/ *Boolean
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.TextDocumentEdit = tmp
+			it.Boolean = tmp
 			return nil
 		}
 	}
 	{
-		var tmp /*TOpt*/ *CreateFile
+		var tmp /*TOpt*/ *RenameOptions
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.CreateFile = tmp
+			it.RenameOptions = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type BooleanOrFoldingRangeOptionsOrFoldingRangeRegistrationOptions struct {
+	Boolean/*TOpt*/ *Boolean
+	FoldingRangeOptions/*TOpt*/ *FoldingRangeOptions
+	FoldingRangeRegistrationOptions/*TOpt*/ *FoldingRangeRegistrationOptions
+}
+
+func (it *BooleanOrFoldingRangeOptionsOrFoldingRangeRegistrationOptions) MarshalJSON() ([]byte, error) {
+	if !isNone(it.Boolean) {
+		return json.Marshal(it.Boolean)
+	}
+	if !isNone(it.FoldingRangeOptions) {
+		return json.Marshal(it.FoldingRangeOptions)
+	}
+	if !isNone(it.FoldingRangeRegistrationOptions) {
+		return json.Marshal(it.FoldingRangeRegistrationOptions)
+	}
+
+	return []byte("null"), nil
+}
+func (it *BooleanOrFoldingRangeOptionsOrFoldingRangeRegistrationOptions) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *Boolean
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.Boolean = tmp
 			return nil
 		}
 	}
 	{
-		var tmp /*TOpt*/ *RenameFile
+		var tmp /*TOpt*/ *FoldingRangeOptions
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.RenameFile = tmp
+			it.FoldingRangeOptions = tmp
 			return nil
 		}
 	}
 	{
-		var tmp /*TOpt*/ *DeleteFile
+		var tmp /*TOpt*/ *FoldingRangeRegistrationOptions
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.DeleteFile = tmp
+			it.FoldingRangeRegistrationOptions = tmp
 			return nil
 		}
 	}
@@ -824,50 +288,168 @@ func (it *BooleanOrSelectionRangeOptionsOrSelectionRangeRegistrationOptions) Unm
 }
 
 /*TOr*/
-type MarkupContentOrMarkedStringOrMarkedStrings struct {
-	MarkupContent/*TOpt*/ *MarkupContent
-	MarkedString/*TOpt*/ MarkedString
-	MarkedStrings/*TOpt*/ []MarkedString
+type DefinitionOrDefinitionLinksOrNull struct {
+	Definition/*TOpt*/ Definition
+	DefinitionLinks/*TOpt*/ []DefinitionLink
 }
 
-func (it *MarkupContentOrMarkedStringOrMarkedStrings) MarshalJSON() ([]byte, error) {
-	if !isNone(it.MarkupContent) {
-		return json.Marshal(it.MarkupContent)
+func (it *DefinitionOrDefinitionLinksOrNull) MarshalJSON() ([]byte, error) {
+	if !isNone(it.Definition) {
+		return json.Marshal(it.Definition)
 	}
-	if !isNone(it.MarkedString) {
-		return json.Marshal(it.MarkedString)
-	}
-	if !isNone(it.MarkedStrings) {
-		return json.Marshal(it.MarkedStrings)
+	if !isNone(it.DefinitionLinks) {
+		return json.Marshal(it.DefinitionLinks)
 	}
 
 	return []byte("null"), nil
 }
-func (it *MarkupContentOrMarkedStringOrMarkedStrings) UnmarshalJSON(jsonBytes []byte) error {
+func (it *DefinitionOrDefinitionLinksOrNull) UnmarshalJSON(jsonBytes []byte) error {
 	if bytes.Equal(jsonBytes, []byte("null")) {
 		return nil
 	}
 	{
-		var tmp /*TOpt*/ *MarkupContent
+		var tmp /*TOpt*/ Definition
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.MarkupContent = tmp
+			it.Definition = tmp
 			return nil
 		}
 	}
 	{
-		var tmp /*TOpt*/ MarkedString
+		var tmp /*TOpt*/ []DefinitionLink
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.MarkedString = tmp
+			it.DefinitionLinks = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type BooleanOrDeltaBoolean_ struct {
+	Boolean/*TOpt*/ *Boolean
+	DeltaBoolean/*TOpt*/ * /*TStruc*/ struct {
+
+		// The client will send the `textDocument/semanticTokens/full/delta` request if
+		// the server provides a corresponding handler.
+		Delta /*TOpt*/ *Boolean `json:"delta,omitempty"`
+	}
+}
+
+func (it *BooleanOrDeltaBoolean_) MarshalJSON() ([]byte, error) {
+	if !isNone(it.Boolean) {
+		return json.Marshal(it.Boolean)
+	}
+	if !isNone(it.DeltaBoolean) {
+		return json.Marshal(it.DeltaBoolean)
+	}
+
+	return []byte("null"), nil
+}
+func (it *BooleanOrDeltaBoolean_) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *Boolean
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.Boolean = tmp
 			return nil
 		}
 	}
 	{
-		var tmp /*TOpt*/ []MarkedString
+		var tmp /*TOpt*/ * /*TStruc*/ struct {
+
+			// The client will send the `textDocument/semanticTokens/full/delta` request if
+			// the server provides a corresponding handler.
+			Delta /*TOpt*/ *Boolean `json:"delta,omitempty"`
+		}
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.MarkedStrings = tmp
+			it.DeltaBoolean = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type IntegerOrString struct {
+	Integer/*TOpt*/ *Integer
+	String/*TOpt*/ *String
+}
+
+func (it *IntegerOrString) MarshalJSON() ([]byte, error) {
+	if !isNone(it.Integer) {
+		return json.Marshal(it.Integer)
+	}
+	if !isNone(it.String) {
+		return json.Marshal(it.String)
+	}
+
+	return []byte("null"), nil
+}
+func (it *IntegerOrString) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *Integer
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.Integer = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ *String
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.String = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type TextEditOrInsertReplaceEdit struct {
+	TextEdit/*TOpt*/ *TextEdit
+	InsertReplaceEdit/*TOpt*/ *InsertReplaceEdit
+}
+
+func (it *TextEditOrInsertReplaceEdit) MarshalJSON() ([]byte, error) {
+	if !isNone(it.TextEdit) {
+		return json.Marshal(it.TextEdit)
+	}
+	if !isNone(it.InsertReplaceEdit) {
+		return json.Marshal(it.InsertReplaceEdit)
+	}
+
+	return []byte("null"), nil
+}
+func (it *TextEditOrInsertReplaceEdit) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *TextEdit
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.TextEdit = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ *InsertReplaceEdit
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.InsertReplaceEdit = tmp
 			return nil
 		}
 	}
@@ -928,38 +510,38 @@ func (it *BooleanOrTypeDefinitionOptionsOrTypeDefinitionRegistrationOptions) Unm
 }
 
 /*TOr*/
-type TextEditOrAnnotatedTextEdit struct {
-	TextEdit/*TOpt*/ *TextEdit
-	AnnotatedTextEdit/*TOpt*/ *AnnotatedTextEdit
+type StringOrUintegerWithUinteger struct {
+	String/*TOpt*/ *String
+	UintegerWithUinteger/*TOpt*/ * /*TTup*/ []uint
 }
 
-func (it *TextEditOrAnnotatedTextEdit) MarshalJSON() ([]byte, error) {
-	if !isNone(it.TextEdit) {
-		return json.Marshal(it.TextEdit)
+func (it *StringOrUintegerWithUinteger) MarshalJSON() ([]byte, error) {
+	if !isNone(it.String) {
+		return json.Marshal(it.String)
 	}
-	if !isNone(it.AnnotatedTextEdit) {
-		return json.Marshal(it.AnnotatedTextEdit)
+	if !isNone(it.UintegerWithUinteger) {
+		return json.Marshal(it.UintegerWithUinteger)
 	}
 
 	return []byte("null"), nil
 }
-func (it *TextEditOrAnnotatedTextEdit) UnmarshalJSON(jsonBytes []byte) error {
+func (it *StringOrUintegerWithUinteger) UnmarshalJSON(jsonBytes []byte) error {
 	if bytes.Equal(jsonBytes, []byte("null")) {
 		return nil
 	}
 	{
-		var tmp /*TOpt*/ *TextEdit
+		var tmp /*TOpt*/ *String
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.TextEdit = tmp
+			it.String = tmp
 			return nil
 		}
 	}
 	{
-		var tmp /*TOpt*/ *AnnotatedTextEdit
+		var tmp /*TOpt*/ * /*TTup*/ []uint
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.AnnotatedTextEdit = tmp
+			it.UintegerWithUinteger = tmp
 			return nil
 		}
 	}
@@ -968,38 +550,110 @@ func (it *TextEditOrAnnotatedTextEdit) UnmarshalJSON(jsonBytes []byte) error {
 }
 
 /*TOr*/
-type BooleanOrCodeActionOptions struct {
-	Boolean/*TOpt*/ *Boolean
-	CodeActionOptions/*TOpt*/ *CodeActionOptions
+type RelatedFullDocumentDiagnosticReportOrRelatedUnchangedDocumentDiagnosticReport struct {
+	RelatedFullDocumentDiagnosticReport/*TOpt*/ *RelatedFullDocumentDiagnosticReport
+	RelatedUnchangedDocumentDiagnosticReport/*TOpt*/ *RelatedUnchangedDocumentDiagnosticReport
 }
 
-func (it *BooleanOrCodeActionOptions) MarshalJSON() ([]byte, error) {
-	if !isNone(it.Boolean) {
-		return json.Marshal(it.Boolean)
+func (it *RelatedFullDocumentDiagnosticReportOrRelatedUnchangedDocumentDiagnosticReport) MarshalJSON() ([]byte, error) {
+	if !isNone(it.RelatedFullDocumentDiagnosticReport) {
+		return json.Marshal(it.RelatedFullDocumentDiagnosticReport)
 	}
-	if !isNone(it.CodeActionOptions) {
-		return json.Marshal(it.CodeActionOptions)
+	if !isNone(it.RelatedUnchangedDocumentDiagnosticReport) {
+		return json.Marshal(it.RelatedUnchangedDocumentDiagnosticReport)
 	}
 
 	return []byte("null"), nil
 }
-func (it *BooleanOrCodeActionOptions) UnmarshalJSON(jsonBytes []byte) error {
+func (it *RelatedFullDocumentDiagnosticReportOrRelatedUnchangedDocumentDiagnosticReport) UnmarshalJSON(jsonBytes []byte) error {
 	if bytes.Equal(jsonBytes, []byte("null")) {
 		return nil
 	}
 	{
-		var tmp /*TOpt*/ *Boolean
+		var tmp /*TOpt*/ *RelatedFullDocumentDiagnosticReport
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.Boolean = tmp
+			it.RelatedFullDocumentDiagnosticReport = tmp
 			return nil
 		}
 	}
 	{
-		var tmp /*TOpt*/ *CodeActionOptions
+		var tmp /*TOpt*/ *RelatedUnchangedDocumentDiagnosticReport
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.CodeActionOptions = tmp
+			it.RelatedUnchangedDocumentDiagnosticReport = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type RangeWithRangeLengthUintegerWithTextStringOrTextString struct {
+	RangeWithRangeLengthUintegerWithTextString/*TOpt*/ * /*TStruc*/ struct {
+
+		// The range of the document that changed.
+		Range Range `json:"range,omitempty"`
+
+		// The optional length of the range that got replaced.
+		//
+		// @deprecated use range instead.
+		RangeLength/*TOpt*/ *Uinteger `json:"rangeLength,omitempty"`
+
+		// The new text for the provided range.
+		Text string `json:"text,omitempty"`
+	}
+	TextString/*TOpt*/ * /*TStruc*/ struct {
+
+		// The new text of the whole document.
+		Text string `json:"text,omitempty"`
+	}
+}
+
+func (it *RangeWithRangeLengthUintegerWithTextStringOrTextString) MarshalJSON() ([]byte, error) {
+	if !isNone(it.RangeWithRangeLengthUintegerWithTextString) {
+		return json.Marshal(it.RangeWithRangeLengthUintegerWithTextString)
+	}
+	if !isNone(it.TextString) {
+		return json.Marshal(it.TextString)
+	}
+
+	return []byte("null"), nil
+}
+func (it *RangeWithRangeLengthUintegerWithTextStringOrTextString) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ * /*TStruc*/ struct {
+
+			// The range of the document that changed.
+			Range Range `json:"range,omitempty"`
+
+			// The optional length of the range that got replaced.
+			//
+			// @deprecated use range instead.
+			RangeLength/*TOpt*/ *Uinteger `json:"rangeLength,omitempty"`
+
+			// The new text for the provided range.
+			Text string `json:"text,omitempty"`
+		}
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.RangeWithRangeLengthUintegerWithTextString = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ * /*TStruc*/ struct {
+
+			// The new text of the whole document.
+			Text string `json:"text,omitempty"`
+		}
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.TextString = tmp
 			return nil
 		}
 	}
@@ -1088,570 +742,38 @@ func (it *CompletionItemsOrCompletionListOrNull) UnmarshalJSON(jsonBytes []byte)
 }
 
 /*TOr*/
-type SymbolInformationsOrWorkspaceSymbolsOrNull struct {
-	SymbolInformations/*TOpt*/ []SymbolInformation
-	WorkspaceSymbols/*TOpt*/ []WorkspaceSymbol
+type StringOrMarkupContent struct {
+	String/*TOpt*/ *String
+	MarkupContent/*TOpt*/ *MarkupContent
 }
 
-func (it *SymbolInformationsOrWorkspaceSymbolsOrNull) MarshalJSON() ([]byte, error) {
-	if !isNone(it.SymbolInformations) {
-		return json.Marshal(it.SymbolInformations)
+func (it *StringOrMarkupContent) MarshalJSON() ([]byte, error) {
+	if !isNone(it.String) {
+		return json.Marshal(it.String)
 	}
-	if !isNone(it.WorkspaceSymbols) {
-		return json.Marshal(it.WorkspaceSymbols)
+	if !isNone(it.MarkupContent) {
+		return json.Marshal(it.MarkupContent)
 	}
 
 	return []byte("null"), nil
 }
-func (it *SymbolInformationsOrWorkspaceSymbolsOrNull) UnmarshalJSON(jsonBytes []byte) error {
+func (it *StringOrMarkupContent) UnmarshalJSON(jsonBytes []byte) error {
 	if bytes.Equal(jsonBytes, []byte("null")) {
 		return nil
 	}
 	{
-		var tmp /*TOpt*/ []SymbolInformation
+		var tmp /*TOpt*/ *String
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.SymbolInformations = tmp
+			it.String = tmp
 			return nil
 		}
 	}
 	{
-		var tmp /*TOpt*/ []WorkspaceSymbol
+		var tmp /*TOpt*/ *MarkupContent
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.WorkspaceSymbols = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type BooleanOrFoldingRangeOptionsOrFoldingRangeRegistrationOptions struct {
-	Boolean/*TOpt*/ *Boolean
-	FoldingRangeOptions/*TOpt*/ *FoldingRangeOptions
-	FoldingRangeRegistrationOptions/*TOpt*/ *FoldingRangeRegistrationOptions
-}
-
-func (it *BooleanOrFoldingRangeOptionsOrFoldingRangeRegistrationOptions) MarshalJSON() ([]byte, error) {
-	if !isNone(it.Boolean) {
-		return json.Marshal(it.Boolean)
-	}
-	if !isNone(it.FoldingRangeOptions) {
-		return json.Marshal(it.FoldingRangeOptions)
-	}
-	if !isNone(it.FoldingRangeRegistrationOptions) {
-		return json.Marshal(it.FoldingRangeRegistrationOptions)
-	}
-
-	return []byte("null"), nil
-}
-func (it *BooleanOrFoldingRangeOptionsOrFoldingRangeRegistrationOptions) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *Boolean
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.Boolean = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *FoldingRangeOptions
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.FoldingRangeOptions = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *FoldingRangeRegistrationOptions
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.FoldingRangeRegistrationOptions = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type BooleanOrInlayHintOptionsOrInlayHintRegistrationOptions struct {
-	Boolean/*TOpt*/ *Boolean
-	InlayHintOptions/*TOpt*/ *InlayHintOptions
-	InlayHintRegistrationOptions/*TOpt*/ *InlayHintRegistrationOptions
-}
-
-func (it *BooleanOrInlayHintOptionsOrInlayHintRegistrationOptions) MarshalJSON() ([]byte, error) {
-	if !isNone(it.Boolean) {
-		return json.Marshal(it.Boolean)
-	}
-	if !isNone(it.InlayHintOptions) {
-		return json.Marshal(it.InlayHintOptions)
-	}
-	if !isNone(it.InlayHintRegistrationOptions) {
-		return json.Marshal(it.InlayHintRegistrationOptions)
-	}
-
-	return []byte("null"), nil
-}
-func (it *BooleanOrInlayHintOptionsOrInlayHintRegistrationOptions) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *Boolean
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.Boolean = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *InlayHintOptions
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.InlayHintOptions = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *InlayHintRegistrationOptions
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.InlayHintRegistrationOptions = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type BooleanOrTypeHierarchyOptionsOrTypeHierarchyRegistrationOptions struct {
-	Boolean/*TOpt*/ *Boolean
-	TypeHierarchyOptions/*TOpt*/ *TypeHierarchyOptions
-	TypeHierarchyRegistrationOptions/*TOpt*/ *TypeHierarchyRegistrationOptions
-}
-
-func (it *BooleanOrTypeHierarchyOptionsOrTypeHierarchyRegistrationOptions) MarshalJSON() ([]byte, error) {
-	if !isNone(it.Boolean) {
-		return json.Marshal(it.Boolean)
-	}
-	if !isNone(it.TypeHierarchyOptions) {
-		return json.Marshal(it.TypeHierarchyOptions)
-	}
-	if !isNone(it.TypeHierarchyRegistrationOptions) {
-		return json.Marshal(it.TypeHierarchyRegistrationOptions)
-	}
-
-	return []byte("null"), nil
-}
-func (it *BooleanOrTypeHierarchyOptionsOrTypeHierarchyRegistrationOptions) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *Boolean
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.Boolean = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *TypeHierarchyOptions
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.TypeHierarchyOptions = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *TypeHierarchyRegistrationOptions
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.TypeHierarchyRegistrationOptions = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type WorkspaceFolderOrURI struct {
-	WorkspaceFolder/*TOpt*/ *WorkspaceFolder
-	URI/*TOpt*/ *URI
-}
-
-func (it *WorkspaceFolderOrURI) MarshalJSON() ([]byte, error) {
-	if !isNone(it.WorkspaceFolder) {
-		return json.Marshal(it.WorkspaceFolder)
-	}
-	if !isNone(it.URI) {
-		return json.Marshal(it.URI)
-	}
-
-	return []byte("null"), nil
-}
-func (it *WorkspaceFolderOrURI) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *WorkspaceFolder
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.WorkspaceFolder = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *URI
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.URI = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type RangeOrRangeWithPlaceholderStringOrDefaultBehaviorBoolean struct {
-	Range/*TOpt*/ *Range
-	RangeWithPlaceholderString/*TOpt*/ * /*TStruc*/ struct {
-		Range Range `json:"range,omitempty"`
-
-		Placeholder string `json:"placeholder,omitempty"`
-	}
-	DefaultBehaviorBoolean/*TOpt*/ * /*TStruc*/ struct {
-		DefaultBehavior bool `json:"defaultBehavior,omitempty"`
-	}
-}
-
-func (it *RangeOrRangeWithPlaceholderStringOrDefaultBehaviorBoolean) MarshalJSON() ([]byte, error) {
-	if !isNone(it.Range) {
-		return json.Marshal(it.Range)
-	}
-	if !isNone(it.RangeWithPlaceholderString) {
-		return json.Marshal(it.RangeWithPlaceholderString)
-	}
-	if !isNone(it.DefaultBehaviorBoolean) {
-		return json.Marshal(it.DefaultBehaviorBoolean)
-	}
-
-	return []byte("null"), nil
-}
-func (it *RangeOrRangeWithPlaceholderStringOrDefaultBehaviorBoolean) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *Range
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.Range = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ * /*TStruc*/ struct {
-			Range Range `json:"range,omitempty"`
-
-			Placeholder string `json:"placeholder,omitempty"`
-		}
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.RangeWithPlaceholderString = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ * /*TStruc*/ struct {
-			DefaultBehavior bool `json:"defaultBehavior,omitempty"`
-		}
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.DefaultBehaviorBoolean = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type WorkspaceFullDocumentDiagnosticReportOrWorkspaceUnchangedDocumentDiagnosticReport struct {
-	WorkspaceFullDocumentDiagnosticReport/*TOpt*/ *WorkspaceFullDocumentDiagnosticReport
-	WorkspaceUnchangedDocumentDiagnosticReport/*TOpt*/ *WorkspaceUnchangedDocumentDiagnosticReport
-}
-
-func (it *WorkspaceFullDocumentDiagnosticReportOrWorkspaceUnchangedDocumentDiagnosticReport) MarshalJSON() ([]byte, error) {
-	if !isNone(it.WorkspaceFullDocumentDiagnosticReport) {
-		return json.Marshal(it.WorkspaceFullDocumentDiagnosticReport)
-	}
-	if !isNone(it.WorkspaceUnchangedDocumentDiagnosticReport) {
-		return json.Marshal(it.WorkspaceUnchangedDocumentDiagnosticReport)
-	}
-
-	return []byte("null"), nil
-}
-func (it *WorkspaceFullDocumentDiagnosticReportOrWorkspaceUnchangedDocumentDiagnosticReport) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *WorkspaceFullDocumentDiagnosticReport
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.WorkspaceFullDocumentDiagnosticReport = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *WorkspaceUnchangedDocumentDiagnosticReport
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.WorkspaceUnchangedDocumentDiagnosticReport = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type RangeWithRangeLengthUintegerWithTextStringOrTextString struct {
-	RangeWithRangeLengthUintegerWithTextString/*TOpt*/ * /*TStruc*/ struct {
-
-		// The range of the document that changed.
-		Range Range `json:"range,omitempty"`
-
-		// The optional length of the range that got replaced.
-		//
-		// @deprecated use range instead.
-		RangeLength/*TOpt*/ *Uinteger `json:"rangeLength,omitempty"`
-
-		// The new text for the provided range.
-		Text string `json:"text,omitempty"`
-	}
-	TextString/*TOpt*/ * /*TStruc*/ struct {
-
-		// The new text of the whole document.
-		Text string `json:"text,omitempty"`
-	}
-}
-
-func (it *RangeWithRangeLengthUintegerWithTextStringOrTextString) MarshalJSON() ([]byte, error) {
-	if !isNone(it.RangeWithRangeLengthUintegerWithTextString) {
-		return json.Marshal(it.RangeWithRangeLengthUintegerWithTextString)
-	}
-	if !isNone(it.TextString) {
-		return json.Marshal(it.TextString)
-	}
-
-	return []byte("null"), nil
-}
-func (it *RangeWithRangeLengthUintegerWithTextStringOrTextString) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ * /*TStruc*/ struct {
-
-			// The range of the document that changed.
-			Range Range `json:"range,omitempty"`
-
-			// The optional length of the range that got replaced.
-			//
-			// @deprecated use range instead.
-			RangeLength/*TOpt*/ *Uinteger `json:"rangeLength,omitempty"`
-
-			// The new text for the provided range.
-			Text string `json:"text,omitempty"`
-		}
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.RangeWithRangeLengthUintegerWithTextString = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ * /*TStruc*/ struct {
-
-			// The new text of the whole document.
-			Text string `json:"text,omitempty"`
-		}
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.TextString = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type CommandOrCodeAction struct {
-	Command/*TOpt*/ *Command
-	CodeAction/*TOpt*/ *CodeAction
-}
-
-func (it *CommandOrCodeAction) MarshalJSON() ([]byte, error) {
-	if !isNone(it.Command) {
-		return json.Marshal(it.Command)
-	}
-	if !isNone(it.CodeAction) {
-		return json.Marshal(it.CodeAction)
-	}
-
-	return []byte("null"), nil
-}
-func (it *CommandOrCodeAction) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *Command
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.Command = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *CodeAction
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.CodeAction = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type NotebookDocumentSyncOptionsOrNotebookDocumentSyncRegistrationOptions struct {
-	NotebookDocumentSyncOptions/*TOpt*/ *NotebookDocumentSyncOptions
-	NotebookDocumentSyncRegistrationOptions/*TOpt*/ *NotebookDocumentSyncRegistrationOptions
-}
-
-func (it *NotebookDocumentSyncOptionsOrNotebookDocumentSyncRegistrationOptions) MarshalJSON() ([]byte, error) {
-	if !isNone(it.NotebookDocumentSyncOptions) {
-		return json.Marshal(it.NotebookDocumentSyncOptions)
-	}
-	if !isNone(it.NotebookDocumentSyncRegistrationOptions) {
-		return json.Marshal(it.NotebookDocumentSyncRegistrationOptions)
-	}
-
-	return []byte("null"), nil
-}
-func (it *NotebookDocumentSyncOptionsOrNotebookDocumentSyncRegistrationOptions) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *NotebookDocumentSyncOptions
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.NotebookDocumentSyncOptions = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *NotebookDocumentSyncRegistrationOptions
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.NotebookDocumentSyncRegistrationOptions = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type BooleanOrRenameOptions struct {
-	Boolean/*TOpt*/ *Boolean
-	RenameOptions/*TOpt*/ *RenameOptions
-}
-
-func (it *BooleanOrRenameOptions) MarshalJSON() ([]byte, error) {
-	if !isNone(it.Boolean) {
-		return json.Marshal(it.Boolean)
-	}
-	if !isNone(it.RenameOptions) {
-		return json.Marshal(it.RenameOptions)
-	}
-
-	return []byte("null"), nil
-}
-func (it *BooleanOrRenameOptions) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *Boolean
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.Boolean = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *RenameOptions
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.RenameOptions = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type LocationOrLocations struct {
-	Location/*TOpt*/ *Location
-	Locations/*TOpt*/ []Location
-}
-
-func (it *LocationOrLocations) MarshalJSON() ([]byte, error) {
-	if !isNone(it.Location) {
-		return json.Marshal(it.Location)
-	}
-	if !isNone(it.Locations) {
-		return json.Marshal(it.Locations)
-	}
-
-	return []byte("null"), nil
-}
-func (it *LocationOrLocations) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *Location
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.Location = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ []Location
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.Locations = tmp
+			it.MarkupContent = tmp
 			return nil
 		}
 	}
@@ -1804,22 +926,66 @@ func (it *InlineValueTextOrInlineValueVariableLookupOrInlineValueEvaluatableExpr
 }
 
 /*TOr*/
-type BooleanOrDocumentRangeFormattingOptions struct {
-	Boolean/*TOpt*/ *Boolean
-	DocumentRangeFormattingOptions/*TOpt*/ *DocumentRangeFormattingOptions
+type SymbolInformationsOrWorkspaceSymbolsOrNull struct {
+	SymbolInformations/*TOpt*/ []SymbolInformation
+	WorkspaceSymbols/*TOpt*/ []WorkspaceSymbol
 }
 
-func (it *BooleanOrDocumentRangeFormattingOptions) MarshalJSON() ([]byte, error) {
-	if !isNone(it.Boolean) {
-		return json.Marshal(it.Boolean)
+func (it *SymbolInformationsOrWorkspaceSymbolsOrNull) MarshalJSON() ([]byte, error) {
+	if !isNone(it.SymbolInformations) {
+		return json.Marshal(it.SymbolInformations)
 	}
-	if !isNone(it.DocumentRangeFormattingOptions) {
-		return json.Marshal(it.DocumentRangeFormattingOptions)
+	if !isNone(it.WorkspaceSymbols) {
+		return json.Marshal(it.WorkspaceSymbols)
 	}
 
 	return []byte("null"), nil
 }
-func (it *BooleanOrDocumentRangeFormattingOptions) UnmarshalJSON(jsonBytes []byte) error {
+func (it *SymbolInformationsOrWorkspaceSymbolsOrNull) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ []SymbolInformation
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.SymbolInformations = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ []WorkspaceSymbol
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.WorkspaceSymbols = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type BooleanOrImplementationOptionsOrImplementationRegistrationOptions struct {
+	Boolean/*TOpt*/ *Boolean
+	ImplementationOptions/*TOpt*/ *ImplementationOptions
+	ImplementationRegistrationOptions/*TOpt*/ *ImplementationRegistrationOptions
+}
+
+func (it *BooleanOrImplementationOptionsOrImplementationRegistrationOptions) MarshalJSON() ([]byte, error) {
+	if !isNone(it.Boolean) {
+		return json.Marshal(it.Boolean)
+	}
+	if !isNone(it.ImplementationOptions) {
+		return json.Marshal(it.ImplementationOptions)
+	}
+	if !isNone(it.ImplementationRegistrationOptions) {
+		return json.Marshal(it.ImplementationRegistrationOptions)
+	}
+
+	return []byte("null"), nil
+}
+func (it *BooleanOrImplementationOptionsOrImplementationRegistrationOptions) UnmarshalJSON(jsonBytes []byte) error {
 	if bytes.Equal(jsonBytes, []byte("null")) {
 		return nil
 	}
@@ -1832,10 +998,18 @@ func (it *BooleanOrDocumentRangeFormattingOptions) UnmarshalJSON(jsonBytes []byt
 		}
 	}
 	{
-		var tmp /*TOpt*/ *DocumentRangeFormattingOptions
+		var tmp /*TOpt*/ *ImplementationOptions
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.DocumentRangeFormattingOptions = tmp
+			it.ImplementationOptions = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ *ImplementationRegistrationOptions
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.ImplementationRegistrationOptions = tmp
 			return nil
 		}
 	}
@@ -1844,102 +1018,22 @@ func (it *BooleanOrDocumentRangeFormattingOptions) UnmarshalJSON(jsonBytes []byt
 }
 
 /*TOr*/
-type PatternOrRelativePattern struct {
-	Pattern/*TOpt*/ *String
-	RelativePattern/*TOpt*/ *RelativePattern
-}
-
-func (it *PatternOrRelativePattern) MarshalJSON() ([]byte, error) {
-	if !isNone(it.Pattern) {
-		return json.Marshal(it.Pattern)
-	}
-	if !isNone(it.RelativePattern) {
-		return json.Marshal(it.RelativePattern)
-	}
-
-	return []byte("null"), nil
-}
-func (it *PatternOrRelativePattern) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *String
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.Pattern = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *RelativePattern
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.RelativePattern = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type StringOrInlayHintLabelParts struct {
-	String/*TOpt*/ *String
-	InlayHintLabelParts/*TOpt*/ []InlayHintLabelPart
-}
-
-func (it *StringOrInlayHintLabelParts) MarshalJSON() ([]byte, error) {
-	if !isNone(it.String) {
-		return json.Marshal(it.String)
-	}
-	if !isNone(it.InlayHintLabelParts) {
-		return json.Marshal(it.InlayHintLabelParts)
-	}
-
-	return []byte("null"), nil
-}
-func (it *StringOrInlayHintLabelParts) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *String
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.String = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ []InlayHintLabelPart
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.InlayHintLabelParts = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type BooleanOrAnyByString struct {
+type BooleanOrReferenceOptions struct {
 	Boolean/*TOpt*/ *Boolean
-	AnyByString/*TOpt*/ map[string]any
+	ReferenceOptions/*TOpt*/ *ReferenceOptions
 }
 
-func (it *BooleanOrAnyByString) MarshalJSON() ([]byte, error) {
+func (it *BooleanOrReferenceOptions) MarshalJSON() ([]byte, error) {
 	if !isNone(it.Boolean) {
 		return json.Marshal(it.Boolean)
 	}
-	if !isNone(it.AnyByString) {
-		return json.Marshal(it.AnyByString)
+	if !isNone(it.ReferenceOptions) {
+		return json.Marshal(it.ReferenceOptions)
 	}
 
 	return []byte("null"), nil
 }
-func (it *BooleanOrAnyByString) UnmarshalJSON(jsonBytes []byte) error {
+func (it *BooleanOrReferenceOptions) UnmarshalJSON(jsonBytes []byte) error {
 	if bytes.Equal(jsonBytes, []byte("null")) {
 		return nil
 	}
@@ -1952,10 +1046,10 @@ func (it *BooleanOrAnyByString) UnmarshalJSON(jsonBytes []byte) error {
 		}
 	}
 	{
-		var tmp /*TOpt*/ map[string]any
+		var tmp /*TOpt*/ *ReferenceOptions
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.AnyByString = tmp
+			it.ReferenceOptions = tmp
 			return nil
 		}
 	}
@@ -1964,22 +1058,22 @@ func (it *BooleanOrAnyByString) UnmarshalJSON(jsonBytes []byte) error {
 }
 
 /*TOr*/
-type BooleanOrDocumentFormattingOptions struct {
+type BooleanOrDocumentSymbolOptions struct {
 	Boolean/*TOpt*/ *Boolean
-	DocumentFormattingOptions/*TOpt*/ *DocumentFormattingOptions
+	DocumentSymbolOptions/*TOpt*/ *DocumentSymbolOptions
 }
 
-func (it *BooleanOrDocumentFormattingOptions) MarshalJSON() ([]byte, error) {
+func (it *BooleanOrDocumentSymbolOptions) MarshalJSON() ([]byte, error) {
 	if !isNone(it.Boolean) {
 		return json.Marshal(it.Boolean)
 	}
-	if !isNone(it.DocumentFormattingOptions) {
-		return json.Marshal(it.DocumentFormattingOptions)
+	if !isNone(it.DocumentSymbolOptions) {
+		return json.Marshal(it.DocumentSymbolOptions)
 	}
 
 	return []byte("null"), nil
 }
-func (it *BooleanOrDocumentFormattingOptions) UnmarshalJSON(jsonBytes []byte) error {
+func (it *BooleanOrDocumentSymbolOptions) UnmarshalJSON(jsonBytes []byte) error {
 	if bytes.Equal(jsonBytes, []byte("null")) {
 		return nil
 	}
@@ -1992,10 +1086,10 @@ func (it *BooleanOrDocumentFormattingOptions) UnmarshalJSON(jsonBytes []byte) er
 		}
 	}
 	{
-		var tmp /*TOpt*/ *DocumentFormattingOptions
+		var tmp /*TOpt*/ *DocumentSymbolOptions
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.DocumentFormattingOptions = tmp
+			it.DocumentSymbolOptions = tmp
 			return nil
 		}
 	}
@@ -2004,66 +1098,26 @@ func (it *BooleanOrDocumentFormattingOptions) UnmarshalJSON(jsonBytes []byte) er
 }
 
 /*TOr*/
-type FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport struct {
-	FullDocumentDiagnosticReport/*TOpt*/ *FullDocumentDiagnosticReport
-	UnchangedDocumentDiagnosticReport/*TOpt*/ *UnchangedDocumentDiagnosticReport
-}
-
-func (it *FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport) MarshalJSON() ([]byte, error) {
-	if !isNone(it.FullDocumentDiagnosticReport) {
-		return json.Marshal(it.FullDocumentDiagnosticReport)
-	}
-	if !isNone(it.UnchangedDocumentDiagnosticReport) {
-		return json.Marshal(it.UnchangedDocumentDiagnosticReport)
-	}
-
-	return []byte("null"), nil
-}
-func (it *FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *FullDocumentDiagnosticReport
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.FullDocumentDiagnosticReport = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *UnchangedDocumentDiagnosticReport
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.UnchangedDocumentDiagnosticReport = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type BooleanOrDeclarationOptionsOrDeclarationRegistrationOptions struct {
+type BooleanOrTypeHierarchyOptionsOrTypeHierarchyRegistrationOptions struct {
 	Boolean/*TOpt*/ *Boolean
-	DeclarationOptions/*TOpt*/ *DeclarationOptions
-	DeclarationRegistrationOptions/*TOpt*/ *DeclarationRegistrationOptions
+	TypeHierarchyOptions/*TOpt*/ *TypeHierarchyOptions
+	TypeHierarchyRegistrationOptions/*TOpt*/ *TypeHierarchyRegistrationOptions
 }
 
-func (it *BooleanOrDeclarationOptionsOrDeclarationRegistrationOptions) MarshalJSON() ([]byte, error) {
+func (it *BooleanOrTypeHierarchyOptionsOrTypeHierarchyRegistrationOptions) MarshalJSON() ([]byte, error) {
 	if !isNone(it.Boolean) {
 		return json.Marshal(it.Boolean)
 	}
-	if !isNone(it.DeclarationOptions) {
-		return json.Marshal(it.DeclarationOptions)
+	if !isNone(it.TypeHierarchyOptions) {
+		return json.Marshal(it.TypeHierarchyOptions)
 	}
-	if !isNone(it.DeclarationRegistrationOptions) {
-		return json.Marshal(it.DeclarationRegistrationOptions)
+	if !isNone(it.TypeHierarchyRegistrationOptions) {
+		return json.Marshal(it.TypeHierarchyRegistrationOptions)
 	}
 
 	return []byte("null"), nil
 }
-func (it *BooleanOrDeclarationOptionsOrDeclarationRegistrationOptions) UnmarshalJSON(jsonBytes []byte) error {
+func (it *BooleanOrTypeHierarchyOptionsOrTypeHierarchyRegistrationOptions) UnmarshalJSON(jsonBytes []byte) error {
 	if bytes.Equal(jsonBytes, []byte("null")) {
 		return nil
 	}
@@ -2076,18 +1130,18 @@ func (it *BooleanOrDeclarationOptionsOrDeclarationRegistrationOptions) Unmarshal
 		}
 	}
 	{
-		var tmp /*TOpt*/ *DeclarationOptions
+		var tmp /*TOpt*/ *TypeHierarchyOptions
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.DeclarationOptions = tmp
+			it.TypeHierarchyOptions = tmp
 			return nil
 		}
 	}
 	{
-		var tmp /*TOpt*/ *DeclarationRegistrationOptions
+		var tmp /*TOpt*/ *TypeHierarchyRegistrationOptions
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.DeclarationRegistrationOptions = tmp
+			it.TypeHierarchyRegistrationOptions = tmp
 			return nil
 		}
 	}
@@ -2096,26 +1150,102 @@ func (it *BooleanOrDeclarationOptionsOrDeclarationRegistrationOptions) Unmarshal
 }
 
 /*TOr*/
-type BooleanOrDocumentColorOptionsOrDocumentColorRegistrationOptions struct {
-	Boolean/*TOpt*/ *Boolean
-	DocumentColorOptions/*TOpt*/ *DocumentColorOptions
-	DocumentColorRegistrationOptions/*TOpt*/ *DocumentColorRegistrationOptions
+type DiagnosticOptionsOrDiagnosticRegistrationOptions struct {
+	DiagnosticOptions/*TOpt*/ *DiagnosticOptions
+	DiagnosticRegistrationOptions/*TOpt*/ *DiagnosticRegistrationOptions
 }
 
-func (it *BooleanOrDocumentColorOptionsOrDocumentColorRegistrationOptions) MarshalJSON() ([]byte, error) {
-	if !isNone(it.Boolean) {
-		return json.Marshal(it.Boolean)
+func (it *DiagnosticOptionsOrDiagnosticRegistrationOptions) MarshalJSON() ([]byte, error) {
+	if !isNone(it.DiagnosticOptions) {
+		return json.Marshal(it.DiagnosticOptions)
 	}
-	if !isNone(it.DocumentColorOptions) {
-		return json.Marshal(it.DocumentColorOptions)
-	}
-	if !isNone(it.DocumentColorRegistrationOptions) {
-		return json.Marshal(it.DocumentColorRegistrationOptions)
+	if !isNone(it.DiagnosticRegistrationOptions) {
+		return json.Marshal(it.DiagnosticRegistrationOptions)
 	}
 
 	return []byte("null"), nil
 }
-func (it *BooleanOrDocumentColorOptionsOrDocumentColorRegistrationOptions) UnmarshalJSON(jsonBytes []byte) error {
+func (it *DiagnosticOptionsOrDiagnosticRegistrationOptions) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *DiagnosticOptions
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.DiagnosticOptions = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ *DiagnosticRegistrationOptions
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.DiagnosticRegistrationOptions = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type SemanticTokensOrSemanticTokensDeltaOrNull struct {
+	SemanticTokens/*TOpt*/ *SemanticTokens
+	SemanticTokensDelta/*TOpt*/ *SemanticTokensDelta
+}
+
+func (it *SemanticTokensOrSemanticTokensDeltaOrNull) MarshalJSON() ([]byte, error) {
+	if !isNone(it.SemanticTokens) {
+		return json.Marshal(it.SemanticTokens)
+	}
+	if !isNone(it.SemanticTokensDelta) {
+		return json.Marshal(it.SemanticTokensDelta)
+	}
+
+	return []byte("null"), nil
+}
+func (it *SemanticTokensOrSemanticTokensDeltaOrNull) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *SemanticTokens
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.SemanticTokens = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ *SemanticTokensDelta
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.SemanticTokensDelta = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type BooleanOrDocumentHighlightOptions struct {
+	Boolean/*TOpt*/ *Boolean
+	DocumentHighlightOptions/*TOpt*/ *DocumentHighlightOptions
+}
+
+func (it *BooleanOrDocumentHighlightOptions) MarshalJSON() ([]byte, error) {
+	if !isNone(it.Boolean) {
+		return json.Marshal(it.Boolean)
+	}
+	if !isNone(it.DocumentHighlightOptions) {
+		return json.Marshal(it.DocumentHighlightOptions)
+	}
+
+	return []byte("null"), nil
+}
+func (it *BooleanOrDocumentHighlightOptions) UnmarshalJSON(jsonBytes []byte) error {
 	if bytes.Equal(jsonBytes, []byte("null")) {
 		return nil
 	}
@@ -2128,18 +1258,50 @@ func (it *BooleanOrDocumentColorOptionsOrDocumentColorRegistrationOptions) Unmar
 		}
 	}
 	{
-		var tmp /*TOpt*/ *DocumentColorOptions
+		var tmp /*TOpt*/ *DocumentHighlightOptions
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.DocumentColorOptions = tmp
+			it.DocumentHighlightOptions = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type BooleanOrWorkspaceSymbolOptions struct {
+	Boolean/*TOpt*/ *Boolean
+	WorkspaceSymbolOptions/*TOpt*/ *WorkspaceSymbolOptions
+}
+
+func (it *BooleanOrWorkspaceSymbolOptions) MarshalJSON() ([]byte, error) {
+	if !isNone(it.Boolean) {
+		return json.Marshal(it.Boolean)
+	}
+	if !isNone(it.WorkspaceSymbolOptions) {
+		return json.Marshal(it.WorkspaceSymbolOptions)
+	}
+
+	return []byte("null"), nil
+}
+func (it *BooleanOrWorkspaceSymbolOptions) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *Boolean
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.Boolean = tmp
 			return nil
 		}
 	}
 	{
-		var tmp /*TOpt*/ *DocumentColorRegistrationOptions
+		var tmp /*TOpt*/ *WorkspaceSymbolOptions
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.DocumentColorRegistrationOptions = tmp
+			it.WorkspaceSymbolOptions = tmp
 			return nil
 		}
 	}
@@ -2200,246 +1362,6 @@ func (it *BooleanOrInlineValueOptionsOrInlineValueRegistrationOptions) Unmarshal
 }
 
 /*TOr*/
-type StringOrUintegerWithUinteger struct {
-	String/*TOpt*/ *String
-	UintegerWithUinteger/*TOpt*/ * /*TTup*/ []uint
-}
-
-func (it *StringOrUintegerWithUinteger) MarshalJSON() ([]byte, error) {
-	if !isNone(it.String) {
-		return json.Marshal(it.String)
-	}
-	if !isNone(it.UintegerWithUinteger) {
-		return json.Marshal(it.UintegerWithUinteger)
-	}
-
-	return []byte("null"), nil
-}
-func (it *StringOrUintegerWithUinteger) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *String
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.String = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ * /*TTup*/ []uint
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.UintegerWithUinteger = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type BooleanOrDefinitionOptions struct {
-	Boolean/*TOpt*/ *Boolean
-	DefinitionOptions/*TOpt*/ *DefinitionOptions
-}
-
-func (it *BooleanOrDefinitionOptions) MarshalJSON() ([]byte, error) {
-	if !isNone(it.Boolean) {
-		return json.Marshal(it.Boolean)
-	}
-	if !isNone(it.DefinitionOptions) {
-		return json.Marshal(it.DefinitionOptions)
-	}
-
-	return []byte("null"), nil
-}
-func (it *BooleanOrDefinitionOptions) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *Boolean
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.Boolean = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *DefinitionOptions
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.DefinitionOptions = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type BooleanOrSaveOptions struct {
-	Boolean/*TOpt*/ *Boolean
-	SaveOptions/*TOpt*/ *SaveOptions
-}
-
-func (it *BooleanOrSaveOptions) MarshalJSON() ([]byte, error) {
-	if !isNone(it.Boolean) {
-		return json.Marshal(it.Boolean)
-	}
-	if !isNone(it.SaveOptions) {
-		return json.Marshal(it.SaveOptions)
-	}
-
-	return []byte("null"), nil
-}
-func (it *BooleanOrSaveOptions) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *Boolean
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.Boolean = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *SaveOptions
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.SaveOptions = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type RelatedFullDocumentDiagnosticReportOrRelatedUnchangedDocumentDiagnosticReport struct {
-	RelatedFullDocumentDiagnosticReport/*TOpt*/ *RelatedFullDocumentDiagnosticReport
-	RelatedUnchangedDocumentDiagnosticReport/*TOpt*/ *RelatedUnchangedDocumentDiagnosticReport
-}
-
-func (it *RelatedFullDocumentDiagnosticReportOrRelatedUnchangedDocumentDiagnosticReport) MarshalJSON() ([]byte, error) {
-	if !isNone(it.RelatedFullDocumentDiagnosticReport) {
-		return json.Marshal(it.RelatedFullDocumentDiagnosticReport)
-	}
-	if !isNone(it.RelatedUnchangedDocumentDiagnosticReport) {
-		return json.Marshal(it.RelatedUnchangedDocumentDiagnosticReport)
-	}
-
-	return []byte("null"), nil
-}
-func (it *RelatedFullDocumentDiagnosticReportOrRelatedUnchangedDocumentDiagnosticReport) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *RelatedFullDocumentDiagnosticReport
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.RelatedFullDocumentDiagnosticReport = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *RelatedUnchangedDocumentDiagnosticReport
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.RelatedUnchangedDocumentDiagnosticReport = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type StringOrMarkupContent struct {
-	String/*TOpt*/ *String
-	MarkupContent/*TOpt*/ *MarkupContent
-}
-
-func (it *StringOrMarkupContent) MarshalJSON() ([]byte, error) {
-	if !isNone(it.String) {
-		return json.Marshal(it.String)
-	}
-	if !isNone(it.MarkupContent) {
-		return json.Marshal(it.MarkupContent)
-	}
-
-	return []byte("null"), nil
-}
-func (it *StringOrMarkupContent) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *String
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.String = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *MarkupContent
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.MarkupContent = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
-type DiagnosticOptionsOrDiagnosticRegistrationOptions struct {
-	DiagnosticOptions/*TOpt*/ *DiagnosticOptions
-	DiagnosticRegistrationOptions/*TOpt*/ *DiagnosticRegistrationOptions
-}
-
-func (it *DiagnosticOptionsOrDiagnosticRegistrationOptions) MarshalJSON() ([]byte, error) {
-	if !isNone(it.DiagnosticOptions) {
-		return json.Marshal(it.DiagnosticOptions)
-	}
-	if !isNone(it.DiagnosticRegistrationOptions) {
-		return json.Marshal(it.DiagnosticRegistrationOptions)
-	}
-
-	return []byte("null"), nil
-}
-func (it *DiagnosticOptionsOrDiagnosticRegistrationOptions) UnmarshalJSON(jsonBytes []byte) error {
-	if bytes.Equal(jsonBytes, []byte("null")) {
-		return nil
-	}
-	{
-		var tmp /*TOpt*/ *DiagnosticOptions
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.DiagnosticOptions = tmp
-			return nil
-		}
-	}
-	{
-		var tmp /*TOpt*/ *DiagnosticRegistrationOptions
-		err := json.Unmarshal(jsonBytes, &tmp)
-		if err == nil && !isNone(tmp) {
-			it.DiagnosticRegistrationOptions = tmp
-			return nil
-		}
-	}
-
-	return nil
-}
-
-/*TOr*/
 type StringOrBoolean struct {
 	String/*TOpt*/ *String
 	Boolean/*TOpt*/ *Boolean
@@ -2480,38 +1402,46 @@ func (it *StringOrBoolean) UnmarshalJSON(jsonBytes []byte) error {
 }
 
 /*TOr*/
-type StringOrStrings struct {
-	String/*TOpt*/ *String
-	Strings/*TOpt*/ []string
+type RangeOrInsertRangeWithReplaceRange struct {
+	Range/*TOpt*/ *Range
+	InsertRangeWithReplaceRange/*TOpt*/ * /*TStruc*/ struct {
+		Insert Range `json:"insert,omitempty"`
+
+		Replace Range `json:"replace,omitempty"`
+	}
 }
 
-func (it *StringOrStrings) MarshalJSON() ([]byte, error) {
-	if !isNone(it.String) {
-		return json.Marshal(it.String)
+func (it *RangeOrInsertRangeWithReplaceRange) MarshalJSON() ([]byte, error) {
+	if !isNone(it.Range) {
+		return json.Marshal(it.Range)
 	}
-	if !isNone(it.Strings) {
-		return json.Marshal(it.Strings)
+	if !isNone(it.InsertRangeWithReplaceRange) {
+		return json.Marshal(it.InsertRangeWithReplaceRange)
 	}
 
 	return []byte("null"), nil
 }
-func (it *StringOrStrings) UnmarshalJSON(jsonBytes []byte) error {
+func (it *RangeOrInsertRangeWithReplaceRange) UnmarshalJSON(jsonBytes []byte) error {
 	if bytes.Equal(jsonBytes, []byte("null")) {
 		return nil
 	}
 	{
-		var tmp /*TOpt*/ *String
+		var tmp /*TOpt*/ *Range
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.String = tmp
+			it.Range = tmp
 			return nil
 		}
 	}
 	{
-		var tmp /*TOpt*/ []string
+		var tmp /*TOpt*/ * /*TStruc*/ struct {
+			Insert Range `json:"insert,omitempty"`
+
+			Replace Range `json:"replace,omitempty"`
+		}
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.Strings = tmp
+			it.InsertRangeWithReplaceRange = tmp
 			return nil
 		}
 	}
@@ -2520,38 +1450,710 @@ func (it *StringOrStrings) UnmarshalJSON(jsonBytes []byte) error {
 }
 
 /*TOr*/
-type TextEditOrInsertReplaceEdit struct {
-	TextEdit/*TOpt*/ *TextEdit
-	InsertReplaceEdit/*TOpt*/ *InsertReplaceEdit
+type MarkupContentOrMarkedStringOrMarkedStrings struct {
+	MarkupContent/*TOpt*/ *MarkupContent
+	MarkedString/*TOpt*/ MarkedString
+	MarkedStrings/*TOpt*/ []MarkedString
 }
 
-func (it *TextEditOrInsertReplaceEdit) MarshalJSON() ([]byte, error) {
-	if !isNone(it.TextEdit) {
-		return json.Marshal(it.TextEdit)
+func (it *MarkupContentOrMarkedStringOrMarkedStrings) MarshalJSON() ([]byte, error) {
+	if !isNone(it.MarkupContent) {
+		return json.Marshal(it.MarkupContent)
 	}
-	if !isNone(it.InsertReplaceEdit) {
-		return json.Marshal(it.InsertReplaceEdit)
+	if !isNone(it.MarkedString) {
+		return json.Marshal(it.MarkedString)
+	}
+	if !isNone(it.MarkedStrings) {
+		return json.Marshal(it.MarkedStrings)
 	}
 
 	return []byte("null"), nil
 }
-func (it *TextEditOrInsertReplaceEdit) UnmarshalJSON(jsonBytes []byte) error {
+func (it *MarkupContentOrMarkedStringOrMarkedStrings) UnmarshalJSON(jsonBytes []byte) error {
 	if bytes.Equal(jsonBytes, []byte("null")) {
 		return nil
 	}
 	{
-		var tmp /*TOpt*/ *TextEdit
+		var tmp /*TOpt*/ *MarkupContent
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.TextEdit = tmp
+			it.MarkupContent = tmp
 			return nil
 		}
 	}
 	{
-		var tmp /*TOpt*/ *InsertReplaceEdit
+		var tmp /*TOpt*/ MarkedString
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.InsertReplaceEdit = tmp
+			it.MarkedString = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ []MarkedString
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.MarkedStrings = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type SymbolInformationsOrDocumentSymbolsOrNull struct {
+	SymbolInformations/*TOpt*/ []SymbolInformation
+	DocumentSymbols/*TOpt*/ []DocumentSymbol
+}
+
+func (it *SymbolInformationsOrDocumentSymbolsOrNull) MarshalJSON() ([]byte, error) {
+	if !isNone(it.SymbolInformations) {
+		return json.Marshal(it.SymbolInformations)
+	}
+	if !isNone(it.DocumentSymbols) {
+		return json.Marshal(it.DocumentSymbols)
+	}
+
+	return []byte("null"), nil
+}
+func (it *SymbolInformationsOrDocumentSymbolsOrNull) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ []SymbolInformation
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.SymbolInformations = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ []DocumentSymbol
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.DocumentSymbols = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type BooleanOrAnyByString struct {
+	Boolean/*TOpt*/ *Boolean
+	AnyByString/*TOpt*/ map[string]any
+}
+
+func (it *BooleanOrAnyByString) MarshalJSON() ([]byte, error) {
+	if !isNone(it.Boolean) {
+		return json.Marshal(it.Boolean)
+	}
+	if !isNone(it.AnyByString) {
+		return json.Marshal(it.AnyByString)
+	}
+
+	return []byte("null"), nil
+}
+func (it *BooleanOrAnyByString) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *Boolean
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.Boolean = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ map[string]any
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.AnyByString = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type CommandOrCodeAction struct {
+	Command/*TOpt*/ *Command
+	CodeAction/*TOpt*/ *CodeAction
+}
+
+func (it *CommandOrCodeAction) MarshalJSON() ([]byte, error) {
+	if !isNone(it.Command) {
+		return json.Marshal(it.Command)
+	}
+	if !isNone(it.CodeAction) {
+		return json.Marshal(it.CodeAction)
+	}
+
+	return []byte("null"), nil
+}
+func (it *CommandOrCodeAction) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *Command
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.Command = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ *CodeAction
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.CodeAction = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type BooleanOrMonikerOptionsOrMonikerRegistrationOptions struct {
+	Boolean/*TOpt*/ *Boolean
+	MonikerOptions/*TOpt*/ *MonikerOptions
+	MonikerRegistrationOptions/*TOpt*/ *MonikerRegistrationOptions
+}
+
+func (it *BooleanOrMonikerOptionsOrMonikerRegistrationOptions) MarshalJSON() ([]byte, error) {
+	if !isNone(it.Boolean) {
+		return json.Marshal(it.Boolean)
+	}
+	if !isNone(it.MonikerOptions) {
+		return json.Marshal(it.MonikerOptions)
+	}
+	if !isNone(it.MonikerRegistrationOptions) {
+		return json.Marshal(it.MonikerRegistrationOptions)
+	}
+
+	return []byte("null"), nil
+}
+func (it *BooleanOrMonikerOptionsOrMonikerRegistrationOptions) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *Boolean
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.Boolean = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ *MonikerOptions
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.MonikerOptions = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ *MonikerRegistrationOptions
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.MonikerRegistrationOptions = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type TextDocumentFilterOrNotebookCellTextDocumentFilter struct {
+	TextDocumentFilter/*TOpt*/ *TextDocumentFilter
+	NotebookCellTextDocumentFilter/*TOpt*/ *NotebookCellTextDocumentFilter
+}
+
+func (it *TextDocumentFilterOrNotebookCellTextDocumentFilter) MarshalJSON() ([]byte, error) {
+	if !isNone(it.TextDocumentFilter) {
+		return json.Marshal(it.TextDocumentFilter)
+	}
+	if !isNone(it.NotebookCellTextDocumentFilter) {
+		return json.Marshal(it.NotebookCellTextDocumentFilter)
+	}
+
+	return []byte("null"), nil
+}
+func (it *TextDocumentFilterOrNotebookCellTextDocumentFilter) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *TextDocumentFilter
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.TextDocumentFilter = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ *NotebookCellTextDocumentFilter
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.NotebookCellTextDocumentFilter = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type NotebookDocumentSyncOptionsOrNotebookDocumentSyncRegistrationOptions struct {
+	NotebookDocumentSyncOptions/*TOpt*/ *NotebookDocumentSyncOptions
+	NotebookDocumentSyncRegistrationOptions/*TOpt*/ *NotebookDocumentSyncRegistrationOptions
+}
+
+func (it *NotebookDocumentSyncOptionsOrNotebookDocumentSyncRegistrationOptions) MarshalJSON() ([]byte, error) {
+	if !isNone(it.NotebookDocumentSyncOptions) {
+		return json.Marshal(it.NotebookDocumentSyncOptions)
+	}
+	if !isNone(it.NotebookDocumentSyncRegistrationOptions) {
+		return json.Marshal(it.NotebookDocumentSyncRegistrationOptions)
+	}
+
+	return []byte("null"), nil
+}
+func (it *NotebookDocumentSyncOptionsOrNotebookDocumentSyncRegistrationOptions) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *NotebookDocumentSyncOptions
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.NotebookDocumentSyncOptions = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ *NotebookDocumentSyncRegistrationOptions
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.NotebookDocumentSyncRegistrationOptions = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type BooleanOrDeclarationOptionsOrDeclarationRegistrationOptions struct {
+	Boolean/*TOpt*/ *Boolean
+	DeclarationOptions/*TOpt*/ *DeclarationOptions
+	DeclarationRegistrationOptions/*TOpt*/ *DeclarationRegistrationOptions
+}
+
+func (it *BooleanOrDeclarationOptionsOrDeclarationRegistrationOptions) MarshalJSON() ([]byte, error) {
+	if !isNone(it.Boolean) {
+		return json.Marshal(it.Boolean)
+	}
+	if !isNone(it.DeclarationOptions) {
+		return json.Marshal(it.DeclarationOptions)
+	}
+	if !isNone(it.DeclarationRegistrationOptions) {
+		return json.Marshal(it.DeclarationRegistrationOptions)
+	}
+
+	return []byte("null"), nil
+}
+func (it *BooleanOrDeclarationOptionsOrDeclarationRegistrationOptions) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *Boolean
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.Boolean = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ *DeclarationOptions
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.DeclarationOptions = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ *DeclarationRegistrationOptions
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.DeclarationRegistrationOptions = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type SemanticTokensOptionsOrSemanticTokensRegistrationOptions struct {
+	SemanticTokensOptions/*TOpt*/ *SemanticTokensOptions
+	SemanticTokensRegistrationOptions/*TOpt*/ *SemanticTokensRegistrationOptions
+}
+
+func (it *SemanticTokensOptionsOrSemanticTokensRegistrationOptions) MarshalJSON() ([]byte, error) {
+	if !isNone(it.SemanticTokensOptions) {
+		return json.Marshal(it.SemanticTokensOptions)
+	}
+	if !isNone(it.SemanticTokensRegistrationOptions) {
+		return json.Marshal(it.SemanticTokensRegistrationOptions)
+	}
+
+	return []byte("null"), nil
+}
+func (it *SemanticTokensOptionsOrSemanticTokensRegistrationOptions) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *SemanticTokensOptions
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.SemanticTokensOptions = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ *SemanticTokensRegistrationOptions
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.SemanticTokensRegistrationOptions = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type LocationOrLocations struct {
+	Location/*TOpt*/ *Location
+	Locations/*TOpt*/ []Location
+}
+
+func (it *LocationOrLocations) MarshalJSON() ([]byte, error) {
+	if !isNone(it.Location) {
+		return json.Marshal(it.Location)
+	}
+	if !isNone(it.Locations) {
+		return json.Marshal(it.Locations)
+	}
+
+	return []byte("null"), nil
+}
+func (it *LocationOrLocations) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *Location
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.Location = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ []Location
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.Locations = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport struct {
+	FullDocumentDiagnosticReport/*TOpt*/ *FullDocumentDiagnosticReport
+	UnchangedDocumentDiagnosticReport/*TOpt*/ *UnchangedDocumentDiagnosticReport
+}
+
+func (it *FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport) MarshalJSON() ([]byte, error) {
+	if !isNone(it.FullDocumentDiagnosticReport) {
+		return json.Marshal(it.FullDocumentDiagnosticReport)
+	}
+	if !isNone(it.UnchangedDocumentDiagnosticReport) {
+		return json.Marshal(it.UnchangedDocumentDiagnosticReport)
+	}
+
+	return []byte("null"), nil
+}
+func (it *FullDocumentDiagnosticReportOrUnchangedDocumentDiagnosticReport) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *FullDocumentDiagnosticReport
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.FullDocumentDiagnosticReport = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ *UnchangedDocumentDiagnosticReport
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.UnchangedDocumentDiagnosticReport = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type BooleanOrDocumentColorOptionsOrDocumentColorRegistrationOptions struct {
+	Boolean/*TOpt*/ *Boolean
+	DocumentColorOptions/*TOpt*/ *DocumentColorOptions
+	DocumentColorRegistrationOptions/*TOpt*/ *DocumentColorRegistrationOptions
+}
+
+func (it *BooleanOrDocumentColorOptionsOrDocumentColorRegistrationOptions) MarshalJSON() ([]byte, error) {
+	if !isNone(it.Boolean) {
+		return json.Marshal(it.Boolean)
+	}
+	if !isNone(it.DocumentColorOptions) {
+		return json.Marshal(it.DocumentColorOptions)
+	}
+	if !isNone(it.DocumentColorRegistrationOptions) {
+		return json.Marshal(it.DocumentColorRegistrationOptions)
+	}
+
+	return []byte("null"), nil
+}
+func (it *BooleanOrDocumentColorOptionsOrDocumentColorRegistrationOptions) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *Boolean
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.Boolean = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ *DocumentColorOptions
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.DocumentColorOptions = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ *DocumentColorRegistrationOptions
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.DocumentColorRegistrationOptions = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type BooleanOrDocumentRangeFormattingOptions struct {
+	Boolean/*TOpt*/ *Boolean
+	DocumentRangeFormattingOptions/*TOpt*/ *DocumentRangeFormattingOptions
+}
+
+func (it *BooleanOrDocumentRangeFormattingOptions) MarshalJSON() ([]byte, error) {
+	if !isNone(it.Boolean) {
+		return json.Marshal(it.Boolean)
+	}
+	if !isNone(it.DocumentRangeFormattingOptions) {
+		return json.Marshal(it.DocumentRangeFormattingOptions)
+	}
+
+	return []byte("null"), nil
+}
+func (it *BooleanOrDocumentRangeFormattingOptions) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *Boolean
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.Boolean = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ *DocumentRangeFormattingOptions
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.DocumentRangeFormattingOptions = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type WorkspaceFolderOrURI struct {
+	WorkspaceFolder/*TOpt*/ *WorkspaceFolder
+	URI/*TOpt*/ *URI
+}
+
+func (it *WorkspaceFolderOrURI) MarshalJSON() ([]byte, error) {
+	if !isNone(it.WorkspaceFolder) {
+		return json.Marshal(it.WorkspaceFolder)
+	}
+	if !isNone(it.URI) {
+		return json.Marshal(it.URI)
+	}
+
+	return []byte("null"), nil
+}
+func (it *WorkspaceFolderOrURI) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *WorkspaceFolder
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.WorkspaceFolder = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ *URI
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.URI = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type PatternOrRelativePattern struct {
+	Pattern/*TOpt*/ *String
+	RelativePattern/*TOpt*/ *RelativePattern
+}
+
+func (it *PatternOrRelativePattern) MarshalJSON() ([]byte, error) {
+	if !isNone(it.Pattern) {
+		return json.Marshal(it.Pattern)
+	}
+	if !isNone(it.RelativePattern) {
+		return json.Marshal(it.RelativePattern)
+	}
+
+	return []byte("null"), nil
+}
+func (it *PatternOrRelativePattern) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *String
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.Pattern = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ *RelativePattern
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.RelativePattern = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type TextDocumentEditOrCreateFileOrRenameFileOrDeleteFile struct {
+	TextDocumentEdit/*TOpt*/ *TextDocumentEdit
+	CreateFile/*TOpt*/ *CreateFile
+	RenameFile/*TOpt*/ *RenameFile
+	DeleteFile/*TOpt*/ *DeleteFile
+}
+
+func (it *TextDocumentEditOrCreateFileOrRenameFileOrDeleteFile) MarshalJSON() ([]byte, error) {
+	if !isNone(it.TextDocumentEdit) {
+		return json.Marshal(it.TextDocumentEdit)
+	}
+	if !isNone(it.CreateFile) {
+		return json.Marshal(it.CreateFile)
+	}
+	if !isNone(it.RenameFile) {
+		return json.Marshal(it.RenameFile)
+	}
+	if !isNone(it.DeleteFile) {
+		return json.Marshal(it.DeleteFile)
+	}
+
+	return []byte("null"), nil
+}
+func (it *TextDocumentEditOrCreateFileOrRenameFileOrDeleteFile) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *TextDocumentEdit
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.TextDocumentEdit = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ *CreateFile
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.CreateFile = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ *RenameFile
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.RenameFile = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ *DeleteFile
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.DeleteFile = tmp
 			return nil
 		}
 	}
@@ -2600,22 +2202,22 @@ func (it *TextDocumentSyncOptionsOrTextDocumentSyncKind) UnmarshalJSON(jsonBytes
 }
 
 /*TOr*/
-type BooleanOrReferenceOptions struct {
+type BooleanOrDefinitionOptions struct {
 	Boolean/*TOpt*/ *Boolean
-	ReferenceOptions/*TOpt*/ *ReferenceOptions
+	DefinitionOptions/*TOpt*/ *DefinitionOptions
 }
 
-func (it *BooleanOrReferenceOptions) MarshalJSON() ([]byte, error) {
+func (it *BooleanOrDefinitionOptions) MarshalJSON() ([]byte, error) {
 	if !isNone(it.Boolean) {
 		return json.Marshal(it.Boolean)
 	}
-	if !isNone(it.ReferenceOptions) {
-		return json.Marshal(it.ReferenceOptions)
+	if !isNone(it.DefinitionOptions) {
+		return json.Marshal(it.DefinitionOptions)
 	}
 
 	return []byte("null"), nil
 }
-func (it *BooleanOrReferenceOptions) UnmarshalJSON(jsonBytes []byte) error {
+func (it *BooleanOrDefinitionOptions) UnmarshalJSON(jsonBytes []byte) error {
 	if bytes.Equal(jsonBytes, []byte("null")) {
 		return nil
 	}
@@ -2628,10 +2230,366 @@ func (it *BooleanOrReferenceOptions) UnmarshalJSON(jsonBytes []byte) error {
 		}
 	}
 	{
-		var tmp /*TOpt*/ *ReferenceOptions
+		var tmp /*TOpt*/ *DefinitionOptions
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.ReferenceOptions = tmp
+			it.DefinitionOptions = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type BooleanOrCodeActionOptions struct {
+	Boolean/*TOpt*/ *Boolean
+	CodeActionOptions/*TOpt*/ *CodeActionOptions
+}
+
+func (it *BooleanOrCodeActionOptions) MarshalJSON() ([]byte, error) {
+	if !isNone(it.Boolean) {
+		return json.Marshal(it.Boolean)
+	}
+	if !isNone(it.CodeActionOptions) {
+		return json.Marshal(it.CodeActionOptions)
+	}
+
+	return []byte("null"), nil
+}
+func (it *BooleanOrCodeActionOptions) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *Boolean
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.Boolean = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ *CodeActionOptions
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.CodeActionOptions = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type RangeOrRangeWithPlaceholderStringOrDefaultBehaviorBoolean struct {
+	Range/*TOpt*/ *Range
+	RangeWithPlaceholderString/*TOpt*/ * /*TStruc*/ struct {
+		Range Range `json:"range,omitempty"`
+
+		Placeholder string `json:"placeholder,omitempty"`
+	}
+	DefaultBehaviorBoolean/*TOpt*/ * /*TStruc*/ struct {
+		DefaultBehavior bool `json:"defaultBehavior,omitempty"`
+	}
+}
+
+func (it *RangeOrRangeWithPlaceholderStringOrDefaultBehaviorBoolean) MarshalJSON() ([]byte, error) {
+	if !isNone(it.Range) {
+		return json.Marshal(it.Range)
+	}
+	if !isNone(it.RangeWithPlaceholderString) {
+		return json.Marshal(it.RangeWithPlaceholderString)
+	}
+	if !isNone(it.DefaultBehaviorBoolean) {
+		return json.Marshal(it.DefaultBehaviorBoolean)
+	}
+
+	return []byte("null"), nil
+}
+func (it *RangeOrRangeWithPlaceholderStringOrDefaultBehaviorBoolean) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *Range
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.Range = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ * /*TStruc*/ struct {
+			Range Range `json:"range,omitempty"`
+
+			Placeholder string `json:"placeholder,omitempty"`
+		}
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.RangeWithPlaceholderString = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ * /*TStruc*/ struct {
+			DefaultBehavior bool `json:"defaultBehavior,omitempty"`
+		}
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.DefaultBehaviorBoolean = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type BooleanOrDeltaBoolean struct {
+	Boolean/*TOpt*/ *Boolean
+	DeltaBoolean/*TOpt*/ * /*TStruc*/ struct {
+
+		// The server supports deltas for full documents.
+		Delta /*TOpt*/ *Boolean `json:"delta,omitempty"`
+	}
+}
+
+func (it *BooleanOrDeltaBoolean) MarshalJSON() ([]byte, error) {
+	if !isNone(it.Boolean) {
+		return json.Marshal(it.Boolean)
+	}
+	if !isNone(it.DeltaBoolean) {
+		return json.Marshal(it.DeltaBoolean)
+	}
+
+	return []byte("null"), nil
+}
+func (it *BooleanOrDeltaBoolean) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *Boolean
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.Boolean = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ * /*TStruc*/ struct {
+
+			// The server supports deltas for full documents.
+			Delta /*TOpt*/ *Boolean `json:"delta,omitempty"`
+		}
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.DeltaBoolean = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type BooleanOrSaveOptions struct {
+	Boolean/*TOpt*/ *Boolean
+	SaveOptions/*TOpt*/ *SaveOptions
+}
+
+func (it *BooleanOrSaveOptions) MarshalJSON() ([]byte, error) {
+	if !isNone(it.Boolean) {
+		return json.Marshal(it.Boolean)
+	}
+	if !isNone(it.SaveOptions) {
+		return json.Marshal(it.SaveOptions)
+	}
+
+	return []byte("null"), nil
+}
+func (it *BooleanOrSaveOptions) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *Boolean
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.Boolean = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ *SaveOptions
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.SaveOptions = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type StringOrNotebookDocumentFilter struct {
+	String/*TOpt*/ *String
+	NotebookDocumentFilter/*TOpt*/ *NotebookDocumentFilter
+}
+
+func (it *StringOrNotebookDocumentFilter) MarshalJSON() ([]byte, error) {
+	if !isNone(it.String) {
+		return json.Marshal(it.String)
+	}
+	if !isNone(it.NotebookDocumentFilter) {
+		return json.Marshal(it.NotebookDocumentFilter)
+	}
+
+	return []byte("null"), nil
+}
+func (it *StringOrNotebookDocumentFilter) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *String
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.String = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ *NotebookDocumentFilter
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.NotebookDocumentFilter = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type StringOrStrings struct {
+	String/*TOpt*/ *String
+	Strings/*TOpt*/ []string
+}
+
+func (it *StringOrStrings) MarshalJSON() ([]byte, error) {
+	if !isNone(it.String) {
+		return json.Marshal(it.String)
+	}
+	if !isNone(it.Strings) {
+		return json.Marshal(it.Strings)
+	}
+
+	return []byte("null"), nil
+}
+func (it *StringOrStrings) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *String
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.String = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ []string
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.Strings = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type LocationOrUriDocumentUri struct {
+	Location/*TOpt*/ *Location
+	UriDocumentUri/*TOpt*/ * /*TStruc*/ struct {
+		Uri DocumentURI `json:"uri,omitempty"`
+	}
+}
+
+func (it *LocationOrUriDocumentUri) MarshalJSON() ([]byte, error) {
+	if !isNone(it.Location) {
+		return json.Marshal(it.Location)
+	}
+	if !isNone(it.UriDocumentUri) {
+		return json.Marshal(it.UriDocumentUri)
+	}
+
+	return []byte("null"), nil
+}
+func (it *LocationOrUriDocumentUri) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *Location
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.Location = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ * /*TStruc*/ struct {
+			Uri DocumentURI `json:"uri,omitempty"`
+		}
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.UriDocumentUri = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type BooleanOrDocumentFormattingOptions struct {
+	Boolean/*TOpt*/ *Boolean
+	DocumentFormattingOptions/*TOpt*/ *DocumentFormattingOptions
+}
+
+func (it *BooleanOrDocumentFormattingOptions) MarshalJSON() ([]byte, error) {
+	if !isNone(it.Boolean) {
+		return json.Marshal(it.Boolean)
+	}
+	if !isNone(it.DocumentFormattingOptions) {
+		return json.Marshal(it.DocumentFormattingOptions)
+	}
+
+	return []byte("null"), nil
+}
+func (it *BooleanOrDocumentFormattingOptions) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *Boolean
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.Boolean = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ *DocumentFormattingOptions
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.DocumentFormattingOptions = tmp
 			return nil
 		}
 	}
@@ -2692,27 +2650,66 @@ func (it *BooleanOrCallHierarchyOptionsOrCallHierarchyRegistrationOptions) Unmar
 }
 
 /*TOr*/
-type BooleanOrDeltaBoolean_ struct {
-	Boolean/*TOpt*/ *Boolean
-	DeltaBoolean/*TOpt*/ * /*TStruc*/ struct {
-
-		// The client will send the `textDocument/semanticTokens/full/delta` request if
-		// the server provides a corresponding handler.
-		Delta /*TOpt*/ *Boolean `json:"delta,omitempty"`
-	}
+type TextEditOrAnnotatedTextEdit struct {
+	TextEdit/*TOpt*/ *TextEdit
+	AnnotatedTextEdit/*TOpt*/ *AnnotatedTextEdit
 }
 
-func (it *BooleanOrDeltaBoolean_) MarshalJSON() ([]byte, error) {
-	if !isNone(it.Boolean) {
-		return json.Marshal(it.Boolean)
+func (it *TextEditOrAnnotatedTextEdit) MarshalJSON() ([]byte, error) {
+	if !isNone(it.TextEdit) {
+		return json.Marshal(it.TextEdit)
 	}
-	if !isNone(it.DeltaBoolean) {
-		return json.Marshal(it.DeltaBoolean)
+	if !isNone(it.AnnotatedTextEdit) {
+		return json.Marshal(it.AnnotatedTextEdit)
 	}
 
 	return []byte("null"), nil
 }
-func (it *BooleanOrDeltaBoolean_) UnmarshalJSON(jsonBytes []byte) error {
+func (it *TextEditOrAnnotatedTextEdit) UnmarshalJSON(jsonBytes []byte) error {
+	if bytes.Equal(jsonBytes, []byte("null")) {
+		return nil
+	}
+	{
+		var tmp /*TOpt*/ *TextEdit
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.TextEdit = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ *AnnotatedTextEdit
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.AnnotatedTextEdit = tmp
+			return nil
+		}
+	}
+
+	return nil
+}
+
+/*TOr*/
+type BooleanOrInlayHintOptionsOrInlayHintRegistrationOptions struct {
+	Boolean/*TOpt*/ *Boolean
+	InlayHintOptions/*TOpt*/ *InlayHintOptions
+	InlayHintRegistrationOptions/*TOpt*/ *InlayHintRegistrationOptions
+}
+
+func (it *BooleanOrInlayHintOptionsOrInlayHintRegistrationOptions) MarshalJSON() ([]byte, error) {
+	if !isNone(it.Boolean) {
+		return json.Marshal(it.Boolean)
+	}
+	if !isNone(it.InlayHintOptions) {
+		return json.Marshal(it.InlayHintOptions)
+	}
+	if !isNone(it.InlayHintRegistrationOptions) {
+		return json.Marshal(it.InlayHintRegistrationOptions)
+	}
+
+	return []byte("null"), nil
+}
+func (it *BooleanOrInlayHintOptionsOrInlayHintRegistrationOptions) UnmarshalJSON(jsonBytes []byte) error {
 	if bytes.Equal(jsonBytes, []byte("null")) {
 		return nil
 	}
@@ -2725,15 +2722,18 @@ func (it *BooleanOrDeltaBoolean_) UnmarshalJSON(jsonBytes []byte) error {
 		}
 	}
 	{
-		var tmp /*TOpt*/ * /*TStruc*/ struct {
-
-			// The client will send the `textDocument/semanticTokens/full/delta` request if
-			// the server provides a corresponding handler.
-			Delta /*TOpt*/ *Boolean `json:"delta,omitempty"`
-		}
+		var tmp /*TOpt*/ *InlayHintOptions
 		err := json.Unmarshal(jsonBytes, &tmp)
 		if err == nil && !isNone(tmp) {
-			it.DeltaBoolean = tmp
+			it.InlayHintOptions = tmp
+			return nil
+		}
+	}
+	{
+		var tmp /*TOpt*/ *InlayHintRegistrationOptions
+		err := json.Unmarshal(jsonBytes, &tmp)
+		if err == nil && !isNone(tmp) {
+			it.InlayHintRegistrationOptions = tmp
 			return nil
 		}
 	}
@@ -2912,7 +2912,7 @@ func iIf[T any](chk bool, ifTrue T, ifFalse T) T {
 type clientServerBase struct {
 	stdioLock sync.Mutex // to sync writes to stdout
 	stdout    *bufio.Writer
-	waiters   map[string]func(any)
+	waiters   map[any]func(any)
 
 	LogPrefixSendRecvJsons string
 
@@ -2969,7 +2969,7 @@ func (it *clientServerBase) forever(in io.Reader, out io.Writer, handleIncoming 
 	const buf_cap = 1024 * 1024
 
 	it.stdout = bufio.NewWriterSize(out, buf_cap)
-	it.waiters = map[string]func(any){}
+	it.waiters = map[any]func(any){}
 
 	stdin := bufio.NewScanner(in)
 	stdin.Buffer(make([]byte, buf_cap), buf_cap)
@@ -3009,7 +3009,13 @@ func (it *clientServerBase) forever(in io.Reader, out io.Writer, handleIncoming 
 			it.stdioLock.Unlock()
 			continue
 		}
-		it.sendErrMsg(handleIncoming(raw))
+		if msg_id := raw["id"]; raw["method"] == nil { // received a Response message
+			handler := it.waiters[msg_id]
+			delete(it.waiters, msg_id)
+			go handler(raw["result"])
+		} else {
+			it.sendErrMsg(handleIncoming(raw))
+		}
 	}
 	return stdin.Err()
 }
@@ -3031,13 +3037,9 @@ func clientServerOnResp[T any](it *clientServerBase, onResp func(*T)) func(any) 
 	}
 }
 
-func clientServerHandleIncoming[T any](it *clientServerBase, handler func(*T) (any, error), msgMethodName string, msgIdMaybe any, msgParams any) {
-	var req_id string
-	if msgIdMaybe != nil {
-		req_id = fmt.Sprintf("%v", msgIdMaybe)
-	}
+func clientServerHandleIncoming[T any](it *clientServerBase, handler func(*T) (any, error), msgMethodName string, msgId any, msgParams any) {
 	if handler == nil {
-		if req_id != "" {
+		if msgId != nil {
 			it.sendErrMsg(errors.New("unimplemented: " + msgMethodName))
 		}
 		return
@@ -3058,17 +3060,17 @@ func clientServerHandleIncoming[T any](it *clientServerBase, handler func(*T) (a
 		resp := map[string]any{
 			"jsonrpc": "2.0",
 			"result":  result,
-			"id":      req_id,
+			"id":      msgId,
 		}
 		if err != nil {
-			if msgIdMaybe != nil {
+			if msgId != nil {
 				resp["error"] = &jsonRpcError{Code: int(ErrorCodesInternalError), Message: fmt.Sprintf("%v", err)}
 			} else {
 				it.sendErrMsg(err)
 				return
 			}
 		}
-		if msgIdMaybe != nil {
+		if msgId != nil {
 			it.sendMsg(resp)
 		}
 	}(&params)
