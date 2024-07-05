@@ -7,7 +7,7 @@ import (
 	"os"
 	"strconv"
 
-	_ "lsp"
+	_ "github.com/metaleap/polyglot-lsp/lang_go/lsp_v3.17"
 )
 
 func main() {

@@ -1,5 +1,5 @@
 // Language Server Protocol (LSP) v3.17 SDK for Go: auto-generated via github.com/metaleap/polyglot-lsp/gen/cmd/gen_lsp
-package lsp
+package lsp_v3_17
 
 import (
 	"fmt"

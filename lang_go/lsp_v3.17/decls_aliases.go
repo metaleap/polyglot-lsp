@@ -1,5 +1,5 @@
 // Language Server Protocol (LSP) v3.17 SDK for Go: auto-generated via github.com/metaleap/polyglot-lsp/gen/cmd/gen_lsp
-package lsp
+package lsp_v3_17
 
 // The definition of a symbol represented as one or many `Location`.
 // For most programming languages there is only one location at which a symbol is

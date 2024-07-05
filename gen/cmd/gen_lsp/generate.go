@@ -10,6 +10,7 @@ func generate(metaModel *MetaModel, ver string, lang string) {
 	gen := glot.Gen{LangIdent: lang, Main: glot.GenMain{
 		GenTitle: "Language Server Protocol (LSP)",
 		GenIdent: "lsp",
+		PkgName:  "lsp_v" + strings.ReplaceAll(ver, ".", "_"),
 		GenVer:   ver,
 		GenRepo:  "github.com/metaleap/polyglot-lsp/gen/cmd/gen_lsp",
 	}}
