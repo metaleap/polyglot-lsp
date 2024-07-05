@@ -385,49 +385,49 @@ type Server struct {
 
 // The show message notification is sent from a server to a client to ask
 // the client to display a particular message in the user interface.
-func (it *Server) Notify_window_showMessage(params *ShowMessageParams) {
+func (it *Server) Notify_window_showMessage(params ShowMessageParams) {
 	var on_resp func(any)
 	go it.send("window/showMessage", params, false, on_resp)
 }
 
 // The log message notification is sent from the server to the client to ask
 // the client to log a particular message.
-func (it *Server) Notify_window_logMessage(params *LogMessageParams) {
+func (it *Server) Notify_window_logMessage(params LogMessageParams) {
 	var on_resp func(any)
 	go it.send("window/logMessage", params, false, on_resp)
 }
 
 // The telemetry event notification is sent from the server to the client to ask
 // the client to log telemetry data.
-func (it *Server) Notify_telemetry_event(params *LSPAny) {
+func (it *Server) Notify_telemetry_event(params LSPAny) {
 	var on_resp func(any)
 	go it.send("telemetry/event", params, false, on_resp)
 }
 
 // Diagnostics notification are sent from the server to the client to signal
 // results of validation runs.
-func (it *Server) Notify_textDocument_publishDiagnostics(params *PublishDiagnosticsParams) {
+func (it *Server) Notify_textDocument_publishDiagnostics(params PublishDiagnosticsParams) {
 	var on_resp func(any)
 	go it.send("textDocument/publishDiagnostics", params, false, on_resp)
 }
 
-func (it *Server) Notify___logTrace(params *LogTraceParams) {
+func (it *Server) Notify___logTrace(params LogTraceParams) {
 	var on_resp func(any)
 	go it.send("$/logTrace", params, false, on_resp)
 }
 
-func (it *Server) Notify___cancelRequest(params *CancelParams) {
+func (it *Server) Notify___cancelRequest(params CancelParams) {
 	var on_resp func(any)
 	go it.send("$/cancelRequest", params, false, on_resp)
 }
 
-func (it *Server) Notify___progress(params *ProgressParams) {
+func (it *Server) Notify___progress(params ProgressParams) {
 	var on_resp func(any)
 	go it.send("$/progress", params, false, on_resp)
 }
 
 // The `workspace/workspaceFolders` is sent from the server to the client to fetch the open workspace folders.
-func (it *Server) Request_workspace_workspaceFolders(params *Void, onResp func(** /*TOr*/ /*TOpt*/ []WorkspaceFolder)) {
+func (it *Server) Request_workspace_workspaceFolders(params Void, onResp func(* /*TOr*/ []WorkspaceFolder)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("workspace/workspaceFolders", params, true, on_resp)
 }
@@ -439,20 +439,20 @@ func (it *Server) Request_workspace_workspaceFolders(params *Void, onResp func(*
 // event. If the server still needs to react to configuration changes (since the server caches the
 // result of `workspace/configuration` requests) the server should register for an empty configuration
 // change event and empty the cache if such an event is received.
-func (it *Server) Request_workspace_configuration(params *ConfigurationParams, onResp func(*[]LSPAny)) {
+func (it *Server) Request_workspace_configuration(params ConfigurationParams, onResp func([]LSPAny)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("workspace/configuration", params, true, on_resp)
 }
 
 // The `window/workDoneProgress/create` request is sent from the server to the client to initiate progress
 // reporting from the server.
-func (it *Server) Request_window_workDoneProgress_create(params *WorkDoneProgressCreateParams, onResp func(*Void)) {
+func (it *Server) Request_window_workDoneProgress_create(params WorkDoneProgressCreateParams, onResp func(Void)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("window/workDoneProgress/create", params, true, on_resp)
 }
 
 // @since 3.16.0
-func (it *Server) Request_workspace_semanticTokens_refresh(params *Void, onResp func(*Void)) {
+func (it *Server) Request_workspace_semanticTokens_refresh(params Void, onResp func(Void)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("workspace/semanticTokens/refresh", params, true, on_resp)
 }
@@ -463,19 +463,19 @@ func (it *Server) Request_workspace_semanticTokens_refresh(params *Void, onResp 
 // will very likely open the URI in a WEB browser.
 //
 // @since 3.16.0
-func (it *Server) Request_window_showDocument(params *ShowDocumentParams, onResp func(*ShowDocumentResult)) {
+func (it *Server) Request_window_showDocument(params ShowDocumentParams, onResp func(ShowDocumentResult)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("window/showDocument", params, true, on_resp)
 }
 
 // @since 3.17.0
-func (it *Server) Request_workspace_inlineValue_refresh(params *Void, onResp func(*Void)) {
+func (it *Server) Request_workspace_inlineValue_refresh(params Void, onResp func(Void)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("workspace/inlineValue/refresh", params, true, on_resp)
 }
 
 // @since 3.17.0
-func (it *Server) Request_workspace_inlayHint_refresh(params *Void, onResp func(*Void)) {
+func (it *Server) Request_workspace_inlayHint_refresh(params Void, onResp func(Void)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("workspace/inlayHint/refresh", params, true, on_resp)
 }
@@ -483,28 +483,28 @@ func (it *Server) Request_workspace_inlayHint_refresh(params *Void, onResp func(
 // The diagnostic refresh request definition.
 //
 // @since 3.17.0
-func (it *Server) Request_workspace_diagnostic_refresh(params *Void, onResp func(*Void)) {
+func (it *Server) Request_workspace_diagnostic_refresh(params Void, onResp func(Void)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("workspace/diagnostic/refresh", params, true, on_resp)
 }
 
 // The `client/registerCapability` request is sent from the server to the client to register a new capability
 // handler on the client side.
-func (it *Server) Request_client_registerCapability(params *RegistrationParams, onResp func(*Void)) {
+func (it *Server) Request_client_registerCapability(params RegistrationParams, onResp func(Void)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("client/registerCapability", params, true, on_resp)
 }
 
 // The `client/unregisterCapability` request is sent from the server to the client to unregister a previously registered capability
 // handler on the client side.
-func (it *Server) Request_client_unregisterCapability(params *UnregistrationParams, onResp func(*Void)) {
+func (it *Server) Request_client_unregisterCapability(params UnregistrationParams, onResp func(Void)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("client/unregisterCapability", params, true, on_resp)
 }
 
 // The show message request is sent from the server to the client to show a message
 // and a set of options actions to the user.
-func (it *Server) Request_window_showMessageRequest(params *ShowMessageRequestParams, onResp func(** /*TOr*/ /*TOpt*/ *MessageActionItem)) {
+func (it *Server) Request_window_showMessageRequest(params ShowMessageRequestParams, onResp func(* /*TOr*/ /*TOpt*/ *MessageActionItem)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("window/showMessageRequest", params, true, on_resp)
 }
@@ -512,13 +512,13 @@ func (it *Server) Request_window_showMessageRequest(params *ShowMessageRequestPa
 // A request to refresh all code actions
 //
 // @since 3.16.0
-func (it *Server) Request_workspace_codeLens_refresh(params *Void, onResp func(*Void)) {
+func (it *Server) Request_workspace_codeLens_refresh(params Void, onResp func(Void)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("workspace/codeLens/refresh", params, true, on_resp)
 }
 
 // A request sent from the server to the client to modified certain resources.
-func (it *Server) Request_workspace_applyEdit(params *ApplyWorkspaceEditParams, onResp func(*ApplyWorkspaceEditResult)) {
+func (it *Server) Request_workspace_applyEdit(params ApplyWorkspaceEditParams, onResp func(ApplyWorkspaceEditResult)) {
 	var on_resp func(any) = clientServerOnResp(&it.clientServerBase, onResp)
 	go it.send("workspace/applyEdit", params, true, on_resp)
 }
@@ -799,14 +799,14 @@ func (it *Server) Forever() error {
 		}
 		it.On_initialized = func(params *InitializedParams) (any, error) {
 			if it.On_workspace_didChangeWatchedFiles != nil {
-				it.Request_client_registerCapability(&RegistrationParams{
+				it.Request_client_registerCapability(RegistrationParams{
 					Registrations: []Registration{
 						{Method: "workspace/didChangeWatchedFiles", Id: "workspace/didChangeWatchedFiles",
 							RegisterOptions: DidChangeWatchedFilesRegistrationOptions{Watchers: []FileSystemWatcher{
 								{Kind: WatchKindChange | WatchKindCreate | WatchKindDelete,
 									GlobPattern: GlobPattern(&PatternOrRelativePattern{Pattern: ptr(String("**/*"))})}}}},
 					},
-				}, func(*Void) {})
+				}, func(Void) {})
 			}
 			if old_initialized != nil {
 				return old_initialized(params)

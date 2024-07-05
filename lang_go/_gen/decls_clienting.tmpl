@@ -24,7 +24,7 @@ type Client struct {
 {{- range $msg.DocLines }}
 // {{ . }}
 {{- end }}
-func (it *Client) {{if $msg.IsReq}}Request{{else}}Notify{{end}}_{{ $msg.MethodNameSafe }} (params *{{ $msg.UnaryParamsTypeName }}{{if $msg.IsReq}}, onResp func(*{{- if $msg.IsReq -}}{{- $main.DoType $msg.ResultType -}}{{- end -}}){{end}}) {
+func (it *Client) {{if $msg.IsReq}}Request{{else}}Notify{{end}}_{{ $msg.MethodNameSafe }} (params *{{ $msg.UnaryParamsTypeName }}{{if $msg.IsReq}}, onResp func({{- $main.DoType $msg.ResultType -}}){{end}}) {
 	var on_resp func(any){{- if $msg.IsReq -}} = clientServerOnResp(&it.clientServerBase, onResp){{- end }}
 	go it.send("{{$msg.Method}}", params, {{ $msg.IsReq }}, on_resp)
 }

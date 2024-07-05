@@ -3,7 +3,12 @@
 {{- $member_types := $bag.Type.NonNull -}}
 
 {{- if eq (len $member_types) 1 -}}
-/*TOr*/{{ $bag.Main.DoTypeOptional (index $member_types 0) true }}
+/*TOr*/{{ $bag.Main.DoTypeOptional
+			(index $member_types 0)
+			(not (or	($bag.Main.IsEnumTypeName (printf "%s" (index $member_types 0)))
+						($bag.Main.IsTypeKindOfArray (index $member_types 0))
+						($bag.Main.IsTypeKindOfMap (index $member_types 0))
+						($bag.Main.IsTypeKindOfOr (index $member_types 0)))) }}
 {{- else -}}
 /*TOr*/type {{ $ident }} struct {
 {{- range $member_types -}}

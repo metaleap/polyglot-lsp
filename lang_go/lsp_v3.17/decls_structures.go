@@ -122,7 +122,7 @@ type TextDocumentRegistrationOptions struct {
 
 	// A document selector to identify the scope of the registration. If set to null
 	// the document selector provided on the client side will be used.
-	DocumentSelector /*TOpt*/ * /*TOr*/ /*TOpt*/ DocumentSelector `json:"documentSelector,omitempty"`
+	DocumentSelector /*TOpt*/ * /*TOr*/ DocumentSelector `json:"documentSelector,omitempty"`
 }
 
 // Parameters for a `FoldingRangeRequest`.
@@ -2764,7 +2764,7 @@ type WorkspaceFoldersInitializeParams struct {
 	// configured.
 	//
 	// @since 3.6.0
-	WorkspaceFolders /*TOpt*/ * /*TOr*/ /*TOpt*/ []WorkspaceFolder `json:"workspaceFolders,omitempty"`
+	WorkspaceFolders /*TOpt*/ * /*TOr*/ []WorkspaceFolder `json:"workspaceFolders,omitempty"`
 }
 
 // Defines the capabilities provided by a language

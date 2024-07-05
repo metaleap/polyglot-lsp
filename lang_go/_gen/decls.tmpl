@@ -273,12 +273,12 @@ func (it *clientServerBase) forever(in io.Reader, out io.Writer, handleIncoming 
 	return stdin.Err()
 }
 
-func clientServerOnResp[T any] (it *clientServerBase, onResp func(*T)) func(any) {
+func clientServerOnResp[T any] (it *clientServerBase, onResp func(T)) func(any) {
 	if onResp == nil {
 		return nil
 	}
 	return func(resultAsMap any) {
-		var result T
+		var result, none T
 		if resultAsMap != nil {
 			json_bytes, _ := json.Marshal(resultAsMap)
 			if err := json.Unmarshal(json_bytes, &result); err != nil {
@@ -286,7 +286,7 @@ func clientServerOnResp[T any] (it *clientServerBase, onResp func(*T)) func(any)
 				return
 			}
 		}
-		onResp(iIf(resultAsMap == nil, nil, &result))
+		onResp(iIf(resultAsMap == nil, none, result))
 	}
 }
 
