@@ -165,7 +165,7 @@ func iIf[T any](chk bool, ifTrue T, ifFalse T) T {
 
 type clientServerBase struct {
 	stdioLock sync.Mutex // to sync writes to stdout
-	stdout *bufio.Writer
+	stdout io.Writer
 	waiters map[any]func(any)
 
 	LogPrefixSendRecvJsons string
@@ -187,7 +187,7 @@ func (it *clientServerBase) sendErrMsg(err any) {
 		if is_json_rpc_err_msg {
 			return
 		}
-		json_rpc_err_msg = &jsonRpcError{ Code: int(ErrorCodesInternalError), Message: fmt.Sprintf("%#v", err) }
+		json_rpc_err_msg = &jsonRpcError{ Code: int(ErrorCodesInternalError), Message: fmt.Sprintf("%v", err) }
 	}
 	it.sendMsg(json_rpc_err_msg)
 }
@@ -199,9 +199,9 @@ func (it *clientServerBase) sendMsg(jsonable any) {
 	if it.LogPrefixSendRecvJsons != "" {
 		println(it.LogPrefixSendRecvJsons + ".SEND>>" + string(json_bytes) + ">>")
 	}
-	_, _ = it.stdout.WriteString("Content-Length: ")
-	_, _ = it.stdout.WriteString(strconv.Itoa(len(json_bytes)))
-	_, _ = it.stdout.WriteString("\r\n\r\n")
+	_, _ = it.stdout.Write([]byte("Content-Length: "))
+	_, _ = it.stdout.Write([]byte(strconv.Itoa(len(json_bytes))))
+	_, _ = it.stdout.Write([]byte("\r\n\r\n"))
 	_, _ = it.stdout.Write(json_bytes)
 }
 
@@ -222,11 +222,10 @@ func (it *clientServerBase) send(methodName string, params any, isReq bool, onRe
 func (it *clientServerBase) forever(in io.Reader, out io.Writer, handleIncoming func(map[string]any) *jsonRpcError) error {
 	const buf_cap = 1024 * 1024
 
-	it.stdout = bufio.NewWriterSize(out, buf_cap)
+	it.stdout = out
 	it.waiters = map[any]func(any){}
 
 	stdin := bufio.NewScanner(in)
-	stdin.Buffer(make([]byte, buf_cap), buf_cap)
 	stdin.Split(func(data []byte, ateof bool) (advance int, token []byte, err error) {
 		if i_cl1 := bytes.Index(data, []byte("Content-Length: ")); i_cl1 >= 0 {
 			datafromclen := data[i_cl1+16:]

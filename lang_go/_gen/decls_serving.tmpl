@@ -77,9 +77,11 @@ func (it *Server) handleIncoming(raw map[string]any) *jsonRpcError {
 			if it.On_textDocument_codeLens != nil {
 				caps.CodeLensProvider = &CodeLensOptions{}
 			}
-			caps.RenameProvider.RenameOptions = iIf(it.On_textDocument_rename == nil, nil, &RenameOptions{
-				PrepareProvider: ptr(Boolean(it.On_textDocument_prepareRename != nil)),
-			})
+			if it.On_textDocument_rename != nil {
+				caps.RenameProvider = &BooleanOrRenameOptions{RenameOptions: &RenameOptions{
+					PrepareProvider: ptr(Boolean(it.On_textDocument_prepareRename != nil)),
+				}}
+			}
 			if it.On_workspace_executeCommand != nil {
 				caps.ExecuteCommandProvider = &ExecuteCommandOptions{Commands: it.Lang.Commands}
 			}
@@ -134,16 +136,18 @@ func (it *Server) handleIncoming(raw map[string]any) *jsonRpcError {
 			if it.On_workspace_symbol != nil {
 				caps.WorkspaceSymbolProvider = &BooleanOrWorkspaceSymbolOptions{Boolean: ptr(Boolean(true))}
 			}
-			caps.Workspace = &struct {
-				WorkspaceFolders *WorkspaceFoldersServerCapabilities `json:"workspaceFolders,omitempty"`
-				FileOperations   *FileOperationOptions               `json:"fileOperations,omitempty"`
-			}{
-				WorkspaceFolders: &WorkspaceFoldersServerCapabilities{
-					Supported: ptr(Boolean(it.On_workspace_didChangeWorkspaceFolders != nil)),
-					ChangeNotifications: &StringOrBoolean{
-						Boolean: ptr(Boolean(it.On_workspace_didChangeWorkspaceFolders != nil)),
+			if it.On_workspace_didChangeWorkspaceFolders != nil {
+				caps.Workspace = &struct {
+					WorkspaceFolders *WorkspaceFoldersServerCapabilities `json:"workspaceFolders,omitempty"`
+					FileOperations   *FileOperationOptions               `json:"fileOperations,omitempty"`
+				}{
+					WorkspaceFolders: &WorkspaceFoldersServerCapabilities{
+						Supported: ptr(Boolean(it.On_workspace_didChangeWorkspaceFolders != nil)),
+						ChangeNotifications: &StringOrBoolean{
+							Boolean: ptr(Boolean(it.On_workspace_didChangeWorkspaceFolders != nil)),
+						},
 					},
-				},
+				}
 			}
 
 			return init.Server, nil
