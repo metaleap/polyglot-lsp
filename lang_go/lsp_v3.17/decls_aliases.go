@@ -150,13 +150,13 @@ type GlobPattern PatternOrRelativePattern
 type TextDocumentFilter /*TStruc*/ struct {
 
 	// A language id, like `typescript`.
-	Language/*TOpt*/ *String `json:"language"`
+	Language/*TOpt*/ *String `json:"language,omitempty"`
 
 	// A Uri `Uri.scheme`, like `file` or `untitled`.
-	Scheme/*TOpt*/ *String `json:"scheme"`
+	Scheme/*TOpt*/ *String `json:"scheme,omitempty"`
 
 	// A glob pattern, like **​/*.{ts,js}. See TextDocumentFilter for examples.
-	Pattern/*TOpt*/ *String `json:"pattern"`
+	Pattern/*TOpt*/ *String `json:"pattern,omitempty"`
 }
 
 // A notebook document filter denotes a notebook document by
@@ -167,13 +167,13 @@ type TextDocumentFilter /*TStruc*/ struct {
 type NotebookDocumentFilter /*TStruc*/ struct {
 
 	// The type of the enclosing notebook.
-	NotebookType/*TOpt*/ *String `json:"notebookType"`
+	NotebookType/*TOpt*/ *String `json:"notebookType,omitempty"`
 
 	// A Uri `Uri.scheme`, like `file` or `untitled`.
-	Scheme/*TOpt*/ *String `json:"scheme"`
+	Scheme/*TOpt*/ *String `json:"scheme,omitempty"`
 
 	// A glob pattern.
-	Pattern/*TOpt*/ *String `json:"pattern"`
+	Pattern/*TOpt*/ *String `json:"pattern,omitempty"`
 }
 
 // The glob pattern to watch relative to the base path. Glob patterns can have the following syntax:

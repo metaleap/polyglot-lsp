@@ -3,6 +3,6 @@
 /*TStruc*/struct {
 	{{ range $bag.Type.Properties }}
 	{{ .DoDocComments $bag.Main }}
-	{{ .NameUp }} {{ $bag.Main.DoTypeOptional .Type ($bag.Main.If .HasConstVal false .Optional) }} `json:"{{ .Name }}"`
+	{{ .NameUp }} {{ $bag.Main.DoTypeOptional .Type ($bag.Main.If .HasConstVal false .Optional) }} `json:"{{ .Name }},omitempty"`
 	{{ end }}
 }

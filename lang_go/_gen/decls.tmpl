@@ -310,6 +310,7 @@ func clientServerHandleIncoming[T any] (it *clientServerBase, handler func (*T) 
 		}
 		result, err := handler(params)
 		resp := map[string]any {
+			"jsonrpc": "2.0",
 			"result": result,
 			"id": req_id,
 		}

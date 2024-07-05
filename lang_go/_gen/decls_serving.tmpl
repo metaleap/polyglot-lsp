@@ -61,8 +61,8 @@ func (it *Server) handleIncoming(raw map[string]any) *jsonRpcError {
 			init.Client = params
 			init.Server = &InitializeResult{
 				ServerInfo: &struct {
-					Name    string  "json:\"name\""
-					Version *String "json:\"version\""
+					Name    string  `json:"name,omitempty"`
+					Version *String `json:"version,omitempty"`
 				}{Name: os.Args[0]},
 			}
 			caps := &init.Server.Capabilities
@@ -103,8 +103,8 @@ func (it *Server) handleIncoming(raw map[string]any) *jsonRpcError {
 			caps.InlayHintProvider.Boolean=ptr(Boolean(it.On_textDocument_inlayHint!=nil))
 			caps.WorkspaceSymbolProvider.Boolean = ptr(Boolean(it.On_workspace_symbol != nil))
 			caps.Workspace = &struct {
-				WorkspaceFolders *WorkspaceFoldersServerCapabilities "json:\"workspaceFolders\""
-				FileOperations   *FileOperationOptions               "json:\"fileOperations\""
+				WorkspaceFolders *WorkspaceFoldersServerCapabilities `json:"workspaceFolders,omitempty"`
+				FileOperations   *FileOperationOptions               `json:"fileOperations,omitempty"`
 			}{
 				WorkspaceFolders: &WorkspaceFoldersServerCapabilities{
 					Supported: ptr(Boolean(it.On_workspace_didChangeWorkspaceFolders != nil)),
