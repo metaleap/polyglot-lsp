@@ -182,9 +182,12 @@ func (it *clientServerBase) sendErrMsg(err any) {
 	if err == nil {
 		return
 	}
-	var json_rpc_err_msg *jsonRpcError
-	if json_rpc_err_msg, _ = err.(*jsonRpcError); json_rpc_err_msg == nil {
-		json_rpc_err_msg = &jsonRpcError{ Code: -32603, Message: fmt.Sprintf("%v", err) }
+	json_rpc_err_msg, is_json_rpc_err_msg := err.(*jsonRpcError)
+	if json_rpc_err_msg == nil {
+		if is_json_rpc_err_msg {
+			return
+		}
+		json_rpc_err_msg = &jsonRpcError{ Code: int(ErrorCodesInternalError), Message: fmt.Sprintf("%#v", err) }
 	}
 	it.sendMsg(json_rpc_err_msg)
 }
@@ -250,7 +253,7 @@ func (it *clientServerBase) forever(in io.Reader, out io.Writer, handleIncoming 
 	 		it.stdioLock.Unlock()
 		}
 		if err := json.Unmarshal(json_bytes, &raw); err != nil {
-			it.sendErrMsg(&jsonRpcError{ Code: -32700, Message: err.Error() })
+			it.sendErrMsg(&jsonRpcError{ Code: int(ErrorCodesParseError), Message: err.Error() })
 			continue
 		}
 
@@ -297,7 +300,7 @@ func clientServerHandleIncoming[T any] (it *clientServerBase, handler func (*T) 
 	if msgParams != nil {
 		json_bytes, _ := json.Marshal(msgParams)
 		if err := json.Unmarshal(json_bytes, &params); err != nil {
-			it.sendErrMsg(&jsonRpcError{ Code: -32602, Message: err.Error() })
+			it.sendErrMsg(&jsonRpcError{ Code: int(ErrorCodesInvalidParams), Message: err.Error() })
 			return
 		}
 	}
@@ -312,7 +315,7 @@ func clientServerHandleIncoming[T any] (it *clientServerBase, handler func (*T) 
 		}
 		if err != nil {
 			if msgIdMaybe != nil {
-				resp["error"] = &jsonRpcError{ Code: -32603, Message: fmt.Sprintf("%v", err) }
+				resp["error"] = &jsonRpcError{ Code: int(ErrorCodesInternalError), Message: fmt.Sprintf("%v", err) }
 			}else {
 				it.sendErrMsg(err)
 				return

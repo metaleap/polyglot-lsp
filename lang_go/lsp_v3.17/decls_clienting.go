@@ -729,7 +729,7 @@ func (it *Client) handleIncoming(raw map[string]any) *jsonRpcError {
 	case "workspace/applyEdit":
 		clientServerHandleIncoming(&it.clientServerBase, it.On_workspace_applyEdit, msg_method, msg_id, raw["params"])
 	default: // msg is an incoming Request or Notification
-		return &jsonRpcError{Code: -32601, Message: "unknown method: " + msg_method}
+		return &jsonRpcError{Code: int(ErrorCodesMethodNotFound), Message: "unknown method: " + msg_method}
 	}
 
 	return nil
