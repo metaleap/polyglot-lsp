@@ -164,7 +164,7 @@ func iIf[T any](chk bool, ifTrue T, ifFalse T) T {
 }
 
 type clientServerBase struct {
-	sync.Mutex // sync writes to stdout
+	stdioLock sync.Mutex // to sync writes to stdout
 	stdout *bufio.Writer
 	waiters map[string]func(any)
 
@@ -190,13 +190,16 @@ func (it *clientServerBase) sendErrMsg(err any) {
 }
 
 func (it *clientServerBase) sendMsg(jsonable any) {
-	err_json,_ := json.Marshal(jsonable)
-	it.Lock()
-	defer it.Unlock()
+	json_bytes,_ := json.Marshal(jsonable)
+	it.stdioLock.Lock()
+	defer it.stdioLock.Unlock()
+	if it.LogPrefixSendRecvJsons != "" {
+		println(it.LogPrefixSendRecvJsons + ".SEND>>" + string(json_bytes) + ">>")
+	}
 	_, _ = it.stdout.WriteString("Content-Length: ")
-	_, _ = it.stdout.WriteString(strconv.Itoa(len(err_json)))
+	_, _ = it.stdout.WriteString(strconv.Itoa(len(json_bytes)))
 	_, _ = it.stdout.WriteString("\r\n\r\n")
-	_, _ = it.stdout.Write(err_json)
+	_, _ = it.stdout.Write(json_bytes)
 }
 
 func (it *clientServerBase) send(methodName string, params any, isReq bool, onResp func(any)) {
@@ -242,14 +245,19 @@ func (it *clientServerBase) forever(in io.Reader, out io.Writer, handleIncoming 
 		raw := map[string]any{}
 		json_bytes := stdin.Bytes()
 		if it.LogPrefixSendRecvJsons != "" {
-			println(it.LogPrefixSendRecvJsons + ".RECV>>" + string(json_bytes) + "<<")
+			it.stdioLock.Lock()
+			println(it.LogPrefixSendRecvJsons + ".RECV<<" + string(json_bytes) + "<<")
+	 		it.stdioLock.Unlock()
 		}
 		if err := json.Unmarshal(json_bytes, &raw); err != nil {
 			it.sendErrMsg(&jsonRpcError{ Code: -32700, Message: err.Error() })
 			continue
 		}
-		if raw["code"] != nil {
+
+		if raw["code"] != nil { // received an error message
+			it.stdioLock.Lock()
 			println(string(json_bytes)) // goes to stderr
+			it.stdioLock.Unlock()
 			continue
 		}
 		it.sendErrMsg(handleIncoming(raw))
