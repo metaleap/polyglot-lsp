@@ -140,17 +140,17 @@ type FoldingRange struct {
 
 	// The zero-based start line of the range to fold. The folded area starts after the line's last character.
 	// To be valid, the end must be zero or larger and smaller than the number of lines in the document.
-	StartLine uint `json:"startLine,omitempty"`
+	StartLine uint `json:"startLine"`
 
 	// The zero-based character offset from where the folded range starts. If not defined, defaults to the length of the start line.
-	StartCharacter/*TOpt*/ *Uinteger `json:"startCharacter,omitempty"`
+	StartCharacter/*TOpt*/ *Uinteger `json:"startCharacter"`
 
 	// The zero-based end line of the range to fold. The folded area ends with the line's last character.
 	// To be valid, the end must be zero or larger and smaller than the number of lines in the document.
-	EndLine uint `json:"endLine,omitempty"`
+	EndLine uint `json:"endLine"`
 
 	// The zero-based character offset before the folded range ends. If not defined, defaults to the length of the end line.
-	EndCharacter/*TOpt*/ *Uinteger `json:"endCharacter,omitempty"`
+	EndCharacter/*TOpt*/ *Uinteger `json:"endCharacter"`
 
 	// Describes the kind of the folding range such as `comment' or 'region'. The kind
 	// is used to categorize folding ranges and used by commands like 'Fold all comments'.
@@ -1352,7 +1352,7 @@ type SignatureHelp struct {
 	//
 	// In future version of the protocol this property might become
 	// mandatory to better express this.
-	ActiveSignature/*TOpt*/ *Uinteger `json:"activeSignature,omitempty"`
+	ActiveSignature/*TOpt*/ *Uinteger `json:"activeSignature"`
 
 	// The active parameter of the active signature. If omitted or the value
 	// lies outside the range of `signatures[activeSignature].parameters`
@@ -1361,7 +1361,7 @@ type SignatureHelp struct {
 	// In future version of the protocol this property might become
 	// mandatory to better express the active parameter if the
 	// active signature does have any.
-	ActiveParameter/*TOpt*/ *Uinteger `json:"activeParameter,omitempty"`
+	ActiveParameter/*TOpt*/ *Uinteger `json:"activeParameter"`
 }
 
 // Registration options for a `SignatureHelpRequest`.
@@ -1845,7 +1845,7 @@ type ApplyWorkspaceEditResult struct {
 	// Depending on the client's failure handling strategy `failedChange` might
 	// contain the index of the change that failed. This property is only available
 	// if the client signals a `failureHandlingStrategy` in its client capabilities.
-	FailedChange/*TOpt*/ *Uinteger `json:"failedChange,omitempty"`
+	FailedChange/*TOpt*/ *Uinteger `json:"failedChange"`
 }
 
 type WorkDoneProgressBegin struct {
@@ -1878,7 +1878,7 @@ type WorkDoneProgressBegin struct {
 	//
 	// The value should be steadily rising. Clients are free to ignore values
 	// that are not following this rule. The value range is [0, 100].
-	Percentage/*TOpt*/ *Uinteger `json:"percentage,omitempty"`
+	Percentage/*TOpt*/ *Uinteger `json:"percentage"`
 }
 
 type WorkDoneProgressReport struct {
@@ -1906,7 +1906,7 @@ type WorkDoneProgressReport struct {
 	//
 	// The value should be steadily rising. Clients are free to ignore values
 	// that are not following this rule. The value range is [0, 100]
-	Percentage/*TOpt*/ *Uinteger `json:"percentage,omitempty"`
+	Percentage/*TOpt*/ *Uinteger `json:"percentage"`
 }
 
 type WorkDoneProgressEnd struct {
@@ -2120,7 +2120,7 @@ type Position struct {
 	//
 	// If a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.
 	// If a line number is negative, it defaults to 0.
-	Line uint `json:"line,omitempty"`
+	Line uint `json:"line"`
 
 	// Character offset on a line in a document (zero-based).
 	//
@@ -2129,7 +2129,7 @@ type Position struct {
 	//
 	// If the character value is greater than the line length it defaults back to the
 	// line length.
-	Character uint `json:"character,omitempty"`
+	Character uint `json:"character"`
 }
 
 type SelectionRangeOptions struct {
@@ -2166,10 +2166,10 @@ type SemanticTokensOptions struct {
 type SemanticTokensEdit struct {
 
 	// The start offset of the edit.
-	Start uint `json:"start,omitempty"`
+	Start uint `json:"start"`
 
 	// The count of elements to remove.
-	DeleteCount uint `json:"deleteCount,omitempty"`
+	DeleteCount uint `json:"deleteCount"`
 
 	// The elements to insert.
 	Data/*TOpt*/ []uint `json:"data,omitempty"`
@@ -3193,7 +3193,7 @@ type SignatureInformation struct {
 	// If provided, this is used in place of `SignatureHelp.activeParameter`.
 	//
 	// @since 3.16.0
-	ActiveParameter/*TOpt*/ *Uinteger `json:"activeParameter,omitempty"`
+	ActiveParameter/*TOpt*/ *Uinteger `json:"activeParameter"`
 }
 
 // Server Capabilities for a `SignatureHelpRequest`.
@@ -3338,7 +3338,7 @@ type DocumentLinkOptions struct {
 type FormattingOptions struct {
 
 	// Size of a tab in spaces.
-	TabSize uint `json:"tabSize,omitempty"`
+	TabSize uint `json:"tabSize"`
 
 	// Prefer spaces over tabs.
 	InsertSpaces bool `json:"insertSpaces,omitempty"`
@@ -3556,10 +3556,10 @@ type NotebookCell struct {
 type NotebookCellArrayChange struct {
 
 	// The start oftest of the cell that changed.
-	Start uint `json:"start,omitempty"`
+	Start uint `json:"start"`
 
 	// The deleted cells
-	DeleteCount uint `json:"deleteCount,omitempty"`
+	DeleteCount uint `json:"deleteCount"`
 
 	// The new cells, if any
 	Cells/*TOpt*/ []NotebookCell `json:"cells,omitempty"`
@@ -3780,7 +3780,7 @@ type ExecutionSummary struct {
 	// A strict monotonically increasing value
 	// indicating the execution order of a cell
 	// inside a notebook.
-	ExecutionOrder uint `json:"executionOrder,omitempty"`
+	ExecutionOrder uint `json:"executionOrder"`
 
 	// Whether the execution was successful or
 	// not if known by the client.
@@ -4737,7 +4737,7 @@ type FoldingRangeClientCapabilities struct {
 	// The maximum number of folding ranges that the client prefers to receive
 	// per document. The value serves as a hint, servers are free to follow the
 	// limit.
-	RangeLimit/*TOpt*/ *Uinteger `json:"rangeLimit,omitempty"`
+	RangeLimit/*TOpt*/ *Uinteger `json:"rangeLimit"`
 
 	// If set, the client signals that it only supports folding complete lines.
 	// If set, client will ignore specified `startCharacter` and `endCharacter`
