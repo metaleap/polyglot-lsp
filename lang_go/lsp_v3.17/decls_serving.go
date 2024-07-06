@@ -9,8 +9,10 @@ type Server struct {
 	clientServerBase
 
 	Lang struct {
-		CompletionTriggerChars        []string
-		SignatureTriggerChars         []string
+		TriggerChars struct {
+			Completion []string
+			Signature  []string
+		}
 		Commands                      []string
 		DocumentSymbolsMultiTreeLabel string
 	}
@@ -690,10 +692,10 @@ func (it *Server) handleIncoming(raw map[string]any) *jsonRpcError {
 				}
 			}
 			if it.On_textDocument_completion != nil {
-				caps.CompletionProvider = &CompletionOptions{TriggerCharacters: it.Lang.CompletionTriggerChars}
+				caps.CompletionProvider = &CompletionOptions{TriggerCharacters: it.Lang.TriggerChars.Completion}
 			}
 			if it.On_textDocument_signatureHelp != nil {
-				caps.SignatureHelpProvider = &SignatureHelpOptions{TriggerCharacters: it.Lang.SignatureTriggerChars}
+				caps.SignatureHelpProvider = &SignatureHelpOptions{TriggerCharacters: it.Lang.TriggerChars.Signature}
 			}
 			if it.On_textDocument_codeLens != nil {
 				caps.CodeLensProvider = &CodeLensOptions{}
