@@ -683,11 +683,13 @@ func (it *Server) handleIncoming(raw map[string]any) *jsonRpcError {
 				}{Name: os.Args[0]},
 			}
 			caps := &init.Server.Capabilities
-			if it.On_textDocument_didClose != nil || it.On_textDocument_didOpen != nil || it.On_textDocument_didChange != nil {
+			if it.On_textDocument_didClose != nil || it.On_textDocument_didOpen != nil ||
+				it.On_textDocument_didChange != nil || it.On_textDocument_didSave != nil {
 				caps.TextDocumentSync = &TextDocumentSyncOptionsOrTextDocumentSyncKind{
 					TextDocumentSyncOptions: &TextDocumentSyncOptions{
 						OpenClose: ptr(Boolean(it.On_textDocument_didClose != nil || it.On_textDocument_didOpen != nil)),
 						Change:    iIf(it.On_textDocument_didChange != nil, TextDocumentSyncKindFull, TextDocumentSyncKindNone),
+						Save:      &BooleanOrSaveOptions{Boolean: ptr(Boolean(it.On_textDocument_didSave != nil))},
 					},
 				}
 			}
